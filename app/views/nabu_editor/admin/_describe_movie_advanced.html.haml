@@ -1,0 +1,40 @@
+.describe_movie_advanced
+  .fieldset
+    %legend
+      Advanced settings
+    .form-group
+      %label.col-lg-2.control-label
+        inputs
+      .col-lg-10
+        %input.form-control{"type"=>"text", "placeholder"=> 'input text' }
+    .form-group
+      .checkbox
+        %label
+          %input{"type"=>"checkbox"}
+            Checkbox
+      .togglebutton
+        %label
+          %input{"type"=>"checkbox", "checked"=> ""}
+            toggle button
+    
+    .sample
+      %select.form-control{"placeholder"=>"Your dropdown box dinges","data-dropdownjs"=>"true" }
+        %option{"value"=>"test"}
+          test
+        %option{"value"=>"test"}
+          test
+        %option{"value"=>"test"}
+          test
+          
+    .form-group
+      %label.col-lg-2.control-label
+        Radios
+      .col-lg-10
+        .radio.radio-primary
+          %label
+            %input#optionsRadios1{"type"=>"radio","name"=>"optionsRadios","value"=>"option1"}
+              Options one it is
+        .radio.radio-primary
+          %label
+            %input#optionsRadios1{"type"=>"radio","name"=>"optionsRadios","value"=>"option2"}
+              Options two it is

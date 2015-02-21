@@ -1,0 +1,89 @@
+.video_describe_container
+
+  / add a while upload class?
+
+  .button.btn.btn-material-pink#close_button
+    %span.glyphicon.glyphicon-remove
+  %h3
+    = I18n.t('admin.describe.describe_video') 
+  
+  .row
+    .form-horizontal.describe_form{"role"=>"form"}
+      .form-group
+        %input#title.form-control{"type"=>"text", "placeholder"=> I18n.t('admin.title_placeholder') }              
+      .form-group
+        %textarea#description.form-control{"type"=>"textarea", "placeholder"=> I18n.t('admin.description_placeholder'), "rows"=>'8'  }
+      .form-group
+        %input#tags.form-control{"type"=>"text", "placeholder"=> I18n.t('admin.tags_placeholder') }              
+    
+      .form-group
+
+        .col-xs-6.col-md-3
+          .thumbnailpreview.preview-image{:style=>'width:100%'}             
+            %select#thumbnails.image-picker.show-html
+              /- if @program.program_items.first.asset               
+              /  - if @program.program_items[0].asset._type == "Video"
+              /    - @program.program_items[0].asset.thumbnails.small.each_with_index do |t, i|                      
+              /      %option{"data-img-src"=> t ,"value"=>i} Page #{i}
+              /  - else
+              /    %option{"data-img-src"=> @program.program_items[0].asset.thumbnail_url ,"value"=>1} Page 1
+              
+        .col-xs-6.col-md-3
+          .thumbnailpreview.preview-image{:style=>'width:100%'}
+            - begin
+              %img{ "class"=>"thumbnail-image-preview", "src"=>@program.meta.moviedescription.thumbnail, "title"=>"", :style => 'width: 100%;'}
+            - rescue
+              %img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>"", :style => 'width: 100%;'}
+
+        .col-xs-6.col-md-3
+          .thumbnailpreview.preview-image{:style=>'width:100%'}
+            - begin
+              %img{ "class"=>"thumbnail-image-preview", "src"=>@program.meta.moviedescription.thumbnail, "title"=>"", :style => 'width: 100%;'}
+            - rescue
+              %img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>"", :style => 'width: 100%;'}
+              
+        .col-xs-6.col-md-3
+          .thumbnailpreview.preview-image{:style=>'width:100%'}
+            %img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>"", :style => 'width: 100%;'}       
+            %strong
+            .uploader_overlay
+              %p Thumbnail
+              %p +
+              %p Uploaden
+            = s3_uploader_form id: "preview_thumbnail", max_file_size: 5.megabytes do
+              = file_field_tag :file, :class => "form-control no_borders", :accept=>"image/*"
+              
+            
+  
+      /  .col-sm-2
+      /    -#%button.btn-danger.btn.btn-sm.pull-right#trash_logo
+      /      -#%span.glyphicon.glyphicon-trash   
+
+      /%hr
+
+      /.form-group
+      /  %label.col-sm-2.control-label{:style=>'text-align:left'}
+      /    = I18n.t('admin.describe.info.other_thumbnail');
+      /  .col-sm-10                
+      /    %select#thumbnails.image-picker.show-html
+      /      - if !@program.blank? && @program.program_items.first.asset               
+      /        - if @program.program_items[0].asset._type == "Video"
+      /          - @program.program_items[0].asset.thumbnails.small.each_with_index do |t, i|                      
+      /            %option{"data-img-src"=> t ,"value"=>i} Page #{i}
+      /        - else
+      /          %option{"data-img-src"=> @program.program_items[0].asset.thumbnail_url ,"value"=>1} Page 1
+
+      .row.text-center
+        .btn-group
+          .button.btn.btn-material-pink#advanced 
+            = link_to 'javascript:showDescribeAdvancedMovie()', :target=>"_top"  do
+              Advanced
+          .button.btn.btn-material-pink#save_movie Save
+            
+          //.button.btn.btn-material-pink Preview
+  .clear
+  .clear
+
+/ Custom javascript
+= javascript_include_tag "nabu_editor/describe_movie_bindings"
+= javascript_include_tag "nabu_editor/describe_movie"

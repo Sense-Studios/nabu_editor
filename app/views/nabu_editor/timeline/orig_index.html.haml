@@ -1,0 +1,88 @@
+  
+-# head
+
+.row
+  .col-md-6
+    %h2
+      = @program.title unless @program.nil?
+      %small
+        Mega Editor
+
+  -# crumpath
+  -#.col-md-6
+  -#  = render :partial => "shared/admin/crumpath", locals: {active:'expert'}
+  -#  :javascript    
+  -#    $('#expert-mode').addClass('active')
+  
+%hr  
+
+.row
+  .col-md-8
+    -# Player    
+    = render :partial => "shared/videoplayer", locals: {height:'460px'}
+
+  .col-md-4
+    -# Tab Header
+    %h3
+      .small
+        -# Tabs
+    %ul.nav.nav-tabs#myTab            
+      %li
+        %a{"href"=>"#assets", "data-toggle"=>"tab"}
+          Assets
+
+      %li
+        %a{"href"=>"#marqers", "data-toggle"=>"tab"}
+          Marqers
+
+      %li.active
+        %a{"href"=>"#info", "data-toggle"=>"tab"}
+          Info
+
+      %li
+        %a{"href"=>"#project", "data-toggle"=>"tab"}
+          Project
+
+      %li
+        %a{"href"=>"#json", "data-toggle"=>"tab"}
+          JSON
+
+    -# Tab Content
+    .commonclass{ "style"=>'height:297px' }
+      .tab-content
+        #assets.tab-pane.fade
+          .row
+            .col-md-12
+              Assets Tab
+              #asset1.dragme
+                Asset
+              #asset2.dragme
+                Asset
+
+        #marqers.tab-pane.fade
+          .row
+            .col-md-12
+              Marqers Tab
+              #marqer1.dragme
+                Marqer
+              #marqer2.dragme
+                Marqer
+
+        #info.tab-pane.active.fade.in 
+          .row
+            .col-md-12
+              Info Tab
+
+        #project.tab-pane.fade
+          .row
+            .col-md-12
+              .well.hidden-well{:style=>"max-height:400px"}
+                Project
+                %pre.code= @program.to_yaml
+
+        #json.tab-pane.fade
+          .row
+            .col-md-12
+              JSON Tab
+  
+= render 'shared/timeline'

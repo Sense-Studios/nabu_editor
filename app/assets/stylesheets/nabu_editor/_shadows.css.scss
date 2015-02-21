@@ -1,0 +1,100 @@
+$sblur: 4px;
+
+$boxlong1:
+               - 1px  1px $sblur rgba(100,100,100,0.20),  
+               - 2px  2px $sblur rgba(100,100,100,0.12),  
+               - 4px  4px $sblur rgba(100,100,100,0.08),  
+               - 6px  6px $sblur rgba(100,100,100,0.04);
+
+$boxlong2:
+               - 1px  1px $sblur rgba(100,100,100,0.30),  
+               - 2px  2px $sblur rgba(100,100,100,0.22),  
+               - 4px  4px $sblur rgba(100,100,100,0.14),       
+               - 8px  8px $sblur rgba(100,100,100,0.05), 
+               -10px 10px $sblur rgba(100,100,100,0.03),
+               -12px 12px $sblur rgba(100,100,100,0.01);
+
+$boxlong3:
+               - 1px  1px $sblur rgba(100,100,100,0.40),  
+               - 4px  4px $sblur rgba(100,100,100,0.30),  
+               - 8px  8px $sblur rgba(100,100,100,0.20),  
+               -12px 12px $sblur rgba(100,100,100,0.10), 
+               -16px 16px $sblur rgba(100,100,100,0.05), 
+               -20px 20px $sblur rgba(100,100,100,0.01);
+
+$boxlong4:
+               - 1px  1px $sblur rgba(100,100,100,0.30),  
+               - 4px  4px $sblur rgba(100,100,100,0.20),  
+               - 8px  8px $sblur rgba(100,100,100,0.14),  
+               -12px 12px $sblur rgba(100,100,100,0.08), 
+               -16px 16px $sblur rgba(100,100,100,0.06), 
+               -20px 20px $sblur rgba(100,100,100,0.04),
+               -24px 24px $sblur rgba(100,100,100,0.02),
+               -28px 28px $sblur rgba(100,100,100,0.02),
+               -32px 32px $sblur rgba(100,100,100,0.01);
+
+$boxlong5:
+               - 1px  1px $sblur rgba(100,100,100,0.30),  
+               - 4px  4px $sblur rgba(100,100,100,0.24),  
+               - 8px  8px $sblur rgba(100,100,100,0.18),  
+               -12px 12px $sblur rgba(100,100,100,0.12), 
+               -16px 16px $sblur rgba(100,100,100,0.09), 
+               -20px 20px $sblur rgba(100,100,100,0.07),
+               -24px 24px $sblur rgba(100,100,100,0.05),
+               -28px 28px $sblur rgba(100,100,100,0.03),
+               -32px 32px $sblur rgba(100,100,100,0.02),
+               -36px 36px $sblur rgba(100,100,100,0.02),
+               -42px 42px $sblur rgba(100,100,100,0.01),
+               -46px 46px $sblur rgba(100,100,100,0.01),
+               -50px 50px $sblur rgba(100,100,100,0.01);
+
+.long-shadow-1 {  
+  box-shadow: $boxlong1!important;
+}
+
+.long-shadow-2 {  
+  box-shadow: $boxlong2!important;
+}
+
+.long-shadow-3 {  
+  box-shadow: $boxlong3!important;
+}
+
+.long-shadow-4 {  
+  box-shadow: $boxlong4!important;
+}
+
+.long-shadow-5 {  
+  box-shadow: $boxlong5!important;
+}
+
+// Paper examples
+.paper-container {
+  width: 100%;
+  height: 120px;
+  background-color: whitesmoke;
+  display: flex;
+  flex-grow: 12;
+  flex-shrink: 2;
+  justify-content: space-around;
+}
+
+.paper-leaf {
+  width: 50px;
+  height: 50px;  
+  background-color: #FBFBFB;
+  margin-top: 20px;
+}
+
+.paper-disc {
+  width: 50px;
+  height: 50px;
+  background-color: #FBFBFB;
+  border-radius: 100px;
+  margin-top: 20px;
+}
+
+/* overrides for the bold */
+body .well, .container .well, .container-fluid .well, body .jumbotron, .container .jumbotron, .container-fluid .jumbotron {
+  box-shadow: $boxlong4;
+}

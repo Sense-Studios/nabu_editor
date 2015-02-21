@@ -1,0 +1,41 @@
+.row{ 'style' => 'background-color: white;' }
+  .col-md-12{ 'style' => 'background-color: white;' }
+    -# Timeline and sequence editor
+    .row
+      -# head + controls
+      .col-md-4{ 'style' => 'border-bottom: 1px solid grey; background-color: lightblue;' }
+        controls (play, pauze, seek, sound, time, duration)
+      
+    .row
+      -# timeline
+      .col-md-12{ 'style' => 'border-bottom: 1px solid grey;' }
+        timeline (add layer, scrubbar, move down(?))
+    
+    .row
+      -# layers
+      .col-md-12{ 'style' => 'border-bottom: 1px solid grey;' }
+        layers:
+        %br
+        &nbsp&nbsplaag 1...... [ event ] .... [ event ] ....
+        %br
+        &nbsp&nbsplaag 2...... [ event ] ....
+        %br
+        &nbsp&nbsplaag 3......
+        %br
+        &nbsp&nbsplaag 4...... [ event ] ....
+        %br
+        
+    
+    .row
+      -# assets/ movie
+      .col-md-12{ 'style' => 'border-bottom: 1px solid grey;' }
+        assets and movies ..... [ asset1 ] .... [ asset 2 ] ....     
+    
+    .row
+      -# zoom controls
+      .col-md-12{ 'style' => 'border-bottom: 1px solid grey; background-color: lightblue;' }
+        zoom ( zoom [ .....|..] ) ( locator [        |......[......].....|    ] )
+
+
+= javascript_include_tag 'nabu_editor/shared/timeline'
+= stylesheet_link_tag  'nabu_editor/shared/timeline'

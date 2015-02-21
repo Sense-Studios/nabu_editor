@@ -1,0 +1,34 @@
+!!! 5
+%html
+  %head
+    %title
+      Nabu Editor Material
+    
+    = stylesheet_link_tag "nabu_editor/application", :media => "all"
+    = javascript_include_tag "nabu_editor/application"    
+    = csrf_meta_tags
+
+    / looks like the only way to add this lastly
+    = stylesheet_link_tag "nabu_editor/admin"
+
+    / favicon
+    %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}
+      
+    / pass those values to javascript
+    :javascript
+      var client_id = "#{@user_id}";
+      var account_id = "#{@account_id}";
+
+  %body
+
+    / render menu
+    = render partial: 'shared/leftmenu'
+
+    / yields page    
+    = yield
+      
+    / initialize material design
+    :javascript
+      $(function() {
+        $.material.init()
+      })
