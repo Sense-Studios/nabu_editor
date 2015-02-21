@@ -1,3 +1,5 @@
+// THIS DOCUMENT NEEDS CLEAN UP!
+
 // TODO: Rewrite to: toggleVideo
 var animateVideoUp = function() { 
   $('.video_holder').animate({'height':'10vh' }, 540)    
@@ -20,14 +22,14 @@ var showCreateMovie = function( force ) {
   if( $('.video_uploader_container').is(':visible') ) {
     $('.video_uploader_container').fadeOut('fast');
     $('#video_frame').animate({'opacity':'1'})
-    $('#nabu_controls').fadeIn('fast')   
+    if (controlsAreVisible) $('#nabu_controls').fadeIn('fast')   
   }else{
     //$('#butt-down').trigger('click')
     $('.video_uploader_container').fadeIn('slow')
-    $('#video_frame').animate({'opacity':'0.4'})
-    $('#nabu_controls').fadeOut('slow')
     $('.video_describe_container').hide()
-     $('.select_videos').fadeIn()
+    $('#video_frame').animate({'opacity':'0.4'})
+    $('#nabu_controls').fadeOut('slow')    
+    $('.select_videos').fadeIn()
     $('#create_butt').removeClass('btn-material-blue-grey')
     $('#create_butt').addClass('btn-material-pink')
     //Show/hide helpers
@@ -54,7 +56,8 @@ var showDescribeMovie = function() {
 
   if ( $('.video_describe_container').is(':visible') ) {
     $('.video_describe_container').fadeOut('fast');    
-    $('#nabu_controls').fadeIn('fast') 
+    if (controlsAreVisible) $('#nabu_controls').fadeIn('fast') 
+    $('#video_frame').animate({'opacity':'1'})
     //$('.select_videos').fadeIn()
   }else{
     //$('#butt-up').trigger('click')
@@ -99,13 +102,21 @@ var showDescribeMovie = function() {
 var showPublishMovie = function() { 
   $('.navigation .btn').removeClass('btn-material-pink')
   $('.navigation .btn').addClass('btn-material-blue-grey')
-  $('#publish_butt').removeClass('btn-material-blue-grey')
-  $('#publish_butt').addClass('btn-material-pink')
-  
-  if ( $('.video_describe_container').is(':visible') ) {
-    $('.video_publish_container').fadeOut('fast')
+    
+  if ( $('.video_publish_container').is(':visible') ) {
+    $('.video_publish_container').fadeOut('fast')        
+    $('#publish_butt').removeClass('btn-material-pink')
+    $('#publish_butt').addClass('btn-material-blue-grey')    
+    $('#video_frame').animate({'opacity':'1'})
   }else{
     $('.video_publish_container').fadeIn('fast')
+    
+    $('.video_uploader_container').fadeOut('slow')
+    $('.describe_movie').fadeOut('slow')
+    $('.editor_container').fadeOut('slow')
+
+    $('#publish_butt').removeClass('btn-material-blue-grey')
+    $('#publish_butt').addClass('btn-material-pink')
   }
   
   showVideosAlways()

@@ -8,61 +8,80 @@ var program = null
 var log = function(a, b, c) {}
 var fullscreen = false
 var is_embedded = false
-
+var controlsAreVisible = false
+var describe_initialized = false
+var controls_initialized = false
 // REACT reference  
 window.filter_table = "not set"
 
 // ### Overrides
 // override function nabu/assets/javasctipt/marduq/player.js
 function popOnLoadStart() {
-  $('#video_frame').fadeIn('slow')
-  initDescribe()
+  $('#video_frame').fadeIn('slow')  
+  if (!describe_initialized ) initDescribe()
+  describe_initialized = true
 }
 
 // override function nabu/assets/javasctipt/marduq/player.js
 function popCanPlay() {
   $('#nabu_controls').fadeIn('slow')  
-  initControls() 
+  initControls()   
+  if (controls_initialized) controlsAreVisible = true  
+  controls_initialized = true
+  $('.playhead').css('width','0');
 }
 
 var doSelectMovie = function(id) {
   setProgram( id );
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
+  if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
+  $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
+  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );  
 }
 
-var doShowMovie = function(id) {
+var doShowMovie = function(id) {  
   setProgram( id );
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
-  if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();
+  if ( $('.video_describe_container').is(':visible') ) showDescribeMovie();  
+  //if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();  
   if ( $('.editor_container').is(':visible') ) showSettingsMovie();
-  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();
+  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();  
+  $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
   setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 }
 
 var doDescribeMovie = function(id) {
   setProgram( id );
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
-  if ( !$('.describe_movie_advanced').is(':visible') ) showDescribeMovie();
+  if ( !$('.video_describe_container').is(':visible') ) showDescribeMovie();  
+  //if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();  
   if ( $('.editor_container').is(':visible') ) showSettingsMovie();
-  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();
+  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();  
+  $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
+  //showDescribeMovie();
   setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 }
 
 var doTimeLineEditMovie = function(id) {
   setProgram( id );
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
-  if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();
+  if ( $('.video_describe_container').is(':visible') ) showDescribeMovie();  
+  //if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();  
   if ( !$('.editor_container').is(':visible') ) showSettingsMovie();
-  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();
+  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();  
+  $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
+  //showSettingsMovie();
   setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 }
 
 var doPublishMovie = function(id) {
   setProgram( id );
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
-  if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();
+  if ( $('.video_describe_container').is(':visible') ) showDescribeMovie();  
+  //if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();  
   if ( $('.editor_container').is(':visible') ) showSettingsMovie();
-  if ( !$('.video_publish_container').is(':visible') ) showPublishMovie();
+  if ( !$('.video_publish_container').is(':visible') ) showPublishMovie();  
+  $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
+  //showPublishMovie();  
   setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 }
 
@@ -94,10 +113,9 @@ var setProgram = function( id ) {
   }     
 
   $.get('/marduq_api/programs/'+id, function(p) {
-    program = p;
-    getPlayer( program, "#video_frame", agent.technology, agent.videotype, null );    
-    $('.video_uploader_container').fadeOut('slow');
-    $('.playhead').css('width','0');
+    program = p;    
+    getPlayer( program, "#video_frame", agent.technology, agent.videotype, null );            
+    controlsAreVisible = false;
   });
 }
 

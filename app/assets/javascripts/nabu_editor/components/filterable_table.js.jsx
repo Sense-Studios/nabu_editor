@@ -21,26 +21,31 @@ var ProgramTile = React.createClass({
   selectMovie:function() {
     doSelectMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.active').removeClass('active') // this is nasty
   },
   
   showMovieRelay:function() {
     doShowMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.active').removeClass('active') // this is nasty
   },
   
   describeMovieRelay:function() {
     doDescribeMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.active').removeClass('active') // this is nasty
   },
   
   timeLineEditMovieRelay:function() {
     doTimeLineEditMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.active').removeClass('active') // this is nasty
   },
   
   publishMovieRelay:function() {
     doPublishMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.active').removeClass('active') // this is nasty
   },
   
   deleteMovieRelay:function() {
