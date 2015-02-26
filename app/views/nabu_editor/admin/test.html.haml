@@ -1,6 +1,21 @@
 .contentwrapper{:style=>"padding: 0 40px;"}
   %h1 These be tests
   
+  
+  .paper-container
+    %select.dropddown_select.form-control{"placeholder" => "Select ietss"}
+      %option{"value" => "value 1"}
+        optie 1 iets
+      %option{"value" => "value 2"}
+        optie 2 iets
+      %option{"value" => "value 3"}
+        optie 3 iets
+      %option{"value" => "value 4"}
+        optie 4 iets
+      %option{"value" => "value 5"}
+        optie 5 iets
+  
+  
   %hr
   %h2.btn-material-red-400 Shadow test
 
@@ -105,6 +120,7 @@
   %hr
   %h2 Here are the programs in shapeshift
   
+  
   .leprograms
     - @programs.each do |p|  
       .program_container.long-shadow-3.btn-material-brown-50{:id=> p.id}
@@ -113,4 +129,11 @@
             = image_tag p.meta.moviedescription.thumbnail
   
   / Custom javascript
-  = javascript_include_tag "nabu_editor/dashboard"  
+  = javascript_include_tag "nabu_editor/sections" 
+  = javascript_include_tag "nabu_editor/dashboard"
+  = javascript_include_tag "nabu_editor/drop_down_test"  
+  :javascript
+    $(".dropddown_select").dropdown();
+    
+  
+  

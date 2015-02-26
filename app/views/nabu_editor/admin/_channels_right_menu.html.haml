@@ -1,0 +1,45 @@
+.channels_container.channels
+  %h4 Kanalen
+
+  %form  
+    .form-group
+      %select.dropdown_select.dropdown_channel.form-control{"placeholder" => "Select channel"}
+        %option Kies een kanaal
+        /- @channels.each do |p|
+        /  %option{:value => p['id'] }
+        /    = p['title']
+      .add_channel.btn.btn-material-burgundy-dark
+        %span.glyphicon.glyphicon-plus
+
+      %select.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Select menu"}
+        %option{:disabled => "disabled" } Kies een menu
+        - @menus.each do |p|
+          %option{:value => p['id'] }= p['name']
+      .add_channel.btn.btn-material-custom-darkgrey
+        %span.glyphicon.glyphicon-plus
+          
+
+      %select.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
+        %option{:disabled => "disabled" } Kies een thema
+        - @themes.each do |p|
+          %option{:value => p['id'] }= p['title']
+   
+
+        - @themes.each do |t|
+          /= react_component('ChannelListGroupItem', { channel: theme } )
+          %option{:value=>t.id} 
+            = t.slug
+  .form-group
+    %textarea.firstarea{"placeholder" => "Vertel hier of je channel"}
+    
+  .form-group
+    %textarea{"placeholder" => "Contact gegevens"}
+
+  = javascript_include_tag "nabu_editor/drop_down_test"  
+  :javascript
+    $(".dropdown_select").dropdown();
+    $(".dropdown_select_small").dropdown();
+       
+    
+=# render :partial => "shared/admin/admin_info" %>
+=# render :partial => "shared/admin/datatables_translations" %>

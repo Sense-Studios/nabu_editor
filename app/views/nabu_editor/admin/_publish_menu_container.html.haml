@@ -1,0 +1,55 @@
+#publish_menu_container.menu_editor{:style=>'display:none'}
+  
+  %h1 
+    Menu Editor
+    %small#current_menu
+      No Menu Selected
+  
+  %hr
+  
+  =# render 'form'
+  
+  .row
+    .col-md-4
+      %h3 Available Programs    
+      
+      .filter
+        search: 
+        %input.form-control{:id=>"available_program_search", :type=>"text"}
+  
+      %hr
+  
+      %ul#all_available.menu-editor.drop    
+        - @programs.each do |p|    
+          %li.new-item.ui-state-default.available_program_item{:id=>p['id']}
+            = image_tag p['thumbnail'], :class=>'thumbnail pull-left', :height=>'32px' unless p['thumbnail'].nil?
+            %span.program_title
+              %strong
+                = p['title']
+            %br
+            %small.program_title
+              = p['tags'].join(", ")     
+  
+    .col-md-8
+      %h3 
+        In the Menu   
+        %button#save_menu_button.btn.btn-default.pull-right
+          Save All
+  
+        %button#create_category_button.btn.btn-default.pull-right
+          Create Category
+  
+      %hr
+  
+      %ul#le_menu.menu-editor.dropfalse
+  
+  
+  
+  /= link_to 'Show', @menu 
+  /= link_to 'Back', menus_path
+
+  
+:javascript
+  var menudata = {}
+
+= javascript_include_tag "nabu_editor/edit_menu"

@@ -8,6 +8,7 @@ module NabuEditor
 
     # not used    
     def index
+      # find me in dashboard
     end
     
     def test
@@ -19,23 +20,24 @@ module NabuEditor
       # get (default) metadata, moviedescription, player_settings
       @program = MarduqResource::Program.find(params[:id])
 
-      # use the first asset for defaults
+      # use the first asset settings for defaults values
       @program.title = @program.program_items[0].asset.title
       @program.description = @program.program_items[0].asset.description
       @program.tags = @program.program_items[0].asset.tags
+      # @program.tags = @program.program_items[0].asset.thumbnail_url
       
-      # get default marqers from preset file
+      # TODO: get default marqers from preset file
       @program.marqers = {}
       
       # get allthis info from the asset, and not from the program?
-      @program.metaData = {        
+      @program.meta = {        
         "moviedescription"=> {
           "title"=> @program.program_items[0].asset.title,
           "description"=> @program.program_items[0].asset.description,
-          "in-point"=> "",
-          "out-point"=> "",
           "tags"=> @program.program_items[0].asset.tags,
           "thumbnail"=> @program.program_items[0].asset.thumbnail_url,
+          "in-point"=> "",
+          "out-point"=> "",
           "urchin"=> ""
         },
         
@@ -106,11 +108,19 @@ module NabuEditor
           "show_image_after"=> "false",
           "show_image_after_url"=> "",
           "show_image_after_asset_id"=> ""
+        },
+        
+        "statistics"=> {
+          "views"=> "0",
+          "openers"=> "0",
+          "completed"=> "0",
+          "statistics"=> "0"  
         }
       }
   
+      
       if @program.save
-        logger.info "Save complete"
+        logger.info "Save complete!"
       else
         logger.error "Save error!"
       end
@@ -121,8 +131,7 @@ module NabuEditor
     def get_programs
       @programs_data = MarduqResource::Program.where( client_id:  current_user.client_id ) || [] 
       # sort on created at
-      @programs_data = @programs_data.sort_by(&:created_at)
-
+      @programs_data = @programs_data.sort_by(&:created_at)      
       @programs = []
       @programs_data.each do |p|  
         temp_program = {}
@@ -139,8 +148,7 @@ module NabuEditor
 
         temp_program['created_at'] = p.created_at
         @programs.push(temp_program)  
-      end
-      
+      end      
       render json: @programs.reverse!
     end
     
@@ -169,6 +177,9 @@ module NabuEditor
         temp_program['created_at'] = p.created_at
         @programs.push(temp_program)  
       end
+      
+      @themes = NabuThemes::Theme.all
+      @menus = NabuThemes::Menu.all      
       
     end
     

@@ -73,9 +73,9 @@
 // require smooth/smooth
 
 // HANDLERBARS
-// require handlebars.runtime
-// require handlebars_helpers
-// require_tree ./templates
+//= require handlebars.runtime
+//= require handlebars_helpers
+//= require templates/template_definitions.js
 
 // CHARTS
 // require highcharts/highcharts.js
@@ -91,9 +91,15 @@
 // require marduq/social
 //= require marduq/player
 // require marduq/editor
-// require marduq/marqers/MarqerPrototype
-// require_tree ./marduq/marqers
-// require marduq/marqers
+//= require marduq/marqers/MarqerPrototype
+//= require marduq/marqer_definitions.js
+
+//= require marduq/marqers/TitleMarqer
+//= require marduq/marqers/ImageMarqer
+//= require marduq/marqers/HtmlCssMarqer
+//= require marduq/marqers/TitleMarqer
+
+//= require marduq/marqers
 //= require marduq/controls
 // require admin/create_movie ( this one has been depreicated and is updated in the engine )
 // require admin/describe_movie ( this one has been depreicated and is updated in the engine )

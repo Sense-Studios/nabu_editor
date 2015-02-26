@@ -11,6 +11,9 @@
   .select_videos
     = react_component('FilterableProgramTable', { programs: @programs.reverse! } )    
   = render partial: 'nabu_editor/admin/describe_movie_advanced'
+  = render partial: 'nabu_editor/admin/timeline_container'
+  = render partial: 'nabu_editor/admin/publish_menu_container'
+  
  
   / Custom javascript
   = javascript_include_tag "nabu_editor/sections" 

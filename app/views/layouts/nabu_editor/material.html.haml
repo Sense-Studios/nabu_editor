@@ -4,20 +4,26 @@
     %title
       Nabu Editor Material
     
+    :javascript  
+      window.t = #{raw @t.to_json}
+    
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
     = javascript_include_tag "nabu_editor/application"    
     = csrf_meta_tags
 
     / looks like the only way to add this lastly
     = stylesheet_link_tag "nabu_editor/admin"
+    = stylesheet_link_tag "nabu_editor/jquery.dropdown"
+    
 
     / favicon
     %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}
       
     / pass those values to javascript
     :javascript
-      var client_id = "#{@user_id}";
-      var account_id = "#{@account_id}";
+      var client_id = "#{@user_id}";      // this users id
+      var account_id = "#{@account_id}";  // this users account
+      var mount_point = "#{NABU_EDITOR_MOUNT_POINT}"; // mount point of the engine
 
   %body
 

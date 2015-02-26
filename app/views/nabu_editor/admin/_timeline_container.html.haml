@@ -1,0 +1,25 @@
+#timeLineContainer
+
+  #scrubber
+  #userInteract
+  %canvas.timeline_canvas
+  
+  #tracks.ui-droppable
+    #trackline1.trackline.ui-droppable
+      .trackeventcontainer
+        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
+          %p marqer titel
+    #trackline2.trackline.ui-droppable
+      .trackeventcontainer
+        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
+    #trackline3.trackline.ui-droppable
+      .trackeventcontainer
+        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
+    #trackline4.trackline.ui-droppable
+      .trackeventcontainer
+        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
+
+.test.plugin plugin
+
+/ Custom javascript
+= javascript_include_tag "nabu_editor/marqer_editor" 

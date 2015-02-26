@@ -1,40 +1,116 @@
 .describe_movie_advanced
-  .fieldset
-    %legend
-      Advanced settings
+  .well
     .form-group
-      %label.col-lg-2.control-label
-        inputs
-      .col-lg-10
-        %input.form-control{"type"=>"text", "placeholder"=> 'input text' }
-    .form-group
-      .checkbox
-        %label
-          %input{"type"=>"checkbox"}
-            Checkbox
-      .togglebutton
-        %label
-          %input{"type"=>"checkbox", "checked"=> ""}
-            toggle button
+      %h4 
+        Advanced Settings
+      
+      .col-md-6
+        .form-group
+          %label.control-label= I18n.t('admin.describe.social.share.title_label')
+          %input#social-title.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.title_placeholder')}
+        .form-group
+          %label.control-label= I18n.t('admin.describe.social.share.url_label')
+          %input#social-url.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.url_placeholder')}
+        %button#autofill.btn.btn-material-pink.btn-sm= I18n.t('admin.describe.social.autofill')
+      .col-md-6
+        .form-group
+          %label.control-label= I18n.t('admin.describe.social.share.description_label')
+          %textarea#social-description.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.description_placeholder'), "rows"=>'8'  }
+      .clear
+      .col-md-12
+        .button.btn.btn-material-pink.pull-right#save_movie Save
+      .clear
+      /  %h4= I18n.t('admin.describe.social.share_title')
+      /  .form-group           
+      /    .checkbox.checkbox-material-pink           
+      /      %label.checkbox-inline
+      /        %input#social-facebook{"type"=>"checkbox", "checked"=>"false"} Facebook
+      /    .checkbox.checkbox-material-pink      
+      /      %label.checkbox-inline
+      /        %input#social-linkedin{"type"=>"checkbox", "checked"=>"true"} Linkedin
+      /    .checkbox.checkbox-material-pink                    
+      /      %label.checkbox-inline
+      /        %input#social-twitter{"type"=>"checkbox", "checked"=>"true"} Twitter
+      /    .checkbox.checkbox-material-pink                    
+      /      %label.checkbox-inline
+      /        %input#social-email{"type"=>"checkbox", "checked"=>"true"} Email
+      /%hr
+      /
+      /- if !@light_mode
+      /  %h4= I18n.t('admin.describe.social.evaluate_title')
+      /  .form-group
+      /    .checkbox.checkbox-material-pink      
+      /      %label.checkbox-inline
+      /        %input#social-like{"type"=>"checkbox", "checked"=>"true"} Facebook Like
+      /    .checkbox.checkbox-material-pink                    
+      /      %label.checkbox-inline
+      /        %input#social-plusone{"type"=>"checkbox", "checked"=>"true"} Google Plus 1
+      /
+      /%hr
+      /%h4= I18n.t('admin.describe.social.email_title')
+      /.form-group
+      /  %label.control-label= I18n.t('admin.describe.social.email.subject_label')
+      /  %input#social-subject.form-control{:type => "subject", "placeholder"=> I18n.t('admin.describe.social.email.subject_placeholder') }
+      /.form-group
+      /  %label.control-label= I18n.t('admin.describe.social.email.body_label')
+      /  %textarea#social-body.form-control{:type => "body", "placeholder"=> I18n.t('admin.describe.social.email.body_placeholder'), "rows"=>'8' }
+      
+  .well
+    %h4
+      = I18n.t('admin.describe.movie_end.on_movie_end')
+    -# Just before the movie end -#= I18n.t('admin.describe.movie_end.on_movie_end')
     
-    .sample
-      %select.form-control{"placeholder"=>"Your dropdown box dinges","data-dropdownjs"=>"true" }
-        %option{"value"=>"test"}
-          test
-        %option{"value"=>"test"}
-          test
-        %option{"value"=>"test"}
-          test
-          
     .form-group
-      %label.col-lg-2.control-label
-        Radios
-      .col-lg-10
-        .radio.radio-primary
-          %label
-            %input#optionsRadios1{"type"=>"radio","name"=>"optionsRadios","value"=>"option1"}
-              Options one it is
-        .radio.radio-primary
-          %label
-            %input#optionsRadios1{"type"=>"radio","name"=>"optionsRadios","value"=>"option2"}
-              Options two it is
+      .checkbox.checkbox-material-pink
+        %label 
+          %input{"type"=>"checkbox", "value"=>"show-social-media", "name"=>"show-social-media", "id"=>"show-social-media" }
+          = I18n.t('admin.describe.movie_end.show_social_media')
+  
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label 
+          %input{"type"=>"checkbox", "name"=>"email-forwarding", "id"=>"email-forwarding" }              
+          = I18n.t('admin.describe.movie_end.show_email_fowarding')
+  
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label 
+          %input{"type"=>"checkbox", "name"=>"show-opt-in", "id"=>"show-opt-in" }
+          = I18n.t('admin.describe.movie_end.show_opt_in')
+      .col-md-12
+        .button.btn.btn-material-pink.pull-right#save_movie Save
+      .clear
+          
+  .well
+    %h4
+      = _t('admin.describe.movie_end.on_end_of_file')          
+    .form-group
+      .radio
+        %label 
+          %input{"type"=>"radio", "value"=>"do-nothing", "name"=>"on-movie-end", "checked"=>"true" }              
+          = I18n.t('admin.describe.movie_end.do_nothing')
+    .form-group
+      .radio
+        %label 
+          %input{"type"=>"radio", "value"=>"next-program", "name"=>"on-movie-end" }
+          = I18n.t('admin.describe.movie_end.play_other_movie')
+        %select#next-program.form-control
+          /- @programs.each do |p|
+          /  %option{"value" => p.id } #{ p.title }
+
+    .form-group
+      .radio
+        %label 
+          %input{"type"=>"radio", "value"=>"linked-page", "name"=>"on-movie-end" }
+          = I18n.t('admin.describe.movie_end.link_page_title')
+        %input#linked-page.form-control{"type"=>"text", "placeholder"=> I18n.t('admin.describe.movie_end.link_page_placeholder') }
+    .form-group
+      .radio
+        %label 
+          %input{"type"=>"radio", "value"=>"movie-end-text", "name"=>"on-movie-end" }
+          = I18n.t('admin.describe.movie_end.show_text_title')
+        %br
+        %textarea#movie-end-text.form-control{"placeholder"=> I18n.t('admin.describe.movie_end.show_text_placeholder')}
+      .col-md-12
+        .button.btn.btn-material-pink.pull-right#save_movie Save
+      .clear

@@ -24,52 +24,101 @@ function setDataFromProgram() {
     // this is a new program, appearently, set meta data to descriptor
   if ( program.meta === "" || program.meta === null || program.meta === undefined ) {
     
-    console.log("no meta info found on program, setting it .. ");
+    console.log("ignoring empty meta info")
+    console.log("this should be handled by the server!!")
+    // injectMetadata( id )
     
-    // fill with the data from the asset
-    metaData.moviedescription.title = program.program_items[0].asset.title;
-    metaData.moviedescription.description = program.program_items[0].asset.description;
-    metaData.moviedescription.tags = program.program_items[0].asset.tags.join(',');
-    metaData.moviedescription.thumbnail = program.program_items[0].asset.thumbnail_url;
+    //console.log("no meta info found on program, setting it .. ");
     
-    // set it
-    program.meta = metaData;
+    //// fill with the data from the asset
+    //metaData.moviedescription.title = program.program_items[0].asset.title;
+    //metaData.moviedescription.description = program.program_items[0].asset.description;
+    //metaData.moviedescription.tags = program.program_items[0].asset.tags.join(',');
+    //metaData.moviedescription.thumbnail = program.program_items[0].asset.thumbnail_url;
+    
+    //// set it
+    //program.meta = metaData;
 
-    // quickly fill the fields
-    initTextField( $('#title'), metaData.moviedescription, "title" );
-    initTextField( $('#description'),  metaData.moviedescription, "description"  );
-    // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
-    // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
-    initTextField( $('#tags'), metaData.moviedescription, "tags" );
+    //// quickly fill the fields
+    //initTextField( $('#title'), metaData.moviedescription, "title" );
+    //initTextField( $('#description'),  metaData.moviedescription, "description"  );
+    //// initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
+    //// initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
+    //initTextField( $('#tags'), metaData.moviedescription, "tags" );
     
-    // inject default marqers
-    injectMarqers();
+    //// inject default marqers
+    //injectMarqers();
   
   }else{    
     metaData = program.meta;
   }
   
+  console.log("doublecheck program data:")
+  console.log(" -- ", program.program_items[0].asset.title )
+  console.log(" -- ", program.program_items[0].asset.description )
+  console.log(" -- ", program.program_items[0].asset.tags )
+  console.log(" -- ", program.program_items[0].asset.thumbnail_url )
+
+  console.log("setting metadata:")
+  console.log(" -- ", metaData.moviedescription.title )
+  console.log(" -- ", metaData.moviedescription.description )
+  console.log(" -- ", metaData.moviedescription.tags )
+  console.log(" -- ", metaData.moviedescription.thumbnail )  
+  
   // Tab1: set Movie Info Tab
+  // initTextField( $('#title'), program.program_items[0].asset, "title" );
+  // initTextField( $('#description'),  program.program_items[0].asset, "description"  );
+  // initTextField( $('#tags'), program.program_items[0].asset, "tags" );
+
   initTextField( $('#title'), metaData.moviedescription, "title" );
   initTextField( $('#description'),  metaData.moviedescription, "description"  );
-  //initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
-  //initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
   initTextField( $('#tags'), metaData.moviedescription, "tags" );
+  // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
+  // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
+  // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
+  $('textarea#program_embed').text('<iframe src="http://nabu.sense-studios.com/' + program.id + '" allowFullscreen="true" scrolling="no"></iframe>' );
+  $('textarea#program_url').text('http://nabu.sense-studios.com/' + program.id);
+
   
-  // initialize the big thumbnail preview
-  $(".thumbnail-image-preview").click(function() {
-    $(this).css({'opacity':1});
-    metaData.moviedescription.thumbnail = $(this).find('img').attr('src');
-  });
+  // add the pictiures
+  $('.image-picker').html('')                                                //reset
+  $('.thumbnail-image-preview').attr('src', 'http://placehold.it/640x360')   // reset
+    
+  // each thumbnail in the asset  
+  if ( program.program_items[0].asset._type == "Video" ) {
+    var cn = 0
+    $.each( program.program_items[0].asset.thumbnails.medium, function( key, value ) { 
+      $('.image-picker').append('<option data-img-src="' + value + '" value="1" > Thumbnail </option>');
+      cn++;
+    });
+  }
+    
+  if ( program.program_items[0].asset._type == "Youtube" || program.program_items[0].asset._type == "Vimeo" ) {
+    $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>') 
+  }
+  
+  // add the current, floating thumbnail
+  // $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>') 
   
   // initialize the thumbnails
-  $(".image-picker").imagepicker({    
-    clicked: function(e) { 
-      metaData.moviedescription.thumbnail = $(this).find('option:selected').attr('data-img-src');
-      $(".thumbnail-image-preview").css({'opacity':0.5});
-    }
+  $(".image-picker").imagepicker({            
+    //clicked: function(e) {      
+    //  console.log('updating thumbnail', $(this).find('option:selected').attr('data-img-src'))
+    //  metaData.moviedescription.thumbnail = $(this).find('option:selected').attr('data-img-src');      
+    //  postMetaData() // fuck it and safe
+    //}
   }); 
-  
+   
+  // image picker click doesn't work, so I had to rewrite it here, bitches
+  $('.image_picker_image').unbind('click')
+  $('.image_picker_image').click( function() {
+    metaData.moviedescription.thumbnail = $(this).attr('src'); 
+    
+    // should be wrapped in a more commen 'updating' state
+    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600); 
+    postMetaData() // fuck it and safe
+  })
+
   // ### Tab2: set Player Options
   setOptions( movie_options_checkboxes, metaData.player_options  );
   initTextField( $('#pop_under_program'),  metaData.player_options, "pop_under_target" );
@@ -158,124 +207,23 @@ function updateMetaData() {
   metaData.player_options.volume === "true"  ? $(".volume").show() : $(".volume").hide();
   metaData.player_options.mute === "true"  ? $(".mute").show() : $(".mute").hide();  
   metaData.player_options.show_big_play === "true"  ? $(".big-play").show() : $(".big-play").hide();
+  
+  // bring this back ?
   //metaData.player_options.title === "true"  ? $("#video_frame .title").show() : $("#video_frame .title").hide();
   
-  console.log( 'allowing scrubbing', $('#allow-scrubbing:checked'), metaData.player_options.allow_scrubbing );  
+  // depricated
+  metaData.player_options.showscores === "true"  ? $(".MTScoreMarqer").fadeIn() : $(".MTScoreMarqer").fadeOut();
+
+  
+  // takes out the scrubbar
   if ( metaData.player_options.allow_scrubbing === "true" ) {
-    $('.progress').css({'pointer-events':'all'}); // take out the scrubbar, should be optional through program    
+    $('.progress').css({'pointer-events':'all'});
     $('.progress').css({'cursor':'all'});
   }else{
-    $('.progress').css({'pointer-events':'none'}); // take out the scrubbar, should be optional through program    
+    $('.progress').css({'pointer-events':'none'});
     $('.progress').css({'cursor':'none'})  ;  
-  }
-  
-  // TEST!
-  metaData.player_options.showscores === "true"  ? $(".MTScoreMarqer").fadeIn() : $(".MTScoreMarqer").fadeOut();
-  console.log( metaData.showscores );
-  
-  // on_movie_end  
-  // metaData.
-  /*
-  metaData.on_movie_end["show-opt-in"] === "true" ?
-  metaData.on_movie_end["email-forwarding"] === "true"  ?
-  metaData.on_movie_end["show-score-dependant-texts"] === "true"  ?
-  metaData.on_movie_end["show-highscores"] === "true"  ?
-  metaData.on_movie_end["show_social_media"] === "true"  ?
-  */
-  // social data
-  
-  // advanced 
+  }  
 }
-
-
-// ############################################################################
-// ### MARQER INJECTION 
-// ############################################################################
-
-function injectMarqers() {
-  
-  // show modal 
-  $('#myModal').modal();
-  
-  if (pop === null || isNaN(pop.duration()) || pop.duration() === undefined || pop.duration() == -1 ) {
-    // this fails on ipad, can't seem to get duration 
-    setTimeout( injectMarqers, 500, m );
-    return;
-  }
-
-  // inject default thumbnail  
-  metaData.moviedescription.thumbnail = $(".image-picker").find('option:eq(0)').attr('data-img-src'); 
-  
-  // and save it before the user can do anything else    
-  // also inject marqers for the default program
-  // I've used a movietrader1 preset
-  // console.log(" ---------> get json")  
-  console.log("create new marqers from preset");
-  
-  
-  $.getJSON('/presets/movietrader2.json', function( data ) {    
-    console.log('succes, parsing ...');        
-    
-    var k = 1;
-    $.each( data, function( key, marqerpreset ) {
-      // create a temp marqer and 
-      // generate a template from it
-      // this way, we'll ensure correct
-      // translation and such
-      var tempMarqer = new window[ marqerpreset.type ]();  
-      var protoMarqer = {};
-          
-      protoMarqer.type = marqerpreset.type;
-      protoMarqer.local_id = k;
-      protoMarqer.marqeroptions = tempMarqer.defaultvalues;
-      protoMarqer.marqeroptions.track_id = k        ;                                  // for the editor
-      protoMarqer.marqeroptions.trackname = "Track" + ( Math.random() * 10000000000 );  // for the editor
-        
-      // inject neccesary values, in
-      if ( Number(marqerpreset.in) < 0 ) {
-        protoMarqer.in = pop.duration() + Number( marqerpreset.in ); // note that as the number is negative, we need to add
-      }else if ( marqerpreset.in == "end" ) {
-        protoMarqer.in = pop.duration();
-      }else{
-        protoMarqer.in = marqerpreset.in;
-      }
-      
-      // inject neccesary values, out
-      if ( Number(marqerpreset.out) < 0 ) {
-         protoMarqer.out = pop.duration() + Number( marqerpreset.out );// note that as the number is negative, we need to add
-      }else if ( marqerpreset.out == "end" ) {                         // I don't know who would be using this (?)
-        protoMarqer.out = pop.duration();
-      }else{
-        protoMarqer.out = marqerpreset.out;
-      }
-
-      // now override and/or inject extras    
-      $.each( marqerpreset.marqeroptions, function( key, marqeroption ) {
-        protoMarqer.marqeroptions[ key ].type = marqeroption.type;
-        protoMarqer.marqeroptions[ key ].value = marqeroption.value;
-      });
-
-      console.log("protomarqer: ", protoMarqer);
-      m.push( protoMarqer );
-      k++;
-    });
-    
-    // now, post it all to the server
-    setTimeout( postMetaData, 800, true );
-    
-    // failsafe for ipad, that doesnt work :p
-    // no duration available on ipad (yet)
-    //$(".reload-button").click( function() {
-    //  postMetaData(true)
-    //});
-
-  }).fail(function( jqxhr, textStatus, error ) {
-    var err = textStatus + ", " + error;
-    console.log( "Request Failed: " + err );
-  }).done(function(e) { console.log( "it is done ...", e );    // some checkup
-  }).always( function(e) { console.log( "always do ", e ); }); // some more checkup  
-}
-
 
 // #############################################################################
 //  Helpers
@@ -291,9 +239,9 @@ function init_s3_uploader( target, img_holder, delete_button, meta_adress ) {
   // activate the s3 uploader
   $( target ).S3Uploader({
     max_file_size: 1258291200
-    //progress_bar_target: $('.js_progress_bars'),
-    //allow_multiple_files: false,
-    //remove_completed_progress_bar: false
+    // progress_bar_target: $('.js_progress_bars'),
+    // allow_multiple_files: false,
+    // remove_completed_progress_bar: false
   });
   
   // Upload start
@@ -352,16 +300,19 @@ function postMetaData( noreload ) {
     var mapi = new MarduqApi();
     var saveprogram = {};
     
-    // indexed variables
+    // force the current values to the program
     saveprogram.id = program.id;
     saveprogram.title = $('#title').val();
     saveprogram.descriptions = $('#description').val();
-    saveprogram.tags = $('#tags').val();
-  
-    // and save all the meta info too
-    saveprogram.meta = metaData;
+    saveprogram.tags = $('#tags').val();              
     
-    console.log(" ##### send update to marduq! save program");
+    // and save all the meta info too    
+    saveprogram.meta = metaData;
+
+    // show which movie is updating
+    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600); 
+    
+    console.log(" ##### Save, Post meta data for program: ");
     console.log( program );
 
     mapi.updateProgram({
@@ -369,10 +320,12 @@ function postMetaData( noreload ) {
       success: function( response ){
         console.log("update gelukt!", response, !noreload);
 
+        // reset the save button
         $('#save_movie').removeClass('btn-material-yellow')
-        $('#save_movie').addClass('btn-material-pink')      
-        setPrograms() // reload programs        
-
+        $('#save_movie').addClass('btn-material-pink')
+          
+        // reload programs
+        setPrograms()        
       },
       failure: function( response ){
         console.log("update faal!", response);
@@ -424,6 +377,7 @@ function initThumbnailUploader() {
   // Start loading asset
   $('#preview_thumbnail').bind("s3_uploads_start", function(e, content) {
     console.log("upload start ... ");
+    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600);
   });
   
   // complete, create an asset
@@ -457,12 +411,15 @@ function initThumbnailUploader() {
           console.log("SAVE: create asset FAIL !!", response);
       }
     });
-    
-    // throw it to the preview window
-    $('.thumbnail-image-preview').attr('src', content.url );
-    
+      
     // select and set it in the data
-    metaData.moviedescription.thumbnail = content.url;    
+    metaData.moviedescription.thumbnail = content.url;
+
+    // throw it to the window
+    $('.thumbnail-image-preview').attr('src', content.url)
+
+    // fuck it and save
+    postMetaData()
   });
 }
 

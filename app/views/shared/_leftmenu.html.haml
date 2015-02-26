@@ -12,15 +12,16 @@
       = image_tag("http://placekitten.com/g/300/300", class: "user_image")
       
     %h3.user_name= current_user.account_name
-    %p.user_name
-      - if  current_user.has_role? :admin
-        = "Administrator"
-      - else
-        = "Editor"
+    /%p.user_name
+    /  - if  current_user.has_role? :admin
+    /    = "Administrator"
+    /  - else
+    /    = "Editor"
 
     .logout
       = link_to main_app.destroy_user_session_path, :method => :delete, :title => "#{current_user.email}" do 
-        %p= I18n.t('admin.menu.sign_out')
+        /%p= I18n.t('admin.menu.sign_out')
+        %p log uit
         %span.glyphicon.glyphicon-off.small
       
   
@@ -28,18 +29,18 @@
     .btn.btn-material-pink#create_butt
       = link_to 'javascript:showCreateMovie()', :target=>"_top"  do
         /= I18n.t('admin.menu.make_video')
-        Nieuwe Video
+        Jouw video&#39;s
       %span.glyphicon.glyphicon-facetime-video.menu-item 
     .btn.btn-material-blue-grey#describe_butt
       = link_to 'javascript:showDescribeMovie()', :target=>"_top"  do
         /= I18n.t('admin.describe.describe_video')
-        Beschrijving
+        Beschrijf video
       %span.glyphicon.glyphicon-pencil.menu-item  
     .btn.btn-material-blue-grey#settings_butt
       / settings.MOUNT_POINT
       = link_to 'javascript:showSettingsMovie()', :target=>"_top"  do
         /= I18n.t('admin.menu.home')
-        Instellingen
+        Marqers
       %span.glyphicon.glyphicon-wrench.menu-item  
     /.btn.btn-material-blue-grey
     /  = link_to main_app.admin_dashboard_path, :target=>"_top"  do

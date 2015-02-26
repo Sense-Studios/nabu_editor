@@ -1,36 +1,42 @@
 .video_publish_container
   .publish_container
     %h3
-      Je video is bewerkt en klaar om te delen
+      Deel je video
       
-    .col-md-1.col
+    .col-md-2.col
       %label.control-label{:style=>'text-align:left'}
         /= I18n.t('admin.describe.info.other_thumbnail');
         Link:
-    .col-md-9.col  
-      %input.form-control
+    .col-md-8.col
+      %textarea.form-control#program_url
     .col-md-2.col
-      .btn.btn-material-burgundy
-        Kopieren
+      .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-pink.long-shadow-2
+        = image_tag "nabu_editor/copy.png"
         
-    .col-md-1.col
+    .col-md-2.col
       %label.control-label{:style=>'text-align:left'}
         /= I18n.t('admin.describe.info.other_thumbnail');
         Embed:
-    .col-md-9.col
-      %input.form-control
-        .btn.btn-material-burgundy
-          Kopieren
+    .col-md-8.col
+      %textarea.form-control#program_embed
+    .col-md-2.col
+      .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-pink.long-shadow-2
+        = image_tag "nabu_editor/copy.png"
         
-    .col-md-1.col
+    .col-md-2.col
       %label.control-label{:style=>'text-align:left'}
         Social:
     .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-facebook.long-shadow-2 
-      = image_tag "nabu_editor/share/facebook.png"
+      = link_to 'http://www.facebook.com' do
+        = image_tag "nabu_editor/share/facebook.png"
+        
     .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-twitter.long-shadow-2
-      = image_tag "nabu_editor/share/twitter.png"
+      = link_to 'http://www.twitter.com' do
+        = image_tag "nabu_editor/share/twitter.png"
+        
     .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-linkedin.long-shadow-2
-      = image_tag "nabu_editor/share/linkedin.png"
+      = link_to 'http://www.linkedin.com' do
+        = image_tag "nabu_editor/share/linkedin.png"
           
           
     

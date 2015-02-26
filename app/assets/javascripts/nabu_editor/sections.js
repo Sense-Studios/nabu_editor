@@ -14,6 +14,84 @@ var animateVideoDown = function() {
   $('#video_frame').animate({'margin-right': '0' }, 100)            
 }
 
+//Hide Sections 
+var hideCreateMovie = function() {
+  if( $('.video_uploader_container').is(':visible') ) {
+    $('.video_uploader_container').fadeOut('fast');
+  }
+}
+
+var hidePublishMovie = function () {
+  if ( $('.video_publish_container').is(':visible') ) {
+    $('.video_publish_container').fadeOut('fast')        
+  }
+}
+
+var hideSettingsMovie = function () {
+  //if ( $('.video_describe_container').is(':visible') ) {
+  //  $('.video_describe_container').fadeOut('fast');    
+  //}
+}
+
+var hideDescribeMovie = function () {
+  if ( $('.video_describe_container').is(':visible') ) {
+    $('.video_describe_container').fadeOut('fast');    
+  }
+}
+
+var hideDescribeAdvancedMovie = function() {
+  if ( $('.video_describe_advanced').is(':visible') ) {
+    $('.video_describe_advanced').fadeOut('fast');    
+  }
+}
+
+var hideVideoContainer = function () {
+  if ( $('.select_videos').is(':visible') ) {
+    $('.select_videos').fadeOut('fast')
+  }
+}
+
+var hideMarqersRightMenu = function () {
+  if ( $(".marqers_container").is(':visible' ) ) {
+    $('.marqers_container').fadeOut('fast')
+    $('#timeLineContainer').fadeOut('fast')
+  }
+}
+
+var showMarqersRightMenu = function () {
+  if ( $(".marqers_container").is(':hidden' ) ) {
+    $('.marqers_container').fadeIn('fast')
+    $('#timeLineContainer').fadeIn('fast')
+  }
+}
+
+var hideChannels = function() {
+  if ( !$(".channels_container").is(':hidden' ) ) {
+    $('.channels_container').fadeOut('fast')
+    $('.menu_editor').fadeOut('fast')
+  }  
+}
+
+var showChannels = function() {
+  if ( $(".channels_container").is(':hidden' ) ) {
+    $('.channels_container').fadeIn('fast')
+    $('.menu_editor').fadeIn('fast')
+  }  
+}
+
+var showHelpers = function () {
+  if( $('.helpers').is(":hidden") ) {
+    $('.helpers').fadeIn('fast')
+  }
+}
+
+var hideHelpers = function () {
+  if( $('.helpers').is(":visible") ) {
+    $('.helpers').fadeOut('fast')
+  }
+}
+
+
 // ### Sections
 var showCreateMovie = function( force ) { 
   $('.navigation .btn').removeClass('btn-material-pink')
@@ -36,8 +114,12 @@ var showCreateMovie = function( force ) {
     $('.bubble').fadeOut('fast',function(){
       setTimeout(function(){$('.upload_helper').fadeIn('fast');}, 300)
     })
-    
+
+    hideMarqersRightMenu()
+    hideChannels()
+    showHelpers()
     showVideosAlways()
+    setTimeOut( function() { margin_select_video() }, 500)
     //$('.big-play').addClass('hidden')
   }
   
@@ -45,14 +127,24 @@ var showCreateMovie = function( force ) {
      $('.video_publish_container').fadeOut('fast')
      $('.video_uploader_container').fadeIn('fast') 
   }
+  
+  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 300 );  
 }
 
 // $('.navigation .btn').removeClass('btn-material-pink')
 // $('.navigation .btn').addClass('btn-material-blue-grey')
 
-var showDescribeMovie = function() { 
+var showDescribeMovie = function( with_upload ) { 
   $('.navigation .btn').removeClass('btn-material-pink')
   $('.navigation .btn').addClass('btn-material-blue-grey')
+
+  if ( with_upload == true ) {
+    $('.show_upload').show();
+    $('.bottom_buttons').hide()
+  }else{
+    $('.show_upload').hide();
+    $('.bottom_buttons').show()
+  }
 
   if ( $('.video_describe_container').is(':visible') ) {
     $('.video_describe_container').fadeOut('fast');    
@@ -76,7 +168,11 @@ var showDescribeMovie = function() {
       postMetaData() 
     })
     
+    hideMarqersRightMenu()
+    hideChannels()
+    showHelpers()
     showVideosAlways()
+    setTimeOut( function() { margin_select_video() }, 600)
 
     $('#advanced').unbind('click')
     $('#advanced').click( showDescribeAdvancedMovie )
@@ -111,15 +207,29 @@ var showPublishMovie = function() {
   }else{
     $('.video_publish_container').fadeIn('fast')
     
-    $('.video_uploader_container').fadeOut('slow')
-    $('.describe_movie').fadeOut('slow')
-    $('.editor_container').fadeOut('slow')
 
     $('#publish_butt').removeClass('btn-material-blue-grey')
     $('#publish_butt').addClass('btn-material-pink')
   }
   
+  hideCreateMovie()
+  hideVideoContainer()
+  hideDescribeAdvancedMovie()
+  hideDescribeMovie()
+  hideMarqersRightMenu()  
+  showChannels()
+  // showMenuEditor()
+  
+  showHelpers()
   showVideosAlways()
+    
+  setTimeout( function () {
+    showVideosAlways()
+    showHelpers()
+    margin_select_video()
+  },
+  500)
+
   
   //Show/hide helpers
   $('.bubble').fadeOut('fast',function() {  
@@ -137,19 +247,18 @@ var showDescribeAdvancedMovie = function() {
 var showSettingsMovie = function() { 
   $('.navigation .btn').removeClass('btn-material-pink')
   $('.navigation .btn').addClass('btn-material-blue-grey')
+  
   $('#settings_butt').removeClass('btn-material-blue-grey')
   $('#settings_butt').addClass('btn-material-pink')
-  $('.helpers').fadeOut('fast',function() {
-    $('.marqers_container').fadeIn('fast')
-  })
-  $('.select_videos').fadeOut('fast',function() {
-    $('.editor_container').fadeIn('fast')
-  })
   
-  if($('.video_uploader_container').is(":visible")) {
-    $(".video_uploader_container").fadeOut('fast')
-  }
-  
+  hideCreateMovie()
+  hideVideoContainer()
+  hideDescribeMovie()
+  hideDescribeAdvancedMovie()
+  hidePublishMovie()
+  hideHelpers()
+  hideChannels()
+  setTimeout( function () { showMarqersRightMenu() }, 500)  
 }
 
 var showVideosAlways = function() {

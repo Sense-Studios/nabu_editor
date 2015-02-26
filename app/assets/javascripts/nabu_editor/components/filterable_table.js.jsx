@@ -65,8 +65,10 @@ var ProgramTile = React.createClass({
 
       //console.log(title, this.props.hide)
       var classes = 'program_container'      
-      if ( this.props.parentTable.state.selectedProgramItem == this.props.program.id ) {
-        classes += ' long-shadow-5 btn-material-pink'
+      if ( this.props.parentTable.state.selectedProgramItem == this.props.program.id ) { 
+      // || ( program !== null && this.props.program.id == program.id ) ) {
+      
+        classes += ' long-shadow-5 btn-material-pink selected'
       }else{
         classes += ' long-shadow-3 btn-white'
       }
@@ -89,19 +91,19 @@ var ProgramTile = React.createClass({
               </a>
               <ul className='dropdown-menu'>
                 <li>                  
-                  <a href='#' onClick={this.showMovieRelay} data-toggle='tab'> Laat zien </a>
+                  <a href='#' onClick={this.showMovieRelay} data-toggle='tab'> Bekijk </a>
                 </li>
                 <li>
-                  <a href='#' onClick={this.describeMovieRelay} data-toggle='tab'> Beschrijven </a>
+                  <a href='#' onClick={this.describeMovieRelay} data-toggle='tab'> Beschrijf </a>
                 </li>
                 <li>
-                  <a href='#' onClick={this.timeLineEditMovieRelay} data-toggle='tab'> Bewerken </a>
+                  <a href='#' onClick={this.timeLineEditMovieRelay} data-toggle='tab'> Marqers </a>
                 </li>
                 <li>
-                  <a href='#' onClick={this.publishMovieRelay} data-toggle='tab'> Publiceren </a>
+                  <a href='#' onClick={this.publishMovieRelay} data-toggle='tab'> Publiceer </a>
                 </li>
                 <li className='btn-material-red'>
-                  <a href='#' onClick={this.deleteMovieRelay} data-toggle='tab'> Verwijderen </a>
+                  <a href='#' onClick={this.deleteMovieRelay} data-toggle='tab'> Verwijder </a>
                 </li>
               </ul>
             </li>
@@ -205,13 +207,13 @@ var SearchBar2 = React.createClass({
               <input
                   className='video_search'
                   type="text"
-                  placeholder="Zoek hier jouw videos"
+                  placeholder="Zoek in jouw video&#39;s"
                   value={this.props.filterText}
                   ref="filterTextInput"
                   onChange={this.handleChange}
               />
               <div className='video_count' > 
-                <span className='numvideos'> 0 </span><p>videos</p>
+                <span className='numvideos'> 0 </span><p>video s</p>
               </div>                
             </form>
         );

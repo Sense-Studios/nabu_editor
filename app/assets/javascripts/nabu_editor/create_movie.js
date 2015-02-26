@@ -6,45 +6,44 @@ app/client_id
 app/log
 */
 
-var statecheckinterval;
-var mapi = new MarduqApi();
-var videoholder;
-var c = 0;
-var select_was = "s3_direct"; // default
-var currentAssetData = {};
-var new_program_id = null;
-var new_asset_id = null;
-var checkedbox;
-// var new_video = null;
+var mapi = new MarduqApi();   // Marduq Api 
+var c = 0;                    // counter
+var select_was = "s3_direct"; // type of assets, defaults to s3
+var checkedbox;               // determines the asset type
+var statecheckinterval;       // holder zencoder state interval
+var currentAssetData = {};    // holder
+var new_program_id = null;    // holder
+var new_asset_id = null;      // holder
+// var new_video = null;      // not used
 
 var saveComplete = function( resp ) {
-  // Finally we can go to the describe movie page with this asset
-  // window.location.href = "/admin/describe_movie/" + new_program_id;
-  
-  // #######################
-  // #### SAVE COMPLETE ####
-  // #######################
-  console.log( "SAFE COMPLETE:")
-  
-  if (resp === undefined ) var resp = { 'id': new_program_id } // because fuck you.
-  console.log( "response: ", resp )
-  
-  // MOUNT_POINT !!
-  $.get( '/editor3/inject_metadata/' + resp.id, function( resp ) {              
+  console.log( "Save Complete, resp: ", resp)  
+  if ( resp === undefined ) var resp = { 'id': new_program_id } // failsafe  
+  injectMetadata( resp.id )
+}
+
+// helper to inject (initial) metadata into the program
+var injectMetadata = function(id) {  
+  console.log("inject metadata in ", id )
+  $.get( '/'+ mount_point +'/inject_metadata/' + id, function( resp ) {    
+    console.log("meta data injected: ", resp)          
     setPrograms()          // reload programs        
     setProgram( resp.id )  // set current program    
   })
 }
 
-function doSave() {
+// this is actually the 'save' function, but it's not really saving
+var doCreateProgram = function() {
   
   // get the information of the select object
-  console.log("save with: ", $('input[name="input_select"]:checked').val(), currentAssetData );
+  console.log("save with: ", checkedbox, $('input[name="input_select"]:checked').val(), currentAssetData );
+
+  // clear the input box
+  $('#link_url').val('')
 
   // determine the type
-  if ( checkedbox === undefined || checkedbox == "" || checkedbox.indexOf("youtube") >= 0 || checkedbox.indexOf("vimeo") >= 0 ) {   // M3Video
-    // finally put everything into an asset and try to create an asset
-    // on the Marduq api, then use that asset to create a program with it.    
+  var tp = currentAssetData._type.toLowerCase()
+  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" ) ) {
     console.log( "create asset and with prepared data: ", currentAssetData, currentAssetData.id );
     mapi.createAsset({
       asset: currentAssetData,
@@ -56,39 +55,44 @@ function doSave() {
         console.log("SAVE: create asset FAIL !!", response);
       }
     });
-    
-  }else if ( $('input[name="input_select"]:checked').val() == "archive" ) {
+  
+    // TODO, manage archive function through cloning
+  
+    // For now we simply ignore this option.  
+    // }else if ( $('input[name="input_select"]:checked').val() == "archive" ) {
     
     // this works for an archived element
     // don't duplicate the asset, make a new program with the existing one
-    console.log("create program with predefined asset", currentAssetData);
-    createProgramWithAsset( currentAssetData );
+    // console.log("create program with predefined asset", currentAssetData);
+    // createProgramWithAsset( currentAssetData );
         
   }else{
+    
     // the s3 upload should have made asset already, all we need to do        
     // update the asset one more time, maybe the information has changed
     // during transcoding
     // then we can open the describe page ( AFTER saving )
     
     // update the current asset, and use that
-    currentAssetData.title = $('#video-title').val(),
-    currentAssetData.description = $('#video-description').val(),
-    currentAssetData.tags = $('#video-tags').val(),
+    currentAssetData.title = $('#title').val(),
+    currentAssetData.description = $('#description').val(),
+    currentAssetData.tags = $('#tags').val(),
     currentAssetData.client_id = client_id; // it seems we are listing videos, so inject this
-    currentAssetData.id = new_asset_id; // this was saved when the asset was created
+    currentAssetData.id = new_asset_id;     // this was saved when the asset was created
     currentAssetData.thumbnail_url = $("#video-thumbnails").find("option[value='" + $("#video-thumbnails").val() + "']").data('img-src');
     
+    // some feedback
     console.log("S3 upload: update asset with: ", currentAssetData );
 
+    // upload the asset through the M-api
     mapi.updateAsset({
       asset: currentAssetData,
       success: function( response ){
-        console.log("SAVE: update assset had succes !", response);
+        console.log("SAVE: Update assset had succes !", response);
         saveComplete( response )
-
       },
       failure: function( response ){
-        console.log("SAVE: update asset FAIL !!", response);
+        console.log("SAVE: Update asset FAIL !!", response);
       }
     });
   }
@@ -110,23 +114,23 @@ function checkInput( directupdate ) {
   // refresh this, except for uploads
   if ( select_was != "s3_direct" ) {
     $('#title').val("");
-    $('#video-description').val("");
-    $('#video-tags').val("");
+    $('#description').val("");
+    $('#tags').val("");
   }
   
   // only allow new videos to get a new description
-  if (checkedbox == "link") {
-    // disable the input (this is the name of the asset!)
-    $('#title').attr('disabled', true);
-    $('#video-description').attr('disabled', true);
-    $('#video-tags').attr('disabled', true);
-    
-  }else{
-    $('#title').removeAttr('disabled');
-    $('#video-description').removeAttr('disabled');
-    $('#video-tags').removeAttr('disabled');
-    
-  }  
+  //if (checkedbox == "link") {
+  //  // disable the input (this is the name of the asset!)
+  //  $('#title').attr('disabled', true);
+  //  $('#video-description').attr('disabled', true);
+  //  $('#video-tags').attr('disabled', true);
+  //  
+  //}else{
+  //  $('#title').removeAttr('disabled');
+  //  $('#video-description').removeAttr('disabled');
+  //  $('#video-tags').removeAttr('disabled');
+  //  
+  //}  
 
   // set orignal select
   select_was = $('input[name="input_select"]:checked').val();
@@ -160,17 +164,21 @@ function checkInput( directupdate ) {
       url: yt30_api_url + "videos?part=snippet,contentDetails&id=" + ytid + "&key=" + yt30_api_key, 
       dataType: "json",
       type: "GET",
-    }).done( function(data){
+    }).done( function(data) {
+      console.log("youtube api done")
+      
+    }).success( function(data){
       console.log("youtube api succes!", data);
-      //$('#youtube-group').removeClass('has-success').removeClass('has-error').addClass('has-success');
       
       // We've found the youtube video, now fill the description with it
       $('#title').val( data.items[0].snippet.title );
-      $('#video-description').val( data.items[0].snippet.description );
-      $('#video-tags').val("");
+      $('#description').val( data.items[0].snippet.description );
+      $('#tags').val("");
+      
       //$('#video-thumbnails').append('<option class="image_picker_option" data-img-src="'+data.items[0].snippet.thumbnails.medium.url+'" value="1">page 1</option>');
       //$(".image-picker").imagepicker();
-      $('#save_button').removeClass('disabled');
+      // autosave (?)
+      // $('#save_button').removeClass('disabled');
 
       // Also dump it into the assetData      
       currentAssetData = {
@@ -178,9 +186,15 @@ function checkInput( directupdate ) {
         title: data.items[0].snippet.title,
         description: data.items[0].snippet.description,
         thumbnail_url: data.items[0].snippet.thumbnails.medium.url,
+        
+        // note that we can retreive more thumbndails through
+        // https://i1.ytimg.com/vi/<youtube-id>/3.jpg ( 1-4.jpg )      
+        // AND      
+        // https://i.ytimg.com/vi/aO2p4LjDI7c/ [ default | high | maxres | medium | standard ] .jpg
+        
         thumbnails: {
-           //"maxres": data.items[0].snippet.thumbnails.maxres.url,
-           //"standard": data.items[0].snippet.thumbnails.standard.url
+           // "maxres": data.items[0].snippet.thumbnails.maxres.url,
+           // "standard": data.items[0].snippet.thumbnails.standard.url
            "default": data.items[0].snippet.thumbnails.default.url,
            "high": data.items[0].snippet.thumbnails.high.url,
            "medium": data.items[0].snippet.thumbnails.medium.url
@@ -190,13 +204,9 @@ function checkInput( directupdate ) {
         _type: "Youtube",
       };
 
-
-      console.log("created data: ", currentAssetData);
-  
-      // note that we can retreive more thumbndails throu
-      // https://i1.ytimg.com/vi/<youtube-id>/3.jpg ( 1-4.jpg )      
-      // AND
-      // https://i.ytimg.com/vi/aO2p4LjDI7c/ [ default | high | maxres | medium | standard ] .jpg
+      console.log("created data: ", currentAssetData, "start saving");
+      doCreateProgram();    // save the program
+      showDescribeMovie();  // start describing
 
     }).error( function(e) {
       console.log("fail:", e);
@@ -225,6 +235,9 @@ function checkInput( directupdate ) {
       dataType: "json",
       type: "GET",
     }).done( function(data){
+      console.log("vimeo is done")
+
+    }).success( function(data){
       console.log("succes!", data);
       $('#vimeo-group').removeClass('has-success').removeClass('has-error').addClass('has-success');
 
@@ -246,6 +259,9 @@ function checkInput( directupdate ) {
         // duration: data[0].duration, //511,
         _type: "Vimeo"
       };
+
+      doCreateProgram();    // save the program
+      showDescribeMovie();  // start describing
 
     }).error( function(e) {
       console.log("fail:", e);
@@ -270,8 +286,8 @@ function checkInput( directupdate ) {
       asset: asset,
       success: function( data ) {
         $('#title').val( data.title );
-        $('#video-description').val( data.description );
-        $('#video-tags').val( data.tags );
+        $('#description').val( data.description );
+        $('#tags').val( data.tags );
         
         // should have type now
         console.log("has type", data, data._type);
@@ -358,12 +374,12 @@ function createProgramWithAsset( asset ) {
   mapi.createProgramWithAsset({
     asset: asset,
     success: function( response ){
-       console.log("succes!", response);
+       console.log("createProgramWithAsset succes!", response);
         
       if ( $('input[name="input_select"]:checked').val() != "s3_direct" ) {
         // this is not an upload, go to describe movie
-        //console.log(" ###### GO TO DESCRIBE MOVIE", response ) ;   
-        //window.location.href = "/admin/describe_movie/" + response.id;
+        // console.log(" ###### GO TO DESCRIBE MOVIE", response ) ;   
+        // window.location.href = "/admin/describe_movie/" + response.id;
         saveComplete( response )
 
       }else{
@@ -455,15 +471,19 @@ function checkState( video ) {
       
     } else if ( zen_data.state == "finished" ) {       
       // -- VIDEO HAS FINISHED ENCODING! ---
+      
+      // stop checking the state
       clearInterval(statecheckinterval);
       
       // remove active bar
       $('.js_progress_bars .progress').removeClass("active").removeClass("progress-striped");
       $('.js_progress_bars .progress .bar').css({'width': "100%"} );
       $('.js_progress_bars .progress .bar').text( "transcoding complete");//t.javascript.transcoding_complete  );
-
-      // go and save
-      saveComplete()
+      
+      alert('zencoding done')
+      // 1) retreive the asset data
+      // 2) switch to describe move
+      // 3) do a save for the heck of it
 
     } else if ( zen_data.state == "cancelled" ) {
       // -- VIDEO WAS CANCELLED ---      
@@ -489,16 +509,22 @@ function checkState( video ) {
 // ******************************************************************
 //  UPLOADER
 // ******************************************************************
-
+var s3
 function initS3Oploader() {
   var provideFeedback = function ( file ) {
     $(".feedback").val( file.name );
     return true;
   };
   
-  $("#s3-uploader").S3Uploader( {
+  function doublecheckprogressbars() {
+    v = $('.js_progress_bars')
+    console.log("has progressbars?, ",v)
+    return v
+  }
+  
+  s3 = $("#s3-uploader").S3Uploader( {
     //max_file_size: 1258291200,
-    progress_bar_target: $('.js_progress_bars'),
+    progress_bar_target: doublecheckprogressbars(),
     allow_multiple_files: false,
     remove_completed_progress_bar: false,
     before_add: provideFeedback
@@ -506,7 +532,9 @@ function initS3Oploader() {
   
   // Upload start
   $('#s3-uploader').bind('s3_uploads_start', function(e) { 
-    // switch screens!  
+    // show the uploader, while we allow the user to input data    
+    showDescribeMovie( true );
+    console.log("S3 HAS has an event, ", e)
   });
 
   // Start Transcoding
@@ -532,18 +560,13 @@ function initS3Oploader() {
       url: "https://marduq-3.s3.amazonaws.com/uploads%2F1395877077615-ppj63bo60yxy9zfr-6f350850deb218d1363a8be18f577c22%2Fbg_tester.jpg"
     */
     
-    // set animated progress
-    //$('.js_progress_bars .progress .bar').removeClass('progress-bar-success');
-    //$('.js_progress_bars .progress').addClass('active').addClass('progress-striped');
-    //$('.js_progress_bars .progress .bar').text( t.javascript.upload_complete );
-    
     // crete the video object
     var video = {};
     video.original_url = content.url;
     video.original_filename = content.filename;
     video.title = $('#title').val();
-    video.description = $('#video-description').val();
-    video.tags = $('#video-tags').val();
+    video.description = $('#description').val();
+    video.tags = $('#tags').val();
     video.s3_key = content.s3_key;
     
     // holder for use elsewhere    
@@ -572,6 +595,7 @@ function initS3Oploader() {
 
   $('#s3-uploader').bind("s3_upload_failed", function(e) {
     $('.upload').before('<div class="alert alert-warning"> #{content.filename} failed to upload: #{content.error_thrown}"</div>');
+    alert("failed to upload!")
   });
 }
 
@@ -590,11 +614,8 @@ function initCreate() {
   $('#asset-from-archive').click(function(e) { $('input[name="input_select"][value="archive"]').prop("checked", true); checkInput( "skip" ) } );
   $('#asset-from-archive').change(function(e) { $('input[name="input_select"][value="archive"]').prop("checked", true); checkInput( "ignore" ) } );
   $('#file').click(function(e) { $('input[name="input_select"][value="s3_direct"]').prop("checked", true); checkInput( "ignore" ) } );
-  
-  // save function
-  $('#save_button').click(function(e) { doSave() } );
-  
-  // initially hide the button
+    
+  $('#save_button').click( doCreateProgram );
   $('#save_button').addClass('disabled');
 }
 
