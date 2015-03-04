@@ -14,6 +14,7 @@ var statecheckinterval;       // holder zencoder state interval
 var currentAssetData = {};    // holder
 var new_program_id = null;    // holder
 var new_asset_id = null;      // holder
+var new_asset_job_id = null       // holder
 // var new_video = null;      // not used
 
 var saveComplete = function( resp ) {
@@ -186,7 +187,8 @@ function checkInput( directupdate ) {
         title: data.items[0].snippet.title,
         description: data.items[0].snippet.description,
         thumbnail_url: data.items[0].snippet.thumbnails.medium.url,
-        
+        duration_in_ms: parseYoutubeDuration( data.items[0].contentDetails.duration ) * 1000,
+
         // note that we can retreive more thumbndails through
         // https://i1.ytimg.com/vi/<youtube-id>/3.jpg ( 1-4.jpg )      
         // AND      
@@ -200,7 +202,7 @@ function checkInput( directupdate ) {
            "medium": data.items[0].snippet.thumbnails.medium.url
         },
         tags: "",
-        duration: parseYoutubeDuration( data.items[0].contentDetails.duration ), // given as PT34M36S
+        duration: parseYoutubeDuration( data.items[0].contentDetails.duration ), // given as PT34M36S, in seconds
         _type: "Youtube",
       };
 
@@ -375,11 +377,9 @@ function createProgramWithAsset( asset ) {
     asset: asset,
     success: function( response ){
        console.log("createProgramWithAsset succes!", response);
-        
+      
       if ( $('input[name="input_select"]:checked').val() != "s3_direct" ) {
-        // this is not an upload, go to describe movie
-        // console.log(" ###### GO TO DESCRIBE MOVIE", response ) ;   
-        // window.location.href = "/admin/describe_movie/" + response.id;
+        // if we don't need to go to zencoder        
         saveComplete( response )
 
       }else{
@@ -396,6 +396,58 @@ function createProgramWithAsset( asset ) {
   });
 }
 
+var updateProgramAfterZencoding = function( video, zen_data ) {
+  
+  // at this point, their has been a save for the asset
+  // a new program has been created and an asset has been filled
+  // now we can start filling out the details, and refresh 
+  // evertyhing.
+  
+  console.log("start making a program after zencoding")
+  console.log( new_program_id )
+  console.log( video )
+  console.log( zen_data )
+  //$('.show_upload h4').text('zencoding done!')
+  $('.create_movie_hider').fadeOut('slow')
+  $('.video_describe_container #close_button').fadeIn('slow')
+    
+  // https://app.zencoder.com/api/v2/jobs/145849040.json?api_key=a845e5e6788c1dc6a6b9af2bd2ce7488
+  $.get('https://app.zencoder.com/api/v2/jobs/'+new_asset_job_id+'.json?api_key=a845e5e6788c1dc6a6b9af2bd2ce7488', function( response ) {
+    
+    console.log("got info from zencoder:", response)    
+    var updateAsset = {}
+    updateAsset.id = new_asset_id
+    updateAsset.title = $('#title').val();
+    updateAsset.descriptions = $('#description').val();
+    updateAsset.tags = $('#tags').val();
+    
+    console.log("################################### INJECT TIME::: ", response.job.input_media_file.duration_in_ms)
+    updateAsset.duration_in_ms = response.job.input_media_file.duration_in_ms
+    
+    //// get thumbnail (first medium sized tn)
+    //var thumbnail = null
+    //$.each( response.job.thumbnails, function( i, tn ) {
+    //  if ( tn.group_label == "medium" && thumbnail === null ) {
+    //    thumbnail = 
+    //  }
+    //}
+    // this only works in this bucket :-/
+    // updateAsset.thumbnail_url = 
+
+    mapi.updateAsset({
+      asset: updateAsset,
+      success: function( response ){
+        console.log("update success")
+        saveComplete( response )
+        $('.show_upload').fadeOut('fast')
+      },
+      failure: function( response ){
+        console.log("update asset failed, ", response)
+      }
+    })
+  })
+}
+
 
 // ### Shows a warning on pageleave
 function setWarning() {    
@@ -408,11 +460,12 @@ function setWarning() {
 
 // ### Disables other input while transcoding
 function disableInput() {
-  $('input[name="input_select"]').attr("disabled", true);
-  $('#youtube_url').attr("disabled", true);
-  $('#vimeo_url').attr("disabled", true);
-  $('#asset-from-archive').attr("disabled", true);
-  $(".btn-file").attr("disabled", true);
+  console.log("disbalbeInput is depricated")
+//  $('input[name="input_select"]').attr("disabled", true);
+//  $('#youtube_url').attr("disabled", true);
+//  $('#vimeo_url').attr("disabled", true);
+//  $('#asset-from-archive').attr("disabled", true);
+//  $(".btn-file").attr("disabled", true);
 }
 
 // ### Check the state of a video
@@ -452,7 +505,7 @@ function checkState( video ) {
   //   ]
   // }
 
-
+  new_asset_job_id = video.job_id
   $.get("https://app.zencoder.com/api/v2/jobs/" + video.job_id + "/progress.json?api_key=a845e5e6788c1dc6a6b9af2bd2ce7488", function(zen_data) {          
     
     // Valid states include: pending, waiting, processing, finished, failed, and cancelled.
@@ -462,12 +515,14 @@ function checkState( video ) {
       // -- VIDEO IS WAITING ---
       if (!$('.js_progress_bars .progress .bar').hasClass('progress-bar-info')) $('.js_progress_bars .progress .bar').addClass('progress-bar-info');
       $('.js_progress_bars .progress .bar').text( "wait for transcoding" ); //t.javascript.waiting_to_be_transcoded );
+      $('.show_upload h4').text('even geduld... ' )      
       
     } else if( zen_data.state == "processing" ) {
       // -- VIDEO IS TRANSCODING ---
       if (!$('.js_progress_bars .progress .bar').hasClass('progress-bar-warning')) $('.js_progress_bars .progress .bar').addClass('progress-bar-warning progress-bar-striped active');
       $('.js_progress_bars .progress .bar').css( {'width': zen_data.progress + "%"} );
-      $('.js_progress_bars .progress .bar').text( Math.floor( zen_data.progress ) +"%"); 
+      $('.js_progress_bars .progress .bar').text( Math.floor( zen_data.progress ) +"%");
+      $('.show_upload h4').text('omzetten naar webvideo... ' + Math.floor( zen_data.progress ) +'%' ) 
       
     } else if ( zen_data.state == "finished" ) {       
       // -- VIDEO HAS FINISHED ENCODING! ---
@@ -479,27 +534,29 @@ function checkState( video ) {
       $('.js_progress_bars .progress').removeClass("active").removeClass("progress-striped");
       $('.js_progress_bars .progress .bar').css({'width': "100%"} );
       $('.js_progress_bars .progress .bar').text( "transcoding complete");//t.javascript.transcoding_complete  );
-      
-      alert('zencoding done')
-      // 1) retreive the asset data
-      // 2) switch to describe move
-      // 3) do a save for the heck of it
+      $('.show_upload h4').text('video gereed' ) 
+      showDescribeMovie()
+      updateProgramAfterZencoding( video, zen_data )
 
     } else if ( zen_data.state == "cancelled" ) {
       // -- VIDEO WAS CANCELLED ---      
       clearInterval(statecheckinterval);
       $('.js_progress_bars .progress').removeClass("active").removeClass("progress-striped").addClass("progress-bar-danger");
       $('.js_progress_bars .progress .bar').text( "transcoding cancelled" ); //t.javascript.transcoding_cancelled );
+      $('.show_upload h4').text('omzetten onderbroken' ) 
     
     } else if ( zen_data.state == "failed" ) {
       // -- VIDEO HAS FAILED ---      
       clearInterval(statecheckinterval);
       $('.js_progress_bars .progress').removeClass("active").removeClass("progress-striped").addClass("progress-bar-danger");
       $('.js_progress_bars .progress .bar').text( "trancoding failed" ); //t.javascript.transcoding_failed );
-      log("warning", "transcoding has failed!");
+      $('.show_upload h4').text("omzetten mislukt, zie \'Help\'" ) 
+      log("warning", "transcoding has failed!");      
     }
     
   }).fail(function(e) {
+    //Betere tekst!!
+    //omzetserver werkt niet, zie 'Help'
     alert( "FAILURE: Zencoder Unreachable!" ) //t.javascript.zencoder_unreachable );    
     log("error", "zencoder could not be reached for a state!");
   });
@@ -509,22 +566,15 @@ function checkState( video ) {
 // ******************************************************************
 //  UPLOADER
 // ******************************************************************
-var s3
 function initS3Oploader() {
   var provideFeedback = function ( file ) {
     $(".feedback").val( file.name );
     return true;
   };
-  
-  function doublecheckprogressbars() {
-    v = $('.js_progress_bars')
-    console.log("has progressbars?, ",v)
-    return v
-  }
-  
-  s3 = $("#s3-uploader").S3Uploader( {
+    
+  $("#s3-uploader").S3Uploader( {
     //max_file_size: 1258291200,
-    progress_bar_target: doublecheckprogressbars(),
+    progress_bar_target: $('.js_progress_bars'),
     allow_multiple_files: false,
     remove_completed_progress_bar: false,
     before_add: provideFeedback
@@ -532,9 +582,23 @@ function initS3Oploader() {
   
   // Upload start
   $('#s3-uploader').bind('s3_uploads_start', function(e) { 
-    // show the uploader, while we allow the user to input data    
+    
+    // reset the program
+    setProgram(-1)
+    
+    // clear any and all input if available
+    $('#title').val('')
+    $('#description').val('')
+    $('#tags').val('')    
+    
+    // show the uploader, while we allow the user to input data        
     showDescribeMovie( true );
     console.log("S3 HAS has an event, ", e)
+    
+    // hide everything else
+    $('.create_movie_hider').fadeIn('fast')
+    $('.show_upload h4').text('Upload Progress')
+    $('.video_describe_container #close_button').fadeOut('fast')
   });
 
   // Start Transcoding

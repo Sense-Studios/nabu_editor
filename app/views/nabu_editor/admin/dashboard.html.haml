@@ -1,22 +1,27 @@
 .contentwrapper
 
   .video_holder#video_container
+    / video
     = render :partial => "shared/player/video", locals: {height:'60vh'}
     = render partial: 'nabu_editor/admin/controls'
+    
+    / video overlays
     = render partial: 'nabu_editor/admin/create_movie'            
     = render partial: 'nabu_editor/admin/describe_movie'
+    = render partial: 'nabu_editor/admin/marqer_screen'
     = render partial: 'nabu_editor/admin/publish_movie'
-    
 
   .select_videos
     = react_component('FilterableProgramTable', { programs: @programs.reverse! } )    
+
   = render partial: 'nabu_editor/admin/describe_movie_advanced'
   = render partial: 'nabu_editor/admin/timeline_container'
   = render partial: 'nabu_editor/admin/publish_menu_container'
-  
- 
+
   / Custom javascript
   = javascript_include_tag "nabu_editor/sections" 
   = javascript_include_tag "nabu_editor/dashboard"  
   
 = render partial: 'shared/rightmenu'
+= render partial: 'nabu_editor/admin/marqer_editor_dialog'
+

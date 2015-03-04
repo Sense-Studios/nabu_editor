@@ -1,47 +1,32 @@
 #publish_menu_container.menu_editor{:style=>'display:none'}
-  
-  %h1 
-    Menu Editor
-    %small#current_menu
-      No Menu Selected
-  
-  %hr
-  
+  #publish_menu_container_overlay
+    %button#hide_menu_container_overlay.btn.btn-material-burgundy
+      Bewerk site
   =# render 'form'
   
   .row
-    .col-md-4
-      %h3 Available Programs    
-      
+    .col-md-5.menu_all_videos
       .filter
-        search: 
-        %input.form-control{:id=>"available_program_search", :type=>"text"}
-  
+        %input.form-control{:id=>"available_program_search", :type=>"text", :placeholder=>"Zoeken"}
+        %i.glyphicon.glyphicon-search.search_video_menu_icon{"aria-hidden"=> 'true'}
+        
       %hr
-  
+      
       %ul#all_available.menu-editor.drop    
-        - @programs.each do |p|    
+        - @programs.each do |p|          
           %li.new-item.ui-state-default.available_program_item{:id=>p['id']}
-            = image_tag p['thumbnail'], :class=>'thumbnail pull-left', :height=>'32px' unless p['thumbnail'].nil?
-            %span.program_title
-              %strong
-                = p['title']
-            %br
-            %small.program_title
-              = p['tags'].join(", ")     
+            = image_tag p['thumbnail'], :class=>'pull-left menu_video_image', :height=>'32px' unless p['thumbnail'].nil?
+            .program_container
+              %p.program_title= p['title'][0..40].gsub(/\s\w+$/,'...') unless p['title'].nil?
+              
+    .col-md-7.menu_all_categories
+      %button#create_category_button.btn.btn-material-burgundy
+        Maak categorie
+      %button#save_menu_button.btn.btn-material-pink
+        Bewaar
   
-    .col-md-8
-      %h3 
-        In the Menu   
-        %button#save_menu_button.btn.btn-default.pull-right
-          Save All
-  
-        %button#create_category_button.btn.btn-default.pull-right
-          Create Category
-  
-      %hr
-  
-      %ul#le_menu.menu-editor.dropfalse
+      %ul#le_menu.categories
+        .clear
   
   
   

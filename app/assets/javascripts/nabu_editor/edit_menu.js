@@ -18,10 +18,16 @@ function createCategory() {
   // header
   var cat = ""
   cat += '<li class="category_item">';
-  cat += '<h4>';
-  cat += '<input type="text" class="category_name" value="New Category">';
-  cat += '<button class="delete_category btn btn-sm btn-danger pull-right">Delete</button>';
-  cat += '</h4>';
+  cat += '<input type="text" class="category_name" placeholder="New Category">';
+  cat += '<button class="delete_category btn btn-material-custom-darkgrey">';
+  cat += '<span class="glyphicon glyphicon-remove"></span';
+  cat += '<a id="remove_categorie"></a>';
+  cat += '</button>';
+  cat += '<button class="toggle_category btn btn-material-custom-darkgrey">';
+  cat += '<span class="glyphicon glyphicon-triangle-right"></span';
+  cat += '<a id="toggle_categorie"></a>';
+  cat += '</button>';
+  cat += '<div class="clear"></div>';
   
   // list holder
   var category_id = Math.round( Math.random() * 1000000 );
@@ -54,10 +60,12 @@ function loadMenuFromData() {
     
     // header
     cat += '<li class="category_item">';
-    cat += '<h4>';
-    cat += '<input type="text" class="category_name" value="'+ value.name +'">';
-    cat += '<button class="delete_category btn btn-sm btn-danger pull-right">Delete</button>';
-    cat += '</h4>';
+    cat += '<input type="text" class="category_name" placeholder="Nieuwe categorie">';
+    cat += '<button class="delete_category btn btn-material-custom-darkgrey pull-right">';
+    cat += '<span class="glyphicon glyphicon-remove"></span';
+    cat += '<a id="remove_categorie"></a>';
+    cat += '</button>';
+    cat += '<div class="clear"></div>';
     
     // list holder
     var category_id = Math.round( Math.random() * 1000000 );
@@ -86,11 +94,14 @@ function loadMenuFromData() {
           some_item += '<small class="program_title">'
           some_item += p_value.tags.join(', ');
           some_item += '</small>'
-          some_item += '<div class="btn-group pull-right"><button class="btn btn-default item_delete_button">delete</button>'
+          some_item += '<button class="delete_category btn btn-material-white pull-right item_delete_button">';
+          some_item += '<span class="glyphicon glyphicon-remove"></span';
+          some_item += '<a id="remove_categorie"></a>';
+          some_item += '</button>';
           if ( item_value.emphasize ) {
-            some_item += '<input class="emphasize" checked type="checkbox">emphisize'
+            some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>'
           }else{
-            some_item += '<input class="emphasize" type="checkbox">emphisize'
+            some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>'
           }
           some_item += '</div></li>'
           
@@ -150,7 +161,8 @@ function setDraggables() {
   });
 
   // ### Set sortable menu-items
-  $( "#le_menu" ).sortable({      
+  $( "#le_menu" ).sortable({
+    items : 'li',      
     dropOnEmpty: true,
     sort: function(event, ui) { 
       ui.helper.css({'top' : ui.position.top + $(window).scrollTop() + 'px'}); // firefox fix
@@ -190,11 +202,12 @@ function setDraggables() {
 function initMenuItem( currentItem, id ) { 
   if ( currentItem === undefined || !currentItem.hasClass('not_new') ) {
     currentItem.prop('id', id )
-    currentItem.append('<div class="btn-group pull-right"> <button class="btn btn-default item_delete_button">delete</button><input class="emphasize" type="checkbox"> emphisize </div>');
+    currentItem.append('<button class="delete_category btn btn-material-white pull-right item_delete_button"><span class="glyphicon glyphicon-remove"></span><a id="remove_categorie"></a></button><div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>');
     currentItem.addClass('not_new');
     currentItem.find('.item_delete_button').click( function() {
       $(this).closest('li').remove();
     });
+    $.material.init();
   }
 }
 
@@ -238,3 +251,17 @@ $(function() {
   $('#save_menu_button').click( exportAndSaveMenu );
   $('#create_category_button').click( createCategory );
 });
+
+
+  // ###################################
+  // ### CLOSE OVERLAY AND SHOW MENU CONTAINER
+  // ###################################
+
+  $('#hide_menu_container_overlay').click(function() {
+    showChannelContainer();
+  });
+  
+  
+
+  
+  

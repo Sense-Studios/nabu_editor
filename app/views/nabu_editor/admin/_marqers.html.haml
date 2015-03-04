@@ -4,25 +4,14 @@
   .marqers
     .marqer_search
       %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
-      %input{"type"=>"text","placeholder"=>"Zoek"}
-    .btn.marqer_category.transition
-      %button.btn.btn-material-burgundy.marqer_category_title
-        %span.glyphicon.glyphicon-triangle-right.glyphicon-rotate
-        %span.category_title
-          Category titel
-      .plugin.btn.btn-material-white.marqer_item
-        %span.marqer_item_title
-          Marqer 1 titel
-      .plugin.btn.btn-material-white.marqer_item
-        %span.marqer_item_title
-          Marqer 2 titel
-      .plugin.btn.btn-material-white.marqer_item
-        %span.marqer_item_title
-          Marqer 3 titel
-      .plugin.btn.btn-material-white.marqer_item
-        %span.marqer_item_title
-          Marqer 4 titel
+      %input{"type"=>"text","placeholder"=>"Zoek","id"=>"zoek_marqer"}
+    
+    .marqers_holder
+      / attach your marqers here!
 
-  %button.btn.btn-material-pink.publish_button_marqers
+  %button.btn.btn-material-pink.publish_button_marqers#save_marqers
     Bewaar
     %span.glyphicon.glyphicon-chevron-right
+
+/ custom javascripts
+= javascript_include_tag "nabu_editor/marqers_rightmenu.js"

@@ -11,6 +11,10 @@ module NabuEditor
       # find me in dashboard
     end
     
+    def image
+      render layout: false
+    end
+    
     def test
       @programs = MarduqResource::ProgramDecorator.decorate_collection(MarduqResource::Program.where(client_id:  current_user.client_id)) || []  
     end
@@ -25,11 +29,82 @@ module NabuEditor
       @program.description = @program.program_items[0].asset.description
       @program.tags = @program.program_items[0].asset.tags
       # @program.tags = @program.program_items[0].asset.thumbnail_url
+
+      # TODO: get default marqers from preset file and/or database
+      some_marqer = MarduqResource::Marqer.new()
+      some_marqer.title = "Powered by Marduq"
+      some_marqer.in = 0.1
+
+      # this should come from a file
+      some_marqer.out = @program.program_items[0].asset.duration_in_ms.to_f / 1000
+      some_marqer.type = "ImageMarqer"      
+      some_marqer.program_id = @program.id      
+      some_marqer.marqeroptions = {
+        "image"=> {
+          "type"=> "file",
+          "value"=> "http://nabu.sense-studios.com/assets/nabu_editor/beeld_merk.png"
+        },
+        "title"=> {
+          "type"=> "text",
+          "value"=> "Powered by Marduq"
+        },
+        "position"=> {
+          "type"=> "select",
+          "value"=> "bottom-left",
+          "options"=> [
+            "top-left",
+            "top-center",
+            "top-right",
+            "middle-left",
+            "middle-center",
+            "middle-right",
+            "bottom-left",
+            "bottom-center",
+            "bottom-left"
+          ]
+        },
+        "size"=> {
+          "type"=> "number",
+          "value"=> "4"
+        },
+        "marge"=> {
+          "type"=> "number",
+          "value"=> "2"
+        },
+        "url"=> {
+          "type"=> "text",
+          "value"=> "http://www.marduq.tv"
+        },
+        "target"=> {
+          "type"=> "select",
+          "value"=> "_blank",
+          "options"=> [
+            "_blank",
+            "_top",
+            "_self"
+          ]
+        },
+        "classes"=> {
+          "type"=> "text",
+          "value"=> "img-maxwidth128"
+        },
+        "track_id"=> 1,
+        "trackname"=> "Track1397211705621"
+      }
+
+      # save the marqer
+      some_marqer.save()
+
+      # push it into the program
+      @program.marqers.push(some_marqer)
+
+      # differ between youtube/vimeo and own uploads
+      if @program.program_items[0].asset._type == "Video"
+        @program.program_items[0].asset.thumbnail_url = @program.program_items[0].asset.thumbnails.medium[0]
+      end
       
-      # TODO: get default marqers from preset file
-      @program.marqers = {}
-      
-      # get allthis info from the asset, and not from the program?
+      # trick the program data from the asset data
+      # this should come from a file
       @program.meta = {        
         "moviedescription"=> {
           "title"=> @program.program_items[0].asset.title,
@@ -38,7 +113,8 @@ module NabuEditor
           "thumbnail"=> @program.program_items[0].asset.thumbnail_url,
           "in-point"=> "",
           "out-point"=> "",
-          "urchin"=> ""
+          "urchin"=> "",
+          "duration_in_ms"=> @program.program_items[0].asset.duration_in_ms
         },
         
         "player_options"=> {

@@ -2,19 +2,20 @@
 
   / add a while upload class?
 
-  .button.btn.btn-material-burgundy.close_button
+  .button.btn.btn-material-burgundy.close_button#close_button
     %span.glyphicon.glyphicon-remove
-    = link_to '', { :target=>"_top"} , :id => "close_button" 
-    
+    = link_to '', 'javascript:', :id => "close_button"
+
   %h3
-    = I18n.t('admin.describe.describe_video') 
+    Beschrijf video
+    /= I18n.t('admin.describe.describe_video') 
     
   .row
     .form-horizontal.describe_form{"role"=>"form"}
 
       / I've put the bars here for now, they hide when not used (or should)
       .show_upload
-        %h4 Upload Progress
+        %h4 bezig met uploaden...
         .upload.js_progress_bars
           .progress
             .bar.progress-bar{style: 'width: 0%'}
@@ -81,7 +82,7 @@
       .row.text-center.bottom_buttons
         .btn-group.pull-right
           %button.btn.btn-material-pink.advanced_movie#advanced 
-            = link_to 'javascript:showDescribeAdvancedMovie()', :target=>"_top"  do
+            = link_to 'javascript:showDescribeAdvancedMovie()' do
               Geavanceerd
               %span.glyphicon.glyphicon-chevron-right
           %button.btn.btn-material-pink.save_movie#save_movie

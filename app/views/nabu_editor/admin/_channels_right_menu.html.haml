@@ -1,10 +1,10 @@
 .channels_container.channels
-  %h4 Kanalen
+  %h4 Site-instellingen
 
   %form  
     .form-group
       %select.dropdown_select.dropdown_channel.form-control{"placeholder" => "Select channel"}
-        %option Kies een kanaal
+        %option Kies een site
         /- @channels.each do |p|
         /  %option{:value => p['id'] }
         /    = p['title']
@@ -21,19 +21,35 @@
 
       %select.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
         %option{:disabled => "disabled" } Kies een thema
-        - @themes.each do |p|
-          %option{:value => p['id'] }= p['title']
-   
-
         - @themes.each do |t|
           /= react_component('ChannelListGroupItem', { channel: theme } )
-          %option{:value=>t.id} 
-            = t.slug
-  .form-group
-    %textarea.firstarea{"placeholder" => "Vertel hier of je channel"}
+          %option{:value=>t.id}= t.slug
+            
+      %select.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
+        %option{:disabled => "disabled" } Kies startprogramma
+        - @themes.each do |p|
+          %option{:value => p['id'] }= p['title']
+          
+      .logopreview.preview-image
+        /%img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>""}
+        .uploader_overlay
+          %span.add_logo Logo toevoegen
+          %span.glyphicon.glyphicon-plus.add_logo_icon
+        = s3_uploader_form id: "preview_logo", max_file_size: 5.megabytes do
+          = file_field_tag :file, :class => "form-control no_borders", :accept=>"image/*"
+
+      .primary_color_container
+        %h5 Kies jouw hoofdkleur
+        %p Voor accenten zoals knoppen en koppen
+        
+
+      %textarea.firstarea{"placeholder" => "Korte beschrijving site"}
     
-  .form-group
-    %textarea{"placeholder" => "Contact gegevens"}
+      %textarea{"placeholder" => "Contactgegevens site"}
+      
+  %button.btn.btn-material-pink.bekijk-website
+    = link_to 'nabu-editor/marduq_front_end_1.jpg', :target => "_blank" do
+      Bekijk website
 
   = javascript_include_tag "nabu_editor/drop_down_test"  
   :javascript

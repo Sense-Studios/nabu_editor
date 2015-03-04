@@ -1,25 +1,23 @@
 #timeLineContainer
-
-  #scrubber
-  #userInteract
-  %canvas.timeline_canvas
   
-  #tracks.ui-droppable
-    #trackline1.trackline.ui-droppable
-      .trackeventcontainer
-        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
-          %p marqer titel
-    #trackline2.trackline.ui-droppable
-      .trackeventcontainer
-        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
-    #trackline3.trackline.ui-droppable
-      .trackeventcontainer
-        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
-    #trackline4.trackline.ui-droppable
-      .trackeventcontainer
-        .marqer_item.trackevent.ui-resizable.ui-draggable{:style => "width: 30px"}
+  / temp fix
+  /:css
+  /  .btn-sm { padding: 8px 12px; }
+  /= render 'shared/admin/administration_controls'
+  
+  %canvas.timeline_canvas{:style=>"top:10px"}
+  #scrubber
+  
+  #tracks.ui-droppable.btn-material-white
+    #trackline4.trackline.ui-droppable.btn-material-grey-200
+    #trackline4.trackline.ui-droppable.btn-material-grey-200
+    #trackline4.trackline.ui-droppable.btn-material-grey-200
+    #trackline4.trackline.ui-droppable.btn-material-grey-200
+    #trackline4.trackline.ui-droppable.btn-material-grey-200
+    #trackline4.trackline.ui-droppable.btn-material-grey-200
 
-.test.plugin plugin
-
-/ Custom javascript
-= javascript_include_tag "nabu_editor/marqer_editor" 
+/ Custom javascripts
+= javascript_include_tag "nabu_editor/editor/marqers.js"
+= javascript_include_tag "nabu_editor/editor/marqer_ui_renderer.js" 
+= javascript_include_tag "nabu_editor/editor/user_interface.js"  
+= javascript_include_tag "nabu_editor/editor/main.js" 

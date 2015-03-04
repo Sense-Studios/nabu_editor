@@ -21,6 +21,8 @@ m
 
 function setDataFromProgram() {
   
+  console.log("SETTING DATA FROM PROGRAM")
+  
     // this is a new program, appearently, set meta data to descriptor
   if ( program.meta === "" || program.meta === null || program.meta === undefined ) {
     
@@ -441,6 +443,7 @@ function loadProgram() {
   }
   
   // create the program from save
+  console.log("call setting data from program")
   setDataFromProgram();
     
   // update the dataobject

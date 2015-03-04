@@ -45,6 +45,20 @@
   opacity: 0.7;
 }
 
+#marqer_editor_dialog {
+  z-index: 10000000000000000000;
+}
+
+.endtext {
+  .message {
+    color: white;
+    text-align: center;
+    padding-top: 20%;
+    font-size: 44px;
+  }
+}
+  
+
 .clear {
   clear: both;
 }
@@ -289,32 +303,49 @@ nav {
     background-color: #313131;
     transition: height 0.5s;
     .video_uploader_container {
-      position: absolute;
-      top: 10%;
-      left: 50%;
-      width: 60%;
-      height: 140px;
-      -webkit-transform: translate(-50%, -0%);
-      -moz-transform: translate(-50%, -0%);
-      transform: translate(-50%, -0%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(51,51,51,0.7);
       h1 {
         position: relative;
         color: #FFF;
         width: 100%;
+        margin-top: 90px;
         text-align: center;
         font-size: 24px;
       }
       .uploader {
         position: relative;
-        width: 100%;
+        width: 70%;
         height: 60px;
         background-color: #fff;
         color: #607D8B;
+        margin: 0 auto;
         border-bottom: solid 2px rgba(73, 73, 73, 0.34);
-        &:nth-child(3) {
+        &:nth-child(4) {
           margin-top: 10px;
           background-color: #607D8B;
           color: #fff;
+          form {
+            .feedback {
+              color: #FFF;
+              &::-webkit-input-placeholder {
+                color: #FFF;
+              }
+              &:-moz-input-placeholder {
+                color: #FFF;
+              }
+              &::-moz-input-placeholder {
+                color: #FFF;
+              }
+              &:-ms-input-placeholder {
+                color: #FFF;
+              }
+            }
+          }
         }
         form {
           position: relative;
@@ -322,6 +353,13 @@ nav {
           left: 0;
           height: 100%;
           width: 100%;
+          .click_upload {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            z-index: 9999999;
+            cursor: pointer;
+          }
         }
         input {
           width: calc(100% - 100px);
@@ -382,30 +420,16 @@ nav {
     top: 0;
     left: 0;
     background-color: rgba(51,51,51,0.7);
-    .close_button {
-      position: absolute;
-      right: 0;
-      margin: 20px;
-      font-size: 20px;
-      padding: 5px 0 0 0;
-      height: 35px;
-      width: 35px;
-      cursor: pointer;
-      a {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 999999;
-      }
-    }
+    z-index: 9002; /* only thing to go above modal*/
+    
     h3 {
       position: relative;      
       width: 100%;
+      margin-top: 40px;
       text-align: center;
       color: #FFF;
     }
+
     .row {
       margin: 0;
     }
@@ -589,12 +613,24 @@ nav {
       }
     }
   }
-  .video_publish_container {
+  
+  .marqer_screen_container {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     padding: 20px 20px 0 20px;
+    border: inset 3px red;
+    display: none !important;
+    /*pointer-events: none;*/
+  }
+
+  .video_publish_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    padding: 0 20px 0 20px;
     background-color: rgba(51,51,51,0.7);
     .publish_container {
       position: relative;
@@ -605,6 +641,7 @@ nav {
         text-align: center;     
         width: 100%;
         color: white;
+        margin-top: 15%;
       }
       > label {
         margin-top: 10px;
@@ -612,20 +649,23 @@ nav {
         padding-top: 5px;
       }
       .col {
-        height: 50px;
+        height: 55px;
         > label {
-        margin-top: 10px;
+        margin-top: 15px;
         color: #FFF;
         }
-        > input {
+        > textarea {
           margin-top: 5px;
-          height: 30px;
+          height: 40px;
           width: 100%;
           color: grey;
+          padding: 5px;
+          resize: none;
         }
         > .btn {
           width: 40px;
           height: 40px;
+          margin-top: 5px;
           padding-left: 9px;
           padding-top: 6px;
           font-size: 15px;
@@ -633,6 +673,7 @@ nav {
       }
     }
   }
+  
   .big-play {
     width:42px;
     height:42px;
@@ -822,14 +863,27 @@ nav {
   }
 }
 
+/* hide all contrals and interactions, except video_describe_container */
+.create_movie_hider {
+  position:fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(200,200,200, 0.8);
+  width:100%;
+  height:100%;
+  z-index: 9001;  
+  display: none;
+}
+
+
 .channels_container {
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: auto;
   z-index: 9000;
-  top: 180px;
+  top: 30px;
   display: none;
-  padding: 20px;
+  padding: 0 20px;
   .form-group {
     .dropdownjs {
       color: #FFF;
@@ -852,11 +906,13 @@ nav {
         color: inherit;
         padding-left: 10px;
         background-image: none;
+        background-image: none!important;
       }
       .dropdown_select_small {
         color: inherit;
-        padding-left: 5px;
+        padding-left: 10px;
         background-image: none;
+        background-image: none!important;
       }
       .dropdown_channel {
         background-color: #821b2f;
@@ -878,9 +934,84 @@ nav {
       padding: 5px;
       border: 0;
     }
+    .logopreview {
+      position: relative;
+      width: 100%;
+      min-height: 50px;
+      margin-top: 5px;
+      background-color: #FFF;
+      border: 2px dashed #616161;
+      cursor: pointer;
+      img {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;  
+        cursor: pointer;
+      }
+      .uploader_overlay {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        padding-top: 12px;
+        span {
+          color: #616161;
+        }
+        .add_logo {
+          margin: 0 10px;
+        }
+        .add_logo_icon {
+          float: right;
+          right: 15px;
+          top: 2px;
+        }
+      }
+      input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+  }
+  .primary_color_container {
+    background-color: #FFF;
+    margin-top: 10px;
+    padding: 5px;
+    h5 {
+      text-align: center;
+    }
+    .color_picker_container {
+      width: 80%;
+      margin: 0 auto;
+      .picked_color {
+        float: left;
+        width: 50%;
+        height: 50px
+      }
+      .picked_color_code {
+        float: left;
+        width: 50%;
+        height: 50px;
+      }
+    }
+    p {
+      width: 100%;
+      text-align: center;
+      color: #bdbdbd;
+    }
+  }
+  textarea {
+    margin-top: 10px;
   }
   .first-area {
-    height: 100px;
+    height: 150px;
   }
 }
 
@@ -897,6 +1028,17 @@ nav {
     position: relative;
     width: 100%;
     height: 40px;
+    .btn {
+      background-color: none!important;
+      color: #333!important;
+      width: 40px;
+      height: 40px;
+      margin: 0;
+      padding: 10px 0 0 0;
+      &:hover {
+        box-shadow: none!important;
+      }
+    }
   }
   .marqers_container {
     h3 {
@@ -1016,7 +1158,10 @@ nav {
 #timeLineContainer {
   position: relative;
   width: 100%;
+  height: 100%;
+  top: 42px;
   background-color: #FFF;
+  
   #scrubber {
     position: absolute;
     top: 0;
@@ -1025,32 +1170,38 @@ nav {
     z-index: 99999;
     background-color: #e91e63;
   }
+  
   .timeline_canvas {
     height: 20px;
     width: 100%;
     background-color: #e0e0e4;
-  }
+  }  
+  
   #tracks {
     position: relative;
-    width: 100%;
+    width: 100%;  
+    height: 100%;
     margin: 0;
     padding: 0;
+    
     .trackline {
-      height: 20px;
+      height: 20px;      
+      margin: 4px 0px;
+      box-shadow: inset 0px 2px 4px rgba(40,40,40,0.4);
       .trackeventcontainer {
         pointer-events: none;
-        position: relative;
+        position: absolute;
         width: 100%;
         height: 0%;
         .marqer_item {
           position: relative;
           display: inline-block;
           pointer-events: all;
-          height: 20px!important;
+          height: 20px !important;
           text-overflow: '';
-          padding: 0 10px;
+          /*padding: 0 10px; THIS MESSES UP THE RESIZE HANDLER*/  
           border-radius: 10px;
-          background-color: rgba(86,18,31,0.4);
+          /*background-color: rgba(86,18,31,0.4);*/
           p {
             position: absolute;
             top: 0;
@@ -1064,6 +1215,9 @@ nav {
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            a {
+              color: #FFF;
+            }
           }
           .ui-resizable-e {
             cursor: e-resize;
@@ -1109,10 +1263,192 @@ nav {
 }
 
 
+
+/* PUBLISH _____________________________________ */
+
+.menu-editor {
+  padding: 0px;
+  padding-top: 1px;
+  li {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    background-color: white;
+  }
+  img {
+    height: 100%;
+    float: left;
+  }
+  .program_container {
+    float: left;
+    padding: 5px 5px 0 5px;
+    float: left;
+    max-width: 40%;
+    max-height: 80px;
+    overflow: hidden;
+    }
+  }
+
+#publish_menu_container_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.85);
+  z-index: 999999;
+  button {
+    position: relative;
+    display: block;
+    top: 130px;
+    margin: 0 auto;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom: solid 2px rgba(73, 73, 73, 0.34);
+  }
+}
+
 #publish_menu_container {
+  margin-top: 41px;
   position: relative;
   width: 100%;
   background-color: #FFF;
+  padding: 10px;
+  .row {
+    margin: 0;
+    .menu_all_videos {
+      padding: 15px;
+      position: relative;
+      background-color: #959595;
+      input {
+        position: relative;
+        float: left;
+        height: 40px;
+        width: 100%;
+        padding-left: 35px;
+        border-bottom: solid 2px rgba(73, 73, 73, 0.34);
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        background-image: none!important;
+        &:focus{
+          background-image: none!important;
+        }
+      }
+      .search_video_menu_icon {
+        position: absolute;
+        z-index: 1000;
+        top: 23px;
+        left: 23px;
+        opacity: 0.5;
+        font-size: 20px;
+      }
+    }
+    .menu_all_categories{
+      padding: 0 0 0 10px;
+      .categories {
+        min-height: 120px;
+        padding: 0;
+        .category_item {
+          background-color: #343434;
+          padding: 10px;
+          list-style: none;
+          margin-bottom: 10px;
+          padding: 0;
+          
+          button {
+            background-color: #831a2e!important;
+            margin-top: 5px!important;
+            margin-right: 5px!important;
+            border-radius: 0px!important;
+          }
+          
+          input[type="text"] {
+            height: 40px;
+            width: calc(100% - 100px);
+            float: left;
+            padding-left: 10px;
+            color: #333;
+            font-weight: 400;
+            background-color: #FFF;
+            background-size: 200% 100%;
+            background-image: linear-gradient(to right, #FFF 50%, #616161 50%);
+            transition: background-position 0.5s, color 0.5s;
+            margin: 5px 5px 0 5px;
+            border: 0;
+            &::-webkit-input-placeholder {
+              color: #333;
+            }
+            &:-moz-input-placeholder {
+              color: #333;
+            }
+            &::-moz-input-placeholder {
+              color: #333;
+            }
+            &:-ms-input-placeholder {
+              color: #333;
+            }
+            &:focus {
+              background-position: -100% 0;
+              color: #FFF;
+              &::-webkit-input-placeholder {
+                color: #FFF;
+              }
+              &:-moz-input-placeholder {
+                color: #FFF;
+              }
+              &::-moz-input-placeholder {
+                color: #FFF;
+              }
+              &:-ms-input-placeholder {
+                color: #FFF;
+              }
+            }
+          }
+          button {
+            padding: 0;
+            width: 40px;
+            margin: 0;
+            height: 40px;
+            float: left;
+            span {
+              font-size: 20px;
+              color: #FFF
+            }
+          }
+          ul {
+            padding: 0px 10px 40px 10px;
+            min-height: 80px;
+          }
+        }
+        .category {
+          li {
+            button {
+              background-color: #FFF!important;
+              &:hover {
+                box-shadow: none!important;
+              }
+              span {
+                color: #821b2f!important;
+              }
+            }
+          }
+          .togglebutton {
+            position: absolute;
+            bottom: 2px;
+            right: 5px;
+            label{
+              span {
+                margin-left: 20px;
+              }
+            }
+          }
+        }
+      } 
+    }
+  }
 }
 
 
@@ -1155,12 +1491,16 @@ nav {
 }
 
 .btn-material-burgundy-dark {
-  background-color: #4B0818!important;
+  background-color: #a51b2f!important;
   color: #FFF!important;
   font-weight: 500!important;
 }
 
-
+.btn-material-burgundy-controls {
+  background-color: #821a2e!important;
+  color: #FFF!important;
+  font-weight: 500!important;
+}
 
 .btn-material-custom-darkgrey {
   background-color: #343434!important;
@@ -1248,4 +1588,35 @@ nav {
 .dropdown_select_small {
   height: 35px!important;
   margin-bottom: 1px;
+}
+
+.close_button {
+  position: absolute;
+  right: 0;
+  margin: 20px;
+  font-size: 20px;
+  padding: 5px 0 0 0;
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+  a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 999999;
+  }
+}
+
+
+.bekijk-website {
+  position: relative;
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  a {
+    color: #FFF;
+  }
+ 
 }

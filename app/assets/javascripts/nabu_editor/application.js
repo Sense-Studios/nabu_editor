@@ -56,7 +56,7 @@
 //= require image-picker/image-picker
 // require slider/bootstrap-slider
 
-// DRAG-DROP helper
+// DRAG-DROP helper (not used)
 // require interact/interact.js
 
 // JQUERY HELPERS
@@ -82,7 +82,6 @@
 // require highcharts/modules/exporting.js
 // require oocharts/oocharts.js
 
-
 // MARDUQ
 //= require marduq_api/marduq_api
 //= require marduq/utils
@@ -93,11 +92,6 @@
 // require marduq/editor
 //= require marduq/marqers/MarqerPrototype
 //= require marduq/marqer_definitions.js
-
-//= require marduq/marqers/TitleMarqer
-//= require marduq/marqers/ImageMarqer
-//= require marduq/marqers/HtmlCssMarqer
-//= require marduq/marqers/TitleMarqer
 
 //= require marduq/marqers
 //= require marduq/controls

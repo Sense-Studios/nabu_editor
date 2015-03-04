@@ -1,0 +1,62 @@
+{
+  "id": "539e352d64657605cf130000",
+  "title": "Powered by Movietrader",
+  "type": "ImageMarqer",
+  "in": 0.1,
+  "out": 304,
+  "program_id": "539e352864657605cf0b0000",
+  
+  "marqeroptions": {
+    "image": {
+      "type": "file",
+      "value": "http://movietrader.sense-studios.com/assets/movietrader_logo_video.png"
+    },
+    "title": {
+      "type": "text",
+      "value": "Powered by Movietrader"
+    },
+    "position": {
+      "type": "select",
+      "value": "bottom-left",
+      "options": [
+        "top-left",
+        "top-center",
+        "top-right",
+        "middle-left",
+        "middle-center",
+        "middle-right",
+        "bottom-left",
+        "bottom-center",
+        "bottom-left"
+      ]
+    },
+    "size": {
+      "type": "number",
+      "value": "20"
+    },
+    "marge": {
+      "type": "number",
+      "value": "2"
+    },
+    "url": {
+      "type": "text",
+      "value": "http://www.movietrader.nl"
+    },
+    "target": {
+      "type": "select",
+      "value": "_blank",
+      "options": [
+        "_blank",
+        "_top",
+        "_self"
+      ]
+    },
+    "classes": {
+      "type": "text",
+      "value": "img-maxwidth128"
+    },
+    "track_id": 1,
+    "trackname": "Track1397211705621"
+  },
+  "asset": null
+}

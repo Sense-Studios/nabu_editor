@@ -2,14 +2,14 @@
   .well
     .form-group
       %h4 
-        Advanced Settings
+        Beschrijf video
       
       .col-md-6
         .form-group
           %label.control-label= I18n.t('admin.describe.social.share.title_label')
           %input#social-title.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.title_placeholder')}
         .form-group
-          %label.control-label= I18n.t('admin.describe.social.share.url_label')
+          %label.control-label Link
           %input#social-url.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.url_placeholder')}
         %button#autofill.btn.btn-material-pink.btn-sm= I18n.t('admin.describe.social.autofill')
       .col-md-6
@@ -18,7 +18,7 @@
           %textarea#social-description.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.description_placeholder'), "rows"=>'8'  }
       .clear
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie Save
+        .button.btn.btn-material-pink.pull-right#save_movie Bewaren
       .clear
       /  %h4= I18n.t('admin.describe.social.share_title')
       /  .form-group           
@@ -57,7 +57,8 @@
       
   .well
     %h4
-      = I18n.t('admin.describe.movie_end.on_movie_end')
+      Bezoekersopties (einde video)
+      /= I18n.t('admin.describe.movie_end.on_movie_end')
     -# Just before the movie end -#= I18n.t('admin.describe.movie_end.on_movie_end')
     
     .form-group
@@ -78,12 +79,13 @@
           %input{"type"=>"checkbox", "name"=>"show-opt-in", "id"=>"show-opt-in" }
           = I18n.t('admin.describe.movie_end.show_opt_in')
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie Save
+        .button.btn.btn-material-pink.pull-right#save_movie Bewaren
       .clear
           
   .well
     %h4
-      = _t('admin.describe.movie_end.on_end_of_file')          
+      Na afspelen...
+      /= _t('admin.describe.movie_end.on_end_of_file')          
     .form-group
       .radio
         %label 
@@ -112,5 +114,5 @@
         %br
         %textarea#movie-end-text.form-control{"placeholder"=> I18n.t('admin.describe.movie_end.show_text_placeholder')}
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie Save
+        .button.btn.btn-material-pink.pull-right#save_movie Bewaren
       .clear

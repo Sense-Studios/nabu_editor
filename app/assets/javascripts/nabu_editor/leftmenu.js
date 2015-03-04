@@ -1,5 +1,8 @@
 $(document).ready(function() {
    
+   $
+   
+   
   //toggle nav width
   var widthtoggle = 0; 
   $(".hide_left_menu").click(function(){

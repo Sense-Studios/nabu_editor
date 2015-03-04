@@ -213,7 +213,7 @@ var SearchBar2 = React.createClass({
                   onChange={this.handleChange}
               />
               <div className='video_count' > 
-                <span className='numvideos'> 0 </span><p>video s</p>
+                <span className='numvideos'> 0 </span><p>video&#39;s</p>
               </div>                
             </form>
         );
