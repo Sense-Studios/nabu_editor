@@ -36,16 +36,6 @@ var createNewMarqer = function( type, name, event ) {
 
 var updateMarqer = function( marqer ) {
   console.log("updateMarqer", marqer )
-    //    mapi.deleteMarqer({
-  //        marqer: marqer,
-  //        success: function(response) {
-  //            console.log("deletion gelukt!", response);
-  //            preview();
-  //        },
-  //        failure: function(response) {
-  //            console.log("deletion faal!", response);
-  //        }
-  //    });
   mapi.updateMarqer({ 
     marqer: marqer, 
     success: function(){ 
@@ -60,12 +50,12 @@ var updateMarqer = function( marqer ) {
 
 // updateMarqers()
 var updateMarqerFromTimeLine = function( e, u ) {
-  
+  // updateMarqer(m)
 }
 
 var updateMarqersFromTimeLine = function( marqers ) {
   $.each( marqers, function() { 
-    //updateMarqerFromTimeLine( marqer.event, marquer.ui )
+    // updateMarqerFromTimeLine( marqer.event, marquer.ui )
   })
 }
 
@@ -101,92 +91,11 @@ var getMarqerById = function( id ) {
 // PREVIEW
 // *****************************************************************************
 
+// yes, this redraws everything it gets from the server
 var preview = function( _m ) {
   if ( _m === undefined ) _m = marqers;
   console.log("reset marqers", $('#feedback').val());
   resetMarqers();
   setMarqers( _m, pop.duration() );
   convertMarqersIntoTrackevents( _m );  
-}
-
-  
-   // *****************************************************************************
-    // SAVE
-    // *****************************************************************************
-var save = function() {
-  var mapi = new MarduqApi();
-
-  $('.save-butt').append('<span class="loader"></span>');
-
-  // split in new marqers and existing marqers
-  var newMarqers = [];
-  var savedMarqers = [];
-  $.each(m, function(key, value) {
-      if (value.remote_id !== undefined && value.remote_id != "-1") {
-          savedMarqers.push(value);
-      } else {
-          newMarqers.push(value);
-      }
-  });
-
-  var saved = 1;
-
-  function checkSaveComplete(_num) {
-      console.log("check save", _num, m);
-      if (_num >= m.length) {
-          console.log("save complete!");
-
-          // auto reload, to avoid colissions     
-          // location.reload();
-      }
-  }
-
-  $.each(savedMarqers, function(key, savedMarqer) {
-      var marqer = {};
-      marqer.remote_id = savedMarqer.remote_id;
-      marqer.program_id = program_id;
-      marqer.type = savedMarqer.type;
-      marqer. in = savedMarqer. in ;
-      marqer.out = savedMarqer.out;
-      marqer.marqeroptions = savedMarqer.marqeroptions;
-      marqer.title = savedMarqer.marqeroptions.title.value;
-
-      mapi.updateMarqer({
-          marqer: marqer,
-          success: function(response) {
-              console.log("update gelukt!", response);
-              checkSaveComplete( saved++ );
-          },
-          failure: function(response) {
-              console.log("update faal!", response);
-              checkSaveComplete( saved++ );
-          }
-      });
-  });
-
-  $.each(newMarqers, function(key, newMarqer) {
-      var marqer = {};
-      marqer.program_id = program_id;
-      marqer.type = newMarqer.type;
-      marqer. in = newMarqer. in ;
-      marqer.out = newMarqer.out;
-      marqer.marqeroptions = newMarqer.marqeroptions;
-      marqer.title = newMarqer.marqeroptions.title.value;
-
-      mapi.createMarqer({
-          marqer: marqer,
-          success: function(response) {
-              console.log("creation gelukt!", response);
-              checkSaveComplete( saved++ );
-          },
-          failure: function(response) {
-              console.log("creation faal!", response);
-              checkSaveComplete( saved++ );
-          }
-      });
-  });
-
-  // reload location
-  // location.reload();
-  // preview()
 }

@@ -1,8 +1,4 @@
-var update = function() {
-  // walk through the tracklines and 
-  // stack them back into marqers
-}
-
+// helper 
 var convertMarqersIntoTrackevents = function( m, select_id ) {
   $('#tracks').html('') // reset
   if ( m === undefined ) m = program.marqers  
@@ -16,10 +12,10 @@ var convertMarqersIntoTrackevents = function( m, select_id ) {
 // TrackEvent Handlers
 /////_________________________________________________________________
 
-var ids = 1000000 // local id
+var ids = 1000000 // local id start
 var createTrackEvent = function( marqer, trackline, select_id ) {
   
-  // get the necc. infor from the marqer
+  // get the necc. information from the marqer
   var name, type, remote_id, l, w
   if ( marqer !== undefined ) {
     name = marqer.title
@@ -35,7 +31,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   // create a local id  
   ids++
 
-  // create the element
+  // create the trackevent element
   var html = '';
   html += '<div class="trackeventcontainer">';
   html += ' <div class="marqer_item trackevent btn-material-burgundy" data-remote_id="'+remote_id+'" id="'+ ids + '" data-type='+type+' data-name="'+name+'" style="left: '+l+'; width: '+w+';">';
@@ -60,14 +56,13 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
 };
 
 var selectMarqer = function() {
-  
+  console.log('Select Marqer');
 }
 
 var deleteTrackEvent = function( trackevent ) {
-  console.log('DELETE!');
+  console.log('Delete Track Event');
 };
 
-var holder
 var addInteractionToTrackEvent = function() {
   
   // make it resizable
@@ -95,7 +90,10 @@ var addInteractionToTrackEvent = function() {
     containment: '#tracks',
     cursorAt: { bottom : 24 },
     start: function( event, ui ) {
-      // save original trackline?
+      // save original trackline ?
+    },
+    drag: function( event, ui ) {
+      
     },
     stop: function( event, ui ) { 
       var m = getMarqerById( $( ui.helper.context ).data('remote_id') )      
@@ -105,18 +103,21 @@ var addInteractionToTrackEvent = function() {
       m.in = ( l / t )* pop.duration()
       m.out = ( ( l + w ) / t ) * pop.duration()
       m.remote_id = m.id
+      // m.trackline = currentTracklinePosition // also this is z sorting
       updateMarqer(m)
     }
   });
 
+  // enable the buttons
+  // Edit
   $('#' + ids + ' .edit_button').click(function( e ) {       
     showMarqerInfoFromTrackEvent( e, $(this).parent().parent() )
   })
   
+  // Delete
   $('#' + ids + ' .delete_button').click(function( e ) {       
     deleteMarqer( getMarqerById( $(this).data('remote_id') ) )
   })
-
 };
 
 ////
@@ -128,9 +129,9 @@ var createTrackLine = function ( marqer ) {
   var html = ""
   var id = 'trackline_' + Math.round((Math.random() * 100000))
   html += '<div id="'+id+'" class="trackline ui-droppable btn-material-grey-400"></div>'
-  $('#tracks').append(html)
-  addInteractionToTrackLine( id )  
-  return $('#' + id)
+  $('#tracks').append( html );
+  addInteractionToTrackLine( id );
+  return $( '#' + id );
 };
 
 var setTrackLineSelection = function() {  
@@ -147,7 +148,8 @@ var addInteractionToTrackLine = function( id ) {
     accept: ".plugin",
     drop: function( event, ui ) { 
       console.log('drop on trackline');
-      droppedOnTrackLine( event, ui );      
+      droppedOnTrackLine( event, ui );     
+      // update marqer track id, for z-sorting etc. 
     }
   });
 }
@@ -182,8 +184,6 @@ var droppedOnScreen = function(event, ui) {
   console.log(" 3. droppedonscreen", event, ui);
   createNewMarqer( $(ui.draggable).data('type'), $(ui.draggable).data('name'), event );
 };
-
-/* marqer_screen_container */
 
 var scrubberClicked = false
 var createScrubbar = function() {
@@ -224,6 +224,14 @@ var createScrubbar = function() {
     $('#scrubber').css('left',  event.pageX - $('#tracks').offset().left );
     pop.currentTime(( ( event.pageX - $('#tracks').offset().left  ) /  $('#tracks').width() ) * pop.duration() );
   });
+}
+
+////
+// Setup for the Screen editor, this is in prototype
+/////_________________________________________________________________
+
+var startScreenEditor = function() {
+  
 }
 
 ////
