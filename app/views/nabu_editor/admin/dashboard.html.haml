@@ -1,8 +1,10 @@
 .contentwrapper
 
   .video_holder#video_container
+    / small video description
+    = render partial: 'nabu_editor/admin/small_video_description'
     / video
-    = render :partial => "shared/player/video", locals: {height:'60vh'}
+    = render :partial => "shared/player/video"
     = render partial: 'nabu_editor/admin/controls'
     
     / video overlays

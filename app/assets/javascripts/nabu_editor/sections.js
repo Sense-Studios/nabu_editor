@@ -5,22 +5,51 @@ shapeshiftOptions
 postMetaData
 
 */
+var marqerToggled;
 
 // THIS DOCUMENT NEEDS CLEAN UP!
 
 // TODO: Rewrite to: toggleVideo
 var animateVideoUp = function() { 
-  $('.video_holder').animate({'height':'10vh' }, 540);  
-  $('#video_frame').animate({'width': '22vh' }, 540);        
+  smallvideo = true;
+  
+  var opacity = 0;
+  toggle_overlays( opacity );
+  
+  marqerToggled = 0;
+  toggleMarqers( marqerToggled );
+  
+  $('.video_holder').animate({'height':'150px' }, 540);  
+  $('#video_frame').animate({'width': '24vh' }, 540);        
   $('#video_frame').animate({'margin-right': '20px' }, 540);
-  $('#video_frame').css({"float": "right"});
+  $('#video_frame').css('margin-top', '1%');
+  $('#video_frame').css('height', '90%');
+  $('#video_frame').css("float", "right");
+  setTimeout( function() { $('.small_video_description').fadeIn('slow'); }, 600);
 };
 
 var animateVideoDown = function() { 
-  $('.video_holder').animate({'height':'60vh' }, 400);
-  $('#video_frame').animate({'width': '100%' }, 540, function() { $('#video_frame').css({"float": "inherit"}) } );
+  smallvideo = false;
+  
+  var opacity = 1;
+  toggle_overlays( opacity );
+  
+  marqerToggled = 1;
+  toggleMarqers( marqerToggled );
+  
+  resize_aspect_ration_change(); 
+  $('#video_frame').animate({'width': '100%' }, 540, function() { $('#video_frame').css({"float": "right"}) } );
   $('#video_frame').animate({'margin-right': '0' }, 100);
+  $('#video_frame').css('margin-top', '0');
+  $('#video_frame').css('height', '100%' );
+  $('.small_video_description').fadeOut('fast');
 };
+
+var toggle_overlays = function( opacity ) {
+    $('.video_uploader_container').fadeOut();
+    $('.video_describe_container').fadeOut();
+    $('.video_publish_container').fadeOut();
+}
 
 //Hide Sections 
 var hideCreateMovie = function() {
@@ -57,7 +86,8 @@ var hideVideoContainer = function () {
 var hideMarqersRightMenu = function () {
   if ( $(".marqers_container").is(':visible' ) ) {
     $('.marqers_container').fadeOut('fast');
-    $('#timeLineContainer').fadeOut('fast');
+    $('.zoomContainer').fadeOut('fast');
+    $('.tracklineOptionsContainer').fadeOut('fast');    
     $('#screen').fadeOut('fast');
   }
 };
@@ -66,9 +96,11 @@ var hideMarqersRightMenu = function () {
 var showMarqersRightMenu = function () {
   if ( $(".marqers_container").is(':hidden' ) ) {
     $('.marqers_container').fadeIn('fast');
-    $('#timeLineContainer').fadeIn('fast');
+    $('.zoomContainer').fadeIn('fast');
+    $('.tracklineOptionsContainer').fadeIn('fast');    
     $('#screen').fadeIn('fast');
     setTimeout( function() { createScrubbar() }, 600 );
+    setTimeout( function() { preview() }, 1200 );
   }
 };
 
@@ -98,6 +130,14 @@ var hideHelpers = function () {
 };
 
 
+var toggleMarqers = function( marqerToggled ) {
+  if(marqerToggled == 1) {
+    $('.marqer').fadeIn();
+  } else if(marqerToggled == 0) {
+    $('.marqer').fadeOut();
+  }
+};
+
 
   // ###########################################
   // ### TOGGLE CHANNELS SCREEN WITH OVERLAY
@@ -114,7 +154,6 @@ function showChannelContainer() {
   $('.helpers').fadeOut('fast');
   $('.channels_container').show("slide", { direction: "right" }, 500);
   $('.video_publish_container').fadeOut('fast');
-  $('#video_frame').css('opacity', '1');
   animateVideoUp();
 };
 
@@ -125,14 +164,12 @@ var showCreateMovie = function( force, with_upload ) {
 
   if( $('.video_uploader_container').is(':visible') ) {
     $('.video_uploader_container').fadeOut('fast');
-    $('#video_frame').animate({'opacity':'1'});
     if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');  
 
   }else{
-    //$('#butt-down').trigger('click')
+    $('#butt-down').trigger('click');
     $('.video_uploader_container').fadeIn('slow');
     $('.video_describe_container').hide();
-    $('#video_frame').animate({'opacity':'0.4'});
     $('#nabu_controls').fadeOut('slow');
     $('.select_videos').fadeIn();
     $('#create_butt').removeClass('btn-material-blue-grey');
@@ -149,7 +186,11 @@ var showCreateMovie = function( force, with_upload ) {
     showHelpers();
     showVideosAlways();
     hideChannelContainer();
-    animateVideoDown();        
+    marqerToggled = 0;
+    toggleMarqers( marqerToggled );
+    if ($('.video_frame').height() > 150) {
+      animateVideoDown();
+    };        
     //$('.big-play').addClass('hidden')
   }
   
@@ -184,17 +225,18 @@ var showDescribeMovie = function( with_upload ) {
   if ( $('.video_describe_container').is(':visible') ) {
     $('.video_describe_container').fadeOut('fast');    
     if (controlsAreVisible) $('#nabu_controls').fadeIn('fast'); 
-    $('#video_frame').animate({'opacity':'1'});
+
     //$('.select_videos').fadeIn()
 
   }else{
-    //$('#butt-up').trigger('click')
+    $('#butt-down').trigger('click');
     $('.video_describe_container').fadeIn('slow');
     $('.video_uploader_container').hide();
     //$('.select_videos').hide()
     $('#nabu_controls').fadeOut('slow');
     $('#describe_butt').removeClass('btn-material-blue-grey');
     $('#describe_butt').addClass('btn-material-pink');
+
     
     // attach save
     $('#save_movie').unbind('click');
@@ -209,7 +251,11 @@ var showDescribeMovie = function( with_upload ) {
     hideChannels();
     showHelpers();
     showVideosAlways();
-    animateVideoDown();    
+    marqerToggled = 0;
+    toggleMarqers( marqerToggled );
+    if ($('.video_frame').height() > 150) {
+      animateVideoDown();
+    }
 
     $('#advanced').unbind('click');
     $('#advanced').click( showDescribeAdvancedMovie );
@@ -251,6 +297,7 @@ var showSettingsMovie = function() {
   $('#settings_butt').removeClass('btn-material-blue-grey');
   $('#settings_butt').addClass('btn-material-pink');
   
+  
   hideChannels();
   hideChannelContainer();
   hideCreateMovie();
@@ -259,7 +306,11 @@ var showSettingsMovie = function() {
   hideDescribeAdvancedMovie();
   hidePublishMovie();
   hideHelpers();
-  animateVideoDown();
+  marqerToggled = 1;
+  toggleMarqers( marqerToggled );
+  if ($('.video_frame').height() > 150) {
+    animateVideoDown();
+  }
   
   setTimeout( function () { showMarqersRightMenu() }, 500);  
   if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');    
@@ -274,8 +325,8 @@ var showPublishMovie = function() {
     $('.video_publish_container').fadeOut('fast');       
     $('#publish_butt').removeClass('btn-material-pink');
     $('#publish_butt').addClass('btn-material-blue-grey');
-    $('#video_frame').animate({'opacity':'1'});
   }else{
+    $('#butt-down').trigger('click');
     $('.video_publish_container').fadeIn('fast');
     $('#publish_butt').removeClass('btn-material-blue-grey');
     $('#publish_butt').addClass('btn-material-pink');
@@ -288,7 +339,11 @@ var showPublishMovie = function() {
   hideDescribeMovie();
   hideMarqersRightMenu();
   showChannels();
-  animateVideoDown();
+  if ($('.video_frame').height() > 150) {
+    animateVideoDown();
+  }
+  marqerToggled = 0;
+  toggleMarqers( marqerToggled );
   hideChannelContainer()
   // showMenuEditor()
   

@@ -54,8 +54,8 @@ $(document).ready(function() {
       widthtoggle = 0;
     }
     // update shapeshift
-    setTimeout( function() { $(".leprograms").trigger("ss-rearrange")           } , 300 );
-    setTimeout( function() { $('.leprograms').shapeshift(shapeshiftOptions()   )} , 700 );
+    setTimeout( function() { if ( $(".leprograms").is(":visible") ) $(".leprograms").trigger("ss-rearrange")           } , 300 );
+    setTimeout( function() { if ( $(".leprograms").is(":visible") ) $('.leprograms').shapeshift(shapeshiftOptions()   )} , 700 );
 
   });  
 });

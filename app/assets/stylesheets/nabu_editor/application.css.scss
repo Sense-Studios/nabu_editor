@@ -18,7 +18,7 @@
 @import "bourbon";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "bootstrap/theme";
+/* @import "bootstrap/theme"; */
 @import "bootstrap-fileinput/bootstrap-fileinput";
 
 //  OPTIONAL
@@ -31,3 +31,4 @@
 //  @import "videoplayer";
 
 @import "marqers";
+@import "editor-marqers";

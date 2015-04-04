@@ -1,0 +1,25 @@
+*theme_name*
+generate theme *theme_name*
+
+
+config/initializers/00_settings.rb
+  NABU_THEMES_AVAILABLE_THEMES. add *theme_name*
+
+config/initializers/*theme_name*.rb
+  *THEMENAME*_DEFAULT_SETTINGS = "{}"
+
+app/views/layouts/nabu_themes/*theme_name* (dir only)
+app/views/nabu_themes/*theme_name*
+  _controls.html.haml
+  index.html.haml
+  _latestvideos.html.haml
+  _moviedescription.html.haml
+
+app/view/controller/nabu_themes/*theme_name*
+  *theme_name*.rb
+
+assets/javascripts/nabu_themes/*theme_name*
+  *theme_name*.js
+
+assets/stylesheets/nabu_themes/*theme_name*
+ *theme_name*.css.scss

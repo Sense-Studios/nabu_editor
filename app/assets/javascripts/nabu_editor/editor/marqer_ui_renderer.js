@@ -1,49 +1,90 @@
-var showMarqerInfoFromTrackEvent = function( e, that ) {
-  
-  // set the header
-  $('.modal-title').html( '<span>' + $(that).data('name') + ' <small> '+$(that).data('type')+' </small></span>' )
-  
-  // clear the body
-  $('#marqer_editor_dialog .modal-body').html('')    
-  
-  // render in/out editor
-  // html += renderInOutEditor( that ) 
 
+
+
+/////
+/// MARQER MODAL RENDERER (for the editor)
+////////////////_______________________________________________________________________
+
+// Modal Translation Helper
+var translateKey = function(key) {
+  var returnkey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+  var translations = {
+    'title': 'Titel',
+    'css': 'Opmaak(css)',
+    'classes': 'Classen',
+    'html': 'Markup(html)',
+    'original': 'Origineel',
+    'position': 'Positie',
+    'image': 'Plaatje',
+    'audio': 'Geluidje',
+    'url': 'Link',
+    'rss_url': 'RSS-Feed',
+    'target': 'Doel',
+    'code': 'Code',
+    'number': 'Nummer',
+    'hashtags': '#Hashtags',
+    'person': '@Persoon',
+    'help': 'Informatie',
+    'time': 'tijd',
+    'mp3': 'mp3',
+    'radio': 'radio'
+  };
+
+  var trykey = null;
+  trykey = translations[key];
+  if ( trykey !== null ) returnkey = trykey;
+  return trykey;
+}
+
+var showMarqerInfoFromTrackEvent = function( e, that ) {
+  // stop it!
+  stopStreenEditor()
+
+  // set the header
+  $('.modal-title').html( '<span>' + $(that).data('name') + '</span>' )
+
+  // clear the body
+  $('#marqer_editor_dialog .modal-body').html('')
+
+  // render in/out editor
+  // html += renderInOutEditor( that )
   var someMarqer = getMarqerById( $(that).data('remote_id') )
-  
+
   // this is needed for some depricated
   // issues from the old days, right now we only use
   // remote ids
   someMarqer.remote_id = someMarqer.id
-  
+
   // failsafe
   if ( someMarqer === null ) {
-    console.log("WARNING: marqer nog found")
+    console.log("WARNING: marqer not found")
     return;
   }
 
   // traverse through the option/value pairs of the marqer
   $.each( someMarqer.marqeroptions, function(key, element ) {
-    
-    // set context for parser, 
-    // find the templates in /assets/javascripts/templates    
+
+    // set context for parser,
+    // find the templates in /assets/javascripts/templates
     var context = {
       key: key,
       element: element,
-      label: key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
+      label: translateKey(key), //key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
       rand_id: (+new Date()) // use remote id ?
     };
+
+    console.log("--> render marqer elements KEY: ", key )
 
     // extra's (unit renders a value after a textfield)
     if ( element.unit ) context.unit = element.unit;
 
     // render the output through handlebars, http://handlebarsjs.com/ => /dir/file(object)
-    // find the templates in /assets/javascripts/templates        
+    // find the templates in /assets/javascripts/templates
     var output = ''
     try {
-      output = HandlebarsTemplates['marduq/editor/' + element.type](context);
+      output = HandlebarsTemplates[ element.type ](context);
     } catch (err) {
-      // console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
+      console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
       return
     }
 
@@ -53,66 +94,95 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     // start post rendering, after the html has been appended
     postRender( someMarqer, context )
   });
-  
-  // set the change handlers            
-  $('input.form-control').on('input', function(e) {
-    if ( $(this).hasClass("list-input" ) ) return;
-    someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
-  });    
-  $('input.form-control').change(function(e) {     
+
+  // set the change handlers
+  $('#marqer_editor_dialog input.form-control').on('input', function(e) {
     if ( $(this).hasClass("list-input" ) ) return;
     someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
   });
-  $('textarea.form-control').on('input', function(e) {
+
+  $('#marqer_editor_dialog input.form-control').change(function(e) {
+    if ( $(this).hasClass("list-input" ) ) return;
     someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
   });
-  $('select.form-control').change(function(e) {
+
+  $('#marqer_editor_dialog textarea.form-control').on('input', function(e) {
     someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
   });
-  
-  // attach save and delete
+
+  $('#marqer_editor_dialog select.form-control').change(function(e) {
+    someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
+  });
+
+  // attach save
   $('#modal_save_button').unbind('click')
   $('#modal_save_button').click( function(e){ updateMarqer(someMarqer) })
+
+  // attach delete
   $('#modal_delete_button').unbind('click')
   $('#modal_delete_button').click( function(e){ deleteMarqer(someMarqer) })
 
   // show the modal
-  $('#marqer_editor_dialog').modal('toggle'); 
-  
+  $('#marqer_editor_dialog').modal('toggle');
+
   // give the track event a 'selected' state
   // selectTrackEvent(this)
 }
 
-var postRender = function( someMarqer, context ) {
-  
   //////
   /// POST RENDER
   //////////___________________________________________________________________________
 
   // post render contains functions that are initialized
-  // AFTER the HTML is appended, it then proceeds to add 
-  // interaction and callbacks to that element  
-  
+  // AFTER the HTML is appended, it then proceeds to add
+  // interaction and callbacks to that element based on its key
+
+
+var postRender = function( someMarqer, context ) {
+
   var key = context.key
   var element = context.element
-  
+
   var post_renders = {
     text: function() {
       // there is nothing here
     },
-    
+
     code: function() {
       // there is nothing here
+      var editor = ace.edit( key + "_editor" );
+      editor.setTheme("ace/theme/twilight");
+      editor.getSession().setMode("ace/mode/" + element.language );
+      editor.setValue( element.value );
+      editor.on("change", function(e){
+        element.value = editor.getValue();
+      });
     },
 
     // select
     select: function() {
-        $('#' + key + '_field').val( element.value );
-        $('#' + key + '_field').change(function() {
-            setTimeout(preview, 400);
+      setTimeout( function() {
+        $('.dropdown_select').dropdown();
+        $('.dropdownjs ul li').click(function() {
+          var selectedvalue = $(this).attr('value');
+          var selected = $(this).parent().parent().prev('.dropdown_select');
+          setTimeout( function() {
+            $(selected[0]).find('option').removeAttr('selected');
+            $(selected[0]).val($(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
+            $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
+            $('#' + key + '_field').val( element.value );
+            $('#' + key + '_field').change(function() {
+              setTimeout(preview, 400);
+            });
+          }, 100);
         });
+      }, 200)
     },
-  
+
+    radio: function() {
+      $("input[name=target][value=" + element.value + "]").prop('checked', true);
+    },
+
     // colorpicker
     colorpicker: function() {
       $('#' + context.rand_id).colorpicker();
@@ -121,14 +191,14 @@ var postRender = function( someMarqer, context ) {
           someMarqer.elements[$('#' + context.rand_id).find('input').attr('data-key')].value = c;
       });
     },
-  
+
     // Number steppers
-    number: function() {        
+    number: function() {
       $('#' + key + '_field').change(function() {
         preview();
       }); // don't hammer the server :p
     },
-    
+
     // title/ Url lists (for menus and such)
     list: function() {
 
@@ -136,7 +206,7 @@ var postRender = function( someMarqer, context ) {
         var item_array = [];
         $.each( $('li.list-input-item'), function( key, value ) {
           var current = {};
-  
+
           // TODO, make it that you can add more input
           current.title = $(this).find('input:eq(0)').val();
           current.url = $(this).find('input:eq(1)').val();
@@ -147,45 +217,46 @@ var postRender = function( someMarqer, context ) {
           // current.flag2 = $(this).find('input:eq(4)').val();
           item_array.push( current );
         });
-  
-        someMarqer.elements["items"].value = item_array;  
+
+        someMarqer.elements["items"].value = item_array;
       }
-      
-      function appendItemToList( title, url, blank ) {                           
+
+      function appendItemToList( title, url, blank ) {
         context.item = { "title": title, "url": url, "blank": true  };
-        context.key = "item_";   
-        var list_item = HandlebarsTemplates['marduq/editor/list_item']( context);          
-        $('ul.list').append( list_item );                                                                         // append with this id          
+        context.key = "item_";
+        var list_item = HandlebarsTemplates['marduq/editor/list_item']( context);
+        $('ul.list').append( list_item );                                                                         // append with this id
         $('input.list-input').on('input', function(e) { updateList() } );                                         // update
-        $('input.list-input').on('change', function(e) { updateList() } );       
+        $('input.list-input').on('change', function(e) { updateList() } );
         $(".delete_list_item").click( function(e) { $(this).parent().parent().parent().remove(); updateList(); }) // delete
-      }              
+      }
 
       console.log('set click')
-      // add 
-      $(".add_list").click( function() { 
-        appendItemToList( "", "", false ) 
+      // add
+      $(".add_list").click( function() {
+        appendItemToList( "", "", false )
         console.log('append')
       });
 
       // has list elements
       $.each( context.element.value, function( key, value ) { appendItemToList( value.title, value.url, value.blank ) });
-      
+
     },
-  
+
     // file browser, handler further down
     file: function() {}
   }
-  
+
   // Needs refactoring
   // this way it only works for 1 file field :-/
   if (element.type == "file") {
+    console.log("I'm a: ", element);
     // ajax in a form
     $.ajax({
       url: '/admin/s3_upload',
       method: 'get',
       success: function(data) {
-        // append the upload form                  
+        // append the upload form
         $('#marqer_editor_dialog').find('#fileholder_' + key).append(data);
 
         // post, activate delete button
@@ -193,29 +264,35 @@ var postRender = function( someMarqer, context ) {
 
         // activate the s3 uploader
         $('#fileholder_' + key).S3Uploader({
-          max_file_size: 1258291200
-            //progress_bar_target: $('.js_progress_bars'),
-            //allow_multiple_files: false,
-            //remove_completed_progress_bar: false
+          max_file_size: 12000000,
+          progress_bar_target: $('.ui_progress_bars')
+          //allow_multiple_files: false,
+          //remove_completed_progress_bar: false
         });
 
         // Upload start
         $('#fileholder_' + key).bind('s3_uploads_start', function(e) {
             console.log("upload start ... ");
-            $('#imageholder_image').html('<p>Plaatje wordt geupload ... </p>')
+
+            $('#placeholder_image').html('<p>Bestand wordt geupload ... </p>')
         });
 
         // Upload complete
+        console.log('bind s3_upload_complete', key, $('#fileholder_' + key))
         $('#fileholder_' + key).bind("s3_upload_complete", function(e, content) {
           console.log("upload complete!");
+          // $('#placeholder_image')
 
           // create asset with image
           var assetData = {};
 
-          // this is a little dirty, but the fastest for now           
+          // this is a little dirty, but the fastest for now
           var t = "Image"; // default
-          if (content.filetype.toLowerCase().indexOf('audio') != -1) t = "Audio";
-          if (content.filetype.toLowerCase().indexOf('video') != -1) t = "Video";
+          var t = {
+            'audio': 'Audio',
+            'image': 'Image'
+          }[key];
+
           assetData._type = t;
           assetData.original_url = content.url;
           assetData.original_filename = content.filename;
@@ -235,12 +312,23 @@ var postRender = function( someMarqer, context ) {
             }
           });
 
-          // show it in the editor
-          $('#imageholder_' + key).html('');
-          $('#imageholder_' + key).append("<img style='max-height:255px' src='" + content.url + "'/>");          
-          
+          // show it in the editors
+          if (key == 'image') {
+            $('#imageholder_' + key + ' img').attr( 'src', content.url  )
+          }
+          if (key == 'audio') {
+            $('#imageholder_' + key + ' img').remove();
+            $('#audio_controls audio').remove();
+            $("<audio controls></audio>").attr({
+                'src': content.url,
+                'volume':0.4
+            }).appendTo('#audio_controls');
+          }
+
+          $('#placeholder_image').remove()
+
           // throw it to the element
-          someMarqer.marqeroptions.image.value = content.url;
+          someMarqer.marqeroptions[key].value = content.url;
           preview();
         });
       },
@@ -249,26 +337,26 @@ var postRender = function( someMarqer, context ) {
       }
     });
   }
-  
+
   // now execute!
   console.log( 'post render, ', element.type )
-  try { 
+  try {
     post_renders[ element.type ]()
   }catch(e){
     console.log( element.type, " had no post render functions")
   }
 }
 
-var renderInOutEditor = function( e, that ) { 
+var renderInOutEditor = function( e, that ) {
   // ### add in and output editors
   var context = {
     "trackEventStart": 10, //Math.round( trackEventObject.options.start* 100 ) / 100,
-    "trackEventEnd": 20, //Math.round( trackEventObject.options.end * 100 ) / 100    
+    "trackEventEnd": 20, //Math.round( trackEventObject.options.end * 100 ) / 100
   };
-  
+
   return HandlebarsTemplates['marduq/editor/in_out_editor'](context);
-  
-  //// ### add skip to functionality  
+
+  //// ### add skip to functionality
   //$( ".btn-skip-to-in" ).click( function() { pop.currentTime( Number( $('#editor_in_point').val() ) + 0.1 ); });
   //$( ".btn-skip-to-out" ).click( function() { pop.currentTime( Number( $('#editor_out_point').val() ) - 0.1 ); });
 
@@ -278,18 +366,18 @@ var renderInOutEditor = function( e, that ) {
   ////  $("#editor_in_point").val( currentTrackEvent.start )
   ////  $("#editor_out_point").val( currentTrackEvent.end )
   ////}, 1000 )
-  
+
   //// ### on inpoint change
-  //$("#editor_in_point").change( function(e){ 
+  //$("#editor_in_point").change( function(e){
   //  trackEventObject.options.start = $("#editor_in_point").val();
-  //  trackEventObject.start = $("#editor_in_point").val();  
+  //  trackEventObject.start = $("#editor_in_point").val();
   //  currentTrackEvent.start = $("#editor_in_point").val();
   //  var newLeft = ( parseInt( $("#editor_in_point").val(), 10 ) / pop.duration() ) * $('#timeLineContainer').width();
   //  $( trackEventObject.element ).css('left', newLeft + 'px');
   //});
-  
+
   //// ### on outpoint change
-  //$("#editor_out_point").change( function(){             
+  //$("#editor_out_point").change( function(){
   //  trackEventObject.options.end = $("#editor_out_point").val();
   //  trackEventObject.end = $("#editor_out_point").val();
   //  currentTrackEvent.end = $("#editor_out_point").val();
@@ -297,4 +385,3 @@ var renderInOutEditor = function( e, that ) {
   //  $( trackEventObject.element ).css('width', newWidth + 'px');
   //});
 }
-

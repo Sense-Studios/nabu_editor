@@ -3,7 +3,7 @@
     .form-group
       %h4 
         Beschrijf video
-      
+
       .col-md-6
         .form-group
           %label.control-label= I18n.t('admin.describe.social.share.title_label')
@@ -54,34 +54,34 @@
       /.form-group
       /  %label.control-label= I18n.t('admin.describe.social.email.body_label')
       /  %textarea#social-body.form-control{:type => "body", "placeholder"=> I18n.t('admin.describe.social.email.body_placeholder'), "rows"=>'8' }
-      
-  .well
-    %h4
-      Bezoekersopties (einde video)
-      /= I18n.t('admin.describe.movie_end.on_movie_end')
-    -# Just before the movie end -#= I18n.t('admin.describe.movie_end.on_movie_end')
-    
-    .form-group
-      .checkbox.checkbox-material-pink
-        %label 
-          %input{"type"=>"checkbox", "value"=>"show-social-media", "name"=>"show-social-media", "id"=>"show-social-media" }
-          = I18n.t('admin.describe.movie_end.show_social_media')
+
+  /.well
+  /  %h4
+  /    Bezoekersopties (einde video)
+  /    /= I18n.t('admin.describe.movie_end.on_movie_end')
+  /  -# Just before the movie end -#= I18n.t('admin.describe.movie_end.on_movie_end')
+  /  
+  /  .form-group
+  /    .checkbox.checkbox-material-pink
+  /      %label 
+  /        %input{"type"=>"checkbox", "value"=>"show-social-media", "name"=>"show-social-media", "id"=>"show-social-media" }
+  /        = I18n.t('admin.describe.movie_end.show_social_media')
   
-    .form-group
-      .checkbox.checkbox-material-pink
-        %label 
-          %input{"type"=>"checkbox", "name"=>"email-forwarding", "id"=>"email-forwarding" }              
-          = I18n.t('admin.describe.movie_end.show_email_fowarding')
+  /  .form-group
+  /    .checkbox.checkbox-material-pink
+  /      %label 
+  /        %input{"type"=>"checkbox", "name"=>"email-forwarding", "id"=>"email-forwarding" }              
+  /        = I18n.t('admin.describe.movie_end.show_email_fowarding')
   
-    .form-group
-      .checkbox.checkbox-material-pink
-        %label 
-          %input{"type"=>"checkbox", "name"=>"show-opt-in", "id"=>"show-opt-in" }
-          = I18n.t('admin.describe.movie_end.show_opt_in')
-      .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie Bewaren
-      .clear
-          
+  /  .form-group
+  /    .checkbox.checkbox-material-pink
+  /      %label 
+  /        %input{"type"=>"checkbox", "name"=>"show-opt-in", "id"=>"show-opt-in" }
+  /        = I18n.t('admin.describe.movie_end.show_opt_in')
+  /    .col-md-12
+  /      .button.btn.btn-material-pink.pull-right#save_movie Bewaren
+  /    .clear
+  
   .well
     %h4
       Na afspelen...
@@ -97,8 +97,8 @@
           %input{"type"=>"radio", "value"=>"next-program", "name"=>"on-movie-end" }
           = I18n.t('admin.describe.movie_end.play_other_movie')
         %select#next-program.form-control
-          /- @programs.each do |p|
-          /  %option{"value" => p.id } #{ p.title }
+          - @programs.each do |p|
+            %option{"value" => p["id"] } #{ p["title"] }
 
     .form-group
       .radio

@@ -33,6 +33,12 @@ var is_embedded = false;
 var controlsAreVisible = false;
 var describe_initialized = false;
 var controls_initialized = false;
+var aspect_ratio;
+var aspect_height = 9;
+var aspect_width = 16;
+var smallvideo = false;
+var visible_container;
+var wasReallyPlaying = false
 
 // REACT reference  
 window.filter_table = "not set yet";
@@ -40,6 +46,7 @@ window.filter_table = "not set yet";
 // ### Overrides
 // override function nabu/assets/javasctipt/marduq/player.js
 var popOnLoadStart = function() {
+  console.log("POP ON LOAD START")
   $('#video_frame').fadeIn('slow') ; 
   if (!describe_initialized ) initDescribe();
   describe_initialized = true;
@@ -47,19 +54,20 @@ var popOnLoadStart = function() {
 
 // override function nabu/assets/javasctipt/marduq/player.js
 var popCanPlay = function () {
-  $('#nabu_controls').fadeIn('slow');
-  initControls()  ; 
+  console.log("POP CAN PLAY")
+  $('#nabu_controls').fadeIn('slow');  
+  initControls(); 
   controlsAreVisible = true;  
   controls_initialized = true;
   $('.playhead').css('width','0');
-  margin_select_video();  
+  margin_select_video();
 };
 
 var doSelectMovie = function(id) {
   setProgram( id );
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
   $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );  
+  setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );  
 };
 
 var doShowMovie = function(id) {  
@@ -70,7 +78,7 @@ var doShowMovie = function(id) {
   if ( $('.editor_container').is(':visible') ) showSettingsMovie();
   if ( $('.video_publish_container').is(':visible') ) showPublishMovie();  
   $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
+  setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
 
 var doDescribeMovie = function(id) {
@@ -82,7 +90,7 @@ var doDescribeMovie = function(id) {
   if ( $('.video_publish_container').is(':visible') ) showPublishMovie();  
   $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
   //showDescribeMovie();
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
+  setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
 
 var doTimeLineEditMovie = function(id) {
@@ -94,7 +102,7 @@ var doTimeLineEditMovie = function(id) {
   if ( $('.video_publish_container').is(':visible') ) showPublishMovie();  
   $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
   //showSettingsMovie();
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
+  setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
 
 var doPublishMovie = function(id) {
@@ -106,7 +114,7 @@ var doPublishMovie = function(id) {
   if ( !$('.video_publish_container').is(':visible') ) showPublishMovie();  
   $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
   //showPublishMovie();  
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
+  setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
 
 var doDeleteMovie = function(id) {
@@ -125,22 +133,31 @@ var margin_select_video = function() {
   if($('#nabu_controls').is(':visible')) {
     $('.select_videos').css("margin-top", "40px");
     $('#publish_menu_container').css("margin-top", "40px");
-    $('#timeLineContainer').css("top", "40px");
+    $('.zoominContainer').css("top", "40px");
   } else {
     $('.select_videos').css("margin-top", "0px");
     $('#publish_menu_container').css("margin-top", "0px");
-    $('#timeLineContainer').css("top", "0px");
+    $('.zoominContainer').css("top", "0px");
   }
 };
+
+//resize aspect ratio on selectlist change
+var resize_aspect_ration_change = function() {
+  aspect_ratio = $('.dropdown_select_ratio').val();
+  var arr = aspect_ratio.split(':');
+  aspect_width = arr[0];
+  aspect_height = arr[1];
+  
+  resize_aspect_ratio();
+}
 
 setTimeout( margin_select_video(), 800 );
 
 // ### Helpers
 // update current program
 var setProgram = function( id ) {  
-  
-  // if ( program !== null && program.id === id ) return;    
-  
+  console.log("set program: ", id )
+  if ( program !== null && program.id === id ) return;      
   
   $('#video_frame').fadeOut('fast');
   $('#nabu_controls').fadeOut('slow');
@@ -165,7 +182,9 @@ var setProgram = function( id ) {
     setMarqerAfterPopInits();
     setDataFromProgram();
     setDisabledStatesLeftMenu();
-    setTimeout( resize_aspect_ratio, 200);   
+    if(!smallvideo) {
+      setTimeout( resize_aspect_ratio, 200);   
+    } 
   });
 };
 
@@ -189,7 +208,6 @@ function setDisabledStatePublish() {
     $("#publish_butt").removeClass("disabled");
   }
 }
-
 
 // wait for pop and set marqers
 function setMarqerAfterPopInits() {  
@@ -227,33 +245,42 @@ var shapeshiftOptions = function() {
   return { enableDrag: false, gutterX: gutterX, gutterY: (gutterX/2), paddingX: 20 };
 };
 
-// keep video aspect
+// keep video aspect ratio
 function resize_aspect_ratio() {
   console.log("resize aspect ", $('#video_frame').hasClass('fullscreen'))
   if ( $('#video_frame').hasClass('fullscreen') ) {
     $(".video_holder").css({"height": "100%"});
     return;
   }
-
   var width = $(".video_holder").width();
-  var height = width * (9/16);
+  var height = width * (aspect_height/aspect_width);
+  var fixedheight = height.toFixed(0);
   $(".video_holder").css({
-    "height": height.toFixed(0) + 'px'
+    "height": fixedheight + 'px'
   });
+  
+  updateMarqerBottomControls(fixedheight)  ;
+}
+
+function updateMarqerBottomControls( fh ) {
+  if ( fh === undefined ) fh = $('.video_holder').height();
+  $('.zoomContainer').css('height', $(document).height() - fh - 42 + 'px');
+  $('#tracks').css('height', $(document).height() - fh - 64 + 'px');
+  //$('.add_track_area').css('height', $(document).height() - fh - 40 + 'px');
 }
 
 function checkURLForPresets() {
   if ( window.location.hash.substring(0,2) == '#i' ) {
-    setProgram( window.location.hash.substring(2) )
-    showCreateMovie( false )
+    setProgram( window.location.hash.substring(2) );
+    showCreateMovie( false );
   }
 }
-
-
 
 // ### Main
 var original_width = $(document).width();
 $(document).ready(function() {
+  //set var aspect_ratio
+  console.log('ready aspect ratio' + aspect_ratio);
   
   setDisabledStatesLeftMenu();
   setDisabledStatePublish();
@@ -264,11 +291,14 @@ $(document).ready(function() {
   
   // Keep aspect ratio
   $(window).resize(function() {
-    
+
+    // always move editor
+    updateMarqerBottomControls() 
+
     // Quickfix
     if ( original_width == $(document).width() ) return;
     original_width = $(document).width();
-    
+
     resize_aspect_ratio();
     var document_width = $(document).width();
     var nav_width = $("nav").width();
@@ -277,7 +307,7 @@ $(document).ready(function() {
     $(".contentwrapper").css("width", content_wrapper_width.toFixed(0) - 2);
   
     // Keep shapeshifter
-    setTimeout( function() { $('.leprograms').shapeshift(shapeshiftOptions())} , 800 );
+    setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift(shapeshiftOptions())} , 800 );
   }).resize();
   
   // Initialize Programs
@@ -295,12 +325,34 @@ $(document).ready(function() {
   // rewrite this with a class (?)
   $('#butt-up').click( animateVideoUp );
   $('#butt-down').click( animateVideoDown );
+  //$('.video_holder').on('swipedown',function(){alert("swipedown..");} );
+  //$('.video_holder').on('swipeup',function(){alert("swipedown..");} );
+  
+  //Material design dropdowns hides the selectlist and shows a UL with listitems
+  //The selectlist wont change 
+  //This will make it to work for all of them.
+  $('.dropdownjs ul li').click(function(){
+      console.log('jeeeej');
+      var selectedvalue = $(this).attr('value');
+      var selected = $(this).parent().parent().prev('.dropdown_select');
+      setTimeout(function() {
+          $(selected[0]).find('option').removeAttr('selected')
+          $(selected[0]).val($(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
+          $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
+      }, 100);
+  });
+
+  $(document).on('change','.dropdown_select_ratio',function(){
+    if(!smallvideo) {
+      resize_aspect_ration_change() 
+    }
+  });
 
   // Hide the sections  
   $('.video_describe_container').hide();
   $('.video_publish_container').hide();
   $('.describe_movie_advanced').hide();
-  $('#timeLineContainer').hide();
+  $('.zoomContainer').hide();
   $('.channels_container').hide();
   
   // Hide the helpers
@@ -324,6 +376,9 @@ $(document).ready(function() {
   document.addEventListener("webkitfullscreenchange", resize_aspect_ratio, false);
   document.addEventListener("mozfullscreenchange", resize_aspect_ratio, false);
   resize_aspect_ratio()
+  
+  // set the bottom part of the editor
+  updateMarqerBottomControls
   
   // check for hash &c
   checkURLForPresets()

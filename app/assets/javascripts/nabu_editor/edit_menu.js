@@ -18,7 +18,7 @@ function createCategory() {
   // header
   var cat = ""
   cat += '<li class="category_item">';
-  cat += '<input type="text" class="category_name" placeholder="New Category">';
+  cat += '<input type="text" class="category_name" placeholder="Typ categorienaam">';
   cat += '<button class="delete_category btn btn-material-custom-darkgrey">';
   cat += '<span class="glyphicon glyphicon-remove"></span';
   cat += '<a id="remove_categorie"></a>';

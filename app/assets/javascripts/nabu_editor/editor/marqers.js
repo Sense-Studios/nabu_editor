@@ -11,13 +11,18 @@ program_id (check this)
 
 // getMarqers( program_id )
 
-var createNewMarqer = function( type, name, event ) {
+var createNewMarqer = function( type, name, event, forceAdd ) {
   // create a new marqer
   m = new window[ type ]
   m.in = ( ( event.pageX - $('#tracks').offset().left ) / $('#tracks').width() ) * pop.duration()
-  m.out = m.in + ( 0.38 * pop.duration() )
+  m.out = m.in + ( 0.12 * pop.duration() )
   m.program_id = program.id;
-  m.marqeroptions = m.defaultvalues;
+  m.marqeroptions = m.defaultvalues;  
+  if ( forceAdd ) {
+    m.marqeroptions.track = createTrackLine().index()    
+  }else{
+    m.marqeroptions.track = $(event.target).index()
+  }
   m.title = name;
   
   // create a copy
@@ -36,10 +41,13 @@ var createNewMarqer = function( type, name, event ) {
 
 var updateMarqer = function( marqer ) {
   console.log("updateMarqer", marqer )
+  $('#load_indicator.glyphicon').css("opacity", 1)
   mapi.updateMarqer({ 
     marqer: marqer, 
     success: function(){ 
-      console.log('yuy') 
+      console.log('yuy')
+      $('#load_indicator.glyphicon').css("opacity", 0)
+      aMarqerIsUpdating = false
       preview()
     },
     fail: function(resp) {
@@ -85,7 +93,7 @@ var getMarqerById = function( id ) {
   return marqer
 }
 
-// var convertMarqersIntoTrackevents( m ) // find me in UI
+// var convertMarqersIntoTrackevents( m ) // find me in user_interface.js
 
 // *****************************************************************************
 // PREVIEW
@@ -94,7 +102,7 @@ var getMarqerById = function( id ) {
 // yes, this redraws everything it gets from the server
 var preview = function( _m ) {
   if ( _m === undefined ) _m = marqers;
-  console.log("reset marqers", $('#feedback').val());
+  console.log("reset marqers", $('#feedback').val());  
   resetMarqers();
   setMarqers( _m, pop.duration() );
   convertMarqersIntoTrackevents( _m );  

@@ -1,0 +1,58 @@
+<li class="list-input-item">  
+
+  <div class="row">
+    <div class="col-sm-4" style="padding-right: 0px">
+      <input 
+        class="form-control input-sm list-input" 
+        data-key="{{key}}" 
+        data-type="title"
+        id="{{key}}_field"         
+        value="{{item.title}}" 
+        placeholder=" Title ... " 
+        type="text" 
+      />
+    </div>
+
+    <div class="col-sm-5" style="padding: 0px 2px">
+      <input 
+        class="form-control input-sm list-input" 
+        data-key="{{key}}"
+        data-type="url" 
+        id="{{key}}_field"        
+        value="{{item.url}}"
+        placeholder=" URL ... " 
+        type="text" 
+      />
+    </div>
+
+    {{#if item.blank}}
+      <div class="col-sm-1" style="padding: 0px 2px">
+        <input 
+          class="list-input" 
+          data-type="blank"
+          data-key="{{key}}" 
+          id="{{key}}_field"
+          value="true"
+          checked
+          type="checkbox" 
+        />
+      </div>
+    {{else}}
+      <div class="col-sm-1" style="padding: 0px 2px">
+        <input 
+          class="list-input" 
+          data-type="blank"
+          data-key="{{key}}" 
+          id="{{key}}_field"
+          value="false"          
+          type="checkbox" 
+        />
+      </div>
+    {{/if}}
+
+    <div class="col-sm-2" style="padding: 0 25px;">      
+      <button class="btn btn-danger btn-sm delete_list_item pull-right"> del </button>
+    </div>
+  </div>
+  
+</li>

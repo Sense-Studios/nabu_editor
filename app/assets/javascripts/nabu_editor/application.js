@@ -16,6 +16,8 @@
 //= require jquery_ujs
 //= require jqueryui/jquery-ui-1.10.4.custom
 //= require jquery-touch-punch/jquery.ui.touch-punch.min
+
+// TURBOLINKS
 //= require turbolinks
 
 // REACT
@@ -38,10 +40,6 @@
 //= require popcorn
 // require popcorn_admin
 
-// YOUR OWN, SHARED SCRIPTS
-//= require_tree ./shared 
-
-
 // ### OPTIONALS ###
 
 // ANGULAR
@@ -60,7 +58,7 @@
 // require interact/interact.js
 
 // JQUERY HELPERS
-// require jquery-fittext/jquery.fittext.js         // textsize 
+//= require jquery-fittext/jquery.fittext.js 
 //= require jquery-shapeshift/jquery.shapeshift.min
 //= require jquery-cookie/jquery.cookie
 // require jquery-fbjlike/jquery.fbjlike            // facebook
@@ -75,7 +73,11 @@
 // HANDLERBARS
 //= require handlebars.runtime
 //= require handlebars_helpers
-//= require templates/template_definitions.js
+//= require templates/marqer_templates
+//= require nabu_editor/templates
+
+// CODE EDITOR
+//= require ace/ace.js
 
 // CHARTS
 // require highcharts/highcharts.js
@@ -90,8 +92,12 @@
 // require marduq/social
 //= require marduq/player
 // require marduq/editor
+
+// ### EXTRAS ####
 //= require marduq/marqers/MarqerPrototype
-//= require marduq/marqer_definitions.js
+//= require marduq/marqer_definitions
+//= require marduq/marqers/MotionTrackerMarqer
+// require marduq/motion_data_editor
 
 //= require marduq/marqers
 //= require marduq/controls

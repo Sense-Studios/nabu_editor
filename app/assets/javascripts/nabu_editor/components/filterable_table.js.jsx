@@ -58,6 +58,7 @@ var ProgramTile = React.createClass({
       
       //var link = '/'+ this.props.program.id
       var title = this.props.program.title     
+      var description = this.props.program.description     
       var tags = this.props.program.tags.join(', ')
 
       //var thumb = this.props.program.meta.moviedescription.thumbnail
@@ -78,7 +79,7 @@ var ProgramTile = React.createClass({
       }
 
       return (
-        <div className={classes} id={id}>          
+        <div className={classes} id={id} title={description} alt={description}>          
           <span className='pseudolink' onClick={this.selectMovie} >
             <img src={thumb} width="100%"  />
             <div className="description"> {title} <br/><small className="code"> {tags} </small></div>            
@@ -141,13 +142,13 @@ var ProgramTable = React.createClass({
         setTimeout( function() {
           $('.leprograms').shapeshift(shapeshiftOptions()); 
           $('.leprograms').animate({'opacity':'1'}, 420)          
-          setTimeout( function() {  $(".leprograms").trigger("ss-rearrange")}, 100 ) }
+          setTimeout( function() { if ($(".leprograms").is(':visible')) $(".leprograms").trigger("ss-rearrange")}, 100 ) }
         , 300 )        
       }
 
       if ( this.props.filterText == "" && this.props.inShift !== true) {        
         this.props.inShift = true
-        setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 800 )
+        setTimeout( function() { if ($(".leprograms").is(':visible')) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 800 )
       }
 
       $('.numvideos').text( $('.leprograms .program_container:not(.hidden)').length )

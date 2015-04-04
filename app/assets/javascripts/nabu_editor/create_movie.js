@@ -14,7 +14,7 @@ var statecheckinterval;       // holder zencoder state interval
 var currentAssetData = {};    // holder
 var new_program_id = null;    // holder
 var new_asset_id = null;      // holder
-var new_asset_job_id = null       // holder
+var new_asset_job_id = null   // holder
 // var new_video = null;      // not used
 
 var saveComplete = function( resp ) {
@@ -44,7 +44,7 @@ var doCreateProgram = function() {
 
   // determine the type
   var tp = currentAssetData._type.toLowerCase()
-  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" ) ) {
+  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" || tp == "kaltura" ) ) {
     console.log( "create asset and with prepared data: ", currentAssetData, currentAssetData.id );
     mapi.createAsset({
       asset: currentAssetData,
@@ -118,20 +118,6 @@ function checkInput( directupdate ) {
     $('#description').val("");
     $('#tags').val("");
   }
-  
-  // only allow new videos to get a new description
-  //if (checkedbox == "link") {
-  //  // disable the input (this is the name of the asset!)
-  //  $('#title').attr('disabled', true);
-  //  $('#video-description').attr('disabled', true);
-  //  $('#video-tags').attr('disabled', true);
-  //  
-  //}else{
-  //  $('#title').removeAttr('disabled');
-  //  $('#video-description').removeAttr('disabled');
-  //  $('#video-tags').removeAttr('disabled');
-  //  
-  //}  
 
   // set orignal select
   select_was = $('input[name="input_select"]:checked').val();
@@ -148,7 +134,7 @@ function checkInput( directupdate ) {
 
   // ******************************************************************
   //  Call upon the Youtube api
-  // ******************************************************************
+  // ******************************************************************  
   
   if ( checkedbox.indexOf("youtube") >= 0 ) {
     
@@ -216,7 +202,6 @@ function checkInput( directupdate ) {
     });
   }
 
-
   // ******************************************************************
   //  Call upon the Vimeo api
   // ******************************************************************
@@ -245,9 +230,9 @@ function checkInput( directupdate ) {
 
       // We've found the vimeo video, now fill the description with it
       $('#title').val( data[0].title );
-      $('#video-description').val( data[0].description );
-      $('#video-tags').val( data[0].tags );
-      $('#video-thumbnails').append('<option class="image_picker_option" data-img-src="'+data[0].thumbnail_medium+'" value="1">page 1</option>');
+      $('#description').val( data[0].description );
+      $('#tags').val( data[0].tags );
+      $('#thumbnails').append('<option class="image_picker_option" data-img-src="'+data[0].thumbnail_medium+'" value="1">page 1</option>');
       $(".image-picker").imagepicker();
       $('#save_button').removeClass('disabled');
   
@@ -258,7 +243,8 @@ function checkInput( directupdate ) {
         description: data[0].description,
         tags: data[0].tags,
         thumbnail_url: data[0].thumbnail_large,
-        // duration: data[0].duration, //511,
+        duration: data[0].duration,
+        duration_in_ms: data[0].duration*1000,
         _type: "Vimeo"
       };
 
@@ -270,7 +256,63 @@ function checkInput( directupdate ) {
       $('#vimeo-group').removeClass('has-success').removeClass('has-error').addClass('has-error');
     });
   }
-  
+
+  // ******************************************************************
+  //  Call upon the Kaltura api
+  // ******************************************************************
+
+  if ( checkedbox.length == 10 && checkedbox.substring(0, 2) == "1_" ) { // || checkedbox.indexOf("kaltura") >= 0 ) {  
+    
+    console.log("KALTURA HAS:" + checkedbox )
+    //console.log( "parse kaltura url " + kaltura_parser(checkedbox) )
+    
+    // var entryId = kaltura_parser(checkedbox)
+    var entryId = checkedbox
+    if (entryId === null ) {
+      console.log("no match")
+      return;
+    }
+    
+    $('.video_uploader_container').hide()
+
+    // Talk to our own API
+    // kaltura/api/entry_id ?
+    console.log("I get Kaltura", entryId)
+    $.get('http://nabu.sense-studios.com/admin/kaltura_api/' + entryId, function(entry) {       
+
+      // We've found the kaltura video, now fill the description with it
+      $('#title').val( entry.name );
+      $('#description').val( entry.description );
+      $('#tags').val( entry.tags );
+
+      // needs to wait aout a bit
+      $('#thumbnails').append('<option class="image_picker_option" data-img-src="'+entry.thumbnailUrl+'" value="1">page 1</option>');
+      $(".image-picker").imagepicker();
+      $('#save_button').removeClass('disabled');
+
+      currentAssetData = {
+        // entry_id: kaltura_parser[7],
+        // uiconf_id: kaltura_parser[9],
+        // partner_id: kaltura_parser[7],
+        
+        original_url: entryId,
+        title: entry.name,
+        description: entry.description,
+        tags: entry.tags,
+        thumbnail_url: entry.thumbnailUrl,        
+        duration: entry.duration,
+        duration_in_ms: entry.msDuration,
+        _type: "Kaltura"
+      };
+    
+      console.log("ALL GO")
+      doCreateProgram();    // save the program
+      showDescribeMovie();  // start describing      
+    }).fail( function() {
+      alert("Something went wrong with uploading the video.")
+      $('.video_uploader_container').fadeIn('slow')
+    })
+  }
 
   // ******************************************************************
   //  Call upon the Marduq api
@@ -293,7 +335,6 @@ function checkInput( directupdate ) {
         
         // should have type now
         console.log("has type", data, data._type);
-        
 
         currentAssetData = {
           title: data.title,
@@ -301,7 +342,7 @@ function checkInput( directupdate ) {
           tags: data.tags,
           id: data.id          
         };
-        
+
         // only marduq assets have thumbnails in the object,
         // for youtube and vimeo, these should be looked up :-/
         // maybe put a default thumbnail in an asset?
@@ -310,7 +351,7 @@ function checkInput( directupdate ) {
             $('#video-thumbnails').append('<option class="image_picker_option" data-img-src="'+value+'" value="'+key+'">page '+key+'</option>');
           });  
           currentAssetData.thumbnail_url = data.thumbnails.small[0];
-          
+
         }else{          
           $('#video-thumbnails').append('<option class="image_picker_option" data-img-src="'+data.thumbnail_url+'" value="1">page 1</option>');
         }        
@@ -364,6 +405,22 @@ function vimeo_parser( url ) {
     $('#vimeo-group').removeClass('has-success').removeClass('has-error').addClass('has-error');
     return -1;
   }
+}
+
+function kaltura_parser( url ) {
+  //var kobject = {}
+  //// http://www.kaltura.com/index.php/extwidget/preview/partner_id/1901361/uiconf_id/28529602/entry_id/1_58ch1qja/embed/legacy?
+    // http://www.kaltura.com/index.php/extwidget/preview/partner_id/1901361/uiconf_id/28529602/entry_id/1_58ch1qja/embed/legacy?
+    // http://www.kaltura.com/p/1901361/thumbnail/entry_id/1_x7kyq7v5
+    // http://www.kaltura.com/p/1901361/thumbnail/entry_id/1_olfv9f86
+    // http://www.kaltura.com/p/1901361/thumbnail/entry_id/1_wp08q1zn
+    
+    // http://cdnapi.kaltura.com/index.php/extwidget/openGraph/wid/1_olfv9f86
+    
+  var regExp = /entry_id\/([0-9a-zA-Z_]+)/;
+  var match = url.match(regExp); 
+  console.log("has match!: ", match) 
+  return match[1]
 }
 
 // ### Create a program from an asset

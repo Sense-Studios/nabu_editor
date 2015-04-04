@@ -1,0 +1,24 @@
+<div class="form-group form-group-sm">
+    <div class="col-sm-12">
+      <div id="placeholder_image"></div>
+      <div id="audio_controls">
+        {{#if element.isAudio}}
+          <audio controls src="{{element.value}}"/>
+        {{/if}}
+        </div>
+      <div class="thumbnail col-md-12" id="imageholder_{{key}}">
+        {{#if element.isAudio}}
+          <!-- Nothing -->
+        {{else}}
+          <img style='max-height:255px' src="{{element.value}}"/>
+        {{/if}}
+        <div class="input-group input-group-sm custom-input">
+          <div id="fileholder_{{key}}"></div>
+        </div>
+        <button class="btn btn-danger btn-sm pull-right" >
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+    </div>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,25 @@
+.row.form-group.form-group-sm
+
+  .col-sm-2
+    %label start
+  .col-sm-3.nopadding
+    .input-group.input-group-sm
+      %input.form-control{:type=> "number", :id=>"editor_in_point", :value=>"{{trackEventStart}}"}
+      .input-group-addon
+        {{t 'admin.questions.seconds_abbrivation'}}
+  .col-sm-1.nopadding
+    %button.btn-skip-to-in.btn.btn-default.btn-sm{"title"=>"go to this question in the video"}
+      %span.glyphicon.glyphicon-step-forward
+
+  .col-sm-2
+    %label end
+  .col-sm-3.nopadding
+    .input-group.input-group-sm
+      %input.form-control{:type=>"number", :id=>"editor_out_point", :value=>"{{trackEventEnd}}"}
+      .input-group-addon
+        {{t 'admin.questions.seconds_abbrivation'}}
+  .col-sm-1.nopadding
+    %button.btn-skip-to-out.btn.btn-default.btn-sm{"title"=>"go to this question in the video"}
+      %span.glyphicon.glyphicon-step-forward
+
+%hr

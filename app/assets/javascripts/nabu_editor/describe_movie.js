@@ -73,13 +73,15 @@ function setDataFromProgram() {
   // initTextField( $('#tags'), program.program_items[0].asset, "tags" );
 
   initTextField( $('#title'), metaData.moviedescription, "title" );
+  $('#small_title').text(metaData.moviedescription.title);
   initTextField( $('#description'),  metaData.moviedescription, "description"  );
+  $('#small_description').text(metaData.moviedescription.description);
   initTextField( $('#tags'), metaData.moviedescription, "tags" );
   // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
   // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
   // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
-  $('textarea#program_embed').text('<iframe src="http://nabu.sense-studios.com/' + program.id + '" allowFullscreen="true" scrolling="no"></iframe>' );
-  $('textarea#program_url').text('http://nabu.sense-studios.com/' + program.id);
+  $('textarea#program_embed').text('<iframe src="http://nabu.sense-studios.com/embed/' + program.id + '" wiallowFullscreen="true" scrolling="no"></iframe>' );
+  $('textarea#program_url').text('http://nabu.sense-studios.com/embed/' + program.id);
 
   
   // add the pictiures

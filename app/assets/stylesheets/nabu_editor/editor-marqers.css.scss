@@ -1,0 +1,148 @@
+.modal-dialog {
+  .modal-content {
+    .modal-header {
+      height: 55px;
+      padding: 0;
+      display: table;
+      width: 100%;
+      background-color: #9C1F3D;
+      .modal-title {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0;
+        margin: 0 20px;
+        padding-left: 20px;
+        color: #FFF;
+      }
+      .close {
+        height: 100%;
+        width: 55px;
+        background-color: #8C1D37;
+        margin-top: 0px;
+        color: #fff;
+        font-size: 40px;
+        opacity: 1;
+      }
+    }
+    .modal-body {
+      padding-bottom: 0px;
+      .form-group {
+        margin-bottom: 10px;
+        &:last-child {
+          margin-bottom: 0px;
+        }
+        div {
+          input {
+            padding: 10px 10px;
+            height: 40px;
+            font-size: 19px;
+            border: 1px solid #C8C9C9;
+            border-radius: 0;
+            background-image: none !important;
+            &:focus {
+              padding: 10px 10px;
+              height: 40px;
+              font-size: 19px;
+              border: 2px solid #C8C9C9;
+              background-image: none !important;
+            }
+          }
+          .input-group {
+            .numbers {
+              padding: 0 10px;
+            }
+          }
+          .dropdownjs {
+            &:after {
+              top: 10px;
+              right: 14px;
+              content: "\e259";
+            }
+            input {
+              text-align: center;
+              color: #FFF;
+              background-color: #8C1D37;
+            }
+            ul {
+              top: 0;
+              li {
+                text-align: center;
+              }
+            }
+          }
+          .thumbnail {
+            border: 3px dashed #B30000;
+            min-height: 100px;
+            > img {
+              position: relative;
+            }
+            .custom-input {
+              display: block;
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 100%;
+              width: 100%;
+              #fileholder_image, #fileholder_audio {
+                form {
+                  #file {
+                    position: absolute!important;
+                    height: 100%!important;
+                    width: 100%!important;
+                    cursor: pointer!important;
+                    opacity: 0!important;
+                  }
+                }
+              }
+            }
+            .placeholder_image {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translateX(-50%) translateY(-50%);
+              padding: 10px 20px;
+              background-color: #666768;
+              color: #FFF;
+              span{
+                left: 7px;
+              }
+            }
+            button {
+                position: absolute;
+                bottom: -3px;
+                margin: 0;
+                right: -3px;
+                color: #FFF;
+                font-size: 20px;
+                padding: 7px 11px;
+                text-align: center;
+                width: 40px;
+                height: 40px;
+                background-color: #B30000;
+            }
+          }
+          input[type="radio"] {
+            display: none;
+          }
+          input[type="radio"]:checked + label {
+            background-color: #464647;
+          }
+          input[type="radio"] + label {
+            background-color: #666768;
+            height: 40px;
+            width: calc(50% - 2px);
+            color: #FFF;
+            cursor: pointer;
+            padding: 10px 0 0 15px;
+            font-weight: 100;
+          }
+        }
+      }
+      .form-radio {
+        div {
+          top: -10px;
+        }
+      }
+    }
+  }
+}
