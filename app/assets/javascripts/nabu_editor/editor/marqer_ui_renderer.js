@@ -178,6 +178,26 @@ var postRender = function( someMarqer, context ) {
         });
       }, 200)
     },
+    
+        // select
+    selectObject: function() {
+      setTimeout( function() {
+        $('.dropdown_select').dropdown();
+        $('.dropdownjs ul li').click(function() {
+          var selectedvalue = $(this).attr('value');
+          var selected = $(this).parent().parent().prev('.dropdown_select');
+          setTimeout( function() {
+            $(selected[0]).find('option').removeAttr('selected');
+            $(selected[0]).val($(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
+            $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
+            $('#' + key + '_field').val( element.value );
+            $('#' + key + '_field').change(function() {
+              setTimeout(preview, 400);
+            });
+          }, 100);
+        });
+      }, 200)
+    },
 
     radio: function() {
       $("input[name=target][value=" + element.value + "]").prop('checked', true);

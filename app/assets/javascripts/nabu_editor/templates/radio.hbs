@@ -1,7 +1,7 @@
 <div class="form-group form-group-sm form-radio">
   
   <div class="col-sm-12" data-key="{{key}}">
-    {{#each element.values }}
+    {{#each element.options }}
       <input class="form-control" data-key="{{../key}}" type="radio" id="{{this.value}}" name="target" value="{{this.value}}">
       <label for="{{this.value}}">{{this.option}}</label>
     {{/each}}

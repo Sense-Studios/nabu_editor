@@ -32,7 +32,7 @@
           margin-bottom: 0px;
         }
         div {
-          input {
+          input[type='text'] {
             padding: 10px 10px;
             height: 40px;
             font-size: 19px;
@@ -50,6 +50,14 @@
           .input-group {
             .numbers {
               padding: 0 10px;
+            }
+            input[type="number"] {
+              background-image: none!important;
+              &:focus {
+                background-image: none!important;
+                padding: 6px 10px;
+                height: 30px;
+              }
             }
           }
           .dropdownjs {
@@ -83,7 +91,7 @@
               left: 0;
               height: 100%;
               width: 100%;
-              #fileholder_image, #fileholder_audio {
+              #fileholder_image, #fileholder_audio, #fileholder_srtfile {
                 form {
                   #file {
                     position: absolute!important;
@@ -137,10 +145,13 @@
             font-weight: 100;
           }
         }
-      }
-      .form-radio {
-        div {
-          top: -10px;
+
+        .explanation {
+          text-align: center;
+          color: #8C1D37;
+          font-weight: 600;
+          font-size: 20px;
+          padding-bottom: 8px;
         }
       }
     }

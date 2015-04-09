@@ -45,6 +45,9 @@
 // ANGULAR
 // require angular
 
+// MOMENT http://momentjs.com/
+//= require moment/moment
+
 // DATEPICKERS
 // require bootstrap-daterangepicker/moment.js
 // require bootstrap-daterangepicker/daterangepicker.js
@@ -104,3 +107,6 @@
 // require admin/create_movie ( this one has been depreicated and is updated in the engine )
 // require admin/describe_movie ( this one has been depreicated and is updated in the engine )
 // require marduq/marduq
+
+// TODO move or connect this approprietly
+moment.locale('nl')

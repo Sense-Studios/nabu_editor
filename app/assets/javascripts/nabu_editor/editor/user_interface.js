@@ -8,7 +8,16 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   // get the necc. information from the marqer
   var name, type, remote_id, l, w
   if ( marqer !== undefined ) {
-    name = marqer.title
+    try{
+      name = marqer.marqeroptions.title.value
+    }catch(e){
+      if (marqer.marqeroptions.title.value == "") {
+        marqer.marqeroptions.title.value
+      }else{
+        name = marqer.title
+      }
+    }
+    
     type = marqer.type
     remote_id = marqer.id
     l = ( ( marqer.in / pop.duration() ) * 100 ) + '%'
