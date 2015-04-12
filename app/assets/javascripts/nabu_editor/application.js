@@ -104,6 +104,7 @@
 
 //= require marduq/marqers
 //= require marduq/controls
+//= require marduq/social
 // require admin/create_movie ( this one has been depreicated and is updated in the engine )
 // require admin/describe_movie ( this one has been depreicated and is updated in the engine )
 // require marduq/marduq

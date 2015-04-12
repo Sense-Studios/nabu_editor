@@ -9,13 +9,13 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   var name, type, remote_id, l, w
   if ( marqer !== undefined ) {
     try{
-      name = marqer.marqeroptions.title.value
-    }catch(e){
-      if (marqer.marqeroptions.title.value == "") {
-        marqer.marqeroptions.title.value
+      if ( marqer.marqeroptions.title.value != '') {
+        name = marqer.marqeroptions.title.value
       }else{
-        name = marqer.title
+        name = marqer.name
       }
+    }catch(e){
+      name = marqer.name
     }
     
     type = marqer.type
@@ -211,7 +211,7 @@ var initiateUpdateMarqer = function( event, ui ) {
   
   // go go go ... 
   updateMarqer(m)
-  //wasDroppedOnTrackline = false;
+  wasDroppedOnTrackline = false;
 }
 
 // --------------
@@ -401,15 +401,7 @@ var startScreenEditor = function( event, ui ) {
   }
 
   // add the grid
-  var grid = ""
-  grid += '<div class="snapping_grid" style="width:'+$('#video_frame').width()+'px;height:'+$('#video_frame').height()+'px">'
-  var w = '12.5%'
-  var n = 64
-  //var w = '25%'
-  //var n = 16
-  for ( var i=0;i<n;i++ ) grid += '<div class="grid_cell" style="width:'+w+';height:'+w+';">&nbsp</div>'        
-  grid += '</div> <!-- end grid -->'
-  $('#screen_editor').append(grid)
+  $('#screen_editor').append( createGrid() )
 
   // add Title safe
   // TODO
@@ -519,7 +511,68 @@ var startScreenEditor = function( event, ui ) {
     }    
   })
 }
+var createGrid = function() { 
+  var grid = ""
+  grid += '<div class="snapping_grid" style="width:'+$('#video_frame').width()+'px;height:'+$('#video_frame').height()+'px">'
+  var w = '12.5%'
 
+  //var w = '25%'
+  //var n = 16
+  
+  var sizes = [
+    4,4,1,2,2,2,2,2,2,1,4,4,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    5,5,3,0,0,0,0,0,0,3,5,5,
+    4,4,1,2,2,2,2,2,2,1,4,4
+  ]
+  
+  var n = sizes.length
+  
+  function getSize(num){
+    var size = { 'width':0, 'height':0 }
+    
+    switch( sizes[num] ) {
+      case 0:
+        size = { 'width':'12.5%', 'height':'12.5%' }
+        break;
+
+      case 1:
+        size = { 'width':'6.25%', 'height':'6.25%' }
+        break;
+
+      case 2:
+        size = { 'width':'12.5%', 'height':'6.25%' }
+        break;
+
+      case 3:
+        size = { 'width':'6.25%', 'height':'12.5%' }
+        break;
+
+      case 4:
+        size = { 'width':'3.125%', 'height':'6.25%' }
+        break;
+        
+      case 5:
+        size = { 'width':'3.125%', 'height':'12.5%' }
+        break;
+
+      default:
+        size = { 'width':'12.5%', 'height':'12.5%' }
+        break;
+    }
+
+    return size
+  }
+  
+  for ( var i=0;i<n;i++ ) grid += '<div class="grid_cell" style="width:'+getSize(i).width+';height:'+getSize(i).height+';">&nbsp</div>'        
+  grid += '</div> <!-- end grid -->'
+  return grid;
+}
 var stopStreenEditor = function() {
   $(window).unbind('keydown')
   $('.is-selected-for-screen-editor').removeClass('btn-material-yellow');

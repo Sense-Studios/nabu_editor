@@ -116,7 +116,10 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
   // attach save
   $('#modal_save_button').unbind('click')
-  $('#modal_save_button').click( function(e){ updateMarqer(someMarqer) })
+  $('#modal_save_button').click( function(e){ 
+    updateMarqer(someMarqer) 
+    setTimeout( function(){ preview(); }, 400 )
+  })
 
   // attach delete
   $('#modal_delete_button').unbind('click')

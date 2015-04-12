@@ -576,10 +576,11 @@ nav {
           color: #FFF;
         }
         .upload {
-          .progress {
+          .progress {            
+
             .progress-bar {
               background-image: none!important;
-              background-color: #e81f61;
+              background-color: #e81f61;              
             }
             .progress-bar-warning {
               background-color: #821a2e;
@@ -839,6 +840,7 @@ nav {
       top: -4px;
       width: 100%;
       transition: 0.3s;
+      z-index: 9999; /* its over 9000! */
       &:hover {
         top: -8px;
         height: 8px;
@@ -1484,6 +1486,7 @@ nav {
                 /*color: #FFF;*/
                 color: inherit; /* let the material sort it out */
               }
+              cursor: move;
             }
             .ui-resizable-e {
               cursor: e-resize;

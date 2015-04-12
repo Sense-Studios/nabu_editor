@@ -32,34 +32,30 @@
           margin-bottom: 0px;
         }
         div {
-          input[type='text'] {
+          input[type='text'], input[type='number'] {
             padding: 10px 10px;
             height: 40px;
             font-size: 19px;
             border: 1px solid #C8C9C9;
             border-radius: 0;
             background-image: none !important;
+
             &:focus {
               padding: 10px 10px;
               height: 40px;
               font-size: 19px;
               border: 2px solid #C8C9C9;
               background-image: none !important;
+            }            
+          }
+          
+          input[type='number'] {
+            padding: 5px 10px;
+            &:focus {
+              padding: 5px 10px;
             }
           }
-          .input-group {
-            .numbers {
-              padding: 0 10px;
-            }
-            input[type="number"] {
-              background-image: none!important;
-              &:focus {
-                background-image: none!important;
-                padding: 6px 10px;
-                height: 30px;
-              }
-            }
-          }
+
           .dropdownjs {
             &:after {
               top: 10px;

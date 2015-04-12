@@ -18,7 +18,8 @@ $(function() {
       //$('#scrubber').animate({'left': l + 'px'}, ui_update, ease );
       $('#scrubber').css({'left': l + 'px'} );
     }catch(e){
-      console.log("boom")
+      // console.log("boom")
+      // no pop and or no video
     } 
   }, ui_update );  
   

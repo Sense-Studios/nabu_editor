@@ -1,14 +1,13 @@
 <div class="form-group form-group-sm">
-  <label class="col-sm-2 control-label">
-    {{title}}
-  </label>
-  <div class="col-sm-10">
-    <div class="input-group input-group-sm">
-      <input class="form-control input-sm numbers" data-key="{{key}}" id="{{key}}_field" value="{{element.value}}" type="number" />
-      {{#if unit}}
-      <span class="input-group-addon">{{unit}}</span>      
-      {{/if}}
-    </div>
+  <div class="col-sm-12">
+    <input 
+      class="form-control input-sm numbers" 
+      data-key="{{key}}" 
+      id="{{key}}_field" 
+      value="{{element.value}}" 
+      placeholder="{{element.placeholder}}" 
+      type="number" 
+    />
   </div>
-  <div class="clear">
+  <div class="clear"></div>
 </div>

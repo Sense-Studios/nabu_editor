@@ -182,6 +182,7 @@ var setProgram = function( id ) {
     setMarqerAfterPopInits();
     setDataFromProgram();
     setDisabledStatesLeftMenu();
+    setSocial()
     if(!smallvideo) {
       setTimeout( resize_aspect_ratio, 200);   
     } 
@@ -372,9 +373,9 @@ $(document).ready(function() {
   });
   
   // listen for fullscreen, and discard the max height from aspect ratio
-  document.addEventListener("fullscreenchange", resize_aspect_ratio, false);      
-  document.addEventListener("webkitfullscreenchange", resize_aspect_ratio, false);
-  document.addEventListener("mozfullscreenchange", resize_aspect_ratio, false);
+  document.addEventListener("fullscreenchange", delayedScreenChange, false);      
+  document.addEventListener("webkitfullscreenchange", delayedScreenChange, false);
+  document.addEventListener("mozfullscreenchange", delayedScreenChange, false);
   resize_aspect_ratio()
   
   // set the bottom part of the editor
@@ -383,3 +384,7 @@ $(document).ready(function() {
   // check for hash &c
   checkURLForPresets()
 });
+
+var delayedScreenChange = function() {
+  setTimeout( function() { resize_aspect_ratio() }, 200 );
+}

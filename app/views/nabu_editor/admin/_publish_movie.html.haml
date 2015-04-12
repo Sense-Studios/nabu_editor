@@ -1,43 +1,43 @@
 .video_publish_container
-  .publish_container
-    %h3
-      Deel je video
-      
-    .col-md-2.col
-      %label.control-label{:style=>'text-align:left'}
-        /= I18n.t('admin.describe.info.other_thumbnail');
-        Link:
-    .col-md-8.col
-      %textarea.form-control#program_url
-    .col-md-2.col
-      .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-pink.long-shadow-2
-        = image_tag "nabu_editor/copy.png"
-        
-    .col-md-2.col
-      %label.control-label{:style=>'text-align:left'}
-        /= I18n.t('admin.describe.info.other_thumbnail');
-        Embed:
-    .col-md-8.col
-      %textarea.form-control#program_embed
-    .col-md-2.col
-      .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-pink.long-shadow-2
-        = image_tag "nabu_editor/copy.png"
-        
-    .col-md-2.col
-      %label.control-label{:style=>'text-align:left'}
-        Social:
-    .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-facebook.long-shadow-2 
-      = link_to 'http://www.facebook.com' do
-        = image_tag "nabu_editor/share/facebook.png"
-        
-    .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-twitter.long-shadow-2
-      = link_to 'http://www.twitter.com' do
-        = image_tag "nabu_editor/share/twitter.png"
-        
-    .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-linkedin.long-shadow-2
-      = link_to 'http://www.linkedin.com' do
-        = image_tag "nabu_editor/share/linkedin.png"
-          
-          
+  .publish_container{:style=>'color:white'} 
+    .row
+      %h3
+        Deel je video  
     
-    .col-md-1.col
+    .row
+      .col-md-2
+        %label.control-label{:style=>'text-align:left'}
+          /= I18n.t('admin.describe.info.other_thumbnail');
+          Link:
+      .col-md-8
+        %textarea.form-control#program_url.code
+      .col-md-2
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-pink.long-shadow-2
+          = image_tag "nabu_editor/copy.png"
+  
+    .row  
+      .col-md-2
+        %label.control-label{:style=>'text-align:left'}
+          /= I18n.t('admin.describe.info.other_thumbnail');
+          Embed:
+      .col-md-8
+        %textarea.form-control#program_embed.code
+      .col-md-2.col
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-pink.long-shadow-2
+          = image_tag "nabu_editor/copy.png"
+  
+    .row  
+      .col-md-3
+        %label.control-label{:style=>'text-align:left'}
+          Social:
+
+      .col-md-9
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-facebook.long-shadow-2.share-facebook
+          = image_tag "nabu_editor/share/facebook.png"
+
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-twitter.long-shadow-2.share-twitter        
+          = image_tag "nabu_editor/share/twitter.png"
+
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-linkedin.long-shadow-2.share-linkedin        
+          = image_tag "nabu_editor/share/linkedin.png"
+
