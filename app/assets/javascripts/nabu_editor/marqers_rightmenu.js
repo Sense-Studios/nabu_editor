@@ -169,5 +169,5 @@ $(document).ready(function () {
   initSearch();
   
   // note that the save_marqers function is located in 'editor/marqers.js'
-  $('#save_marqers').click( save_marqers );
+  // $('#save_marqers').click( save_marqers );
 });

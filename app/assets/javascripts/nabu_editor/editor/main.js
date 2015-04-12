@@ -35,6 +35,8 @@ $(function() {
     $('.zoomContainer').scrollLeft( newpos )
   })
   
+  
+  
   // move to browser rendertick
   setInterval( function() { 
     if (!$('#follow_scrubbar').is(':checked')) return;
