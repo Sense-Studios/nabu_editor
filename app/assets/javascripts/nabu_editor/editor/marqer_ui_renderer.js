@@ -152,7 +152,7 @@ var postRender = function( someMarqer, context ) {
     },
 
     code: function() {
-      // there is nothing here
+      ace.config.set('basePath', '/assets/ace');
       var editor = ace.edit( key + "_editor" );
       editor.setTheme("ace/theme/twilight");
       editor.getSession().setMode("ace/mode/" + element.language );
