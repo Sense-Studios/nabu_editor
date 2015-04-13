@@ -84,6 +84,10 @@
 
 // CODE EDITOR
 //= require ace/ace.js
+//= require ace/mode-css.js
+//= require ace/mode-html.js
+//= require ace/theme-twilight.js
+//= require ace/mode-text.js
 
 // CHARTS
 // require highcharts/highcharts.js
