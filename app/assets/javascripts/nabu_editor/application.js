@@ -73,6 +73,9 @@
 // SMOOTHER 
 // require smooth/smooth
 
+// SERIOUSLY
+// require seriously/seriously.js
+
 // HANDLERBARS
 //= require handlebars.runtime
 //= require handlebars_helpers
