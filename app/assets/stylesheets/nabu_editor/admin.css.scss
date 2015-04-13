@@ -537,10 +537,11 @@ nav {
             -webkit-transform: translate(20%, -50%);
             -moz-transform: translate(20%, -50%);
             transform: translate(20%, -50%);
+
             &:nth-child(2) {
-            -webkit-transform: translate(100%, -50%);
-            -moz-transform: translate(100%, -50%);
-            transform: translate(100%, -50%);
+              -webkit-transform: translate(100%, -50%);
+              -moz-transform: translate(100%, -50%);
+              transform: translate(100%, -50%);
             }
           }
         }

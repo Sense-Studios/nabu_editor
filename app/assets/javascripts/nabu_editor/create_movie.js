@@ -278,7 +278,7 @@ function checkInput( directupdate ) {
     // Talk to our own API
     // kaltura/api/entry_id ?
     console.log("I get Kaltura", entryId)
-    $.get('http://nabu.sense-studios.com/admin/kaltura_api/' + entryId, function(entry) {       
+    $.get('/admin/kaltura_api/' + entryId, function(entry) {       
 
       // We've found the kaltura video, now fill the description with it
       $('#title').val( entry.name );

@@ -69,10 +69,33 @@
   }
 }
 
+.marqer.UrlMarqer { 
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  
+  a {        
+    color: whitesmoke;
+    text-decoration: underline;
+    bottom: 60px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    &:hover {
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
+
 /* fix */
 .dropdown_select {
   cursor: pointer;
 }
+
 
 
 
