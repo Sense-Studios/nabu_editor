@@ -152,7 +152,14 @@ var postRender = function( someMarqer, context ) {
     },
 
     code: function() {
+      // https://github.com/ajaxorg/ace/issues/1518
       ace.config.set('basePath', '/assets/ace');
+      
+      // http://stackoverflow.com/questions/14053820/how-to-set-the-source-path-in-ace-editor
+      ace.config.set("modePath", "/assets/ace");
+      ace.config.set("workerPath", "/assets/ace");
+      ace.config.set("themePath", "/assets/ace");
+
       var editor = ace.edit( key + "_editor" );
       editor.setTheme("ace/theme/twilight");
       editor.getSession().setMode("ace/mode/" + element.language );
