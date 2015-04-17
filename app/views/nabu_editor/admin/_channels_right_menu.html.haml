@@ -3,7 +3,7 @@
 
   %form  
     .form-group
-      %select.dropdown_select.dropdown_channel.form-control{"placeholder" => "Select channel"}
+      %select#channel_selector.dropdown_select.dropdown_channel.form-control{"placeholder" => "Select channel"}
         %option Kies een site
         /- @channels.each do |p|
         /  %option{:value => p['id'] }
@@ -11,7 +11,7 @@
       .add_channel.btn.btn-material-burgundy-dark
         %span.glyphicon.glyphicon-plus
 
-      %select.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Select menu"}
+      %select#menu_selector.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Select menu"}
         %option{:disabled => "disabled" } Kies een menu
         - @menus.each do |p|
           %option{:value => p['id'] }= p['name']
@@ -19,19 +19,18 @@
         %span.glyphicon.glyphicon-plus
           
 
-      %select.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
+      %select#theme_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
         %option{:disabled => "disabled" } Kies een thema
         - @themes.each do |t|
-          /= react_component('ChannelListGroupItem', { channel: theme } )
           %option{:value=>t.id}= t.slug
             
-      %select.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
+      %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
         %option{:disabled => "disabled" } Kies startprogramma
-        - @themes.each do |p|
-          %option{:value => p['id'] }= p['title']
+        - @programs.each do |p|   
+          %option{:value => p['id'] }= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
           
       .logopreview.preview-image
-        /%img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>""}
+        = image_tag("nabu_editor/blank_image.png", :class=> "thumbnail-image-preview")
         .uploader_overlay
           %span.add_logo Logo toevoegen
           %span.glyphicon.glyphicon-plus.add_logo_icon
@@ -40,22 +39,25 @@
 
       .primary_color_container
         %h5 Kies jouw hoofdkleur
+        .input-group.demo2
+          =# TODO: GET PRIMARY_COLOR %>
+          %input.form-control{"value" => '#FF0000', "type" => "text"}
+          %span.input-group-addon
+            %i
         %p Voor accenten zoals knoppen en koppen
         
 
-      %textarea.firstarea{"placeholder" => "Korte beschrijving site"}
+      %textarea#site_description.firstarea{"placeholder" => "Korte beschrijving site"}
     
-      %textarea{"placeholder" => "Contactgegevens site"}
+      %textarea#site_contact{"placeholder" => "Contactgegevens site"}
       
   %button.btn.btn-material-pink.bekijk-website
-    = link_to 'fakeittillyoumakeit', :target => "_blank" do
+    = link_to 'http://nabu.sense-studios.com/channel/gazet-van-antwerpen', :target => "_blank" do
       Bekijk website
 
-  = javascript_include_tag "nabu_editor/drop_down_test"  
-  :javascript
-    $(".dropdown_select").dropdown();
-    $(".dropdown_select_small").dropdown();
-       
+  = javascript_include_tag "nabu_editor/drop_down_test"
+  = javascript_include_tag "nabu_editor/channel_settings"  
+
     
 =# render :partial => "shared/admin/admin_info" %>
 =# render :partial => "shared/admin/datatables_translations" %>

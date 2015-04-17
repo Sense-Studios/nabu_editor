@@ -58,6 +58,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   html += '</div>';
 
   trackline.append( html );                             // append it to the trackline
+  console.log("SET TRACK: ", trackline.index(), marqer.type, marqer.marqeroptions.track )
   marqer.marqeroptions.track = trackline.index()        // add track index to marqer    
   addInteractionToTrackEvent( ids );                    // add interaction to it    
   if ( select_id == marqer.id ) selectMarqer( marqer )  // autoselect it
@@ -202,10 +203,10 @@ var initiateUpdateMarqer = function( event, ui ) {
   console.log("HAS INITIATE UPDATE", event.type)
   // if dropped outside the trackline, add one
   if ( event.type == "drop" || event.type == "dragstop" ) {
-    if ( $(event.target).hasClass("trackline") ) {
-      m.marqeroptions.track = $(event.target).index()
+    if ( $(event.target).hasClass("trackline") ) {  
+      m.marqeroptions.track = $(event.target).index();
     }else{
-      m.marqeroptions.track = $('.trackline').length
+      m.marqeroptions.track = $('.trackline').length;
     }
   }
   
@@ -316,7 +317,7 @@ var createScrubbar = function() {
 ////
 // SCREEN EDITOR ( Setup for the Screen editor )
 /////_________________________________________________________________
-
+var keySafeTimeout
 var startScreenEditor = function( event, ui ) {
   console.log("start screen editing ", ui.hasClass('is-selected-for-screen-editor') )
   console.log(event, ui)
@@ -427,7 +428,8 @@ var startScreenEditor = function( event, ui ) {
   //$('.se_drag_container')
   
   var updatePosition = function( event, ui ) {
-    var se = $(event.target)    
+    var se = $(event.target)
+    console.log("has se: ", se)
     var obj = {
       top: se.offset().top,
       left: se.offset().left - $('#video_frame').offset().left,
@@ -442,6 +444,7 @@ var startScreenEditor = function( event, ui ) {
     
     var p = JSON.stringify(obj)
     var v = JSON.stringify(vid)
+    console.log("has values: ", p, v)
     currentMarqer.marqeroptions.position.value = p
     currentMarqer.marqeroptions.original.value = v    
     currentMarqer.remote_id = currentMarqer.id
@@ -468,7 +471,7 @@ var startScreenEditor = function( event, ui ) {
         $( ".se_drag_container" ).css("left", "-=" + d)
         u = true;
         break;
-        
+
       case 38: // up
         $( ".se_drag_container" ).css("top", "-=" + d)
         u = true;
@@ -483,7 +486,7 @@ var startScreenEditor = function( event, ui ) {
         $( ".se_drag_container" ).css("left", "+=" + d)
         u = true;
         break;
-        
+
       case 54: // right
         $( ".se_drag_container" ).css("left", "+=" + d)
         u = true;
@@ -498,19 +501,26 @@ var startScreenEditor = function( event, ui ) {
         $( ".se_drag_container" ).css("top", "+=" + d)
         u = true;
         break;
-      
+
       case 13: // enter
         stopStreenEditor();
         break
-      
+
       case 27: // esc
         stopStreenEditor();
         break
 
       default: return;
-    }    
+    }
+    
+    clearTimeout( keySafeTimeout )
+    keySafeTimeout = setTimeout( function() {
+      var fakeEvent = { target: ".se_drag_container" }
+      updatePosition( fakeEvent )
+    }, 400 )
   })
 }
+
 var createGrid = function() { 
   var grid = ""
   grid += '<div class="snapping_grid" style="width:'+$('#video_frame').width()+'px;height:'+$('#video_frame').height()+'px">'
@@ -613,15 +623,15 @@ var convertMarqersIntoTrackevents = function( m, select_id ) {
 var init_draggables = function() {
 
   // Tracks
-  $( "#tracks" ).sortable({
-    axis: "y",    
-    start: function() {},
-    end: function() {}
-  });
+  //$( "#tracks" ).sortable({
+  //  axis: "y",    
+  //  start: function() {},
+  //  end: function() {}
+  //});
 
   // Trackevents
   // $( ".trackevent" ).toggle({}) // select ?
-  addInteractionToTrackEvent(); 
+  addInteractionToTrackEvent();
   
   // Tracks
   $( "#tracks" ).disableSelection();  

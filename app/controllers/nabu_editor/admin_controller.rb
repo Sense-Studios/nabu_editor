@@ -229,9 +229,8 @@ module NabuEditor
     end
     
     def dashboard
-      @programs_data = MarduqResource::Program.where( client_id:  current_user.client_id ) || []  
-      
-      
+      set_account_id
+      @programs_data = MarduqResource::Program.where( client_id: @account_id ) || []  
       @programs_data = @programs_data.sort_by(&:created_at)
       
       # we need to trim down all the data from programs, 
@@ -254,8 +253,8 @@ module NabuEditor
         @programs.push(temp_program)  
       end
       
-      @themes = NabuThemes::Theme.all
-      @menus = NabuThemes::Menu.all      
+      @themes = NabuThemes::Theme.where( :owner => @account_id )
+      @menus = NabuThemes::Menu.where( :owner => @account_id )      
       
     end
     
@@ -283,7 +282,6 @@ module NabuEditor
         @account_id = current_user.id 
         @user_id =  current_user.id 
       end
-      
       @account = User.find(@account_id)
     end
 

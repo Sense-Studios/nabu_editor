@@ -17,7 +17,8 @@
           %li.new-item.ui-state-default.available_program_item{:id=>p['id']}
             = image_tag p['thumbnail'], :class=>'pull-left menu_video_image', :height=>'32px' unless p['thumbnail'].nil?
             .program_container
-              %p.program_title= p['title'][0..40].gsub(/\s\w+$/,'...') unless p['title'].nil?
+              %p.program_title= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
+            .program_dragger
               
     .col-md-7.menu_all_categories
       %button#create_category_button.btn.btn-material-burgundy
@@ -36,5 +37,6 @@
   
 :javascript
   var menudata = {}
+  var programs = #{@programs.to_json}
 
 = javascript_include_tag "nabu_editor/edit_menu"

@@ -171,6 +171,10 @@ var postRender = function( someMarqer, context ) {
 
     // select
     select: function() {
+      $('#' + key + '_field option[value="' + element.value +'"]').attr("selected", "selected");
+      $('#' + key + '_field').change(function() {
+        setTimeout(preview, 100);
+      }); 
       setTimeout( function() {
         $('.dropdown_select').dropdown();
         $('.dropdownjs ul li').click(function() {
@@ -180,17 +184,17 @@ var postRender = function( someMarqer, context ) {
             $(selected[0]).find('option').removeAttr('selected');
             $(selected[0]).val($(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
             $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
-            $('#' + key + '_field').val( element.value );
-            $('#' + key + '_field').change(function() {
-              setTimeout(preview, 400);
-            });
-          }, 100);
+          }, 200);
         });
-      }, 200)
+      }, 300);
     },
     
         // select
     selectObject: function() {
+      $('#' + key + '_field option[value="' + element.value +'"]').attr("selected", "selected");
+      $('#' + key + '_field').change(function() {
+        setTimeout(preview, 100);
+      }); 
       setTimeout( function() {
         $('.dropdown_select').dropdown();
         $('.dropdownjs ul li').click(function() {
@@ -200,13 +204,9 @@ var postRender = function( someMarqer, context ) {
             $(selected[0]).find('option').removeAttr('selected');
             $(selected[0]).val($(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
             $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
-            $('#' + key + '_field').val( element.value );
-            $('#' + key + '_field').change(function() {
-              setTimeout(preview, 400);
-            });
-          }, 100);
+          }, 300);
         });
-      }, 200)
+      }, 400);   
     },
 
     radio: function() {

@@ -261,7 +261,7 @@ function checkInput( directupdate ) {
   //  Call upon the Kaltura api
   // ******************************************************************
 
-  if ( checkedbox.length == 10 && checkedbox.substring(0, 2) == "1_" ) { // || checkedbox.indexOf("kaltura") >= 0 ) {  
+  if ( checkedbox.length == 10 && checkedbox.substring(1, 2) == "_" ) { // || checkedbox.indexOf("kaltura") >= 0 ) {  
     
     console.log("KALTURA HAS:" + checkedbox )
     //console.log( "parse kaltura url " + kaltura_parser(checkedbox) )
@@ -304,10 +304,11 @@ function checkInput( directupdate ) {
         duration_in_ms: entry.msDuration,
         _type: "Kaltura"
       };
-    
+
       console.log("ALL GO")
       doCreateProgram();    // save the program
-      showDescribeMovie();  // start describing      
+      showDescribeMovie();  // start describing
+
     }).fail( function() {
       alert("Something went wrong with uploading the video.")
       $('.video_uploader_container').fadeIn('slow')

@@ -260,6 +260,14 @@ function resize_aspect_ratio() {
     "height": fixedheight + 'px'
   });
   
+  // failsafe for laggy servers (looking at you kaltura)
+  setTimeout( function() { 
+    if ( $('#video_frame').css('display') == 'none' ) {
+      //$('#video_frame').css('display', 'block')
+      $('#video_frame').fadeIn('slow');
+    }
+  }, 500 );
+  
   updateMarqerBottomControls(fixedheight)  ;
 }
 
@@ -283,12 +291,19 @@ $(document).ready(function() {
   //set var aspect_ratio
   console.log('ready aspect ratio' + aspect_ratio);
   
+
+
+  
+  $('.logopreview img').change(function(){
+    setLogoHeight();
+  });
+  
   setDisabledStatesLeftMenu();
   setDisabledStatePublish();
   
   // check out the user
   agent = checkUserAgent();
-  setTimeout( function() { margin_select_video() }, 1000);
+  setTimeout( function() { margin_select_video(); }, 1000);
   
   // Keep aspect ratio
   $(window).resize(function() {
@@ -333,7 +348,6 @@ $(document).ready(function() {
   //The selectlist wont change 
   //This will make it to work for all of them.
   $('.dropdownjs ul li').click(function(){
-      console.log('jeeeej');
       var selectedvalue = $(this).attr('value');
       var selected = $(this).parent().parent().prev('.dropdown_select');
       setTimeout(function() {

@@ -155,6 +155,13 @@ function showChannelContainer() {
   $('.channels_container').show("slide", { direction: "right" }, 500);
   $('.video_publish_container').fadeOut('fast');
   animateVideoUp();
+  setTimeout(function() {
+    var logoHeight = $('.logopreview img').height();
+    $('.logopreview').height(logoHeight); 
+    //TODO:: CLICK ON SELECTED CHANNEL INSTEAD OF FIRST
+    $('#channel_selector').next().find('ul').find('li:eq(1)').click();
+  }, 500);
+
 };
 
 // ### Sections

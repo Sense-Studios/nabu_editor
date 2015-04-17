@@ -31,9 +31,10 @@ var available_marqers = [
   { 'name': 'Film Titel',                    'type': 'FilmTitleMarqer',               'icon': '', 'category': 'opmaak',       'version':'alpha'},  
 
   { 'name': 'Twitter',                       'type': 'TwitterMarqer',                 'icon': '', 'category': 'social',       'version':'alpha'},  
+  { 'name': 'Share Buttons',                 'type': 'ShareMarqer',                   'icon': '', 'category': 'social',       'version':'alpha'},  
 
   { 'name': 'Player Control',                'type': 'PlayerControlMarqer',           'icon': '', 'category': 'experimental', 'version':'alpha'},  
-  //{ 'name': 'Seriously',                     'type': 'SeriouslyMarqer',               'icon': '', 'category': 'experimental', 'version':'alpha'}
+  { 'name': 'Seriously',                     'type': 'SeriouslyMarqer',               'icon': '', 'category': 'experimental', 'version':'alpha'}
   
   //{ 'name': 'Doet niks',                     'type': 'DefaultMarqer',                 'icon': '', 'category': '',             'version':'alpha'},
   //{ 'name': 'Wikipedia',                     'type': 'WikipediaMarqer',               'icon': '', 'category': 'experimental', 'version':'alpha'},

@@ -3,6 +3,7 @@
 
 var menudata;
 var programs;
+var clicked = 0; 
 
 console.log(" ### GOT MENU DATA: ", menudata)
 console.log(" ### GOT PROGRAMS : ", programs)
@@ -18,6 +19,7 @@ function createCategory() {
   // header
   var cat = ""
   cat += '<li class="category_item">';
+  cat += '<span class="handle_icon"></span>'
   cat += '<input type="text" class="category_name" placeholder="Typ categorienaam">';
   cat += '<button class="delete_category btn btn-material-custom-darkgrey">';
   cat += '<span class="glyphicon glyphicon-remove"></span';
@@ -32,6 +34,7 @@ function createCategory() {
   // list holder
   var category_id = Math.round( Math.random() * 1000000 );
   cat += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
+  cat += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
   
   $('#le_menu').prepend(cat);
 
@@ -43,6 +46,24 @@ function createCategory() {
     })
   });
   
+  //
+  $(".toggle_category").click(function(){
+    var curheight = $(this).parent().height();
+    if(curheight >= 145){
+      $(this).parent().animate({height: "50px"}, 300);
+      $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'})
+    }
+    else {
+      $(this).parent().css('height', 'auto');
+      var clickeddiv = $(this).parent().height();
+      $(this).parent().css('height', '50px');
+      $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'})
+      $(this).parent().animate({height: clickeddiv}, 300, function() {
+        $(this).css({height: 'auto'});
+      });
+      clicked = 1; 
+    }
+  }); 
   // re-init draggables
   setDraggables()
 };
@@ -96,7 +117,7 @@ function loadMenuFromData() {
           some_item += '</small>'
           some_item += '<button class="delete_category btn btn-material-white pull-right item_delete_button">';
           some_item += '<span class="glyphicon glyphicon-remove"></span';
-          some_item += '<a id="remove_categorie"></a>';
+          some_item += '<a id="remove_categorie" ></a>';
           some_item += '</button>';
           if ( item_value.emphasize ) {
             some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>'
@@ -112,7 +133,16 @@ function loadMenuFromData() {
     
     // hook up the delete button
     $('.item_delete_button').click( function() {
-      $(this).closest('li').remove();
+      var parentItem = $(this).parent().parent();
+      var parentItemCount = parentItem.children().length;
+      
+      if(parentItemCount == 1) 
+      {
+        $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+        $(parentItem).removeAttr('style');
+      }
+      
+      $(this).parent().remove();
     });
   });
 };
@@ -151,30 +181,33 @@ function setDraggables() {
     revert: "invalid",
     dropOnEmpty: true,
     zIndex: 9001,
+    addClasses: true,
     sort: function(event, ui) { 
       ui.helper.css( {'top' : ui.position.top + $(window).scrollTop() + 'px'} ); // firefox fix
       updateMenuData();
     },
     stop: function(event, ui) {
       updateMenuData();
+
     }
   });
 
   // ### Set sortable menu-items
   $( "#le_menu" ).sortable({
-    items : 'li',      
+    items : '.category_item',      
     dropOnEmpty: true,
     sort: function(event, ui) { 
       ui.helper.css({'top' : ui.position.top + $(window).scrollTop() + 'px'}); // firefox fix
     },
     stop: function(event, ui) {
       updateMenuData();
+
     }
   });
 
   // ### Set Sortable categories
   $( ".category" ).sortable({
-    connectWith: $(".drop"),
+    connectWith: ".drop",
     dropOnEmpty: true,
     receive: function(event, ui) { 
       var temp_id 
@@ -183,16 +216,36 @@ function setDraggables() {
       }else{
         temp_id = ui.item.id;
       }
-      
       initMenuItem( $(this).data().uiSortable.currentItem, temp_id )
+    },
+    remove: function(event, ui) {
+      var removedElement = $(this).children().length;
+      if(removedElement == 0) {
+        $(this).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+        $(this).removeAttr('style');
+      }
     },
     sort: function(event, ui) { 
       ui.helper.css({'top' : ui.position.top + $(window).scrollTop() + 'px'});  // firefox fix
     },
     stop: function(event, ui) {
       updateMenuData()
+
     }
   });
+  
+  $( ".category" ).droppable({
+    accept: '.new-item',
+    drop: function( event, ui ) {
+      var itemCount = $(this).children().length - 1;
+      if(itemCount == 1 || itemCount == 0){
+        $(this).parent().find(".categorydrop").remove();
+        $(this).parent().find('.category').css('padding','0px 10px 10px 10px');
+      }
+    }
+  });
+  
+  
 }
 
 // ##########################
@@ -203,9 +256,19 @@ function initMenuItem( currentItem, id ) {
   if ( currentItem === undefined || !currentItem.hasClass('not_new') ) {
     currentItem.prop('id', id )
     currentItem.append('<button class="delete_category btn btn-material-white pull-right item_delete_button"><span class="glyphicon glyphicon-remove"></span><a id="remove_categorie"></a></button><div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>');
+    currentItem.find('.program_dragger').remove();
     currentItem.addClass('not_new');
     currentItem.find('.item_delete_button').click( function() {
-      $(this).closest('li').remove();
+      var parentItem = $(this).parent().parent();
+      var parentItemCount = parentItem.children().length;
+      
+      if(parentItemCount == 1) 
+      {
+        $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+        $(parentItem).removeAttr('style');
+      }
+      
+      $(this).parent().remove();
     });
     $.material.init();
   }
@@ -237,9 +300,9 @@ $(function() {
     var filtrz = $('#available_program_search').val().toLowerCase();
     $('#all_available li').each( function(key, value) {      
       if (  $(value).find('.program_tags').text().toLowerCase().indexOf( filtrz ) != -1 || $(value).find('.program_title').text().toLowerCase().indexOf( filtrz ) != -1 ) {
-        $(value).show()
+        $(value).show();
       }else{
-        $(value).hide()
+        $(value).hide();
       }
     });
   });
@@ -250,6 +313,7 @@ $(function() {
 
   $('#save_menu_button').click( exportAndSaveMenu );
   $('#create_category_button').click( createCategory );
+  
 });
 
 
@@ -259,9 +323,15 @@ $(function() {
 
   $('#hide_menu_container_overlay').click(function() {
     showChannelContainer();
+    //TODO: Create new category if empty
+    createCategory();
   });
   
+
   
+
+  
+
 
   
   
