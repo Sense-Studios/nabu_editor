@@ -25,7 +25,7 @@
 //= require react/react-with-addons
 //= require react/react_ujs
 //= require components
-//= require nabu_editor/components
+//= require_tree ./components
 
 // BOOTSTRAP
 //= require bootstrap
@@ -74,21 +74,17 @@
 // SMOOTHER 
 // require smooth/smooth
 
-// SERIOUSLY
+// SERIOUSLY ( -- seriously is injected at runtime )
 // require seriously/seriously.js
 
 // HANDLERBARS
 //= require handlebars.runtime
 //= require handlebars_helpers
 //= require templates/marqer_templates
-//= require nabu_editor/templates
+//= require_tree ./templates
 
 // CODE EDITOR
 //= require ace/ace.js
-// require ace/mode-css.js
-// require ace/mode-html.js
-// require ace/theme-twilight.js
-// require ace/mode-text.js
 
 // CHARTS
 // require highcharts/highcharts.js

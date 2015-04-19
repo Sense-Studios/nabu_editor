@@ -1,3 +1,7 @@
+// these have been moved to marqers.css.scss in the main application
+// nabu/app/assets/stylesheets/marqers.css.scss
+
+/*
 .marqer {
   top: 0;
   left: 0;
@@ -7,112 +11,11 @@
   //-o-transition-duration: 0.8s;
   //transition-duration: 0.8s;    
 }
+*/
 
-.marqer.FreeImageMarqer {
-  
-  .wrapper {
-    position: absolute; 
-    left: 0px; 
-    top: 0px; 
-    height: 100px; 
-    width: 100px;  
 
-    //-webkit-transition-duration: 0.1s;
-    //-moz-transition-duration: 0.1s;
-    //-o-transition-duration: 0.1s;
-    //transition-duration: 0.1s;  
 
-    a {      
-      img {
-        height: 100%; 
-        width: 100%;
-      }
-    }
-  }
 
-  // some dynamic img class
-  .freeimagetestmarqer {
-    
-  }
-}
-
-.marqer.FreeHtmlCssMarqer, .marqer.SimpleTextMarqer {  
-  .wrapper {
-    position: absolute; 
-    overflow: hidden;
-    left: 0px; 
-    top: 0px; 
-    height: 200px; 
-    width: 320px; 
-  }
-  
-  h1 {
-    /*margin-bottom: ;*/
-  }
-}
-
-.marqer.ButtonMarqer {
-  .wrapper {
-    position: absolute; 
-    overflow: hidden;
-    left: 0px; 
-    top: 0px; 
-    height: 200px; 
-    width: 320px; 
-  }
-  
-  .btn {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.marqer.ShareMarqer {  
-  .wrapper {
-    position: absolute; 
-    overflow: hidden;
-    left: 0px; 
-    top: 0px; 
-    height: 200px; 
-    width: 320px; 
-  }
-    
-  .share_btn {
-    display: inline-block;
-    pointer-events: all;
-    cursor: pointer;
-  }
-}
-
-.marqer.UrlMarqer { 
-  width: 100%;
-  height: 100%;
-  top: 0%;
-  left: 0%;
-  
-  a {        
-    color: whitesmoke;
-    text-decoration: underline;
-    bottom: 60px;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    
-    &:hover {
-      color: white;
-      font-weight: 600;
-    }
-  }
-}
-
-/* fix */
-.dropdown_select {
-  cursor: pointer;
-}
 
 
 
