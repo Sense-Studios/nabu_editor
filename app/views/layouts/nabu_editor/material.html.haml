@@ -20,6 +20,9 @@
       // engine mount point
       var mount_point = "#{NABU_EDITOR_MOUNT_POINT}"; // mount point of the engine
 
+      // available themes
+      var available_themes = #{NABU_THEMES_AVAILABLE_THEMES.to_json};
+
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
     = javascript_include_tag "nabu_editor/application"    
@@ -28,6 +31,11 @@
     / looks like the only way to add this lastly
     = stylesheet_link_tag "nabu_editor/admin"
     = stylesheet_link_tag "nabu_editor/jquery.dropdown"
+
+    / final override for right menu
+    :css          
+      .marqer_category {z-index: 100000 !important;}
+      .marqer_category:hover {z-index: 100000 !important;}
 
     / favicon
     %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}

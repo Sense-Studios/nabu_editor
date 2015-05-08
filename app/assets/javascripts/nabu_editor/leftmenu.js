@@ -5,6 +5,9 @@ $(document).ready(function() {
    
   //toggle nav width
   var widthtoggle = 0; 
+  $('.user_image_wrapper').click( function() { window.open("https://nl.gravatar.com", '_blank' ) } )
+  $('.user_image_wrapper').css('cursor','pointer')
+
   $(".hide_left_menu").click(function(){
 
     //toggle nav width
@@ -56,6 +59,5 @@ $(document).ready(function() {
     // update shapeshift
     setTimeout( function() { if ( $(".leprograms").is(":visible") ) $(".leprograms").trigger("ss-rearrange")           } , 300 );
     setTimeout( function() { if ( $(".leprograms").is(":visible") ) $('.leprograms').shapeshift(shapeshiftOptions()   )} , 700 );
-
-  });  
+  });   
 });
