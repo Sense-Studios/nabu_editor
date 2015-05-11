@@ -85,7 +85,7 @@ function setDataFromProgram() {
   
   // $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '+/kaltura/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
   $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '/embed/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
-  $('textarea#program_url').text('http://'+ window.location.origin + '/embed/' + program.id );
+  $('textarea#program_url').text( window.location.origin + '/embed/' + program.id );
 
   
   // add the pictiures
