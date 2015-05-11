@@ -1,3 +1,9 @@
+/* global
+available_themes
+menus
+mount_point
+*/
+
 var canSave = true;
 
 //ERROR MESSAGES!
@@ -12,7 +18,7 @@ var typingTimer;                //timer identifier
 var doneTypingInterval = 1500;  //time in ms
 
 
-$.get('http://nabu.sense-studios.com/channel/themes.json', function(data) {
+$.get('/' + mount_point + '/themes.json', function(data) {
 
   if(typeof data =='object')
   {
@@ -113,14 +119,7 @@ $.get('http://nabu.sense-studios.com/channel/themes.json', function(data) {
               $('#site_description').val( data[key].about );
               $('#site_contact').val( data[key].contact );
               $('.bekijk-website a').attr('href', 'http://nabu.sense-studios.com/channel/' + data[key].slug );
-              
-              
-              
-  
-              
-  
-              
-              
+
               canSave = true;
               /////////////////////////////////////////////////
               ///GET THE MENUS AND SET THEM IN THE MENU EDITOR

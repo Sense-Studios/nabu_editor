@@ -4,6 +4,9 @@ utils/parseYoutubeDuration
 app/t (translations)
 app/client_id
 app/log
+setPrograms
+setProgram
+mount_point
 */
 
 var mapi = new MarduqApi();   // Marduq Api 
@@ -14,24 +17,24 @@ var statecheckinterval;       // holder zencoder state interval
 var currentAssetData = {};    // holder
 var new_program_id = null;    // holder
 var new_asset_id = null;      // holder
-var new_asset_job_id = null   // holder
+var new_asset_job_id = null;   // holder
 // var new_video = null;      // not used
 
 var saveComplete = function( resp ) {
-  console.log( "Save Complete, resp: ", resp)  
-  if ( resp === undefined ) var resp = { 'id': new_program_id } // failsafe  
-  injectMetadata( resp.id )
-}
+  console.log( "Save Complete, resp: ", resp) ; 
+  if ( resp === undefined ) resp = { 'id': new_program_id }; // failsafe  
+  injectMetadata( resp.id );
+};
 
 // helper to inject (initial) metadata into the program
 var injectMetadata = function(id) {  
-  console.log("inject metadata in ", id )
+  console.log("inject metadata in ", id );
   $.get( '/'+ mount_point +'/inject_metadata/' + id, function( resp ) {    
-    console.log("meta data injected: ", resp)          
-    setPrograms()          // reload programs        
-    setProgram( resp.id )  // set current program    
-  })
-}
+    console.log("meta data injected: ", resp);          
+    setPrograms();          // reload programs        
+    setProgram( resp.id );  // set current program    
+  });
+};
 
 // this is actually the 'save' function, but it's not really saving
 var doCreateProgram = function() {

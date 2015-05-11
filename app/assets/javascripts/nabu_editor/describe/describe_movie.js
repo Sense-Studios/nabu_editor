@@ -5,6 +5,7 @@ save
 program_id
 pop
 m
+metaData
 */
 
 // *****************************************************************************
@@ -21,13 +22,13 @@ m
 
 function setDataFromProgram() {
   
-  console.log("SETTING DATA FROM PROGRAM")
+  console.log("SETTING DATA FROM PROGRAM");
   
     // this is a new program, appearently, set meta data to descriptor
   if ( program.meta === "" || program.meta === null || program.meta === undefined ) {
     
-    console.log("ignoring empty meta info")
-    console.log("this should be handled by the server!!")
+    console.log("ignoring empty meta info");
+    console.log("this should be handled by the server!!");
     // injectMetadata( id )
     
     //console.log("no meta info found on program, setting it .. ");
@@ -55,17 +56,17 @@ function setDataFromProgram() {
     metaData = program.meta;
   }
   
-  console.log("doublecheck program data:")
-  console.log(" -- ", program.program_items[0].asset.title )
-  console.log(" -- ", program.program_items[0].asset.description )
-  console.log(" -- ", program.program_items[0].asset.tags )
-  console.log(" -- ", program.program_items[0].asset.thumbnail_url )
+  console.log("doublecheck program data:");
+  console.log(" -- ", program.program_items[0].asset.title );
+  console.log(" -- ", program.program_items[0].asset.description );
+  console.log(" -- ", program.program_items[0].asset.tags );
+  console.log(" -- ", program.program_items[0].asset.thumbnail_url );
 
-  console.log("setting metadata:")
-  console.log(" -- ", metaData.moviedescription.title )
-  console.log(" -- ", metaData.moviedescription.description )
-  console.log(" -- ", metaData.moviedescription.tags )
-  console.log(" -- ", metaData.moviedescription.thumbnail )  
+  console.log("setting metadata:");
+  console.log(" -- ", metaData.moviedescription.title );
+  console.log(" -- ", metaData.moviedescription.description );
+  console.log(" -- ", metaData.moviedescription.tags );
+  console.log(" -- ", metaData.moviedescription.thumbnail );
   
   // Tab1: set Movie Info Tab
   // initTextField( $('#title'), program.program_items[0].asset, "title" );
@@ -77,20 +78,23 @@ function setDataFromProgram() {
   initTextField( $('#description'),  metaData.moviedescription, "description"  );
   $('#small_description').text(metaData.moviedescription.description);
   initTextField( $('#tags'), metaData.moviedescription, "tags" );
+  
   // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
   // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
   // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
-  $('textarea#program_embed').text('<iframe src="http://nabu.sense-studios.com/embed/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
-  $('textarea#program_url').text('http://nabu.sense-studios.com/embed/' + program.id);
+  
+  // $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '+/kaltura/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
+  $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '/embed/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
+  $('textarea#program_url').text('http://'+ window.location.origin + '/embed/' + program.id );
 
   
   // add the pictiures
-  $('.image-picker').html('')                                                //reset
-  $('.thumbnail-image-preview').attr('src', 'http://placehold.it/640x360')   // reset
+  $('.image-picker').html('');                                                //reset
+  $('.thumbnail-image-preview').attr('src', 'http://placehold.it/640x360');   // reset
     
   // each thumbnail in the asset  
   if ( program.program_items[0].asset._type == "Video" ) {
-    var cn = 0
+    var cn = 0;
     $.each( program.program_items[0].asset.thumbnails.medium, function( key, value ) { 
       $('.image-picker').append('<option data-img-src="' + value + '" value="1" > Thumbnail </option>');
       cn++;
@@ -98,7 +102,7 @@ function setDataFromProgram() {
   }
     
   if ( program.program_items[0].asset._type == "Youtube" || program.program_items[0].asset._type == "Vimeo" ) {
-    $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>') 
+    $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>');
   }
   
   // add the current, floating thumbnail
