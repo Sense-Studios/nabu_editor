@@ -10,12 +10,16 @@
   .user_description
     .user_image_wrapper
       - if current_user
-        = image_tag current_user.gravatar_url size: 120
+        -if current_user.gravatar_url == "https://secure.gravatar.com/avatar/e75bc78826274e5a2331dca10fef988b.png?r=PG"
+          = image_tag("nabu_editor/avatar_placeholder.png", class: "user_image")
+        -else
+          = image_tag current_user.gravatar_url size: 120
       - else
         = image_tag("nabu_editor/patrick.png", class: "user_image")
 
 
     %h3.user_name= current_user.account_name
+      
     /%p.user_name
     /  - if  current_user.has_role? :admin
     /    = "Administrator"

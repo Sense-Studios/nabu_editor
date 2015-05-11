@@ -3,7 +3,7 @@ var canSave = true;
 //ERROR MESSAGES!
 var slugEmpty         = "Kanaal slug ontbreekt";
 var slugInUse         = "Kanaal slug is al ingebruik";
-var slugHasSpaces     = "Kanaal slug mag geen spaties bevatten"
+var slugHasSpaces     = "Kanaal slug mag geen spaties bevatten";
 var channelNameEmpty  = "Kanaal naam ontbreekt";
 
 
@@ -175,118 +175,122 @@ function setMenudata(Menudata){
       menuName += '</div>';
       $('#le_menu').before(menuName);
       
-      menus = JSON.parse(menudata.items);
-      $('.category_item').remove();
-      if(menus.menu.length > 0) {
-        $.each(menus.menu,function(key, value) {
-
-            // header
-            var menu = "";
-            menu += '<li class="category_item">';
-            menu += '<span class="handle_icon"></span>';
-            menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value=' + menus.menu[key].name + '>';
-            menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
-            menu += '<span class="glyphicon glyphicon-remove"></span';
-            menu += '<a id="remove_categorie"></a>';
-            menu += '</button>';
-            menu += '<button class="toggle_category btn btn-material-custom-darkgrey">';
-            menu += '<span class="glyphicon glyphicon-triangle-right"></span';
-            menu += '<a id="toggle_categorie"></a>';
-            menu += '</button>';
-            menu += '<div class="clear"></div>';
+      try {
+        menus = JSON.parse(menudata.items);
+        $('.category_item').remove();
+        if(menus.menu.length > 0) {
+          $.each(menus.menu,function(key, value) {
+  
+              // header
+              var menu = "";
+              menu += '<li class="category_item">';
+              menu += '<span class="handle_icon"></span>';
+              menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value=' + menus.menu[key].name + '>';
+              menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
+              menu += '<span class="glyphicon glyphicon-remove"></span';
+              menu += '<a id="remove_categorie"></a>';
+              menu += '</button>';
+              menu += '<button class="toggle_category btn btn-material-custom-darkgrey">';
+              menu += '<span class="glyphicon glyphicon-triangle-right"></span';
+              menu += '<a id="toggle_categorie"></a>';
+              menu += '</button>';
+              menu += '<div class="clear"></div>';
+              
+              // list holder
+              var category_id = Math.round( Math.random() * 1000000 );
+              menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
+              menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
+              
+              $('#le_menu').append(menu);
             
-            // list holder
-            var category_id = Math.round( Math.random() * 1000000 );
-            menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
-            menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
-            
-            $('#le_menu').append(menu);
-          
-            // ### Init categories
-            $('.category_item').each( function( key, value) {            
-              $( value ).find( '.delete_category ').unbind('click');
-              $( value ).find( '.delete_category ').click( function() {
-                $(this).closest('.category_item').remove();
-              });
-            });
-            
-            //
-            $(".toggle_category").click(function(){
-              var curheight = $(this).parent().height();
-              if(curheight >= 145){
-                $(this).parent().animate({height: "50px"}, 300);
-                $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
-              }
-              else {
-                $(this).parent().css('height', 'auto');
-                var clickeddiv = $(this).parent().height();
-                $(this).parent().css('height', '50px');
-                $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
-                $(this).parent().animate({height: clickeddiv}, 300, function() {
-                  $(this).css({height: 'auto'});
+              // ### Init categories
+              $('.category_item').each( function( key, value) {            
+                $( value ).find( '.delete_category ').unbind('click');
+                $( value ).find( '.delete_category ').click( function() {
+                  $(this).closest('.category_item').remove();
                 });
-                clicked = 1; 
-              }
-            }); 
+              });
+              
+              //
+              $(".toggle_category").click(function(){
+                var curheight = $(this).parent().height();
+                if(curheight >= 145){
+                  $(this).parent().animate({height: "50px"}, 300);
+                  $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
+                }
+                else {
+                  $(this).parent().css('height', 'auto');
+                  var clickeddiv = $(this).parent().height();
+                  $(this).parent().css('height', '50px');
+                  $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
+                  $(this).parent().animate({height: clickeddiv}, 300, function() {
+                    $(this).css({height: 'auto'});
+                  });
+                  clicked = 1; 
+                }
+              }); 
+              
+              $(".category_item:not(:first) .toggle_category").trigger('click');
+              // re-init draggables
+              setDraggables();
             
-            $(".category_item:not(:first) .toggle_category").trigger('click');
-            // re-init draggables
-            setDraggables();
           
-        
-          
-          var menuItem = menus.menu[key].items;
-          if(menuItem.length > 0) {
-            $('#' + category_id).next().remove();
-            $('#' + category_id).css('padding', '0px 10px 10px 10px');
-          }
-          
-          if(menuItem.length > 0) {
-            $.each(menuItem,function(key,value){
-              var title = menuItem[key].name;
-              var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";    
-          
-              var some_item = "";
-              some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;">';
-              some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
-              some_item += '<div class="program_container">';
-              some_item += '<p class="program_title">';
-              some_item += shortText;
-              some_item += '</p>';
-              some_item += '</div>';
-              some_item += '<button class="delete_category btn btn-material-white pull-right item_delete_button" id="' + menuItem[key].id  + '">';
-              some_item += '<span class="glyphicon glyphicon-remove"></span>';
-              some_item += '<a id="remove_categorie"></a>';
-              some_item += '</button>';
-              if ( menuItem[key].emphasize === false) {
-                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
-              }else{
-                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
-              }
-              some_item += '</div></li>';
-              var prependDiv = '#' + category_id;
-              $(prependDiv).append(some_item);
-              $.material.init();
-            });
-            // hook up the delete button
-            $('.item_delete_button').click( function() {
-              var parentItem = $(this).parent().parent();
-              var parentItemCount = parentItem.children().length;
-              
-              if(parentItemCount == 1) 
-              {
-                $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
-                $(parentItem).removeAttr('style');
-              }
-              
-              $(this).parent().remove();
-            }); 
-          } 
-        });
-      } else {
-        createCategory();
+            
+            var menuItem = menus.menu[key].items;
+            if(menuItem.length > 0) {
+              $('#' + category_id).next().remove();
+              $('#' + category_id).css('padding', '0px 10px 10px 10px');
+            }
+            
+            if(menuItem.length > 0) {
+              $.each(menuItem,function(key,value){
+                var title = menuItem[key].name;
+                var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";    
+            
+                var some_item = "";
+                some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;">';
+                some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
+                some_item += '<div class="program_container">';
+                some_item += '<p class="program_title">';
+                some_item += shortText;
+                some_item += '</p>';
+                some_item += '</div>';
+                some_item += '<button class="delete_category btn btn-material-white pull-right item_delete_button" id="' + menuItem[key].id  + '">';
+                some_item += '<span class="glyphicon glyphicon-remove"></span>';
+                some_item += '<a id="remove_categorie"></a>';
+                some_item += '</button>';
+                if ( menuItem[key].emphasize === false) {
+                  some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
+                }else{
+                  some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
+                }
+                some_item += '</div></li>';
+                var prependDiv = '#' + category_id;
+                $(prependDiv).append(some_item);
+                $.material.init();
+              });
+              // hook up the delete button
+              $('.item_delete_button').click( function() {
+                var parentItem = $(this).parent().parent();
+                var parentItemCount = parentItem.children().length;
+                
+                if(parentItemCount == 1) 
+                {
+                  $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+                  $(parentItem).removeAttr('style');
+                }
+                
+                $(this).parent().remove();
+              }); 
+            } 
+          });
+        } else {
+          createCategory();
+        }
+      } catch(err) {
+        console.log(err);
       }
-
+      
       $('#le_menu').removeClass('hideLeMenu');
     }); 
   }, 200); 
@@ -555,7 +559,6 @@ function updateChannel() {
   var channelId = $('#channel_selector').val();
   var channelData = getChannelData();
   console.log(channelData);
-  console.log('test');
   
   $.post( '/channel/channel_api/update/' + channelId, { "theme":  channelData }, function(d) {
     if(d.status == "fail") {
@@ -616,6 +619,10 @@ $('#delete_menu_button').click(function() {
 
 $('#save_menu_button').click(function(){
   updateMenu();  
+});
+
+$('.primary-color').colorpicker().on('hidePicker.colorpicker', function(event){
+  updateChannel();
 });
 
 

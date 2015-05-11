@@ -80,7 +80,7 @@ function setDataFromProgram() {
   // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
   // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
   // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
-  $('textarea#program_embed').text('<iframe src="http://nabu.sense-studios.com/embed/' + program.id + '" wiallowFullscreen="true" scrolling="no"></iframe>' );
+  $('textarea#program_embed').text('<iframe src="http://nabu.sense-studios.com/embed/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
   $('textarea#program_url').text('http://nabu.sense-studios.com/embed/' + program.id);
 
   
