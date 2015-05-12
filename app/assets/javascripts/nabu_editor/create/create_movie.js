@@ -483,6 +483,7 @@ var updateProgramAfterZencoding = function( video, zen_data ) {
     updateAsset.tags = $('#tags').val();
     
     console.log("################################### INJECT TIME::: ", response.job.input_media_file.duration_in_ms)
+    updateAsset.duration = response.job.input_media_file.duration_in_ms/1000
     updateAsset.duration_in_ms = response.job.input_media_file.duration_in_ms
     
     //// get thumbnail (first medium sized tn)

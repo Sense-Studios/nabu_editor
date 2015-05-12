@@ -192,7 +192,6 @@ function setDraggables() {
     },
     stop: function(event, ui) {
       updateMenuData();
-
     }
   });
 
