@@ -14,7 +14,7 @@
 // JQUERY
 //= require jquery
 //= require jquery_ujs
-//= require jqueryui/jquery-ui-1.10.4.custom
+//= require jqueryui/jquery-ui-1.11.4
 //= require jquery-touch-punch/jquery.ui.touch-punch.min
 
 // TURBOLINKS

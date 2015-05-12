@@ -18,7 +18,7 @@ var typingTimer;                //timer identifier
 var doneTypingInterval = 1500;  //time in ms
 
 
-$.get('/' + mount_point + '/themes.json', function(data) {
+$.get('/channel/themes.json', function(data) {
 
   if(typeof data =='object')
   {

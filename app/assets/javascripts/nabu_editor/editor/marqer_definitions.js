@@ -9,7 +9,7 @@ var categories = [
 
 var available_marqers = [  
   { 'name': 'Optitel',                       'type': 'TitleMarqer',                    'icon': '', 'category': 'text',         'version':'beta'  },
-  { 'name': 'Tekst',                          'type': 'SimpleTextMarqer',              'icon': '', 'category': 'text',         'version':'alpha' },
+  { 'name': 'Tekst',                         'type': 'SimpleTextMarqer',               'icon': '', 'category': 'text',         'version':'alpha' },
   { 'name': 'Ondertiteling',                 'type': 'SRTMarqer',                      'icon': '', 'category': 'text',         'version':'alpha' },
   { 'name': 'Ondertitel',                    'type': 'SubTitleMarqer',                 'icon': '', 'category': 'text',         'version':'alpha' },
  
@@ -23,15 +23,17 @@ var available_marqers = [
   { 'name': 'Logo',                          'type': 'ImageMarqer',                    'icon': '', 'category': 'meer_info',    'version':'beta'  },
   { 'name': 'Link',                          'type': 'UrlMarqer',                      'icon': '', 'category': 'meer_info',    'version':'beta'  },    
  
-  { 'name': 'Submenu',                       'type': 'SubmenuMarqer',                  'icon': '', 'category': 'opmaak',       'version':'alpha' },
-  { 'name': 'Zijpanel',                      'type': 'SidePanelMarqer',                'icon': '', 'category': 'opmaak',       'version':'alpha' },
-  { 'name': 'Film Titel',                    'type': 'FilmTitleMarqer',                'icon': '', 'category': 'opmaak',       'version':'alpha' },  
+  { 'name': 'Submenu',                       'type': 'SubmenuMarqer',                  'icon': '', 'category': 'experimental', 'version':'alpha' },
+  { 'name': 'Zijpanel',                      'type': 'SidePanelMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },
+  { 'name': 'Film Titel',                    'type': 'FilmTitleMarqer',                'icon': '', 'category': 'opmaak',       'version':'alpha' },
+ 
  
   { 'name': 'Twitter',                       'type': 'TwitterMarqer',                  'icon': '', 'category': 'social',       'version':'alpha' },  
   { 'name': 'Share Buttons',                 'type': 'ShareMarqer',                    'icon': '', 'category': 'social',       'version':'alpha' },  
  
   { 'name': 'Player Control',                'type': 'PlayerControlMarqer',            'icon': '', 'category': 'experimental', 'version':'alpha' },  
-  { 'name': 'Seriously',                     'type': 'SeriouslyMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' }
+  { 'name': 'Seriously',                     'type': 'SeriouslyMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },
+  //{ 'name': 'Achtergrond',                   'type': 'BackgroundMarqer',               'icon': '', 'category': 'experimental', 'version':'alpha' },   
   
   //{ 'name': 'Wikipedia',                     'type': 'WikipediaMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },
   //{ 'name': 'Motion Tracker',                'type': 'MotionTrackerMarqer',            'icon': '', 'category': 'experimental', 'version':'alpha' },

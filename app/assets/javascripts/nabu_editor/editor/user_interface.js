@@ -343,6 +343,7 @@ var startScreenEditor = function( event, ui ) {
   html += '<div class="se_drag_container ui-widget-content">';
   html += '<div class="se_content_container">';
 
+  /*
   if ( currentMarqer.marqeroptions.image !== undefined && currentMarqer.marqeroptions.image !== null ) {
     html += "<img width='100%' height='100%' src='"+currentMarqer.marqeroptions.image.value+"'/>";
   } else if ( currentMarqer.marqeroptions.html !== undefined && currentMarqer.marqeroptions.html !== null ) {
@@ -352,6 +353,7 @@ var startScreenEditor = function( event, ui ) {
   }else{
     html += currentMarqer.marqeroptions.title.value;
   }
+  */
 
   html += '</div></div></div>';
   $('#video_frame').prepend(html); // add se editor  
@@ -390,15 +392,15 @@ var startScreenEditor = function( event, ui ) {
     })
     
     // update tekst elements
-    var mult = 1
-    $('.se_content_container').children().fitText( 2.0 );
-    $('.se_content_container h1').fitText( 0.8 );
-    $('.se_content_container h2').fitText( 1.0 );
-    $('.se_content_container h3').fitText( 1.4 );
-    $('.se_content_container h4').fitText( 2.0 );    
-    $('.se_content_container h5').fitText( 2.2 );
-    $('.se_content_container h6').fitText( 2.6 );
-    $('.se_content_container li').fitText( 1.9 );
+    //var mult = 1;
+    //$('.se_content_container').children().fitText( 2.0 );
+    //$('.se_content_container h1').fitText( 0.8 );
+    //$('.se_content_container h2').fitText( 1.0 );
+    //$('.se_content_container h3').fitText( 1.4 );
+    //$('.se_content_container h4').fitText( 2.0 );    
+    //$('.se_content_container h5').fitText( 2.2 );
+    //$('.se_content_container h6').fitText( 2.6 );
+    //$('.se_content_container li').fitText( 1.9 );
   }
 
   // add the grid
@@ -406,23 +408,31 @@ var startScreenEditor = function( event, ui ) {
 
   // add Title safe
   // TODO
+  //function initResize() {  
+    //if($('.se_drag_container').hasClass("ui-resizable")) return;
+    $('.se_drag_container').resizable({    
+      // grid: [ $('.grid_cell').width()/4, $('.grid_cell').height()/4 ],
+      // aspectRatio: true
+      handles: "n, e, s, w, ne, se, sw, nw",
+      stop: function( event, ui ) { 
+        updatePosition( event, ui )
+      } 
   
-  $('.se_drag_container').resizable({    
-    // grid: [ $('.grid_cell').width()/4, $('.grid_cell').height()/4 ],
-    // aspectRatio: true
-    stop: function( event, ui ) { 
-      updatePosition( event, ui )
-    } 
-
-  }).draggable({
-    containment: "#video_frame",        
-    snapMode: 'inner',    
-    snap: '.grid_cell',        
-
-    stop: function( event, ui ) { 
-      updatePosition( event, ui )
-    } 
-  })
+    }).draggable({
+      containment: "#video_frame",        
+      snapMode: 'inner',    
+      snap: '.grid_cell',        
+      stop: function( event, ui ) { 
+        updatePosition( event, ui )
+      } 
+    })
+  //}
+  
+  // seems to need scoping
+  // http://stackoverflow.com/questions/26239357/jquery-resizable-is-very-slow-if-many-divs-are-added
+  //$('.se_drag_container').mouseenter(function() {
+  //  initResize();
+  //})
   
   //$.window .keypress 
   //$('.se_drag_container')
@@ -444,6 +454,7 @@ var startScreenEditor = function( event, ui ) {
     
     var p = JSON.stringify(obj)
     var v = JSON.stringify(vid)
+    
     console.log("has values: ", p, v)
     currentMarqer.marqeroptions.position.value = p
     currentMarqer.marqeroptions.original.value = v    

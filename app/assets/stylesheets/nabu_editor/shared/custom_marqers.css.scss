@@ -1,22 +1,19 @@
-
 // Custom text classes
-// this serves as the default text
-// and is defined in Marqers
-/*
-.custom_marqer_text {
+// THESE BE THE THE DEFAULTS
+.custom_marqer_text, .default_marqer_content {
+  font-family: 'Oswald', sans-serif;  
   color: whitesmoke;
   background-color: rgba(25,25,25, 0.52);
   border-radius: 7px;
   border: solid 1px rgba(200,200,200,0.4);
-  padding: 8px 16px;
-  font-family: 'Oswald', sans-serif;  
+  padding: 8px 16px;  
   
   // default
   text-align: justify;
   text-shadow: 1px 0px 4px rgba(80,80,80, 0.4);
 
   h1, h2, h3, h4, h5, h6 {
-    color: #D31C28;
+    text-align: center;
     font-weight: 400;
   }
 
@@ -46,7 +43,7 @@
   }
   
   ul{
-
+    font-family: 'Droid Sans', sans-serif;
     li{}
   }
   
@@ -55,7 +52,7 @@
   .code {}
   
   p {
-
+    font-family: 'Droid Sans', sans-serif;
     text-align: justify;
   }
   
@@ -64,7 +61,11 @@
   }
   i, em {}
   
-  a {}
+  a {
+    font-weight: bold;
+    color: white;    
+    text-decoration: underline;
+  }
   
   small {    
     text-transform: normal;
@@ -73,15 +74,11 @@
   }
 }
 
-.custom_marqer_text_2 {
-  
-}
-*/
-
-
 /////////////////////////////////////
 //GAZET VAN ANTWERPEN ZWART TEMPLATE
 /////////////////////////////////////
+
+// TODO: can't we mix in default values?
 
 .gazet_antwerpen_zwart {
   padding: 10px;
@@ -154,7 +151,11 @@
   }
   i, em {}
   
-  a {}
+  a {
+    font-weight: bold;
+    color: white;
+    text-decoration: underline;    
+  }
   
   small {    
     text-transform: normal;
@@ -244,7 +245,11 @@
   }
   i, em {}
   
-  a {}
+  a {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;    
+  }
   
   small {    
     text-transform: normal;
@@ -338,7 +343,11 @@
   }
   i, em {}
   
-  a {}
+  a {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;    
+  }
   
   small {    
     text-transform: normal;
@@ -411,7 +420,11 @@
   }
   i, em {}
   
-  a {}
+  a {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;        
+  }
   
   small {    
     text-transform: normal;
@@ -484,7 +497,11 @@
   }
   i, em {}
   
-  a {}
+  a {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;    
+  }
   
   small {    
     text-transform: normal;

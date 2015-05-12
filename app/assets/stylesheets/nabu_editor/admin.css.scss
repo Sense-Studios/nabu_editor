@@ -104,7 +104,7 @@
     top: 10px;
     left: 10px;
     width: 320px;
-    heigth: 200px;
+    height: 200px;
   }
   
   .se_content_container {
@@ -141,6 +141,22 @@
     bottom: -5px;
     left: 0;
   }
+  
+  .ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 95%;
+    top: -5px;
+    left: 0;
+  }
+  
+  .ui-resizable-w {
+    cursor: e-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 95%;
+  }
 
   .ui-resizable-se {
     cursor: se-resize;
@@ -148,6 +164,30 @@
     height: 12px;
     right: 1px;
     bottom: 1px;
+  }
+  
+  .ui-resizable-ne {
+    cursor: ne-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    top: 1px;
+  }
+  
+  .ui-resizable-sw {
+    cursor: sw-resize;
+    width: 12px;
+    height: 12px;
+    left: 1px;
+    bottom: 1px;
+  }
+  
+  .ui-resizable-nw {
+    cursor: nw-resize;
+    width: 12px;
+    height: 12px;
+    left: 1px;
+    top: 1px;
   }
 }
 
