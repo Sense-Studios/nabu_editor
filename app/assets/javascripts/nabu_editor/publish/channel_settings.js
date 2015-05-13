@@ -56,7 +56,7 @@ $.get('/channel/themes.json', function(data) {
       $('#channel_selector').next().find('ul').find('li').click(function(){
         var selectedvalue = $(this).attr('value');
         var canSave = false;
-        $.get('http://nabu.sense-studios.com/channel/themes.json', function(data) {
+        $.get('/channel/themes.json', function(data) {
           $.each(data,function(key,value)
           {
             if(data[key]._id.$oid == selectedvalue) {
@@ -118,7 +118,7 @@ $.get('/channel/themes.json', function(data) {
               $('.secundair-color input').val( data[key].support_color ).trigger('keyup');
               $('#site_description').val( data[key].about );
               $('#site_contact').val( data[key].contact );
-              $('.bekijk-website a').attr('href', 'http://nabu.sense-studios.com/channel/' + data[key].slug );
+              $('.bekijk-website a').attr('href', '/channel/' + data[key].slug );
 
               canSave = true;
               /////////////////////////////////////////////////
@@ -165,7 +165,7 @@ function setMenudata(Menudata){
     return;
   }
   setTimeout(function(){ 
-    var jsonMenu = 'http://nabu.sense-studios.com/channel/menus/' + Menudata + '.json';
+    var jsonMenu = '/channel/menus/' + Menudata + '.json';
     $.get(jsonMenu, function(menudata) {
       $('.menu_name').remove();
       var menuName = "";
