@@ -175,6 +175,11 @@ var setProgram = function( id ) {
   window.location.hash = "i" + id;
   
   // retreive the program from the server
+  
+  // #######################################################
+  // ### THIS NEEDS TO BE FUCKING SCOPED with CLIENT ID !!!!
+  // #######################################################
+  
   $.get('/marduq_api/programs/'+id, function(p) {
     program = p;    
     getPlayer( program, "#video_frame", agent.technology, agent.videotype, null );            
@@ -230,6 +235,7 @@ function setPrograms() {
     console.log( "Update programs Succes" );
     console.log( resp );
     filter_table.setProps( {'programs': resp } );
+    updatePrograms( resp ) // for edit_menu.js, or the publish menu list
 
     // reset the selected program, if it was updating
     setTimeout( function() { $('.leprograms').find('.selected').animate({'opacity':1}, 200); }, 250 );

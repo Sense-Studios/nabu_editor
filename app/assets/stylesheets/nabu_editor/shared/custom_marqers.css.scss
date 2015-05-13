@@ -65,6 +65,9 @@
     font-weight: bold;
     color: white;    
     text-decoration: underline;
+    &:hover {
+      color: white;
+    }
   }
   
   small {    
@@ -154,7 +157,10 @@
   a {
     font-weight: bold;
     color: white;
-    text-decoration: underline;    
+    text-decoration: underline;  
+    &:hover {
+      color: white;
+    }  
   }
   
   small {    
@@ -180,6 +186,7 @@
   background-color: rgba(255,255,255,1);
   border: 1px solid #D31522;
   border-top-right-radius: 20px; 
+  color: #111;
   &:before {
     content: "\e086";
     position: absolute;
@@ -248,7 +255,10 @@
   a {
     font-weight: bold;
     color: black;
-    text-decoration: underline;    
+    text-decoration: underline;  
+    &:hover {
+      color: black;
+    }  
   }
   
   small {    
@@ -275,6 +285,7 @@
   border: 1px solid #D31522;
   border-top-right-radius: 20px; 
   font-size: 13px;
+  color: #111;
   &:before {
     content: "\e086";
     position: absolute;
@@ -346,7 +357,10 @@
   a {
     font-weight: bold;
     color: black;
-    text-decoration: underline;    
+    text-decoration: underline; 
+    &:hover {
+      color: black;
+    }    
   }
   
   small {    
@@ -365,7 +379,8 @@
 /////////////////////////////////////
 .gazet_antwerpen_rood_wit {
   background-color: rgba(255,255,255,1);
-  color: #fff;
+  /*color: #fff;*/  
+  color: #000;
 
   h1, h2, h3, h4, h5, h6 {
     color: #FFF;
@@ -423,7 +438,10 @@
   a {
     font-weight: bold;
     color: black;
-    text-decoration: underline;        
+    text-decoration: underline;  
+    &:hover {
+      color: black;
+    }       
   }
   
   small {    
@@ -500,7 +518,10 @@
   a {
     font-weight: bold;
     color: black;
-    text-decoration: underline;    
+    text-decoration: underline; 
+    &:hover {
+      color: black;
+    }    
   }
   
   small {    

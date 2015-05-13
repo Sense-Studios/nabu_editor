@@ -275,6 +275,22 @@ function initMenuItem( currentItem, id ) {
   }
 }
 
+function updatePrograms( _programs ) {  
+  var programs = _programs;
+  $('#all_available').html('')
+  $.each( _programs, function( i, p ) {
+    var item = ''
+    item += '<li class="new-item ui-state-default available_program_item ui-draggable" id="' + p.id + '">';
+    item += '  <img alt="Mqdefault" class="pull-left menu_video_image" height="32px" src="' + p.thumbnail + '">';
+    item += '  <div class="program_container">';
+    item += '    <p class="program_title">' + p.title + '</p>';
+    item += '  </div>';
+    item += '  <div class="program_dragger"></div>';
+    item += '</li>';
+    $('#all_available').append( item );
+  });
+}
+
 // ### Main
 $(function() {
 
@@ -318,15 +334,15 @@ $(function() {
 });
 
 
-  // ###################################
-  // ### CLOSE OVERLAY AND SHOW MENU CONTAINER
-  // ###################################
+// ##########################################
+// ### CLOSE OVERLAY AND SHOW MENU CONTAINER
+// ##########################################
 
-  $('#hide_menu_container_overlay').click(function() {
-    showChannelContainer();
-    //TODO: Create new category if empty
-    createCategory();
-  });
+$('#hide_menu_container_overlay').click(function() {
+  showChannelContainer();
+  //TODO: Create new category if empty
+  createCategory();
+});
   
 
   
