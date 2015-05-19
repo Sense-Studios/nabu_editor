@@ -1020,7 +1020,7 @@ nav {
         span {
           font-size: 25px;
           top: 5px;
-          left: 4px;
+          left: 5px;
         }
         .dropdown {
           height: 100%;
@@ -1041,9 +1041,16 @@ nav {
   }
 }
 
+/* z fixes */
 .dropdown-menu{
   z-index: 99999;
 }
+
+/* z fixes */
+.colorpicker {
+  z-index: 100000000;
+}
+
 
 /* hide all contrals and interactions, except video_describe_container */
 .create_movie_hider {
@@ -1763,6 +1770,7 @@ nav {
   margin-top: 41px;
   position: relative;
   width: 100%;
+  min-height: 80%;
   background-color: #FFF;
   padding: 10px;
   .row {
@@ -1781,7 +1789,7 @@ nav {
         width: 0;
         z-index: 1;
         right: -14px;
-        top: 150px;
+        top: 95px;
       }
       input {
         position: relative;
@@ -2033,6 +2041,15 @@ nav {
   }
 }
 
+.disabled_dropdown {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
 #le_menu {
   transition: 0.2s;
   opacity: 1;
@@ -2261,4 +2278,16 @@ nav {
 
 .has-error label ~ .form-control-feedback {
   display: block;
+}
+
+/* z-index override */
+#close_screen_editor, #toggle_grid {
+  z-index: 99999 !important
+}
+
+.nav-tabs {
+  background: #999; 
+  li.active {
+    background: #888;
+  }
 }

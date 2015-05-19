@@ -68,6 +68,7 @@ function createCategory() {
       clicked = 1; 
     }
   }); 
+  updateMenuData();
   // re-init draggables
   setDraggables();
 }
@@ -75,7 +76,8 @@ function createCategory() {
 // ### LOAD/ Parse
 function loadMenuFromData() {
   console.log('has menudatu: ', menudata );
-  if ( menudata.menu === undefined ) return;
+  if ( menudata.menu === undefined || $.isEmptyObject(menudata.menu) ) return;
+  console.log('menu loaded');
   
   // render data
   $.each( menudata.menu, function( key, value ) {
@@ -341,7 +343,20 @@ $(function() {
 $('#hide_menu_container_overlay').click(function() {
   showChannelContainer();
   //TODO: Create new category if empty
-  createCategory();
+  
+  //createCategory();
+  console.log('menudata menu', menudata.menu);
+
+  $.get('/channel/menus.json', function(data) {
+      if(typeof data =='object') { 
+        if($.isEmptyObject(data)) {
+          setTimeout(function(){
+            console.log('create channel');
+            createNewMenu();
+          },500)
+        }
+      }  
+    });
 });
   
 

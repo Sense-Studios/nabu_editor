@@ -103,8 +103,6 @@
 // ### EXTRAS ####
 //= require marduq/marqers/MarqerPrototype
 //= require marduq/marqer_definitions
-//= require marduq/marqers/MotionTrackerMarqer
-// require marduq/motion_data_editor
 
 //= require marduq/marqers
 //= require marduq/controls

@@ -27,7 +27,8 @@
         Bewaar
       %button#delete_menu_button.btn.btn-material-pink
         Verwijder
-  
+      .menu_name
+        %input{"type" => "text", "placeholder" => "Typ hier de menu naam", "value" => ""}
       %ul#le_menu.categories
         .clear
       %input#menu_items.hidden{"name" => "menu[items]", "type" => "text", "value" => "{}"}

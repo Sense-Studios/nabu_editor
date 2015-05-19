@@ -6,7 +6,7 @@
       #create_new_channel.btn.btn-material-burgundy{"data-toggle" => "modal", "data-target" => "#channel_creator_dialog"}
         Maak nieuw kanaal 
         %span.glyphicon.glyphicon-plus
-      %select#channel_selector.dropdown_select.dropdown_channel.form-control{"placeholder" => "Select channel"}
+      %select#channel_selector.dropdown_select.dropdown_channel.form-control{"placeholder" => "Kies kanaal"}
         %option Kies een kanaal
         /- @channels.each do |p|
         /  %option{:value => p['id'] }
@@ -14,20 +14,20 @@
       #edit_channel.edit_channel.btn.btn-material-burgundy-dark{"data-toggle" => "modal", "data-target" => "#channel_editor_dialog"}
         %span.glyphicon.glyphicon-pencil
 
-      %select#menu_selector.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Select menu"}
-        %option{:disabled => "disabled" } Kies een menu
+      %select#menu_selector.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Kies menu"}
+        %option Kies een menu
         - @menus.each do |p|
           %option{:value => p['id'] }= p['name']
       #add_menu.edit_channel.btn.btn-material-custom-darkgrey
         %span.glyphicon.glyphicon-plus
           
 
-      %select#theme_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
+      %select#theme_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Kies thema"}
         /%option{:disabled => "disabled" } Kies een thema
         /- @themes.each do |p|
         /  %option{:value=>p.slug}= p.theme
             
-      %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Select theme"}
+      %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Kies startprogramma"}
         %option{:disabled => "disabled" } Kies startprogramma
         - @programs.each do |p|   
           %option{:value => p['id'] }= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
@@ -43,13 +43,13 @@
       .primary_color_container
         %h5 Kies jouw hoofdkleur
         .input-group.primary-color
-          %input.form-control{"value" => '#FF0000', "type" => "text", "maxlength" => "7"}
+          %input.form-control{"value" => '#000000', "type" => "text", "maxlength" => "7"}
           %span.input-group-addon
             %i
         %p Voor accenten zoals knoppen
         %h5 Kies jouw secundaire kleur
         .input-group.secundair-color
-          %input.form-control{"value" => '#FF0000', "type" => "text", "maxlength" => "7"}
+          %input.form-control{"value" => '#000000', "type" => "text", "maxlength" => "7"}
           %span.input-group-addon
             %i
         %p Voor accenten zoals koppen

@@ -27,13 +27,13 @@ var available_marqers = [
   { 'name': 'Zijpanel',                      'type': 'SidePanelMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },
   { 'name': 'Film Titel',                    'type': 'FilmTitleMarqer',                'icon': '', 'category': 'opmaak',       'version':'alpha' },
  
- 
-  { 'name': 'Twitter',                       'type': 'TwitterMarqer',                  'icon': '', 'category': 'social',       'version':'alpha' },  
-  { 'name': 'Share Buttons',                 'type': 'ShareMarqer',                    'icon': '', 'category': 'social',       'version':'alpha' },  
+  { 'name': 'Twitter',                       'type': 'TwitterMarqer',                  'icon': '', 'category': 'social',       'version':'alpha' },
+  { 'name': 'Share Buttons',                 'type': 'ShareMarqer',                    'icon': '', 'category': 'social',       'version':'alpha' },
+  { 'name': 'LinkedIn',                      'type': 'LinkedinMarqer',                 'icon': '', 'category': 'experimental', 'version':'alpha' },
  
   { 'name': 'Player Control',                'type': 'PlayerControlMarqer',            'icon': '', 'category': 'experimental', 'version':'alpha' },  
-  { 'name': 'Seriously',                     'type': 'SeriouslyMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },
-  //{ 'name': 'Achtergrond',                   'type': 'BackgroundMarqer',               'icon': '', 'category': 'experimental', 'version':'alpha' },   
+  { 'name': 'Seriously',                     'type': 'SeriouslyMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },  
+  { 'name': 'Achtergrond',                   'type': 'BackgroundMarqer',               'icon': '', 'category': 'opmaak',       'version':'alpha' }
   
   //{ 'name': 'Wikipedia',                     'type': 'WikipediaMarqer',                'icon': '', 'category': 'experimental', 'version':'alpha' },
   //{ 'name': 'Motion Tracker',                'type': 'MotionTrackerMarqer',            'icon': '', 'category': 'experimental', 'version':'alpha' },

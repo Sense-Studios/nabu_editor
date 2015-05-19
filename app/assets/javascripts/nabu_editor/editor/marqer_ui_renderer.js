@@ -44,7 +44,8 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   $('.modal-title').html( '<span>' + $(that).data('name') + '</span>' )
 
   // clear the body
-  $('#marqer_editor_dialog .modal-body').html('')
+  $('#marqer_editor_dialog .modal-body-editors').html('');
+  $('#marqer_editor_dialog .modal-body-editors-advanced').html('');
 
   // render in/out editor
   // html += renderInOutEditor( that )
@@ -81,18 +82,30 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     // render the output through handlebars, http://handlebarsjs.com/ => /dir/file(object)
     // find the templates in /assets/javascripts/templates
     var output = ''
+    var output_advanced = ''
     try {
-      output = HandlebarsTemplates[ element.type ](context);
+      if ( element.advanced ) {
+        output_advanced = HandlebarsTemplates[ element.type ](context);
+      }else{
+        output = HandlebarsTemplates[ element.type ](context);
+      }
+      
+      
     } catch (err) {
       console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
       return
     }
 
     // attach the output to the form
-    $('#marqer_editor_dialog .modal-body').append( output )
+    $('#marqer_editor_dialog .modal-body-editors').append( output )
+    $('#marqer_editor_dialog .modal-body-editors-advanced').append( output_advanced )
 
     // start post rendering, after the html has been appended
     postRender( someMarqer, context )
+    
+    // show the tab
+    // $('#myTab a[href="#geavanceerd"]').tab('show');
+    setTimeout( $('#myTab a[href="#instellingen"]').tab('show'), 100 );
   });
 
   // set the change handlers
@@ -215,11 +228,20 @@ var postRender = function( someMarqer, context ) {
 
     // colorpicker
     colorpicker: function() {
-      $('#' + context.rand_id).colorpicker();
-      $('#' + context.rand_id).colorpicker().on('changeColor', function(ev) {
-          var c = "rgb(" + ev.color.toRGB().r + "," + ev.color.toRGB().b + "," + ev.color.toRGB().b + ")";
-          someMarqer.elements[$('#' + context.rand_id).find('input').attr('data-key')].value = c;
+      console.log("has colopicker: ", key, element, context );
+      $('#' + context.rand_id ).colorpicker( {'format':'rgba'} )
+      $('#' + context.rand_id ).colorpicker().on('changeColor', function(ev) {
+          // this is a remarkable stupid way to do it          
+          console.log(ev.color.toRGB())
+          var tmp = ev.color.toRGB()
+          var c = 'rgba('+tmp.r+','+tmp.g+','+tmp.b+','+tmp.a+')'
+          someMarqer.marqeroptions[key].value = c
       });
+      
+      // remove the colorpicker
+      $('#marqer_editor_dialog').on('hidden.bs.modal', function () {
+        $('#' + context.rand_id ).remove()
+      })
     },
 
     // Number steppers
