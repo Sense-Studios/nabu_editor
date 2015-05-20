@@ -11,6 +11,11 @@
             %a{:href => "javascript:$('#acount_editor_dialog').modal()", :target=>'_top'}
               %span.glyphicon.glyphicon-user
               &nbsp;Account
+          - if !current_user.account?
+            %li
+              = link_to(main_app.admin_editors_path, :target=>"_top") do
+                %span.glyphicon.glyphicon-star
+                Editors
           %li.small
             %a{"data-method"=>"delete", :href=>"/users/sign_out", :rel=>"nofollow", :title => current_user.email }
               %span.glyphicon.glyphicon-off.small 

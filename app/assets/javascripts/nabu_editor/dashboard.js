@@ -47,7 +47,9 @@ window.filter_table = "not set yet";
 // override function nabu/assets/javasctipt/marduq/player.js
 var popOnLoadStart = function() {
   console.log("POP ON LOAD START")
-  $('#video_frame').fadeIn('slow') ; 
+  $('#video_frame').fadeIn('slow'); 
+  // failsafe
+  setTimeout( function() { $('#video_frame').css('opacity', 1)}, 800 )
   if (!describe_initialized ) initDescribe();
   describe_initialized = true;
 };
@@ -55,7 +57,7 @@ var popOnLoadStart = function() {
 // override function nabu/assets/javasctipt/marduq/player.js
 var popCanPlay = function () {
   console.log("POP CAN PLAY")
-  $('#nabu_controls').fadeIn('slow');  
+  $('#nabu_controls').fadeIn('slow');   
   initControls(); 
   controlsAreVisible = true;  
   controls_initialized = true;
@@ -297,9 +299,6 @@ $(document).ready(function() {
   //set var aspect_ratio
   console.log('ready aspect ratio' + aspect_ratio);
   
-
-
-  
   $('.logopreview img').change(function(){
     setLogoHeight();
   });
@@ -309,7 +308,8 @@ $(document).ready(function() {
   
   // check out the user
   agent = checkUserAgent();
-  setTimeout( function() { margin_select_video(); }, 1000);
+  setTimeout( function() { margin_select_video(); }, 1000);             // fail safe
+  setTimeout( function() { $('#video_frame').css('opacity', 1)}, 1500 ) // fail safer
   
   // Keep aspect ratio
   $(window).resize(function() {

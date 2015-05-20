@@ -14,7 +14,7 @@
       
       %ul#all_available.menu-editor.drop    
         - @programs.each do |p|          
-          %li.new-item.ui-state-default.available_program_item{:id=>p['id']}
+          %li.new-item.ui-state-default.available_program_item{:id=>p['id'], "data" => { "target" => ""}}
             = image_tag p['thumbnail'], :class=>'pull-left menu_video_image', :height=>'32px' unless p['thumbnail'].nil?
             .program_container
               %p.program_title= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?

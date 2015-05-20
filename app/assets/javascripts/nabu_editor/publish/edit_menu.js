@@ -105,9 +105,9 @@ function loadMenuFromData() {
       $.each( programs, function( p_key, p_value ) {
         if ( p_value.id == item_value.id ) {
           //console.log("has match:", p_value.id, p_value.title );
-          
+          var dataTarget = Math.round( Math.random() * 1000000 );
           var some_item = "";
-          some_item += '<li class="ui-state-default available_program_item ui-draggable not_new" id="' + p_value.id + '" style="display: block;">';
+          some_item += '<li class="ui-state-default available_program_item ui-draggable not_new" id="' + p_value.id + '" style="display: block;"> data-target="' + dataTarget + '"';
           some_item += '';
           some_item += '<img alt="4" class="thumbnail pull-left" height="32px" src="' + p_value.meta.moviedescription.thumbnail + '">';
           some_item += '<span class="program_title">';
@@ -119,7 +119,7 @@ function loadMenuFromData() {
           some_item += '<small class="program_title">';
           some_item += p_value.tags.join(', ');
           some_item += '</small>';
-          some_item += '<button class="delete_category btn btn-material-white pull-right item_delete_button">';
+          some_item += '<button class="btn btn-material-white pull-right item_delete_button" id="' + dataTarget  + '">';
           some_item += '<span class="glyphicon glyphicon-remove"></span';
           some_item += '<a id="remove_categorie" ></a>';
           some_item += '</button>';
@@ -136,6 +136,7 @@ function loadMenuFromData() {
     });
     
     // hook up the delete button
+    $('.item_delete_button').unbind('click');
     $('.item_delete_button').click( function() {
       var parentItem = $(this).parent().parent();
       var parentItemCount = parentItem.children().length;
@@ -145,9 +146,10 @@ function loadMenuFromData() {
         $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
         $(parentItem).removeAttr('style');
       }
-      
+      console.log('try to delete');
       var itemID = $(this).attr('id');
-      $(this).closest(itemID).remove();
+      console.log(itemID);
+      $('*[data-target="' + itemID + '"]').remove();
       
     });
   });
@@ -257,10 +259,13 @@ function setDraggables() {
 
 function initMenuItem( currentItem, id ) { 
   if ( currentItem === undefined || !currentItem.hasClass('not_new') ) {
+    var dataTarget = Math.round( Math.random() * 1000000 );
     currentItem.prop('id', id );
-    currentItem.append('<button class="delete_category btn btn-material-white pull-right item_delete_button" id="' + id + '"><span class="glyphicon glyphicon-remove"></span><a id="remove_categorie"></a></button><div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>');
+    currentItem.append('<button class="btn btn-material-white pull-right item_delete_button" id="' + dataTarget + '"><span class="glyphicon glyphicon-remove"></span><a id="remove_categorie"></a></button><div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>');
+    currentItem.attr('data-target', dataTarget);
     currentItem.find('.program_dragger').remove();
     currentItem.addClass('not_new');
+    currentItem.find('.item_delete_button').unbind('click');
     currentItem.find('.item_delete_button').click( function() {
       var parentItem = $(this).parent().parent();
       var parentItemCount = parentItem.children().length;
@@ -270,8 +275,10 @@ function initMenuItem( currentItem, id ) {
         $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
         $(parentItem).removeAttr('style');
       }
-      
-      $(this).parent().remove();
+      console.log('try to delete');
+      var itemID = $(this).attr('id');
+      console.log(itemID);
+      $('*[data-target="' + itemID + '"]').remove();
     });
     $.material.init();
   }
@@ -281,8 +288,9 @@ function updatePrograms( _programs ) {
   var programs = _programs;
   $('#all_available').html('')
   $.each( _programs, function( i, p ) {
+    var item_id = Math.round( Math.random() * 1000000 );
     var item = ''
-    item += '<li class="new-item ui-state-default available_program_item ui-draggable" id="' + p.id + '">';
+    item += '<li class="new-item ui-state-default available_program_item ui-draggable" id="' + p.id + '" data-target="' + item_id + '">';
     item += '  <img alt="Mqdefault" class="pull-left menu_video_image" height="32px" src="' + p.thumbnail + '">';
     item += '  <div class="program_container">';
     item += '    <p class="program_title">' + p.title + '</p>';

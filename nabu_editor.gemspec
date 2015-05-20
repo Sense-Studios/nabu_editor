@@ -7,11 +7,11 @@ require "nabu_editor/version"
 Gem::Specification.new do |s|
   s.name        = "nabu_editor"
   s.version     = NabuEditor::VERSION
-  s.authors     = ["Daan"]
+  s.authors     = ["Sense Studios"]
   s.email       = ["Daan@sense studios com"]
   s.homepage    = "http://www.sense-studios.com"
-  s.summary     = "sum"
-  s.description = "descr"
+  s.summary     = "Modern editor for Marduq IV"
+  s.description = "The nabu editor is an engine on Marduq/Nabu extending the system with a material-designed single page editor"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]

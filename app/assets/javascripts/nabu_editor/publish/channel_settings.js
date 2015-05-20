@@ -20,13 +20,12 @@ var doneTypingInterval = 1500;  //time in ms
 
 
 $.get('/channel/themes.json', function(data) {
-    console.log('test data');
     console.log(data);
   if(typeof data =='object')
   {
     var $select = $('#channel_selector');
     $select.find('option').remove();  
-    $select.append('<option>Kies een channel</option>');
+    $select.append("<option value='Kies een kanaal'>" + "Kies een kanaal" + "</option>");
 
     if(!$.isEmptyObject(data)) {
       $.each(data,function(key, value) 
@@ -102,7 +101,7 @@ function fillDropdowns(data) {
     $('#channel_selector').next().find('ul').find('li').click(function(){
       var selectedvalue = $(this).attr('value');
       var canSave = false;
-      if(selectedvalue == 'Kies een channel') {
+      if(selectedvalue == 'Kies een kanaal') {
         $('#menu_selector option').removeAttr('selected');
         $('#menu_selector option[value="Kies een menu"]').attr("selected", "selected");
         $('#menu_selector').next().find('ul').find('li').removeClass('selected');
@@ -159,6 +158,8 @@ function fillDropdowns(data) {
 
         $('#site_description').addClass('disabled_dropdown');
         $('#site_contact').addClass('disabled_dropdown');
+        $('.bekijk-website').attr('disabled', true);
+        
         
         
         
@@ -190,8 +191,6 @@ function fillDropdowns(data) {
               });
 
 
-  
-
               //change dropdown theme
               $('#theme_selector').next().find('ul').find('li[value="' + data[key].theme + '"]').trigger('click');
               $('#theme_selector').next().find('ul').find('li').click(function(){ 
@@ -210,8 +209,10 @@ function fillDropdowns(data) {
   
               if(data[key].logo) {
                 $('.logo-image-preview').attr("src", data[key].logo).css({'background-color': 'rgba(255,255,255,0.99)'});
+                $('.uploader_overlay span').css({"color": "#FFF"});
               } else {
                 $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
+                $('.uploader_overlay span').css({"color": "#616161"});
               }
               $('.logo-image-preview').hide().fadeIn('slow', function() {
                 $('.logopreview').height( $('.logo-image-preview').height() + 20 );
@@ -242,6 +243,7 @@ function fillDropdowns(data) {
       
               $('#site_description').removeClass('disabled_dropdown');
               $('#site_contact').removeClass('disabled_dropdown');
+              $('.bekijk-website').attr('disabled', false);
   
               canSave = true;
   
@@ -268,129 +270,157 @@ function fillDropdowns(data) {
 //Set and append al menu data when a menu is selected
 function setMenudata(Menudata){
   $('#le_menu').addClass('hideLeMenu');
-  if(Menudata === "" || Menudata == "Kies een menu") {
+  var menuNaam = $('#menu_selector').val();
+  if(Menudata === "" || Menudata == "Kies een menu" || menuNaam == "Kies een menu") {
     $('.menu_name input').val("");
     $('#le_menu').empty().removeClass('hideLeMenu');
+    $('#create_category_button').attr('disabled', true);
+    $('#save_menu_button').attr('disabled', true);
+    $('#delete_menu_button').attr('disabled', true);
+    $('.menu_name').addClass('disabled_dropdown');
     return;
   }
+  
+
+  
   setTimeout(function(){ 
     var jsonMenu = '/channel/menus/' + Menudata + '.json';
     $.get(jsonMenu, function(menudata) {
-      $('.menu_name').val(menudata.name)
+      $('.menu_name input').val(menudata.name);
       
+      console.log('has menu data: ', menudata);
+      var menus = 0;
+      console.log('define menus: ', menus);
       try {
         menus = JSON.parse(menudata.items);
-        $('.category_item').remove();
-        if(menus.menu.length > 0) {
-          $.each(menus.menu,function(key, value) {
-  
-            // header
-            var menu = "";
-            menu += '<li class="category_item">';
-            menu += '<span class="handle_icon"></span>';
-            menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value=' + menus.menu[key].name + '>';
-            menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
-            menu += '<span class="glyphicon glyphicon-remove"></span';
-            menu += '<a id="remove_categorie"></a>';
-            menu += '</button>';
-            menu += '<button class="toggle_category btn btn-material-custom-darkgrey">';
-            menu += '<span class="glyphicon glyphicon-triangle-right"></span';
-            menu += '<a id="toggle_categorie"></a>';
-            menu += '</button>';
-            menu += '<div class="clear"></div>';
-
-            // list holder
-            var category_id = Math.round( Math.random() * 1000000 );
-            menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
-            menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
-
-            $('#le_menu').append(menu);
-
-            // ### Init categories
-            $('.category_item').each( function( key, value) {            
-              $( value ).find( '.delete_category ').unbind('click');
-              $( value ).find( '.delete_category ').click( function() {
-                $(this).closest('.category_item').remove();
-              });
-            });
-
-            //
-            $(".toggle_category").click(function(){
-              var curheight = $(this).parent().height();
-              if(curheight >= 145){
-                $(this).parent().animate({height: "50px"}, 300);
-                $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
-              }
-              else {
-                $(this).parent().css('height', 'auto');
-                var clickeddiv = $(this).parent().height();
-                $(this).parent().css('height', '50px');
-                $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
-                $(this).parent().animate({height: clickeddiv}, 300, function() {
-                  $(this).css({height: 'auto'});
-                });
-                clicked = 1; 
-              }
-            }); 
-
-            $(".category_item:not(:first) .toggle_category").trigger('click');
-            // re-init draggables
-            setDraggables();
-
-            var menuItem = menus.menu[key].items;
-            if(menuItem.length > 0) {
-              $('#' + category_id).next().remove();
-              $('#' + category_id).css('padding', '0px 10px 10px 10px');
-            }
-            
-            if(menuItem.length > 0) {
-              $.each(menuItem,function(key,value){
-                var title = menuItem[key].name;
-                var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";    
-            
-                var some_item = "";
-                some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;">';
-                some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
-                some_item += '<div class="program_container">';
-                some_item += '<p class="program_title">';
-                some_item += shortText;
-                some_item += '</p>';
-                some_item += '</div>';
-                some_item += '<button class="delete_category btn btn-material-white pull-right item_delete_button" id="' + menuItem[key].id  + '">';
-                some_item += '<span class="glyphicon glyphicon-remove"></span>';
-                some_item += '<a id="remove_categorie"></a>';
-                some_item += '</button>';
-                if ( menuItem[key].emphasize === false) {
-                  some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
-                }else{
-                  some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
-                }
-                some_item += '</div></li>';
-                var prependDiv = '#' + category_id;
-                $(prependDiv).append(some_item);
-                $.material.init();
-              });
-              // hook up the delete button
-              $('.item_delete_button').click( function() {
-                var parentItem = $(this).parent().parent();
-                var parentItemCount = parentItem.children().length;
-                
-                if(parentItemCount == 1) 
-                {
-                  $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
-                  $(parentItem).removeAttr('style');
-                }
-                
-                $(this).parent().remove();
-              }); 
-            } 
-          });
-        } else {
-          createNewMenu();
-        }
+        console.log('parse succes menus: ', menus);
+        
       } catch(err) {
         console.log(err);
+        menus = menudata.items;
+        console.log('parse error menus: ', menus);
       }
+      $('.category_item').remove();
+      $('#create_category_button').attr('disabled', false);
+      $('#save_menu_button').attr('disabled', false);
+      $('#delete_menu_button').attr('disabled', false);
+      $('.menu_name').removeClass('disabled_dropdown');
+      
+      console.log('if length menus: ', menus.length);
+      if(menus) {
+        $.each(menus.menu,function(key, value) {
+
+          // header
+          var menu = "";
+          menu += '<li class="category_item">';
+          menu += '<span class="handle_icon"></span>';
+          menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value="' + menus.menu[key].name + '">';
+          menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
+          menu += '<span class="glyphicon glyphicon-remove"></span';
+          menu += '<a id="remove_categorie"></a>';
+          menu += '</button>';
+          menu += '<button class="toggle_category btn btn-material-custom-darkgrey" >';
+          menu += '<span class="glyphicon glyphicon-triangle-right"></span';
+          menu += '<a id="toggle_categorie"></a>';
+          menu += '</button>';
+          menu += '<div class="clear"></div>';
+
+          // list holder
+          var category_id = Math.round( Math.random() * 1000000 );
+          menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
+          menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
+
+          $('#le_menu').append(menu);
+
+          // ### Init categories
+          $('.category_item').each( function( key, value) {            
+            $( value ).find( '.delete_category ').unbind('click');
+            $( value ).find( '.delete_category ').click( function() {
+              $(this).closest('.category_item').remove();
+            });
+          });
+
+          //
+          $(".toggle_category").click(function(){
+            var curheight = $(this).parent().height();
+            if(curheight >= 145){
+              $(this).parent().animate({height: "50px"}, 300);
+              $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
+            }
+            else {
+              $(this).parent().css('height', 'auto');
+              var clickeddiv = $(this).parent().height();
+              $(this).parent().css('height', '50px');
+              $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
+              $(this).parent().animate({height: clickeddiv}, 300, function() {
+                $(this).css({height: 'auto'});
+              });
+              clicked = 1; 
+            }
+          }); 
+
+          $(".category_item:not(:first) .toggle_category").trigger('click');
+          // re-init draggables
+          setDraggables();
+
+          var menuItem = menus.menu[key].items;
+          if(menuItem.length > 0) {
+            $('#' + category_id).next().remove();
+            $('#' + category_id).css('padding', '0px 10px 10px 10px');
+          }
+          
+          if(menuItem.length > 0) {
+            $.each(menuItem,function(key,value){
+              var title = menuItem[key].name;
+              var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";    
+              var item_id = Math.round( Math.random() * 1000000 );
+              console.log('item id: ', item_id)
+              var some_item = "";
+              some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;"  data-target="' + item_id + '">';
+              some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
+              some_item += '<div class="program_container">';
+              some_item += '<p class="program_title">';
+              some_item += shortText;
+              some_item += '</p>';
+              some_item += '</div>';
+              some_item += '<button class="btn btn-material-white pull-right item_delete_button" id="' + item_id  + '">';
+              some_item += '<span class="glyphicon glyphicon-remove"></span>';
+              some_item += '<a id="remove_categorie"></a>';
+              some_item += '</button>';
+              if ( menuItem[key].emphasize === false) {
+                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
+              }else{
+                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
+              }
+              some_item += '</div></li>';
+              var prependDiv = '#' + category_id;
+              $(prependDiv).append(some_item);
+              $.material.init();
+            });
+            // hook up the delete button
+            $('.item_delete_button').unbind('click');
+            $('.item_delete_button').click( function() {
+              var parentItem = $(this).parent().parent();
+              var parentItemCount = parentItem.children().length;
+              
+              if(parentItemCount == 1) 
+              {
+                $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+                $(parentItem).removeAttr('style');
+              }
+              
+              console.log('try to delete');
+              var itemID = $(this).attr('id');
+              console.log(itemID);
+              $('*[data-target="' + itemID + '"]').remove();
+            }); 
+          } 
+        });
+      } else {
+        //createNewCategory();
+        createCategory();
+      }
+      
       
       $('#le_menu').removeClass('hideLeMenu');
     }); 
@@ -472,6 +502,11 @@ function createNewMenu() {
       $('#menu_selector').next().find('ul').append('<li value="' + data._id.$oid + '" tabindex="-1" class="selected">' + data.name + '</li>');
       $('#menu_selector').next().find('input').val(data.name);
       $('.menu_name input').val(data.name);
+      $('.category_item').remove();
+      $('#create_category_button').attr('disabled', false);
+      $('#save_menu_button').attr('disabled', false);
+      $('#delete_menu_button').attr('disabled', false);
+      $('.menu_name').removeClass('disabled_dropdown');
       createCategory();
       
       setTimeout(function(){
@@ -526,6 +561,8 @@ function deleteMenu() {
     $('#load_indicator').css('opacity', '0');
   }, 500);
 }
+
+
 
 
 //////////////////
@@ -591,13 +628,16 @@ function createChannel() {
       $('#channel_selector').next().find('ul').find('.selected').removeClass('selected');
       $('#channel_selector').next().find('ul').append('<li value="' + data._id.$oid + '" tabindex="-1" class="selected">' + data.title + '</li>');
       $('#channel_selector').next().find('input').val(data.title);
+
       
       $('#channel_title').val(data.title);
       $('#channel_slug').val(data.slug);
       if(data.logo === null) {
         $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
+        $('.uploader_overlay span').css({"color": "#616161"});
       } else {
         $('.logo-image-preview').attr("src", data[key].logo).css({'background-color': 'rgba(255,255,255,0.99)'});
+        $('.uploader_overlay span').css({"color": "#FFF"});
       }
       $('.primary-color input').val(data.main_color).trigger('keyup');
       $('.secundair-color input').val(data.support_color).trigger('keyup');
@@ -610,7 +650,8 @@ function createChannel() {
       
       $('#theme_selector').next().find('ul').find('li').first().trigger('click');
       $('#startvideo_selector').next().find('ul').find('li').first().trigger('click');
-      
+      $('.bekijk-website a').attr('href', '/channel/' + data.slug );
+
       $('.modal').modal('hide');
       setTimeout(function(){
         canSave = true;
@@ -644,6 +685,7 @@ function createChannel() {
 
         $('#site_description').removeClass('disabled_dropdown');
         $('#site_contact').removeClass('disabled_dropdown');
+        $('.bekijk-website').attr('disabled', false);
         $('#load_indicator').css('opacity', '0');
       }, 500);
     }
@@ -777,9 +819,10 @@ $("#create_channel_slug, #channel_slug").on({
       return false;
   },
   change: function() {
-    this.value = this.value.replace(/\s/g, "");
+    this.value = this.value.replace(/\s/g, "").toLowerCase();;
   }
 });
+
 
 function doneTyping() {
   updateChannel();
@@ -810,6 +853,7 @@ function initThumbnailUploader() {
     $('.logo-image-preview').attr('src', content.url);
     $('.logo-image-preview').hide().fadeIn('slow', function() {
       $('.logopreview').height( $('.logo-image-preview').height() + 20 );
+      $('.uploader_overlay span').css({"color": "#FFF"});
     });
     updateChannel();
 

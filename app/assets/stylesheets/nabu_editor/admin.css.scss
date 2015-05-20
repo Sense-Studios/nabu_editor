@@ -251,6 +251,10 @@ nav {
     display: block;
     width: auto;
     text-align: center;
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
   }
   .logo {
     position: relative;
@@ -261,7 +265,8 @@ nav {
       margin-right: 9px;
     }
     &:nth-child(2) {
-    margin-left: 5px;
+      margin-left: 5px;
+      margin-top: 27px;
     }
   }
   .user_description {
@@ -546,6 +551,7 @@ nav {
           float: left;
           .input-group {
             height: 100%;
+            display: block;
             width: 100%;
             .input-group-btn {
               display: block;
@@ -723,6 +729,7 @@ nav {
             height: 100%;
             cursor: pointer;
             padding: 0;
+            overflow: hidden;
           }
           .selected {
             border: 2px solid #FFF;
@@ -2039,6 +2046,10 @@ nav {
       } 
     }
   }
+}
+
+#create_channel_slug, #channel_slug {
+  text-transform: lowercase;
 }
 
 .disabled_dropdown {

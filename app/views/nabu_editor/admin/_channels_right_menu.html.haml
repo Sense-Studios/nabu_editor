@@ -15,7 +15,7 @@
         %span.glyphicon.glyphicon-pencil
 
       %select#menu_selector.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Kies menu"}
-        %option Kies een menu
+        %option{"value" => "Kies een menu"} Kies een menu
         - @menus.each do |p|
           %option{:value => p['id'] }= p['name']
       #add_menu.edit_channel.btn.btn-material-custom-darkgrey

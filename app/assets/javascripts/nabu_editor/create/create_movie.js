@@ -597,6 +597,7 @@ function checkState( video ) {
       $('.js_progress_bars .progress .bar').css({'width': "100%"} );
       $('.js_progress_bars .progress .bar').text( "transcoding complete");//t.javascript.transcoding_complete  );
       $('.show_upload h4').text('video gereed' ) 
+      $('#upload_url').val('')
       showDescribeMovie()
       updateProgramAfterZencoding( video, zen_data )
 
@@ -606,6 +607,7 @@ function checkState( video ) {
       $('.js_progress_bars .progress').removeClass("active").removeClass("progress-striped").addClass("progress-bar-danger");
       $('.js_progress_bars .progress .bar').text( "transcoding cancelled" ); //t.javascript.transcoding_cancelled );
       $('.show_upload h4').text('omzetten onderbroken' ) 
+      $('#upload_url').val('')
     
     } else if ( zen_data.state == "failed" ) {
       // -- VIDEO HAS FAILED ---      
@@ -613,7 +615,8 @@ function checkState( video ) {
       $('.js_progress_bars .progress').removeClass("active").removeClass("progress-striped").addClass("progress-bar-danger");
       $('.js_progress_bars .progress .bar').text( "trancoding failed" ); //t.javascript.transcoding_failed );
       $('.show_upload h4').text("omzetten mislukt, zie \'Help\'" ) 
-      log("warning", "transcoding has failed!");      
+      log("warning", "transcoding has failed!");
+      $('#upload_url').val('')
     }
     
   }).fail(function(e) {
@@ -664,8 +667,7 @@ function initS3Oploader() {
   });
 
   // Start Transcoding
-  $('#s3-uploader').bind("s3_upload_complete", function(e, content) {   
-    
+  $('#s3-uploader').bind("s3_upload_complete", function(e, content) {       
     // content:
     /*
     Object 
@@ -709,7 +711,7 @@ function initS3Oploader() {
         disableInput();                                                  // disable the input, we have uploaded, now you better make an asset
         new_asset_id = video.id;                                         // another holder
         video.client_id = client_id;                                     // it seems we are listing videos, so inject this
-        createProgramWithAsset( video );                                 // Be sure to create the program, program item and asset in advance
+        createProgramWithAsset( video );                                 // Be sure to create the program, program item and asset in advance        
       },
       
       failure: function( response ) {
