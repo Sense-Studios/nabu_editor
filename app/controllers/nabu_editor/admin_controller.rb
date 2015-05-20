@@ -233,6 +233,15 @@ module NabuEditor
       @programs_data = MarduqResource::Program.where( client_id: @account_id ) || []  
       @programs_data = @programs_data.sort_by(&:created_at)
       
+      if current_user.account?
+        owner = User.find( current_user.client_id )
+      else
+        owner = current_user
+      end
+
+      @kaltura_partner_id = owner.kaltura_partner_id       
+      @kaltura_uiconfig_id = owner.kaltura_uiconfig_id
+      
       # we need to trim down all the data from programs, 
       # we don't need marqers and stuff at this point
       @programs = []

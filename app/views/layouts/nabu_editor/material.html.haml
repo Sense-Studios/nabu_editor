@@ -10,8 +10,8 @@
       window.t = #{raw @t.to_json}
 
       // kaltura
-      var kalturaPartnerId = "#{current_user.kaltura_partner_id}"; // 1901361;
-      var kalturaUiConfigId = "#{current_user.kaltura_uiconfig_id}"; // 28786321;  
+      var kalturaPartnerId = "#{@kaltura_partner_id}";
+      var kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
 
       // owner and users
       var client_id = "#{@user_id}";      // this users id
