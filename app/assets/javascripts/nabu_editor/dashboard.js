@@ -240,8 +240,12 @@ function setPrograms() {
     updatePrograms( resp ) // for edit_menu.js, or the publish menu list
 
     // reset the selected program, if it was updating
-    setTimeout( function() { $('.leprograms').find('.selected').animate({'opacity':1}, 200); }, 250 );
+    setTimeout( function() { 
+      $('.leprograms').find('.selected').animate({'opacity':1}, 200); 
+      setDisabledStatePublish();
+    }, 500 );
   });
+  
 }
 
 // update shapeshift

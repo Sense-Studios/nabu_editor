@@ -282,6 +282,10 @@ nav {
       overflow: hidden;
       text-align: center;
       transition: 0.5s;
+      img {
+        min-height: 100%;
+        max-width: 100%;
+      }
       .user_image {
         position: relative;
         width: 100%;
@@ -538,7 +542,7 @@ nav {
           }
         }
         input {
-          width: calc(100% - 100px);
+          width: calc(100% - 144px);
           float: left;
           height: 100%;
           background-color: rgba(0,0,0,0);
@@ -547,7 +551,7 @@ nav {
         .uploader_icon {
           position: relative;
           height: 100%;
-          width: 100px;
+          width: 144px;
           float: left;
           .input-group {
             height: 100%;
@@ -584,6 +588,11 @@ nav {
               -webkit-transform: translate(100%, -50%);
               -moz-transform: translate(100%, -50%);
               transform: translate(100%, -50%);
+            }
+            &:nth-child(3) {
+              -webkit-transform: translate(210%, -50%);
+              -moz-transform: translate(210%, -50%);
+              transform: translate(210%, -50%);
             }
           }
         }
