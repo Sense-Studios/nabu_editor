@@ -535,4 +535,85 @@
   }
 }
 
+/////////////////////////////////////
+//GAZET VAN ANTWERPEN ROOD WIT
+/////////////////////////////////////
+.nuv_blue_white {
+  background-color: rgba(255,255,255,1);
+  /*color: #fff;*/  
+  color: #000;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #FFF;
+    font-weight: 400;
+    margin-top: 0px;
+    padding: 5px;
+    background-color: #36495D;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-weight: 700;   
+    margin-bottom: -18px;
+  }
+  
+  h2 {
+    font-weight: 600;
+    text-transform: lowercase;
+    font-variant: small-caps;
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
+  
+  h3 {
+    font-weight: 400;     
+  }
+  
+  h4 {
+    font-weight: 700;
+    text-transform: lowercase;
+    font-variant: small-caps;
+  }
+  
+  ul{
+
+    li{}
+  }
+  
+  .blockquote {}
+  
+  .code {}
+  
+  p {
+    text-align: left;
+    padding: 5px;
+    color: #000;
+    margin-bottom: 0;
+  }
+  
+  b, strong {
+    font-weight: 700;
+  }
+  i, em {}
+  
+  a {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;  
+    &:hover {
+      color: black;
+    }       
+  }
+  
+  small {    
+    text-transform: normal;
+    font-variant: small-caps;
+    color: whitesmoke;
+  }
+  
+  img {
+    margin: 10px;
+  }
+}
+
 
