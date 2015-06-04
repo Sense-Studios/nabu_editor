@@ -119,6 +119,16 @@ var doPublishMovie = function(id) {
   setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
 
+var doCopyMovie = function(id) {
+  $.ajax({
+    url: '/marduq_api/programs/copy/',
+    type: 'POST',    
+    data: {'program': id },
+    success: function() { setPrograms() },
+    done: function() {}
+  });
+}
+
 var doDeleteMovie = function(id) {
   setProgram(-1);
   $.ajax({

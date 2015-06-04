@@ -372,22 +372,24 @@ function doWarning() {
 //  S3 Thumbnail uploader
 // #############################################################################
 
-function initThumbnailUploader() {
+function initProgramThumbnailUploader() {
   
   console.log("init thumbnail uploader");
   
-  // init uploader
+  // init uploader  
   $("#preview_thumbnail").S3Uploader( {
     max_file_size: 1258291200,
     allow_multiple_files: false,
   });
   
+  console.log("bind ... ")
   // Start loading asset
   $('#preview_thumbnail').bind("s3_uploads_start", function(e, content) {
     console.log("upload start ... ");
     $('.leprograms').find('.selected').animate({'opacity':0.4}, 600);
   });
   
+  console.log("bind ... ")
   // complete, create an asset
   $('#preview_thumbnail').bind("s3_upload_complete", function(e, content) {
     console.log("upload complete ... ");
@@ -473,7 +475,7 @@ function initDescribe() {
   $('#save-all-button-bottom').click( function(e) { postMetaData() } );  
   
   // for ze thumbnails
-  initThumbnailUploader();
+  initProgramThumbnailUploader();
 
   // wait for the program to load
   loadProgram();

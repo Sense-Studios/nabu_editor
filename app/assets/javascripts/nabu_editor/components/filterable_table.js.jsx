@@ -48,6 +48,12 @@ var ProgramTile = React.createClass({
     $('.active').removeClass('active') // this is nasty
   },
   
+  copyMovieRelay:function() {
+    doCopyMovie(this.props.program.id)
+    this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.active').removeClass('active') // this is nasty
+  },
+  
   deleteMovieRelay:function() {
     doDeleteMovie(this.props.program.id)
     $('#' + this.props.program.id ).animate({"opacity":0.2}, 600)
@@ -102,6 +108,9 @@ var ProgramTile = React.createClass({
                 </li>
                 <li>
                   <a href='#' onClick={this.publishMovieRelay} data-toggle='tab'> Publiceer </a>
+                </li>
+                <li>
+                  <a href='#' onClick={this.copyMovieRelay} data-toggle='tab'> Dupliceer </a>
                 </li>
                 <li className='btn-material-red'>
                   <a href='#' onClick={this.deleteMovieRelay} data-toggle='tab'> Verwijder </a>
