@@ -75,6 +75,7 @@
   border: dashed 2px white;
   border-style: dashed;
   z-index: 10000;
+  overflow: hidden;
 
   .grid_button {
     position: absolute;
@@ -1536,7 +1537,8 @@ nav {
             text-overflow: '';
             opacity: 1; /*0.8; we need to see if they are overlapping */          
             border-radius: 10px;
-            pointer: move;       
+            pointer: move;
+            
             > .nav-tabs {
               position: relative;
               height: 20px;
@@ -2120,6 +2122,14 @@ nav {
 
 .btn-material-burgundy-transperant {
   background-color: rgba(165, 27, 47, 0.7) !important;
+  color: #FFF!important;
+  font-weight: 500!important;
+}
+
+// this be the highlight color for the timeline editor 
+.btn-material-burgundy-highlight-transperant {
+  //background-color: rgba(183, 73, 89, 0.7) !important;
+  background-color: rgba(233, 30, 99, 0.7) !important;
   color: #FFF!important;
   font-weight: 500!important;
 }

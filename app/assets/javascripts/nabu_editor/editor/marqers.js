@@ -7,6 +7,11 @@ resetMarqers
 setMarqers
 pop
 program_id (check this)
+m
+createTrackLine
+mapi
+aMarqerIsUpdating
+convertMarqersIntoTrackevents
 */
 
 // getMarqers( program_id )
@@ -30,7 +35,7 @@ var createNewMarqer = function( type, name, event, forceAdd ) {
     marqer: m,
     success: function( marqer ) {      
       // add it to the local marqers (note that this can cause discrepencies between the server!)
-      marqers.push( marqer )            
+      marqers.push( marqer )                  
       preview()
     },
     fail: function(resp) {
@@ -68,6 +73,7 @@ var updateMarqersFromTimeLine = function( marqers ) {
 }
 
 var deleteMarqer = function ( marqer ) {  
+  marqer.remote_id = marqer.id // failsave
   mapi.deleteMarqer( { 
     marqer: marqer, 
     failure: function(e) {
@@ -100,7 +106,11 @@ var getMarqerById = function( id ) {
 // *****************************************************************************
 
 // yes, this redraws everything it gets from the server
-var preview = function( _m ) {
+var preview = function( _m, force ) {
+  
+  // only update when checked or forced
+  if ( !$('#auto_preview').prop('checked') && force == undefined ) return;
+  
   if ( _m === undefined ) _m = marqers;
   console.log("reset marqers", $('#feedback').val());  
   resetMarqers();

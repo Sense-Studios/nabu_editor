@@ -47,7 +47,7 @@ $(function() {
   }, ui_update )
   
   // refresh on click
-  $('#refresh_marqers').click(function() { preview() });
+  $('#refresh_marqers').click(function() { preview( undefined, true ) });
   $('#remove_all_marqers').click(function() { 
     if ( confirm("Weet je zeker dat je ALLE Marqers wilt VERWIJDEREN ?") ) {
       $.each(marqers, function(i, m) { deleteMarqer(m) } );

@@ -134,7 +134,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     setTimeout( function(){ preview(); }, 400 )
   })
 
-  // attach delete
+  // attach delete // depricated
   $('#modal_delete_button').unbind('click')
   $('#modal_delete_button').click( function(e){ deleteMarqer(someMarqer) })
 
@@ -143,6 +143,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
   // give the track event a 'selected' state
   // selectTrackEvent(this)
+  $('#marqer_editor_dialog').bind('hidden', function() { keysEnabled = true } )
 }
 
   //////

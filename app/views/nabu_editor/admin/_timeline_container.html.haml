@@ -1,4 +1,4 @@
-.zoomContainer
+.zoomContainer{:tabindex=>"0"}
   #timeLineContainer
     
     / temp fix
@@ -8,7 +8,7 @@
     
     %canvas.timeline_canvas{:style=>"top:10px"}
     #scrubber
-    
+
     #tracks.ui-droppable.btn-material-white
       #trackline4.trackline.ui-droppable.btn-material-grey-200
       #trackline4.trackline.ui-droppable.btn-material-grey-200
@@ -21,6 +21,7 @@
 
 / testing
 .tracklineOptionsContainer
+  
   // TODO: use this: http://refreshless.com/nouislider/  
   %input#zoom{:type=>"range", :name=>"zoom", :min=>"1", :max=>"42", :value=>"1", :width=>'200px', :step=>'1', "style"=>"display:inline" }    
   
@@ -30,8 +31,14 @@
     .checkbox.checkbox-material-pink{"style"=>"display:inline"}
       %label 
         %input{"type"=>"checkbox", "value"=>"follow_scrubbar", "name"=>"follow_scrubbar", "id"=>"follow_scrubbar" }
-
   %span{"style"=>"display:inline"} Schuif mee
+  &nbsp;&nbsp;
+  
+  .form-group{"style"=>"display:inline"}
+    .checkbox.checkbox-material-pink{"style"=>"display:inline"}
+      %label 
+        %input{"type"=>"checkbox", "checked"=>"true", "value"=>"auto_preview", "name"=>"auto_preview", "id"=>"auto_preview" }
+    %span{"style"=>"display:inline"} Preview
 
   #refresh_marqers.pull-right.btn-sm
     Ververs
@@ -40,6 +47,7 @@
   #remove_all_marqers.pull-right.btn-sm
     Verwijder alles
     %span.glyphicon.glyphicon-trash
+    
   
 / Custom javascripts
 = javascript_include_tag "nabu_editor/editor/marqers.js"
