@@ -49,6 +49,7 @@ $.get('/channel/themes.json', function(data) {
         $('.primary_color_container').addClass('disabled_dropdown');
         $('.primary-color input').attr('disabled', true);
         $('.secundair-color input').attr('disabled', true);
+        $('.mobile-background-color input').attr('disabled', true);
         
         $('#site_description').addClass('disabled_dropdown');
         $('#site_contact').addClass('disabled_dropdown');
@@ -88,6 +89,8 @@ function fillDropdowns(data) {
     $(".dropdown_select_small").dropdown();
     $('.primary-color').colorpicker({'align': 'right'});
     $('.secundair-color').colorpicker({'align': 'right'});
+    $('.mobile-background-color').colorpicker({'align': 'right'});
+    
     $('.dropdownjs ul li').click(function() {
       var selectedvalue = $(this).attr('value');
       var selected = $(this).parent().parent().prev('.dropdown_select');
@@ -135,6 +138,7 @@ function fillDropdowns(data) {
 
         $('.primary-color input').val( '#000000' ).trigger('keyup');
         $('.secundair-color input').val( '#000000' ).trigger('keyup');
+        $('.mobile-background-color input').val( '#000000' ).trigger('keyup');
         $('#site_description').val( '' );
         $('#site_contact').val( '' );
         $('.bekijk-website a').attr('href', '/channel/' + '' );
@@ -155,6 +159,9 @@ function fillDropdowns(data) {
         $('.primary_color_container').addClass('disabled_dropdown');
         $('.primary-color input').attr('disabled', true);
         $('.secundair-color input').attr('disabled', true);
+        $('.mobile-background-color input').attr('disabled', true);
+        
+        
 
         $('#site_description').addClass('disabled_dropdown');
         $('#site_contact').addClass('disabled_dropdown');
@@ -220,6 +227,7 @@ function fillDropdowns(data) {
   
               $('.primary-color input').val( data[key].main_color ).trigger('keyup');
               $('.secundair-color input').val( data[key].support_color ).trigger('keyup');
+              $('.mobile-background-color input').val( data[key].background_color ).trigger('keyup');
               $('#site_description').val( data[key].about );
               $('#site_contact').val( data[key].contact );
               $('.bekijk-website a').attr('href', '/channel/' + data[key].slug );
@@ -240,6 +248,7 @@ function fillDropdowns(data) {
               $('.primary_color_container').removeClass('disabled_dropdown');
               $('.primary-color input').attr('disabled', false);
               $('.secundair-color input').attr('disabled', false);
+              $('.mobile-background-color input').attr('disabled', false);
       
               $('#site_description').removeClass('disabled_dropdown');
               $('#site_contact').removeClass('disabled_dropdown');
@@ -430,22 +439,23 @@ function setMenudata(Menudata){
 
 //Get channel data that is needed to update an channel
 function getChannelData() {
-  var channelName   = $('#channel_title').val();
-  var slug          = $('#channel_slug').val();
-  var menuName      = $('#menu_selector').val();
-  var themeName     = $('#theme_selector').val();
-  var homeProgram   = $('#startvideo_selector').val();
-  var logo          = $('.logo-image-preview').attr('src');
-  var primaryColor  = $('.primary-color input').val();
-  var supportColor  = $('.secundair-color input').val();
-  var about         = $('#site_description').val();
-  var contact       = $('#site_contact').val();
+  var channelName       = $('#channel_title').val();
+  var slug              = $('#channel_slug').val();
+  var menuName          = $('#menu_selector').val();
+  var themeName         = $('#theme_selector').val();
+  var homeProgram       = $('#startvideo_selector').val();
+  var logo              = $('.logo-image-preview').attr('src');
+  var primaryColor      = $('.primary-color input').val();
+  var supportColor      = $('.secundair-color input').val();
+  var backgroundColor   = $('.mobile-background-color input').val();
+  var about             = $('#site_description').val();
+  var contact           = $('#site_contact').val();
 
   var logoUrl = ((logo == "/assets/nabu_editor/blank_image.png") ? "" : logo);
   
   var channelData = {
     "about"           : about,
-    "background_color": primaryColor,
+    "background_color": backgroundColor,
     "contact"         : contact,
     "description"     : about,
     "home_program"    : homeProgram,
@@ -574,15 +584,16 @@ function createChannel() {
   $('#load_indicator').css('opacity', '1');
   canSave = false;
   //get channel data to save
-  var channelName   = $('#create_channel_title').val();
-  var channelSlug   = $('#create_channel_slug').val();
-  var primaryColor  = "#000000";
-  var supportColor  = "#000000";
+  var channelName     = $('#create_channel_title').val();
+  var channelSlug     = $('#create_channel_slug').val();
+  var primaryColor    = "#000000";
+  var supportColor    = "#000000";
+  var backgroundColor = "#000000";
   
   var channelData = {
     "slug"            : channelSlug,
     "title"           : channelName,
-    "background_color": primaryColor,
+    "background_color": backgroundColor,
     "main_color"      : primaryColor,
     "support_color"   : supportColor,
   };
@@ -641,6 +652,7 @@ function createChannel() {
       }
       $('.primary-color input').val(data.main_color).trigger('keyup');
       $('.secundair-color input').val(data.support_color).trigger('keyup');
+      $('.mobile-background-color input').val(data.support_color).trigger('keyup');
       $('#site_description').val(data.about);
       $('#site_description').val(data.contact);
       
@@ -682,6 +694,7 @@ function createChannel() {
         $('.primary_color_container').removeClass('disabled_dropdown');
         $('.primary-color input').attr('disabled', false);
         $('.secundair-color input').attr('disabled', false);
+        $('.mobile-background-color input').attr('disabled', false);
 
         $('#site_description').removeClass('disabled_dropdown');
         $('#site_contact').removeClass('disabled_dropdown');
