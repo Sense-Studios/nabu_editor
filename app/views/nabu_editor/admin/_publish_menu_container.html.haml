@@ -5,7 +5,7 @@
   =# render 'form'
   
   .row
-    .col-md-5.menu_all_videos
+    .col-sm-5.menu_all_videos
       .filter
         %input.form-control{:id=>"available_program_search", :type=>"text", :placeholder=>"Zoek"}
         %i.glyphicon.glyphicon-search.search_video_menu_icon{"aria-hidden"=> 'true'}
@@ -20,7 +20,7 @@
               %p.program_title= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
             .program_dragger
               
-    .col-md-7.menu_all_categories
+    .col-sm-7.menu_all_categories
       %button#create_category_button.btn.btn-material-burgundy
         Maak categorie
       %button#save_menu_button.btn.btn-material-pink
