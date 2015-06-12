@@ -158,8 +158,7 @@ var resize_aspect_ration_change = function() {
   aspect_ratio = $('.dropdown_select_ratio').val();
   var arr = aspect_ratio.split(':');
   aspect_width = arr[0];
-  aspect_height = arr[1];
-  
+  aspect_height = arr[1];  
   resize_aspect_ratio();
 }
 

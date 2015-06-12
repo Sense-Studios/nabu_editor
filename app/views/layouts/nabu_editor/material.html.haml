@@ -1,5 +1,9 @@
 !!! 5
 %html
+
+  / render preloader
+  = render partial: 'shared/preloader'
+
   %head
     %title
       Nabu Editor Material
@@ -26,6 +30,8 @@
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
     = javascript_include_tag "nabu_editor/application"    
+    
+    
     = csrf_meta_tags
 
     / looks like the only way to add this lastly
@@ -41,7 +47,7 @@
     %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}
 
   %body
-
+  
     / render menu
     = render partial: 'shared/leftmenu'
 

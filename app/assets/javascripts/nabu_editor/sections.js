@@ -46,9 +46,9 @@ var animateVideoDown = function() {
 };
 
 var toggle_overlays = function( opacity ) {
-    $('.video_uploader_container').fadeOut();
-    $('.video_describe_container').fadeOut();
-    $('.video_publish_container').fadeOut();
+  $('.video_uploader_container').fadeOut();
+  $('.video_describe_container').fadeOut();
+  $('.video_publish_container').fadeOut();
 }
 
 //Hide Sections 
@@ -90,6 +90,7 @@ var hideMarqersRightMenu = function () {
     $('.tracklineOptionsContainer').fadeOut('fast');    
     $('#screen').fadeOut('fast');
   }
+  keysEnabled = false;
 };
 
 // TODO rename this, it handles all elements

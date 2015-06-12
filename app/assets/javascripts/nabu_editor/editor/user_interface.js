@@ -59,10 +59,11 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   html += '     <ul class="dropdown-menu">';
   
   if ( marqer.marqeroptions.position != undefined && marqer.marqeroptions.original != undefined ) {
-    html += '      <li><a class="position_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-modal-window ignore_events"/>Plaats</a></li>';
+    html += '     <li><a class="position_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-modal-window ignore_events"/>Plaats</a></li>';
   }
   
   html += '      <li><a class="edit_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-pencil ignore_events"/>Bewerk</a></li>';
+  html += '      <li><a class="stratum_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-save ignore_events"/>Stramien</a></li>';
   html += '      <li><a class="delete_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-trash ignore_events"/>Verwijder</a></li>';  
   html += '     </ul>';
   html += '    </li>';
@@ -81,14 +82,6 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   if ( select_id == marqer.id ) selectMarqer( marqer );  // autoselect it
   createTimeLineWithNumbers() // might not be drawn yet
 };
-
-var selectMarqer = function() { // Depricated
-  console.log(' DEPRICATED: Select Marqer');
-};
-
-//var deleteTrackEvent = function( trackevent ) { // Depricated
-//  console.log(' DEPRICATED: Delete Track Event');
-//};
 
 var addInteractionToTrackEvent = function() {
   
@@ -139,6 +132,12 @@ var addInteractionToTrackEvent = function() {
     startScreenEditor( e, $(this).closest('.trackevent') );
   });
   
+  // Save-button
+  $('#' + ids + ' .stratum_button').click(function( e ) { 
+    var m = getMarqerById( $(this).closest('.trackevent').data("remote_id") )     
+    saveMarqerStratum( m )
+  });
+  
   // Delete-button
   $('#' + ids + ' .delete_button').click(function( e ) {       
     if ( confirm("Weet je zeker dat je deze Marqer wilt VERWIJDEREN ?") ) {
@@ -152,9 +151,6 @@ var addInteractionToTrackEvent = function() {
 /////_________________________________________________________________
 
 var cloneMarqerFromTrackEvent = function( event, ui ) {
-  
-  console.log("KLOON")
-  console.log( event, ui )
 
   // context  
   var clone_m = new window[ $( ui.helper.context ).data("type") ]  
@@ -467,6 +463,7 @@ var createTrackLine = function ( marqer ) {
   var html = "";
   var id = 'trackline_' + Math.round((Math.random() * 100000));
   html += '<div id="'+id+'" class="trackline ui-droppable btn-material-grey-400"></div>';
+  //html += '<div class="trackline_expander"></div>';
   $('#tracks').append( html );
   addInteractionToTrackLine( id );
   return $( '#' + id );
@@ -514,12 +511,24 @@ var selectMarqerById = function (_id) {
 // helper
 var addInteractionToTrackLine = function( id ) {  
   // just (re-)do it for all tracklines
+  $("#tracks").sortable({
+    axis: "y",
+    stop: function() {       
+      $('.trackevent').each( function(k, v) { 
+        var m = getMarqerById( $(v).data("remote_id") )
+        m.remote_id = $(v).data("remote_id")
+        m.marqeroptions.track = $(v).parent().parent().index()
+        updateMarqer(m);
+      })
+    }
+  })
+  
   $(".trackline").droppable({
     accept: ".plugin, .trackevent",    
     drop: function( event, ui ) {       
       droppedOnTrackLine( event, ui );           
     }
-  });
+  });  
 };
 
 ////
@@ -534,16 +543,15 @@ var droppedOnTrackLine = function (event, ui) {
   wasDroppedOnTrackline = true;
   
   // from where came the marqer  
-  if ( $(ui.draggable.context).hasClass('plugin') ) {    
-    createNewMarqer( $(ui.draggable).data('type'), $(ui.draggable).data('name'), event );
+  if ( $(ui.draggable.context).hasClass('plugin') ) {        
+    createNewMarqer( $(ui.draggable).data('type'), $(ui.draggable).data('name'), event, null, $(ui.draggable).data('stramien') );
     
   }else if ( $(ui.draggable.context).hasClass('clone_marqer') ) {    
     console.log("ignore this, we need cloning");
     cloneMarqerFromTrackEvent( event, ui );
 
-  }else{    
+  }else{
     initiateUpdateMarqer( event, ui );
-
   }
 };
 
@@ -560,7 +568,7 @@ var droppedOnTracks = function (event, ui) {
       console.log("ignore this, we need cloning");
       cloneMarqerFromTrackEvent( event, ui );
     }else{
-      createNewMarqer( $(ui.draggable).data('type'), $(ui.draggable).data('name'), event, true );
+      createNewMarqer( $(ui.draggable).data('type'), $(ui.draggable).data('name'), event, true, $(ui.draggable).data('stramien') );
     }
   }, 200 );
 };
@@ -578,8 +586,8 @@ var droppedOnScreen = function(event, ui) {
 // converts displayed values to 'real' values
 // per event
 var aMarqerIsUpdating = false;
-var initiateUpdateMarqer = function( event, ui ) {
-  if (aMarqerIsUpdating) return;
+var initiateUpdateMarqer = function( event, ui ) {  
+  if (aMarqerIsUpdating) return;  
   aMarqerIsUpdating = true;
   var m = getMarqerById( $( ui.helper.context ).data('remote_id') );      
   var l = $( ui.helper.context ).position().left;
@@ -596,7 +604,7 @@ var initiateUpdateMarqer = function( event, ui ) {
     if ( $(event.target).hasClass("trackline") ) {  
       m.marqeroptions.track = $(event.target).index();
     }else{
-      m.marqeroptions.track = $('.trackline').length;
+      m.marqeroptions.track = $('.trackline').length - 1;
     }
   }
 
@@ -736,19 +744,6 @@ var startScreenEditor = function( event, ui ) {
   html += '<div class="button btn btn-material-burgundy grid_button" id="toggle_grid"><span class="glyphicon glyphicon-th"></span><a href="javascript:"></a></div>';
   html += '<div class="se_drag_container ui-widget-content">';
   html += '<div class="se_content_container">';
-
-  /*
-  if ( currentMarqer.marqeroptions.image !== undefined && currentMarqer.marqeroptions.image !== null ) {
-    html += "<img width='100%' height='100%' src='"+currentMarqer.marqeroptions.image.value+"'/>";
-  } else if ( currentMarqer.marqeroptions.html !== undefined && currentMarqer.marqeroptions.html !== null ) {
-    html += "<style>" + currentMarqer.marqeroptions.css.value + "</style>";    
-    html += "<div width='100%' height='100%' class=" + currentMarqer.marqeroptions.classes.value + ">" +currentMarqer.marqeroptions.html.value + "</div>";
-    
-  }else{
-    html += currentMarqer.marqeroptions.title.value;
-  }
-  */
-
   html += '</div></div></div>';
   $('#video_frame').prepend(html); // add se editor      
 
@@ -1004,6 +999,28 @@ var stopStreenEditor = function() {
 };
 
 ////
+// MARQER STRATUM HANDLERS
+/////_________________________________________________________________
+
+var saveMarqerStratum = function( m ) {
+
+  var data = {
+    type: m.type,
+    label: m.title,
+    name: m.marqeroptions.title.value, 
+    marqeroptions: JSON.stringify(m.marqeroptions)
+  }
+
+  // save
+  $.post('/'+mount_point+'/marqerstratum/', data, function() {      
+    updateStramienen()
+  }).fail(function() { 
+    console.log("saving stratum failed")    
+  })
+}
+
+
+////
 // CREATE TRACKEVENTS FROM CURRENT MARQER DATA
 /////_________________________________________________________________
 
@@ -1026,6 +1043,10 @@ var convertMarqersIntoTrackevents = function( m, select_id ) {
       createTrackEvent( marqer, createTrackLine(), select_id );
     }
   });
+  
+  // finally create one extra trackline 
+  createTrackLine()
+  $('.trackline').last().css({'opacity': 0.4, 'height':'10px'})
   
   // initiate selector
   setTrackLineSelection();

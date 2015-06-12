@@ -134,8 +134,10 @@ var ProgramTable = React.createClass({
     },
     
     // after creation
-    componentDidMount: function() {      
-      $('.leprograms').shapeshift(shapeshiftOptions());
+    componentDidMount: function() {   
+      try {   
+        $('.leprograms').shapeshift(shapeshiftOptions());
+      }catch(e){}
       $('.numvideos').text( $('.leprograms .program_container:not(.hidden)').length )      
     }, 
     

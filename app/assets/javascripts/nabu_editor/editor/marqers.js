@@ -16,18 +16,31 @@ convertMarqersIntoTrackevents
 
 // getMarqers( program_id )
 
-var createNewMarqer = function( type, name, event, forceAdd ) {
+var createNewMarqer = function( type, name, event, forceAdd, stramien_id ) {
   // create a new marqer
   m = new window[ type ]
   m.in = ( ( event.pageX - $('#tracks').offset().left ) / $('#tracks').width() ) * pop.duration()
   m.out = m.in + ( 0.12 * pop.duration() )
   m.program_id = program.id;
-  m.marqeroptions = m.defaultvalues;  
+  m.marqeroptions = m.defaultvalues;    
+
+  // check for stramien
+  if ( stramien_id != undefined && stramien_id != "undefined" && stramien_id != null ) {    
+    var stramien = getStramienById( stramien_id )
+    console.log("find marqer with stramien:", stramien_id, stramien.name)
+    m.marqeroptions = stramien.marqeroptions  
+  }else{
+    //
+  }
+  
+  // check for tracklines
   if ( forceAdd ) {
-    m.marqeroptions.track = createTrackLine().index()    
+    m.marqeroptions.track = createTrackLine().index() - 1
   }else{
     m.marqeroptions.track = $(event.target).index()
   }
+  
+  // set name
   m.title = name;
   
   // create a copy
@@ -43,6 +56,18 @@ var createNewMarqer = function( type, name, event, forceAdd ) {
     }
   })
 }
+//"538c84d864657614b7010000" willik
+//"557a150b6465760f80010000"
+
+var getStramienById = function( _id ) {
+  var result = null
+  $.each(marqer_stramienen, function(i, stramien) {    
+    if (stramien._id.$oid == _id) {
+      result = stramien
+    }
+  })
+  return result
+}
 
 var updateMarqer = function( marqer ) {
   console.log("updateMarqer", marqer )
@@ -51,12 +76,16 @@ var updateMarqer = function( marqer ) {
     marqer: marqer, 
     success: function(){ 
       console.log('yuy')
-      $('#load_indicator.glyphicon').css("opacity", 0)
-      aMarqerIsUpdating = false
+      $('#load_indicator.glyphicon').css("opacity", 0)      
       preview()
+      aMarqerIsUpdating = false
     },
     fail: function(resp) {
       console.log('helaas pindakaas')
+      aMarqerIsUpdating = false
+    },
+    done: function(resp) {
+      aMarqerIsUpdating = false
     }
    })
 };

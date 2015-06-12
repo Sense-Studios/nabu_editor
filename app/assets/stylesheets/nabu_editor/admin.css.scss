@@ -1358,7 +1358,7 @@ nav {
       font-weight: 100;
     }
     .marqers {
-      .search_marqer_icon {
+      .search_marqer_icon, {
         position: absolute;
         z-index: 1000;
         top: 10px;
@@ -1366,7 +1366,7 @@ nav {
         opacity: 0.5;
         font-size: 20px;
       }
-      .marqer_search {
+      .marqer_search, {
         position: relative;
         height: 40px;
         width: 100%;
@@ -1439,6 +1439,42 @@ nav {
           }
         }
       }
+
+      /* FOR STRAMIENEN */
+      .marqers_stratum_holder {
+  
+        height: 40vh;
+        background: white;
+        overflow-x: hidden;
+        overflow-y: auto;
+        
+        .marqer_item {
+          display: table;
+          height: 40px;
+          width: 100%;      
+          border-bottom: 1px solid rgba(86, 18, 31, 0.5);
+          cursor: pointer;
+          margin: 0;
+          border-radius: 0;       
+          text-align: right;
+          background-color: transparent;
+          
+          a {
+            color: rgba(0, 0, 0, 0.843137);
+            -webkit-transition-duration: 0.3s; /* Safari */
+            transition-duration: 0.3s;            
+            &:hover {
+              color: rgba(0, 0, 0, 0.843137);
+              text-decoration: none;  
+              font-size: 16px;
+            }
+          }
+          
+          a.danger {
+            color: red;
+          }
+        }
+      }      
     }
     .publish_button_marqers {
       position: absolute;
@@ -1485,7 +1521,7 @@ nav {
 
 .zoomContainer {
   /*'height:450px;*/
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: scroll; 
   transition: height 0.5s; 
   
@@ -1524,6 +1560,7 @@ nav {
         height: 20px;      
         margin: 4px 0px;
         box-shadow: inset 0px 2px 4px rgba(40,40,40,0.4);
+        cursor: pointer;
 
         .trackeventcontainer {
           pointer-events: none;
@@ -1570,7 +1607,7 @@ nav {
               top: 0;
               left: 15px;
               height: 20px;
-              width: 50%;
+              width: 70%;
               overflow: hidden;
               -webkit-touch-callout: none;
               -webkit-user-select: none;
@@ -2284,6 +2321,9 @@ nav {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   a {
+    position: relative;
+    width: 100%;
+    height: 100%;
     color: #FFF;
   }
 }
@@ -2331,5 +2371,35 @@ nav {
 }
 
 @media (max-width: 1200px) {
-  
+  .channels_container {
+    .form-group {
+      #create_new_channel {
+        padding: 12px 0;
+        font-size: 11px;
+      }
+      .primary_color_container {
+        .colorpicker-element {
+          display: block;
+          height: 70px;
+          input {
+            float: none;
+            top: 36px;
+            display: block;
+            width: 100%;
+            width: 60%;
+            margin: auto;
+            text-align: center;
+          }
+          span {
+            float: none;
+            display: block;
+            width: 100%;
+            i {
+              margin-top: -38px;
+            }
+          }
+        }
+      }
+    }
+  }
 }

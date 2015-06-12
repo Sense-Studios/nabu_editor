@@ -90,7 +90,6 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
         output = HandlebarsTemplates[ element.type ](context);
       }
       
-      
     } catch (err) {
       console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
       return
@@ -107,6 +106,8 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     // $('#myTab a[href="#geavanceerd"]').tab('show');
     setTimeout( $('#myTab a[href="#instellingen"]').tab('show'), 100 );
   });
+  
+  convertSeconds('#time_field');
 
   // set the change handlers
   $('#marqer_editor_dialog input.form-control').on('input', function(e) {
@@ -137,6 +138,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   // attach delete // depricated
   $('#modal_delete_button').unbind('click')
   $('#modal_delete_button').click( function(e){ deleteMarqer(someMarqer) })
+  
 
   // show the modal
   $('#marqer_editor_dialog').modal('toggle');

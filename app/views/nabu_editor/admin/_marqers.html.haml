@@ -1,6 +1,6 @@
 .marqers_container
   %h3
-    Kies marqer
+    Kies Marqer
   .marqers
     .marqer_search
       %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
@@ -9,10 +9,16 @@
     .marqers_holder
       / attach your marqers here!
 
-  
-  /%button.btn.btn-material-pink.publish_button_marqers#save_marqers
-  /  Bewaar
-  /  %span.glyphicon.glyphicon-chevron-right
+
+  %h3
+    Kies Stramien
+  .marqers
+    .marqer_search
+      %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
+      %input{"type"=>"text","placeholder"=>"Zoek","id"=>"zoek_marqer_stramien"}
+    
+    .marqers_stratum_holder
+      / attach your marqer stratum here!
 
 / custom javascripts
 = javascript_include_tag "nabu_editor/editor/marqer_definitions.js"
