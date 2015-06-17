@@ -20,6 +20,9 @@
 // TURBOLINKS
 //= require turbolinks
 
+// WEBCOMPONENTS
+//= require webcomponents/webcomponents.min
+
 // REACT
 // require react/react
 //= require react/react-with-addons
