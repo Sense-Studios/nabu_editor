@@ -1,5 +1,15 @@
-
-
+/* globals
+stopScreenEditor
+getMarqerById
+updateMarqer
+deleteMarqer
+convertSeconds
+preview
+HandlebarsTemplates
+ace
+keysEnabled
+MarduqApi
+*/
 
 /////
 /// MARQER MODAL RENDERER (for the editor)
@@ -34,14 +44,14 @@ var translateKey = function(key) {
   trykey = translations[key];
   if ( trykey !== null ) returnkey = trykey;
   return trykey;
-}
+};
 
 var showMarqerInfoFromTrackEvent = function( e, that ) {
   // stop it!
-  stopStreenEditor()
+  stopScreenEditor();
 
   // set the header
-  $('.modal-title').html( '<span>' + $(that).data('name') + '</span>' )
+  $('.modal-title').html( '<span>' + $(that).data('name') + '</span>' );
 
   // clear the body
   $('#marqer_editor_dialog .modal-body-editors').html('');
@@ -49,16 +59,16 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
   // render in/out editor
   // html += renderInOutEditor( that )
-  var someMarqer = getMarqerById( $(that).data('remote_id') )
+  var someMarqer = getMarqerById( $(that).data('remote_id') );
 
   // this is needed for some depricated
   // issues from the old days, right now we only use
   // remote ids
-  someMarqer.remote_id = someMarqer.id
+  someMarqer.remote_id = someMarqer.id;
 
   // failsafe
   if ( someMarqer === null ) {
-    console.log("WARNING: marqer not found")
+    console.log("WARNING: marqer not found");
     return;
   }
 
@@ -74,15 +84,15 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
       rand_id: (+new Date()) // use remote id ?
     };
 
-    console.log("--> render marqer elements KEY: ", key )
+    console.log("--> render marqer elements KEY: ", key );
 
     // extra's (unit renders a value after a textfield)
     if ( element.unit ) context.unit = element.unit;
 
     // render the output through handlebars, http://handlebarsjs.com/ => /dir/file(object)
     // find the templates in /assets/javascripts/templates
-    var output = ''
-    var output_advanced = ''
+    var output = '';
+    var output_advanced = '';
     try {
       if ( element.advanced ) {
         output_advanced = HandlebarsTemplates[ element.type ](context);
@@ -92,21 +102,22 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
       
     } catch (err) {
       console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
-      return
+      return;
     }
 
     // attach the output to the form
-    $('#marqer_editor_dialog .modal-body-editors').append( output )
-    $('#marqer_editor_dialog .modal-body-editors-advanced').append( output_advanced )
+    $('#marqer_editor_dialog .modal-body-editors').append( output );
+    $('#marqer_editor_dialog .modal-body-editors-advanced').append( output_advanced );
 
     // start post rendering, after the html has been appended
-    postRender( someMarqer, context )
+    postRender( someMarqer, context );
     
     // show the tab
     // $('#myTab a[href="#geavanceerd"]').tab('show');
     setTimeout( $('#myTab a[href="#instellingen"]').tab('show'), 100 );
   });
   
+  //
   convertSeconds('#time_field');
 
   // set the change handlers
@@ -129,24 +140,23 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   });
 
   // attach save
-  $('#modal_save_button').unbind('click')
+  $('#modal_save_button').unbind('click');
   $('#modal_save_button').click( function(e){ 
-    updateMarqer(someMarqer) 
-    setTimeout( function(){ preview(); }, 400 )
-  })
+    updateMarqer(someMarqer);
+    setTimeout( function(){ preview(); }, 400 );
+  });
 
   // attach delete // depricated
-  $('#modal_delete_button').unbind('click')
-  $('#modal_delete_button').click( function(e){ deleteMarqer(someMarqer) })
-  
+  $('#modal_delete_button').unbind('click');
+  $('#modal_delete_button').click( function(e){ deleteMarqer(someMarqer) });
 
   // show the modal
   $('#marqer_editor_dialog').modal('toggle');
 
   // give the track event a 'selected' state
   // selectTrackEvent(this)
-  $('#marqer_editor_dialog').bind('hidden', function() { keysEnabled = true } )
-}
+  $('#marqer_editor_dialog').bind('hidden', function() { keysEnabled = true } );
+};
 
   //////
   /// POST RENDER
@@ -159,12 +169,12 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
 var postRender = function( someMarqer, context ) {
 
-  var key = context.key
-  var element = context.element
+  var key = context.key;
+  var element = context.element;
 
   var post_renders = {
     text: function() {
-      // there is nothing here
+      // there is nothing needed here
     },
 
     code: function() {
@@ -205,7 +215,7 @@ var postRender = function( someMarqer, context ) {
       }, 300);
     },
     
-        // select
+    // select
     selectObject: function() {
       $('#' + key + '_field option[value="' + element.value +'"]').attr("selected", "selected");
       $('#' + key + '_field').change(function() {
@@ -234,23 +244,23 @@ var postRender = function( someMarqer, context ) {
       console.log("has colopicker: ", key, element, context );
       $('#' + context.rand_id ).colorpicker( {'format':'rgba'} )
       $('#' + context.rand_id ).colorpicker().on('changeColor', function(ev) {
-          // this is a remarkable stupid way to do it          
-          console.log(ev.color.toRGB())
-          var tmp = ev.color.toRGB()
-          var c = 'rgba('+tmp.r+','+tmp.g+','+tmp.b+','+tmp.a+')'
-          someMarqer.marqeroptions[key].value = c
+          // this is a remarkably stupid way to do this          
+          //console.log(ev.color.toRGB());
+          var tmp = ev.color.toRGB();
+          var c = 'rgba('+tmp.r+','+tmp.g+','+tmp.b+','+tmp.a+')';
+          someMarqer.marqeroptions[key].value = c;
       });
       
       // remove the colorpicker
       $('#marqer_editor_dialog').on('hidden.bs.modal', function () {
-        $('#' + context.rand_id ).remove()
+        $('#' + context.rand_id ).remove();
       })
     },
 
     // Number steppers
     number: function() {
       $('#' + key + '_field').change(function() {
-        preview();
+        // preview();
       }); // don't hammer the server :p
     },
 
@@ -266,14 +276,14 @@ var postRender = function( someMarqer, context ) {
           current.title = $(this).find('input:eq(0)').val();
           current.url = $(this).find('input:eq(1)').val();
           current.blank = $(this).find('input:eq(2)').prop("checked");    // hamlbars needs a 'truish' var
-          console.log("I has this: ", $(this));
-          holder= $(this);
+          // console.log("I has this: ", $(this));
+          // holder= $(this);
           // current.flag1 = $(this).find('input:eq(3)').val();
           // current.flag2 = $(this).find('input:eq(4)').val();
           item_array.push( current );
         });
 
-        someMarqer.elements["items"].value = item_array;
+        someMarqer.elements.items.value = item_array;
       }
 
       function appendItemToList( title, url, blank ) {
@@ -286,22 +296,20 @@ var postRender = function( someMarqer, context ) {
         $(".delete_list_item").click( function(e) { $(this).parent().parent().parent().remove(); updateList(); }) // delete
       }
 
-      console.log('set click')
       // add
       $(".add_list").click( function() {
-        appendItemToList( "", "", false )
-        console.log('append')
+        appendItemToList( "", "", false );
       });
 
       // has list elements
       $.each( context.element.value, function( key, value ) { appendItemToList( value.title, value.url, value.blank ) });
-
     },
 
     // file browser, handler further down
     file: function() {}
-  }
+  };
 
+  // File upload
   // Needs refactoring
   // this way it only works for 1 file field :-/
   if (element.type == "file") {
@@ -328,7 +336,6 @@ var postRender = function( someMarqer, context ) {
         // Upload start
         $('#fileholder_' + key).bind('s3_uploads_start', function(e) {
             console.log("upload start ... ");
-
             $('#placeholder_image').html('<p>Bestand wordt geupload ... </p>')
         });
 
@@ -342,7 +349,6 @@ var postRender = function( someMarqer, context ) {
           var assetData = {};
 
           // this is a little dirty, but the fastest for now
-          var t = "Image"; // default
           var t = {
             'audio': 'Audio',
             'image': 'Image'
@@ -369,7 +375,7 @@ var postRender = function( someMarqer, context ) {
 
           // show it in the editors
           if (key == 'image') {
-            $('#imageholder_' + key + ' img').attr( 'src', content.url  )
+            $('#imageholder_' + key + ' img').attr( 'src', content.url  );
           }
           if (key == 'audio') {
             $('#imageholder_' + key + ' img').remove();
@@ -380,7 +386,7 @@ var postRender = function( someMarqer, context ) {
             }).appendTo('#audio_controls');
           }
 
-          $('#placeholder_image').remove()
+          $('#placeholder_image').remove();
 
           // throw it to the element
           someMarqer.marqeroptions[key].value = content.url;

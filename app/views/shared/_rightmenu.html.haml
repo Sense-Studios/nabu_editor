@@ -40,11 +40,14 @@
    
   
     %select#aspect_dropdown.form-control.input-sm.dropdown_select.dropdown_select_ratio
-      %option{:value=>'4:3'} 4:3
+      %option{:value=>'5:4'} 5:4  
+      %option{:value=>'4:3'} 4:3      
       %option{:value=>'3:2'} 3:2      
-      %option{:value=>'16:9', :selected=>'selected'} 16:9
+      %option{:value=>'16:10'} 16:10
+      %option{:value=>'16:9', :selected=>'selected'} 16:9      
       %option{:value=>'17:9'} 17:9
-      %option{:value=>'21:9'} 21:9      
+      %option{:value=>'21:9'} 21:9    
+      %option{:value=>'24:9'} 24:9
     
   .helpers
     .bubble.upload_helper{:style => "top: 20%"}

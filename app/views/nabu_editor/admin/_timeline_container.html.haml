@@ -1,11 +1,10 @@
-.zoomContainer{:tabindex=>"0"}
+.zoomContainer{:tabindex=>"0"}    
   #timeLineContainer
     
     / temp fix
     /:css
     /  .btn-sm { padding: 8px 12px; }
     /= render 'shared/admin/administration_controls'
-    
     %canvas.timeline_canvas{:style=>"top:10px"}
     #scrubber
 
@@ -16,8 +15,6 @@
       #trackline4.trackline.ui-droppable.btn-material-grey-200
       #trackline4.trackline.ui-droppable.btn-material-grey-200
       #trackline4.trackline.ui-droppable.btn-material-grey-200
-    
-    .add_track_area
 
 / testing
 .tracklineOptionsContainer
@@ -49,7 +46,7 @@
     %span.glyphicon.glyphicon-trash
     
   
-/ Custom javascripts
+/ Custom javascripts for edting
 = javascript_include_tag "nabu_editor/editor/marqers.js"
 = javascript_include_tag "nabu_editor/editor/marqer_ui_renderer.js" 
 = javascript_include_tag "nabu_editor/editor/user_interface.js"  

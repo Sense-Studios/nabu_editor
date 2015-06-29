@@ -725,11 +725,11 @@ var startScreenEditor = function( event, ui ) {
   console.log(event, ui);
   
   if ( ui.hasClass('is-selected-for-screen-editor') ) {
-    stopStreenEditor( event, ui );
+    stopScreenEditor( event, ui );
     return;
   }
   
-  stopStreenEditor( event, ui );
+  stopScreenEditor( event, ui );
 
   ui.addClass('is-selected-for-screen-editor');  
   ui.removeClass('btn-material-burgundy');
@@ -831,7 +831,7 @@ var startScreenEditor = function( event, ui ) {
     var se = $(event.target);
     console.log("has se: ", se);
     var obj = {
-      top: se.offset().top,
+      top: se.offset().top - $('#video_frame').offset().top,
       left: se.offset().left - $('#video_frame').offset().left,
       width: se.width(),
       height: se.height()
@@ -855,7 +855,7 @@ var startScreenEditor = function( event, ui ) {
   };
 
   // add close
-  $('#close_screen_editor').click(function() {stopStreenEditor()});
+  $('#close_screen_editor').click(function() {stopScreenEditor()});
   $('#toggle_grid').click( function() { $('.snapping_grid').toggle() } );
   $(document).keydown( function(e) { 
     e.preventDefault(); // prevent the default action (scroll / move caret)   
@@ -906,11 +906,11 @@ var startScreenEditor = function( event, ui ) {
         break;
 
       case 13: // enter
-        stopStreenEditor();
+        stopScreenEditor();
         break;
 
       case 27: // esc
-        stopStreenEditor();
+        stopScreenEditor();
         break;
 
       default: return;
@@ -924,7 +924,7 @@ var startScreenEditor = function( event, ui ) {
   });
   
   // stop this on out-click    
-  $('#screen_editor').focusout( function() { stopStreenEditor(); } ); 
+  $('#screen_editor').focusout( function() { stopScreenEditor(); } ); 
   $('#screen_editor').focusin( function() {} );
   keysEnabled = false;
 };
@@ -988,7 +988,7 @@ var createGrid = function() {
   return grid;
 };
 
-var stopStreenEditor = function() {  
+var stopScreenEditor = function() {  
   $('.is-selected-for-screen-editor').removeClass('btn-material-yellow');
   $('.is-selected-for-screen-editor').addClass('btn-material-burgundy');
   $('.is-selected-for-screen-editor').removeClass('is-selected-for-screen-editor');

@@ -19,12 +19,17 @@ var animateVideoUp = function() {
   marqerToggled = 0;
   toggleMarqers( marqerToggled );
   
-  $('.video_holder').animate({'height':'150px' }, 540);  
-  $('#video_frame').animate({'width': '24vh' }, 540);        
-  $('#video_frame').animate({'margin-right': '20px' }, 540);
-  $('#video_frame').css('margin-top', '1%');
-  $('#video_frame').css('height', '90%');
-  $('#video_frame').css("float", "right");
+  var smallHeight = ( 200 / aspect_width ) * aspect_height
+  $('.videowrapper').animate({
+  	'height': smallHeight + 'px',
+  	'width': '200px',
+  	'margin-right': '20px'
+  }, 540);
+  
+  $('.videowrapper').css('margin-top', '1%');
+  $('.videowrapper').css("float", "right");
+  $('.videowrapper .ui-resizable-se').hide()
+  
   setTimeout( function() { $('.small_video_description').fadeIn('slow'); }, 600);
 };
 
@@ -38,10 +43,14 @@ var animateVideoDown = function() {
   toggleMarqers( marqerToggled );
   
   resize_aspect_ration_change(); 
-  $('#video_frame').animate({'width': '100%' }, 540, function() { $('#video_frame').css({"float": "right"}) } );
-  $('#video_frame').animate({'margin-right': '0' }, 100);
-  $('#video_frame').css('margin-top', '0');
-  $('#video_frame').css('height', '100%' );
+  
+  var bigHeight = ( 640 / aspect_width ) * aspect_height
+  $('.videowrapper').css("float", "none");
+  $('.videowrapper').animate({'height': bigHeight + 'px', 'width': '640px'}, 240, function() {
+  	$('.videowrapper').css('margin', '2% auto');
+  });
+  
+  $('.videowrapper .ui-resizable-se').show()   
   $('.small_video_description').fadeOut('fast');
 };
 

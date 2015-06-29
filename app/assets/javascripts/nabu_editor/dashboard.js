@@ -270,40 +270,57 @@ var shapeshiftOptions = function() {
 // keep video aspect ratio
 function resize_aspect_ratio() {
   console.log("resize aspect ", $('#video_frame').hasClass('fullscreen'))
+  
+  // we're in full screen
   if ( $('#video_frame').hasClass('fullscreen') ) {
-    $(".video_holder").css({"height": "100%"});
+    $(".videowrapper").css({"height": "100%"});
+    $(".videowrapper").css({"width": "100%"});
+    $(".videowrapper").css({"margin": "0"});
+    
+    $(".video_holder").css({"height": "100%"});    
+    $(".ui-resizable-se").hide()
     return;
   }
-  var width = $(".video_holder").width();
-  var height = width * (aspect_height/aspect_width);
-  var fixedheight = height.toFixed(0);
-  $(".video_holder").css({
-    "height": fixedheight + 'px'
-  });
+
+  // resets  
+  $(".video_holder").css({"height": "initial"});
+  $(".videowrapper").css({"margin": "2% auto"});  
+  $(".ui-resizable-se").fadeIn()
+
+  setTimeout( function() { 
+    var width = $(".videowrapper").width();
+    var height = width * ( aspect_height / aspect_width );
+    var fixedheight = height //.toFixed(0);
+    
+    $(".videowrapper").animate({"height": (fixedheight)+ 'px'}, 300);    
+    if ( $('contentwrapper').width() < width ) $(".videowrapper").css({"width": ""}); // reset        
+    //updateMarqerBottomControls(fixedheight);
+
+  }, 600 );
   
   // failsafe for laggy servers (looking at you kaltura)
   setTimeout( function() { 
-    if ( $('#video_frame').css('display') == 'none' ) {
-      //$('#video_frame').css('display', 'block')
+    if ( $('#video_frame').css('display') == 'none' ) {      
       $('#video_frame').fadeIn('slow');
     }
-  }, 500 );
-  
-  updateMarqerBottomControls(fixedheight)  ;
+  }, 500 );  
 }
 
-function updateMarqerBottomControls( fh ) {
-  if ( fh === undefined ) fh = $('.video_holder').height();
-  $('.zoomContainer').css('height', $(document).height() - fh - 42 + 'px');
-  $('#tracks').css('height', $(document).height() - fh - 64 + 'px');
-  //$('.add_track_area').css('height', $(document).height() - fh - 40 + 'px');
-}
+//function updateMarqerBottomControls( fh ) {
+//  if ( fh === undefined ) fh = $('.video_holder').height();
+  // $('.zoomContainer').css('height', $(document).height() - fh - 42 + 'px');
+  // $('#tracks').css('height', $(document).height() - fh - 64 + 'px');
+  // $('.add_track_area').css('height', $(document).height() - fh - 40 + 250 + 'px');
+//}
 
 function checkURLForPresets() {
   if ( window.location.hash.substring(0,2) == '#i' ) {
     setProgram( window.location.hash.substring(2) );
     showCreateMovie( false );
   }
+  
+  // if #m open marqer editor ?
+  //if ( window.location.hash.substring(0,2) == '#m' ) {
 }
 
 // ### Main
@@ -328,7 +345,7 @@ $(document).ready(function() {
   $(window).resize(function() {
 
     // always move editor
-    updateMarqerBottomControls() 
+    //updateMarqerBottomControls() 
 
     // Quickfix
     if ( original_width == $(document).width() ) return;
@@ -342,11 +359,11 @@ $(document).ready(function() {
     $(".contentwrapper").css("width", content_wrapper_width.toFixed(0) - 2);
   
     // Keep shapeshifter
-    setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift(shapeshiftOptions())} , 800 );
+    setTimeout( function() { if ( $('.leprograms').is(":visible") ) try { $('.leprograms').shapeshift(shapeshiftOptions())} catch(e){}} , 800 );
   }).resize();
   
   // Initialize Programs
-  setTimeout( function() { $('.leprograms').shapeshift(shapeshiftOptions()); $('.leprograms').fadeIn('slow'); } , 800 );
+  setTimeout( function() { try { $('.leprograms').shapeshift(shapeshiftOptions()); $('.leprograms').fadeIn('slow'); } catch(e){} } , 800 );
   
   // Initialize big-play
   $('#nabu_controls').hide();
@@ -412,10 +429,17 @@ $(document).ready(function() {
   resize_aspect_ratio()
   
   // set the bottom part of the editor
-  updateMarqerBottomControls
+  //updateMarqerBottomControls
   
   // check for hash &c
   checkURLForPresets()
+  
+  // set resizable
+  $('.videowrapper').resizable({
+    aspectRatio: true,
+    handles: 'se',
+    maxWidth: $('.contentwrapper').width() - 40
+  });
 });
 
 var delayedScreenChange = function() {

@@ -2,14 +2,6 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
 @import url(http://fonts.googleapis.com/css?family=Anonymous+Pro);
 
-// AVENIR
-// AVENIR
-// AVENIR
-// AVENIR
-// AVENIR
-// AVENIR
-
-
 /*
 // AVENIR
 
@@ -35,9 +27,38 @@
   100% { opacity: 1; }
 }
 
+html {
+  overflow-y:hidden;
+}
+
+.videowrapper {
+  margin: 2% auto;
+  width: 92%;
+  height: 92%;
+  background-color: #222;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+
+  .ui-resizable-se {
+    position: relative;
+    left: calc( 100% - 9px );         
+    top: calc( 100% - 9px );     
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    cursor: se-resize;
+  }
+  
+  .ui-resizable-s {}
+  .ui-resizable-e {}
+}
+
 #video_frame {
   height: 100%;
   width: 100%;
+  position: relative;
+  float:right;
+  
   video {
     width: 100%;
     height: 100%;
@@ -158,8 +179,13 @@
     top: 0;
     height: 95%;
   }
-
+  
   .ui-resizable-se {
+    
+    // needs a reset, as it is used   
+    border-right: none;
+    border-bottom: none;    
+    
     cursor: se-resize;
     width: 12px;
     height: 12px;
@@ -200,7 +226,6 @@
     font-size: 44px;
   }
 }
-  
 
 .clear {
   clear: both;
@@ -448,16 +473,26 @@ nav {
   overflow-y: scroll;
   background-color: #e0e0e4;
   transition: width 0.5s;
+  
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
   .select_videos {
-    transition: margin-top 0.5s
+    transition: margin-top 0.5s;
+    align-self: stretch;
+    flex: 1;
   }
+
   .video_holder {
     position: relative;
     width: 100%;    
     /*height: 60vh;*/
     /*max-width: 1150px;*/
     margin: 0 auto;
-    background-color: #313131;
+    /*background-color: #313131;*/
+    background-color: #636363;
     transition: height 0.5s;
     .small_video_description {
       position: absolute;
@@ -483,13 +518,13 @@ nav {
       }
     }
     .video_uploader_container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(51,51,51,0.7);
-    transition: opacity 0.5s;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(51,51,51,0.7);
+      transition: opacity 0.5s;
       h1 {
         position: relative;
         color: #FFF;
@@ -784,6 +819,9 @@ nav {
     position: relative;
     width: 100%;
     padding: 20px;
+    align-self: stretch;
+    flex: 1;
+  
     .well {
       background-color: #FFF;
       background-image: none;
@@ -1068,7 +1106,6 @@ nav {
   z-index: 100000000;
 }
 
-
 /* hide all contrals and interactions, except video_describe_container */
 .create_movie_hider {
   position:fixed;
@@ -1080,7 +1117,6 @@ nav {
   z-index: 9001;  
   display: none;
 }
-
 
 .channels_container {
   position: absolute;
@@ -1328,6 +1364,7 @@ nav {
       }
       input {
         background-image: none;
+        cursor: pointer !important;
       }
     }
     select {
@@ -1521,16 +1558,17 @@ nav {
 
 .zoomContainer {
   /*'height:450px;*/
-  overflow-y: hidden;
-  overflow-x: scroll; 
-  transition: height 0.5s; 
+  overflow-y: auto;
+  overflow-x: auto; 
+  transition: height 0.5s;   
+  margin-top: 42px;
+  align-self: stretch;
+  flex: 1;
   
   #timeLineContainer {
     position: relative;
     width: 100%;
-    /*height: 100%;*/        
-    top: 42px;
-    background-color: #FFF;
+    height: 100%;
 
     #scrubber {
       position: absolute;
@@ -1545,16 +1583,18 @@ nav {
       background-color: #e0e0e4;
       width: 100%;
       height: 25px;
-    }  
+    } 
 
     #tracks {
       position: relative;
       width: 100%;  
-      height: 250px;
+      height: 110%;
       margin: 0;
       padding: 0;    
-      overflow-y: auto;  
+      overflow: hidden;
       transition: height 0.5s;
+      background-color: #FFF;
+      padding-bottom: 128px;
 
       .trackline {
         height: 20px;      
@@ -1646,24 +1686,18 @@ nav {
   }
 }
 
-/*
-.add_track_area {
-  background-color: #d5d5d5;
-  display: inline-block;
-  width: 100%;
-  height: 8vh;
-  top: -13vh;
-  position: relative;
-}
-*/
-
 .tracklineOptionsContainer {
+  
+  align-self: flex-end;  
+  width: 100%;
+  height: 42px;
   background-color: #EEEEEE;
   border-top: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
   box-shadow: 0px 2px 4px rgba(50, 50, 50, 0.1);
-  display:none;
-  
+  z-index: 1;
+  display:none; /* initially */
+
   #refresh_marqers {
     cursor: pointer;
   }
@@ -1812,6 +1846,7 @@ nav {
   height: 100%;
   background-color: rgba(0,0,0,.85);
   z-index: 999999;
+  
   button {
     position: relative;
     display: block;
@@ -1825,11 +1860,14 @@ nav {
 
 #publish_menu_container {
   margin-top: 41px;
-  position: relative;
+  position: absolute;
   width: 100%;
   min-height: 80%;
   background-color: #FFF;
   padding: 10px;
+  align-self: stretch;
+  flex: 1;
+
   .row {
     margin: 0;
     .menu_all_videos {
@@ -2369,6 +2407,8 @@ nav {
     background: #888;
   }
 }
+
+.video_holder {}
 
 @media (max-width: 1200px) {
   .channels_container {

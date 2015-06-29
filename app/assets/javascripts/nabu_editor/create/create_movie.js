@@ -139,7 +139,7 @@ function checkInput( directupdate ) {
   //  Call upon the Youtube api
   // ******************************************************************  
   
-  if ( checkedbox.indexOf("youtube") >= 0 ) {
+  if ( checkedbox.indexOf("youtu") >= 0 ) {
     
     // TODO: Move these to the Options file
     var yt30_api_key = "AIzaSyAF_fb0l1J8BrhGVE2xby5QM5sX7l1RLKQ";
