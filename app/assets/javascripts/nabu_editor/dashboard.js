@@ -287,13 +287,19 @@ function resize_aspect_ratio() {
   $(".videowrapper").css({"margin": "2% auto"});  
   $(".ui-resizable-se").fadeIn()
 
+  console.log("allo?")
+
   setTimeout( function() { 
+    console.log("ploing")
+    
     var width = $(".videowrapper").width();
     var height = width * ( aspect_height / aspect_width );
     var fixedheight = height //.toFixed(0);
     
     $(".videowrapper").animate({"height": (fixedheight)+ 'px'}, 300);    
-    if ( $('contentwrapper').width() < width ) $(".videowrapper").css({"width": ""}); // reset        
+    console.log('wat nou:', $('.contentwrapper').width(),  width )
+    
+    if ( $('.contentwrapper').width() < width ) $(".videowrapper").css({"width": ""}); // reset        
     //updateMarqerBottomControls(fixedheight);
 
   }, 600 );
