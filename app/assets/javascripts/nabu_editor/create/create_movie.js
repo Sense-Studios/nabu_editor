@@ -192,8 +192,8 @@ function checkInput( directupdate ) {
         },
         tags: "",
         duration: parseYoutubeDuration( data.items[0].contentDetails.duration ), // given as PT34M36S, in seconds
-        _type: "Youtube",
-      };
+        _type: "Youtube"
+      };      
 
       console.log("created data: ", currentAssetData, "start saving");
       doCreateProgram();    // save the program

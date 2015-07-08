@@ -218,7 +218,7 @@ var showCreateMovie = function( force, with_upload ) {
      $('.video_uploader_container').fadeIn('fast') ;
   }
   
-  setTimeout( function() { $('.leprograms').shapeshift( shapeshiftOptions() ) }, 800 );  
+  setTimeout( function() { try { $('.leprograms').shapeshift( shapeshiftOptions() ) } catch(e){} }, 800 );  
 };
 
 // $('.navigation .btn').removeClass('btn-material-pink')

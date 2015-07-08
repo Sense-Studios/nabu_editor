@@ -99,7 +99,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
       }else{
         output = HandlebarsTemplates[ element.type ](context);
       }
-      
+
     } catch (err) {
       console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
       return;
@@ -111,12 +111,12 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
     // start post rendering, after the html has been appended
     postRender( someMarqer, context );
-    
+
     // show the tab
     // $('#myTab a[href="#geavanceerd"]').tab('show');
     setTimeout( $('#myTab a[href="#instellingen"]').tab('show'), 100 );
   });
-  
+
   //
   convertSeconds('#time_field');
 
@@ -141,7 +141,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
   // attach save
   $('#modal_save_button').unbind('click');
-  $('#modal_save_button').click( function(e){ 
+  $('#modal_save_button').click( function(e){
     updateMarqer(someMarqer);
     setTimeout( function(){ preview(); }, 400 );
   });
@@ -180,7 +180,7 @@ var postRender = function( someMarqer, context ) {
     code: function() {
       // https://github.com/ajaxorg/ace/issues/1518
       ace.config.set('basePath', '/assets/ace');
-      
+
       // http://stackoverflow.com/questions/14053820/how-to-set-the-source-path-in-ace-editor
       ace.config.set("modePath", "/assets/ace");
       ace.config.set("workerPath", "/assets/ace");
@@ -200,7 +200,7 @@ var postRender = function( someMarqer, context ) {
       $('#' + key + '_field option[value="' + element.value +'"]').attr("selected", "selected");
       $('#' + key + '_field').change(function() {
         setTimeout(preview, 100);
-      }); 
+      });
       setTimeout( function() {
         $('.dropdown_select').dropdown();
         $('.dropdownjs ul li').click(function() {
@@ -214,13 +214,13 @@ var postRender = function( someMarqer, context ) {
         });
       }, 300);
     },
-    
+
     // select
     selectObject: function() {
       $('#' + key + '_field option[value="' + element.value +'"]').attr("selected", "selected");
       $('#' + key + '_field').change(function() {
         setTimeout(preview, 100);
-      }); 
+      });
       setTimeout( function() {
         $('.dropdown_select').dropdown();
         $('.dropdownjs ul li').click(function() {
@@ -232,7 +232,7 @@ var postRender = function( someMarqer, context ) {
             $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
           }, 300);
         });
-      }, 400);   
+      }, 400);
     },
 
     radio: function() {
@@ -244,13 +244,13 @@ var postRender = function( someMarqer, context ) {
       console.log("has colopicker: ", key, element, context );
       $('#' + context.rand_id ).colorpicker( {'format':'rgba'} )
       $('#' + context.rand_id ).colorpicker().on('changeColor', function(ev) {
-          // this is a remarkably stupid way to do this          
+          // this is a remarkably stupid way to do this
           //console.log(ev.color.toRGB());
           var tmp = ev.color.toRGB();
           var c = 'rgba('+tmp.r+','+tmp.g+','+tmp.b+','+tmp.a+')';
           someMarqer.marqeroptions[key].value = c;
       });
-      
+
       // remove the colorpicker
       $('#marqer_editor_dialog').on('hidden.bs.modal', function () {
         $('#' + context.rand_id ).remove();
@@ -337,6 +337,11 @@ var postRender = function( someMarqer, context ) {
         $('#fileholder_' + key).bind('s3_uploads_start', function(e) {
             console.log("upload start ... ");
             $('#placeholder_image').html('<p>Bestand wordt geupload ... </p>')
+
+            console.log("SET INITIAL BACK TO TRUE")
+            //someMarqer.marqeroptons.initial.value = 'true'
+            console.log("on", someMarqer)
+            someMarqer.marqeroptions.initial = {"type":"hidden", "value": true}
         });
 
         // Upload complete
