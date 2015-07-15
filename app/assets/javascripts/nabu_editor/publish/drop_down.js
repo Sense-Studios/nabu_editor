@@ -1,3 +1,6 @@
+
+/* shouldnt this move to /vender ? */
+
 /* globals jQuery, window, document */
 
 (function($) {
@@ -12,7 +15,7 @@
     },
 
     init: function(options) {
-      
+
       // Apply user options if user has defined some
       if (options) {
         options = $.extend(methods.options, options);
@@ -21,9 +24,9 @@
       }
 
       function initElement($select) {
-        
+
         console.log("do the init element", $select.data("dropdownjs") || !$select.is("select") )
-        
+
         // Don't do anything if this is not a select or if this select was already initialized
         if ($select.data("dropdownjs") || !$select.is("select")) {
           return;
@@ -44,7 +47,7 @@
         }else{
           $input = $("<input type=text readonly>");
         }
-        
+
         if ($.material) { $input.data("mdproc", true); }
         // Append it to the dropdown wrapper
         $dropdown.append($input);
@@ -258,12 +261,12 @@
     }
   };
 
-  $.fn.dropdown = function(params) {    
-    if (methods[params]) {      
+  $.fn.dropdown = function(params) {
+    if (methods[params]) {
       return methods[params].apply(this, Array.prototype.slice.call(arguments,1));
-    } else if (typeof params === "object" | !params) {      
+    } else if (typeof params === "object" | !params) {
       return methods.init.apply(this, arguments);
-    } else {      
+    } else {
       $.error("Method " + params + " does not exists on jQuery.dropdown");
     }
   };

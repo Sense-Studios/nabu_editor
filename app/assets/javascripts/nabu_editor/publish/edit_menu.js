@@ -7,19 +7,19 @@ showChannelContainer
 
 var menudata;
 var programs;
-var clicked = 0; 
+var clicked = 0;
 
 console.log(" ### GOT MENU DATA: ", menudata);
 console.log(" ### GOT PROGRAMS : ", programs);
 
-// ##############
+// #############################################################################
 // ### Helpers
-// ##############
+// #############################################################################
 
 // ### CREATE
 function createCategory() {
   console.log("CREATE category");
-  
+
   // header
   var cat = "";
   cat += '<li class="category_item">';
@@ -34,22 +34,22 @@ function createCategory() {
   cat += '<a id="toggle_categorie"></a>';
   cat += '</button>';
   cat += '<div class="clear"></div>';
-  
+
   // list holder
   var category_id = Math.round( Math.random() * 1000000 );
   cat += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
   cat += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
-  
+
   $('#le_menu').prepend(cat);
 
   // ### Init categories
-  $('.category_item').each( function( key, value) {            
+  $('.category_item').each( function( key, value) {
     $( value ).find( '.delete_category ').unbind('click');
     $( value ).find( '.delete_category ').click( function() {
       $(this).closest('.category_item').remove();
     })
   });
-  
+
   //
   $(".toggle_category").click(function(){
     var curheight = $(this).parent().height();
@@ -65,9 +65,9 @@ function createCategory() {
       $(this).parent().animate({height: clickeddiv}, 300, function() {
         $(this).css({height: 'auto'});
       });
-      clicked = 1; 
+      clicked = 1;
     }
-  }); 
+  });
   updateMenuData();
   // re-init draggables
   setDraggables();
@@ -78,11 +78,11 @@ function loadMenuFromData() {
   console.log('has menudatu: ', menudata );
   if ( menudata.menu === undefined || $.isEmptyObject(menudata.menu) ) return;
   console.log('menu loaded');
-  
+
   // render data
   $.each( menudata.menu, function( key, value ) {
     var cat = "";
-    
+
     // header
     cat += '<li class="category_item">';
     cat += '<input type="text" class="category_name" placeholder="Nieuwe categorie">';
@@ -91,14 +91,14 @@ function loadMenuFromData() {
     cat += '<a id="remove_categorie"></a>';
     cat += '</button>';
     cat += '<div class="clear"></div>';
-    
+
     // list holder
     var category_id = Math.round( Math.random() * 1000000 );
     cat += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
-    
+
     // add the category
     $('#le_menu').append(cat);
-    
+
     // now start adding items
     $.each( value.items, function( item_key, item_value ) {
       // lookup info from programs list
@@ -129,19 +129,19 @@ function loadMenuFromData() {
             some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
           }
           some_item += '</div></li>';
-          
+
           $('#' + category_id ).append(some_item);
         }
       });
     });
-    
+
     // hook up the delete button
     $('.item_delete_button').unbind('click');
     $('.item_delete_button').click( function() {
       var parentItem = $(this).parent().parent();
       var parentItemCount = parentItem.children().length;
-      
-      if(parentItemCount == 1) 
+
+      if(parentItemCount == 1)
       {
         $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
         $(parentItem).removeAttr('style');
@@ -150,18 +150,173 @@ function loadMenuFromData() {
       var itemID = $(this).attr('id');
       console.log(itemID);
       $('*[data-target="' + itemID + '"]').remove();
-      
+
     });
   });
 }
 
+// ### Set and append al menu data when a menu is selected in the menu
+function setMenudata( Menudata ) {
+  $('#le_menu').addClass('hideLeMenu');
+  var menuNaam = $('#menu_selector').val();
+  if(Menudata === "" || Menudata == "Kies een menu" || menuNaam == "Kies een menu") {
+    $('.menu_name input').val("");
+    $('#le_menu').empty().removeClass('hideLeMenu');
+    $('#create_category_button').attr('disabled', true);
+    $('#save_menu_button').attr('disabled', true);
+    $('#delete_menu_button').attr('disabled', true);
+    $('.menu_name').addClass('disabled_dropdown');
+    return;
+  }
+
+  setTimeout(function(){
+    var jsonMenu = '/channel/menus/' + Menudata + '.json';
+    $.get(jsonMenu, function(menudata) {
+      $('.menu_name input').val(menudata.name);
+
+      console.log('has menu data: ', menudata);
+      var menus = 0;
+      console.log('define menus: ', menus);
+      try {
+        menus = JSON.parse(menudata.items);
+        console.log('parse succes menus: ', menus);
+
+      } catch(err) {
+        console.log(err);
+        menus = menudata.items;
+        console.log('parse error menus: ', menus);
+      }
+
+      $('.category_item').remove();
+      $('#create_category_button').attr('disabled', false);
+      $('#save_menu_button').attr('disabled', false);
+      $('#delete_menu_button').attr('disabled', false);
+      $('.menu_name').removeClass('disabled_dropdown');
+
+      console.log('if length menus: ', menus.length);
+      if(menus) {
+        $.each(menus.menu,function(key, value) {
+
+          // header
+          var menu = "";
+          menu += '<li class="category_item">';
+          menu += '<span class="handle_icon"></span>';
+          menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value="' + menus.menu[key].name + '">';
+          menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
+          menu += '<span class="glyphicon glyphicon-remove"></span';
+          menu += '<a id="remove_categorie"></a>';
+          menu += '</button>';
+          menu += '<button class="toggle_category btn btn-material-custom-darkgrey" >';
+          menu += '<span class="glyphicon glyphicon-triangle-right"></span';
+          menu += '<a id="toggle_categorie"></a>';
+          menu += '</button>';
+          menu += '<div class="clear"></div>';
+
+          // list holder
+          var category_id = Math.round( Math.random() * 1000000 );
+          menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
+          menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
+
+          $('#le_menu').append(menu);
+
+          // ### Init categories
+          $('.category_item').each( function( key, value) {
+            $( value ).find( '.delete_category ').unbind('click');
+            $( value ).find( '.delete_category ').click( function() {
+              $(this).closest('.category_item').remove();
+            });
+          });
+
+          //
+          $(".toggle_category").click(function(){
+            var curheight = $(this).parent().height();
+            if(curheight >= 145){
+              $(this).parent().animate({height: "50px"}, 300);
+              $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
+            }
+            else {
+              $(this).parent().css('height', 'auto');
+              var clickeddiv = $(this).parent().height();
+              $(this).parent().css('height', '50px');
+              $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
+              $(this).parent().animate({height: clickeddiv}, 300, function() {
+                $(this).css({height: 'auto'});
+              });
+              clicked = 1;
+            }
+          });
+
+          $(".category_item:not(:first) .toggle_category").trigger('click');
+          // re-init draggables
+          setDraggables();
+
+          var menuItem = menus.menu[key].items;
+          if(menuItem.length > 0) {
+            $('#' + category_id).next().remove();
+            $('#' + category_id).css('padding', '0px 10px 10px 10px');
+          }
+
+          if(menuItem.length > 0) {
+            $.each(menuItem,function(key,value){
+              var title = menuItem[key].name;
+              var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";
+              var item_id = Math.round( Math.random() * 1000000 );
+              console.log('item id: ', item_id)
+              var some_item = "";
+              some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;"  data-target="' + item_id + '">';
+              some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
+              some_item += '<div class="program_container">';
+              some_item += '<p class="program_title">';
+              some_item += shortText;
+              some_item += '</p>';
+              some_item += '</div>';
+              some_item += '<button class="btn btn-material-white pull-right item_delete_button" id="' + item_id  + '">';
+              some_item += '<span class="glyphicon glyphicon-remove"></span>';
+              some_item += '<a id="remove_categorie"></a>';
+              some_item += '</button>';
+              if ( menuItem[key].emphasize === false) {
+                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
+              }else{
+                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
+              }
+              some_item += '</div></li>';
+              var prependDiv = '#' + category_id;
+              $(prependDiv).append(some_item);
+              $.material.init();
+            });
+            // hook up the delete button
+            $('.item_delete_button').unbind('click');
+            $('.item_delete_button').click( function() {
+              var parentItem = $(this).parent().parent();
+              var parentItemCount = parentItem.children().length;
+
+              if(parentItemCount == 1) {
+                $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+                $(parentItem).removeAttr('style');
+              }
+
+              console.log('try to delete');
+              var itemID = $(this).attr('id');
+              console.log(itemID);
+              $('*[data-target="' + itemID + '"]').remove();
+            });
+          }
+        });
+      } else {
+        createCategory();
+      }
+
+      $('#le_menu').removeClass('hideLeMenu');
+    });
+  }, 200);
+}
 
 // ### SAVE, Depricated, is now handled through rails
 function exportAndSaveMenu() {
   updateMenuData();
   $('.edit_menu').submit();
-  //$.post( "/admin/menu", {"menu": JSON.stringify( menudata ) }, function( data ) {      
-  //  console.log("post menu was a succes: ", data )      
+  //$.post( "/admin/menu", {"menu": JSON.stringify( menudata ) }, function( data ) {
+  //  console.log("post menu was a succes: ", data )
   //})
 }
 
@@ -173,10 +328,10 @@ function updateMenuData() {
       console.log($(item).prop('id'));
       some_category.items.push( { "name": $(item).find('.program_title').text(), "emphasize": $(item).find('.emphasize').is(':checked'),"id": $(item).prop('id') } );
     });
-    
+
     menudata.menu.push( some_category );
   });
-  
+
   // update content object on page
   $('#menu_items').val( JSON.stringify( menudata ) );
 }
@@ -190,7 +345,7 @@ function setDraggables() {
     dropOnEmpty: true,
     zIndex: 9001,
     addClasses: true,
-    sort: function(event, ui) { 
+    sort: function(event, ui) {
       ui.helper.css( {'top' : ui.position.top + $(window).scrollTop() + 'px'} ); // firefox fix
       updateMenuData();
     },
@@ -201,9 +356,9 @@ function setDraggables() {
 
   // ### Set sortable menu-items
   $( "#le_menu" ).sortable({
-    items : '.category_item',      
+    items : '.category_item',
     dropOnEmpty: true,
-    sort: function(event, ui) { 
+    sort: function(event, ui) {
       ui.helper.css({'top' : ui.position.top + $(window).scrollTop() + 'px'}); // firefox fix
     },
     stop: function(event, ui) {
@@ -216,7 +371,7 @@ function setDraggables() {
   $( ".category" ).sortable({
     connectWith: ".drop",
     dropOnEmpty: true,
-    receive: function(event, ui) { 
+    receive: function(event, ui) {
       var temp_id;
       if (ui.helper !== null ) {
         temp_id = ui.helper['context'].id;
@@ -232,7 +387,7 @@ function setDraggables() {
         $(this).removeAttr('style');
       }
     },
-    sort: function(event, ui) { 
+    sort: function(event, ui) {
       ui.helper.css({'top' : ui.position.top + $(window).scrollTop() + 'px'});  // firefox fix
     },
     stop: function(event, ui) {
@@ -240,7 +395,7 @@ function setDraggables() {
 
     }
   });
-  
+
   $( ".category" ).droppable({
     accept: '.new-item',
     drop: function( event, ui ) {
@@ -253,11 +408,11 @@ function setDraggables() {
   });
 }
 
-// ##########################
+// #############################################################################
 // ### ACTION HELPERS
-// ##########################
+// #############################################################################
 
-function initMenuItem( currentItem, id ) { 
+function initMenuItem( currentItem, id ) {
   if ( currentItem === undefined || !currentItem.hasClass('not_new') ) {
     var dataTarget = Math.round( Math.random() * 1000000 );
     currentItem.prop('id', id );
@@ -269,8 +424,8 @@ function initMenuItem( currentItem, id ) {
     currentItem.find('.item_delete_button').click( function() {
       var parentItem = $(this).parent().parent();
       var parentItemCount = parentItem.children().length;
-      
-      if(parentItemCount == 1) 
+
+      if(parentItemCount == 1)
       {
         $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
         $(parentItem).removeAttr('style');
@@ -284,7 +439,7 @@ function initMenuItem( currentItem, id ) {
   }
 }
 
-function updatePrograms( _programs ) {  
+function updatePrograms( _programs ) {
   var programs = _programs;
   $('#all_available').html('')
   $.each( _programs, function( i, p ) {
@@ -308,16 +463,16 @@ $(function() {
 
   // ### Fill Menu
   loadMenuFromData();
-  
+
   // ### set all draggables
   setDraggables();
 
   // ### Init categories
-  $('.category_item').each( function( key, value) {            
+  $('.category_item').each( function( key, value) {
     $( value ).find( '.delete_category ').click( function() {
       $(this).closest('.category_item').remove();
     });
-  }); 
+  });
 
   // #############
   // ### Search
@@ -325,7 +480,7 @@ $(function() {
 
   $('#available_program_search').on('input', function(e) {
     var filtrz = $('#available_program_search').val().toLowerCase();
-    $('#all_available li').each( function(key, value) {      
+    $('#all_available li').each( function(key, value) {
       if (  $(value).find('.program_tags').text().toLowerCase().indexOf( filtrz ) != -1 || $(value).find('.program_title').text().toLowerCase().indexOf( filtrz ) != -1 ) {
         $(value).show();
       }else{
@@ -340,38 +495,29 @@ $(function() {
 
   $('#save_menu_button').click( exportAndSaveMenu );
   $('#create_category_button').click( createCategory );
-  
+
 });
 
 
-// ##########################################
+// #############################################################################
 // ### CLOSE OVERLAY AND SHOW MENU CONTAINER
-// ##########################################
+// #############################################################################
 
 $('#hide_menu_container_overlay').click(function() {
   showChannelContainer();
   //TODO: Create new category if empty
-  
+
   //createCategory();
   console.log('menudata menu', menudata.menu);
 
   $.get('/channel/menus.json', function(data) {
-      if(typeof data =='object') { 
+      if(typeof data =='object') {
         if($.isEmptyObject(data)) {
           setTimeout(function(){
             console.log('create channel');
             createNewMenu();
           },500)
         }
-      }  
+      }
     });
 });
-  
-
-  
-
-  
-
-
-  
-  

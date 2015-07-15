@@ -4,8 +4,6 @@ menus
 mount_point
 */
 
-var canSave = true;
-
 //ERROR MESSAGES!
 var slugEmpty         = "Kanaal slug ontbreekt";
 var slugInUse         = "Kanaal slug is al ingebruik";
@@ -13,464 +11,208 @@ var slugHasSpaces     = "Kanaal slug mag geen spaties bevatten";
 var channelNameEmpty  = "Kanaal naam ontbreekt";
 var newMenuName       = "Nieuwe menu"
 
+// some placeholders
+var all_channels      = {}
+var currentChannel    = null
+var currentMenu       = null
+var canSave           = true;
 
 //Timer for channel saves
 var typingTimer;                //timer identifier
 var doneTypingInterval = 1500;  //time in ms
 
+////////////////////////////////////////////////////////////////////////////////
+// Initializer
+////////////////////////////////////////////////////////////////////////////////
+function initializePublisher() {
 
-$.get('/channel/themes.json', function(data) {
-    console.log(data);
-  if(typeof data =='object')
-  {
-    var $select = $('#channel_selector');
-    $select.find('option').remove();  
-    $select.append("<option value='Kies een kanaal'>" + "Kies een kanaal" + "</option>");
+  // get themes
+  $.get('/channel/themes.json', function(data) {
+    console.log("Publish got themes: ", data);
+    all_channels = data
 
-    if(!$.isEmptyObject(data)) {
-      $.each(data,function(key, value) 
-      {
-        $select.append('<option value=' + data[key]._id.$oid + '>' + data[key].title + '</option>');
-      });
-    } else {
-      setTimeout(function(){
-        /////////////////////////////////////////
-        //disable all dropdowns and input fields
-        /////////////////////////////////////////
-        $('#menu_selector').attr('disabled', true).next().addClass('disabled_dropdown');
-        $('#theme_selector').attr('disabled', true).next().addClass('disabled_dropdown');
-        $('#startvideo_selector').attr('disabled', true).next().addClass('disabled_dropdown');
-        
-        $('#edit_channel').attr('disabled', true);
-        $('#add_menu').attr('disabled', true);
-        
-        $('.logopreview').addClass('disabled_dropdown').find('input:last-child').attr('disabled', true);
-        
-        $('.primary_color_container').addClass('disabled_dropdown');
-        $('.primary-color input').attr('disabled', true);
-        $('.secundair-color input').attr('disabled', true);
-        $('.mobile-background-color input').attr('disabled', true);
-        
-        $('#site_description').addClass('disabled_dropdown');
-        $('#site_contact').addClass('disabled_dropdown');
-      }, 1000);
+    if(typeof data =='object') {
+
+      buildChannelSelector()
+      buildThemesSelector()
+      initializeDropdowns();
+
+    }else{
+      if(data === false){
+         console.log('Channel selector json not json');
+      } else {
+        console.log('Channel selector json not received');
+      }
     }
-    fillDropdowns(data);
-        
-  }
-  else
-  {
-    if(data ===false)
-    {
-       console.log('Channel selector json not json');
-    }
-    else
-    {
-      console.log('Channel selector json not received');
-    }
-  }
-});
+  });
+}
 
+function initializeDropdowns() {
+  console.log('Publish initialize, dropdowns');
 
-function fillDropdowns(data) {
-  console.log('filled!!');
-  
-  var $selectTheme = $('#theme_selector');
-  $selectTheme.find('option').remove();
-  $selectTheme.append('<option>Kies een thema</option>');
-  $.each(available_themes,function(key, value) 
-  {
-    $selectTheme.append('<option value=' + available_themes[key] + '>' + available_themes[key] + '</option>');
+  // initialize the dropdowns
+  $(".dropdown_select").dropdown();
+  $(".dropdown_select_small").dropdown();
+
+  // initialize the colorpickers
+  $('.primary-color').colorpicker({'align': 'right'});
+  $('.secundair-color').colorpicker({'align': 'right'});
+  $('.mobile-background-color').colorpicker({'align': 'right'});
+
+  // initialize drop downs and deligate to selects
+  $('.dropdownjs ul li').click(function() {
+    var selectedvalue = $(this).attr('value');
+    var selected = $(this).parent().parent().prev('.dropdown_select');
+
+    // deletegate selects
+    $( selected[0] ).find('option').removeAttr('selected');
+    $( selected[0] ).val( $(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
+    $( selected[0] ).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
   });
 
-  //Set when everything is done
-  setTimeout( function() {
-    $(".dropdown_select").dropdown();
-    $(".dropdown_select_small").dropdown();
-    $('.primary-color').colorpicker({'align': 'right'});
-    $('.secundair-color').colorpicker({'align': 'right'});
-    $('.mobile-background-color').colorpicker({'align': 'right'});
-    
-    $('.dropdownjs ul li').click(function() {
-      var selectedvalue = $(this).attr('value');
-      var selected = $(this).parent().parent().prev('.dropdown_select');
-      setTimeout(function() {
-          $(selected[0]).find('option').removeAttr('selected');
-          $(selected[0]).val($(selected[0]).find('option[value="' + selectedvalue + '"]').val()).trigger('change');
-          $(selected[0]).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
-      }, 100);
-    });
-    
-    $('#channel_selector').next().find('ul').find('li').click(function(){
-      var selectedvalue = $(this).attr('value');
-      var canSave = false;
-      if(selectedvalue == 'Kies een kanaal') {
-        $('#menu_selector option').removeAttr('selected');
-        $('#menu_selector option[value="Kies een menu"]').attr("selected", "selected");
-        $('#menu_selector').next().find('ul').find('li').removeClass('selected');
-        $('#menu_selector').next().find('ul').find('li[value="Kies een menu"]').addClass('selected');
-        var menu_value = $('#menu_selector').next().find('ul').find('li[value="Kies een menu"]').text();
-        $('#menu_selector').next().find('input').val(menu_value);
+  // Enable drop downs
+  $('#channel_selector').next().find('ul').find('li').click(function(){
+    var selectedvalue = $(this).attr('value');
+    console.log("click the channel, change the station", selectedvalue)
+    canSave = false;
 
-        //change dropdown theme
-        $('#theme_selector option').removeAttr('selected');
-        $('#theme_selector option[value="Kies een thema"]').attr("selected", "selected");
-        $('#theme_selector').next().find('ul').find('li').removeClass('selected');
-        $('#theme_selector').next().find('ul').find('li[value="Kies een thema"]').addClass('selected');
-        var theme_value = $('#theme_selector').next().find('ul').find('li[value="Kies een thema"]').text();
-        $('#theme_selector').next().find('input').val(theme_value);
+    if( selectedvalue == 'Kies een kanaal' ) {
+      resetAllDropDownsAndFields()
+      disableDropdownsAndFields()
+      canSave = true;
+    } else {
+      fillAllDropDownsAndFields( selectedvalue )
+      //enableDropdownsAndFields()
+    }
+  });
 
-        //change dropdown menu
-        $('#startvideo_selector option').removeAttr('selected');
-        $('#startvideo_selector option[value="Kies startprogramma"]').attr("selected", "selected");
-        $('#startvideo_selector').next().find('ul').find('li').removeClass('selected');
-        $('#startvideo_selector').next().find('ul').find('li[value="Kies startprogramma"]').addClass('selected');
-        var startvideo_value = $('#startvideo_selector').next().find('ul').find('li[value="Kies startprogramma"]').text();
-        $('#startvideo_selector').next().find('input').val(startvideo_value); 
+  $('#menu_selector').next().find('ul').find('li').click( function(){
+    if ( currentChannel == undefined || currentChannel == null ) {
+      setMenudata("")
+      return;
+    }
 
-        $('#channel_title').val( '' );
-        $('#channel_slug').val( '' );
+    currentChannel.menu = $(this).attr('value')
+    setMenudata( currentChannel.menu );
+    updateChannel('frommenu selector');
+  });
 
-        $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
-        $('.logo-image-preview').hide().fadeIn('slow', function() {
-          $('.logopreview').height( $('.logo-image-preview').height() + 20 );
-        });
+  $('#theme_selector').next().find('ul').find('li').click(function(){ updateChannel('themeselector');});
+  $('#startvideo_selector').next().find('ul').find('li').click(function(){ updateChannel('startvideo_selectro');});
 
-        $('.primary-color input').val( '#000000' ).trigger('keyup');
-        $('.secundair-color input').val( '#000000' ).trigger('keyup');
-        $('.mobile-background-color input').val( '#000000' ).trigger('keyup');
-        $('#site_description').val( '' );
-        $('#site_contact').val( '' );
-        $('.bekijk-website a').attr('href', '/channel/' + '' );
-        
-        
-        /////////////////////////////////////////
-        //disable all dropdowns and input fields
-        /////////////////////////////////////////
-        $('#menu_selector').attr('disabled', true).next().addClass('disabled_dropdown');
-        $('#theme_selector').attr('disabled', true).next().addClass('disabled_dropdown');
-        $('#startvideo_selector').attr('disabled', true).next().addClass('disabled_dropdown');
-        
-        $('#edit_channel').attr('disabled', true);
-        $('#add_menu').attr('disabled', true);
-        
-        $('.logopreview').addClass('disabled_dropdown').find('input:last-child').attr('disabled', true);
-        
-        $('.primary_color_container').addClass('disabled_dropdown');
-        $('.primary-color input').attr('disabled', true);
-        $('.secundair-color input').attr('disabled', true);
-        $('.mobile-background-color input').attr('disabled', true);
-        
-        
-
-        $('#site_description').addClass('disabled_dropdown');
-        $('#site_contact').addClass('disabled_dropdown');
-        $('.bekijk-website').attr('disabled', true);
-        
-        
-        
-        
-        canSave = true;
-           
-      } else {
-        $.get('/channel/themes.json', function(data) {
-          $.each(data,function(key,value)
-          {
-            if(data[key]._id.$oid == selectedvalue) {
-              ///////////////////////////////////
-              ///CHANGE ALL DROPDOWNS AND INPUTS
-              ///////////////////////////////////
-              
-              //change dropdown menu
-              if($('#menu_selector option[value="' + data[key].menu +'"]').length === 1) { 
-                console.log('menu found');
-                $('#menu_selector').next().find('ul').find('li[value="' + data[key].menu + '"]').trigger('click');
-              } else {  
-                console.log('not found!');
-                $('#menu_selector').next().find('ul').find('li').first().trigger('click');
-              }
-              $('#menu_selector').next().find('ul').find('li').click(function(){ 
-                  var Menudata = data[key].menu;
-                  console.log('menu data');
-                  console.log(Menudata);
-                  setMenudata(Menudata); 
-                  updateChannel();
-              });
-
-
-              //change dropdown theme
-              $('#theme_selector').next().find('ul').find('li[value="' + data[key].theme + '"]').trigger('click');
-              $('#theme_selector').next().find('ul').find('li').click(function(){ 
-                updateChannel();
-              });
-
-  
-              //change dropdown menu
-              $('#startvideo_selector').next().find('ul').find('li[value="' + data[key].home_program + '"]').trigger('click');
-              $('#startvideo_selector').next().find('ul').find('li').click(function(){
-                updateChannel();
-              });  
-  
-              $('#channel_title').val( data[key].title );
-              $('#channel_slug').val( data[key].slug );
-  
-              if(data[key].logo) {
-                $('.logo-image-preview').attr("src", data[key].logo).css({'background-color': 'rgba(255,255,255,0.99)'});
-                $('.uploader_overlay span').css({"color": "#FFF"});
-              } else {
-                $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
-                $('.uploader_overlay span').css({"color": "#616161"});
-              }
-              $('.logo-image-preview').hide().fadeIn('slow', function() {
-                $('.logopreview').height( $('.logo-image-preview').height() + 20 );
-              });
-  
-              $('.primary-color input').val( data[key].main_color ).trigger('keyup');
-              $('.secundair-color input').val( data[key].support_color ).trigger('keyup');
-              $('.mobile-background-color input').val( data[key].background_color ).trigger('keyup');
-              $('#site_description').val( data[key].about );
-              $('#site_contact').val( data[key].contact );
-              $('.bekijk-website a').attr('href', '/channel/' + data[key].slug );
-  
-  
-              /////////////////////////////////////////
-              //disable all dropdowns and input fields
-              /////////////////////////////////////////
-              $('#menu_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
-              $('#theme_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
-              $('#startvideo_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
-              
-              $('#edit_channel').attr('disabled', false);
-              $('#add_menu').attr('disabled', false);
-              
-              $('.logopreview').removeClass('disabled_dropdown').find('input:last-child').attr('disabled', false);
-              
-              $('.primary_color_container').removeClass('disabled_dropdown');
-              $('.primary-color input').attr('disabled', false);
-              $('.secundair-color input').attr('disabled', false);
-              $('.mobile-background-color input').attr('disabled', false);
-      
-              $('#site_description').removeClass('disabled_dropdown');
-              $('#site_contact').removeClass('disabled_dropdown');
-              $('.bekijk-website').attr('disabled', false);
-  
-              canSave = true;
-  
-              /////////////////////////////////////////////////
-              ///GET THE MENUS AND SET THEM IN THE MENU EDITOR
-              /////////////////////////////////////////////////
-              var Menudata = data[key].menu;
-              setMenudata(Menudata); 
-            }
-          });
-        });
-      }
-    });
-    $('#menu_selector').next().find('ul').find('li').click(function(){ 
-      /////////////////////////////////////////////////
-      ///GET THE MENUS AND SET THEM IN THE MENU EDITOR
-      /////////////////////////////////////////////////
-      var Menudata = $(this).attr('value');
-      setMenudata(Menudata); 
-    });
-  }, 600);
+  // initially set it disabled
+  disableDropdownsAndFields()
 }
 
-//Set and append al menu data when a menu is selected
-function setMenudata(Menudata){
-  $('#le_menu').addClass('hideLeMenu');
-  var menuNaam = $('#menu_selector').val();
-  if(Menudata === "" || Menudata == "Kies een menu" || menuNaam == "Kies een menu") {
-    $('.menu_name input').val("");
-    $('#le_menu').empty().removeClass('hideLeMenu');
-    $('#create_category_button').attr('disabled', true);
-    $('#save_menu_button').attr('disabled', true);
-    $('#delete_menu_button').attr('disabled', true);
-    $('.menu_name').addClass('disabled_dropdown');
-    return;
+function buildChannelSelector() {
+  console.log("(re)build channel")
+
+  // reset and build channel selector
+  var $select = $('#channel_selector');
+  $select.find('option').remove();
+  $select.append("<option value='Kies een kanaal'>" + "Kies een kanaal" + "</option>");
+
+  if(!$.isEmptyObject( all_channels )) {
+    $.each(all_channels,function(key, channel)  {
+      $select.append('<option value=' + channel._id.$oid + '>' + channel.title + '</option>');
+    });
   }
-  
 
-  
-  setTimeout(function(){ 
-    var jsonMenu = '/channel/menus/' + Menudata + '.json';
-    $.get(jsonMenu, function(menudata) {
-      $('.menu_name input').val(menudata.name);
-      
-      console.log('has menu data: ', menudata);
-      var menus = 0;
-      console.log('define menus: ', menus);
-      try {
-        menus = JSON.parse(menudata.items);
-        console.log('parse succes menus: ', menus);
-        
-      } catch(err) {
-        console.log(err);
-        menus = menudata.items;
-        console.log('parse error menus: ', menus);
-      }
-      $('.category_item').remove();
-      $('#create_category_button').attr('disabled', false);
-      $('#save_menu_button').attr('disabled', false);
-      $('#delete_menu_button').attr('disabled', false);
-      $('.menu_name').removeClass('disabled_dropdown');
-      
-      console.log('if length menus: ', menus.length);
-      if(menus) {
-        $.each(menus.menu,function(key, value) {
+  if  ($select.data("dropdownjs") ) {
+    $select.data("dropdownjs", false);
+    $select.next().remove();
+    $select.dropdown(); // re-init the selector
+  }
 
-          // header
-          var menu = "";
-          menu += '<li class="category_item">';
-          menu += '<span class="handle_icon"></span>';
-          menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value="' + menus.menu[key].name + '">';
-          menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
-          menu += '<span class="glyphicon glyphicon-remove"></span';
-          menu += '<a id="remove_categorie"></a>';
-          menu += '</button>';
-          menu += '<button class="toggle_category btn btn-material-custom-darkgrey" >';
-          menu += '<span class="glyphicon glyphicon-triangle-right"></span';
-          menu += '<a id="toggle_categorie"></a>';
-          menu += '</button>';
-          menu += '<div class="clear"></div>';
+  if ( currentChannel != null ) autoSelect( $('#channel_selector'), currentChannel._id.$oid )
+  canSave = true
+}
 
-          // list holder
-          var category_id = Math.round( Math.random() * 1000000 );
-          menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
-          menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
+function buildThemesSelector() {
+    var $select = $('#theme_selector');
+  $select.find('option').remove();
+  $select.append("<option value='Kies een thema'>" + "Kies een thema" + "</option>");
 
-          $('#le_menu').append(menu);
+  if(!$.isEmptyObject( available_themes )) {
+    $.each(available_themes,function(key, theme)  {
+      $select.append('<option value=' + theme + '>' + theme + '</option>');
+    });
+  }
 
-          // ### Init categories
-          $('.category_item').each( function( key, value) {            
-            $( value ).find( '.delete_category ').unbind('click');
-            $( value ).find( '.delete_category ').click( function() {
-              $(this).closest('.category_item').remove();
-            });
-          });
+  if ( currentChannel != null ) autoSelect( $('#theme_selector'), currentChannel.theme )
+  $('#theme_selector').dropdown();
+}
 
-          //
-          $(".toggle_category").click(function(){
-            var curheight = $(this).parent().height();
-            if(curheight >= 145){
-              $(this).parent().animate({height: "50px"}, 300);
-              $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
-            }
-            else {
-              $(this).parent().css('height', 'auto');
-              var clickeddiv = $(this).parent().height();
-              $(this).parent().css('height', '50px');
-              $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
-              $(this).parent().animate({height: clickeddiv}, 300, function() {
-                $(this).css({height: 'auto'});
-              });
-              clicked = 1; 
-            }
-          }); 
+// load all channels from the server
+function updateChannels( closure ) {
+  canSave = false
+  $.get('/channel/themes.json', function(data) {
+    console.log("Publish got themes: ", data);
+    all_channels = data
+    buildChannelSelector()
+    if ( closure !== undefined ) closure()
+  })
+}
 
-          $(".category_item:not(:first) .toggle_category").trigger('click');
-          // re-init draggables
-          setDraggables();
+// rename this to redrawMenu
+function fillAllDropDownsAndFields( channel_id ) {
 
-          var menuItem = menus.menu[key].items;
-          if(menuItem.length > 0) {
-            $('#' + category_id).next().remove();
-            $('#' + category_id).css('padding', '0px 10px 10px 10px');
-          }
-          
-          if(menuItem.length > 0) {
-            $.each(menuItem,function(key,value){
-              var title = menuItem[key].name;
-              var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";    
-              var item_id = Math.round( Math.random() * 1000000 );
-              console.log('item id: ', item_id)
-              var some_item = "";
-              some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;"  data-target="' + item_id + '">';
-              some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
-              some_item += '<div class="program_container">';
-              some_item += '<p class="program_title">';
-              some_item += shortText;
-              some_item += '</p>';
-              some_item += '</div>';
-              some_item += '<button class="btn btn-material-white pull-right item_delete_button" id="' + item_id  + '">';
-              some_item += '<span class="glyphicon glyphicon-remove"></span>';
-              some_item += '<a id="remove_categorie"></a>';
-              some_item += '</button>';
-              if ( menuItem[key].emphasize === false) {
-                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
-              }else{
-                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
-              }
-              some_item += '</div></li>';
-              var prependDiv = '#' + category_id;
-              $(prependDiv).append(some_item);
-              $.material.init();
-            });
-            // hook up the delete button
-            $('.item_delete_button').unbind('click');
-            $('.item_delete_button').click( function() {
-              var parentItem = $(this).parent().parent();
-              var parentItemCount = parentItem.children().length;
-              
-              if(parentItemCount == 1) 
-              {
-                $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
-                $(parentItem).removeAttr('style');
-              }
-              
-              console.log('try to delete');
-              var itemID = $(this).attr('id');
-              console.log(itemID);
-              $('*[data-target="' + itemID + '"]').remove();
-            }); 
-          } 
-        });
+  console.log("fill all dropdownsandfields: ", channel_id )
+
+  if (channel_id === undefined ) channel_id = $('#channel_selector').val()
+  var selectedvalue = channel_id
+  var hasChannel = false
+  canSave = false;
+
+  $.each( all_channels, function(key,channel) {
+    if( channel._id.$oid == selectedvalue ) {
+      hasChannel = true
+      currentChannel = channel
+      currentChannel.id = channel._id.$oid
+
+      autoSelect( $('#menu_selector'), channel.menu )
+      setMenudata( channel.menu ) // update menu
+      autoSelect( $('#theme_selector'), channel.theme )
+      autoSelect( $('#startvideo_selector'), channel.home_program )
+
+      $('#channel_title').val( channel.title );
+      $('#channel_slug').val( channel.slug );
+
+      if(channel.logo) {
+        $('.logo-image-preview').attr("src", channel.logo).css({'background-color': 'rgba(255,255,255,0.99)'});
+        $('.uploader_overlay span').css({"color": "#FFF"});
       } else {
-        //createNewCategory();
-        createCategory();
+        $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
+        $('.uploader_overlay span').css({"color": "#616161"});
       }
-      
-      
-      $('#le_menu').removeClass('hideLeMenu');
-    }); 
-  }, 200); 
+
+      $('.logo-image-preview').hide().delay(400).fadeIn('slow', function() {
+        $('.logopreview').height( $('.logo-image-preview').height() + 20 );
+      });
+
+      $('.primary-color input').val( channel.main_color ).trigger('keyup');
+      $('.secundair-color input').val( channel.support_color ).trigger('keyup');
+      $('.mobile-background-color input').val( channel.background_color ).trigger('keyup');
+      $('#site_description').val( channel.about );
+      $('#site_contact').val( channel.contact );
+      $('.bekijk-website a').attr('href', '/channel/' + channel.slug );
+
+      enableDropdownsAndFields()
+    }
+  });
+
+  if (!hasChannel) {
+    console.log('PUBLISH WARNING channel channel not found' )
+    disableDropdownsAndFields() // disable all
+    setMenudata() // empty menu
+  }
+
+  canSave = true;
 }
 
-
-//Get channel data that is needed to update an channel
-function getChannelData() {
-  var channelName       = $('#channel_title').val();
-  var slug              = $('#channel_slug').val();
-  var menuName          = $('#menu_selector').val();
-  var themeName         = $('#theme_selector').val();
-  var homeProgram       = $('#startvideo_selector').val();
-  var logo              = $('.logo-image-preview').attr('src');
-  var primaryColor      = $('.primary-color input').val();
-  var supportColor      = $('.secundair-color input').val();
-  var backgroundColor   = $('.mobile-background-color input').val();
-  var about             = $('#site_description').val();
-  var contact           = $('#site_contact').val();
-
-  var logoUrl = ((logo == "/assets/nabu_editor/blank_image.png") ? "" : logo);
-  
-  var channelData = {
-    "about"           : about,
-    "background_color": backgroundColor,
-    "contact"         : contact,
-    "description"     : about,
-    "home_program"    : homeProgram,
-    "logo"            : logoUrl,
-    "main_color"      : primaryColor,
-    "menu"            : menuName,
-    "slug"            : slug,
-    "support_color"   : supportColor,
-    "theme"           : themeName,
-    "title"           : channelName,
-
-  };
-  return channelData;
-}
-
+////////////////////////////////////////////////////////////////////////////////
+/// MENUS
+////////////////////////////////////////////////////////////////////////////////
 
 //Get all menu data that is needed for updateMenu()
 function updateMenuData() {
@@ -478,34 +220,31 @@ function updateMenuData() {
   $('.category_item').each( function( c_key, cat ) {
     var some_category = { "name": $(this).find('.category_name').val(), "items":[] };
     $(this).find('li').each( function( i_key, item ) {
-      some_category.items.push( { 
-        "name": $(item).find('.program_title').text(), 
+      some_category.items.push( {
+        "name": $(item).find('.program_title').text(),
         "emphasize": $(item).find('.emphasize').is(':checked'),"id": $(item).prop('id'),
-        "thumb": $(item).find('img').attr('src') 
+        "thumb": $(item).find('img').attr('src')
       });
     });
-    
+
     menudata.menu.push( some_category );
   });
   // update content object on page
   $('#menu_items').val( JSON.stringify( menudata ) );
 }
 
-
-//////////////////
-//MENU FUNCTIONS
-//////////////////
-
 //Create new menu
 function createNewMenu() {
-  console.log('New menu created!');
+  console.log('Publish create new menu!');
   $('#load_indicator').css('opacity', '1');
   $('#le_menu').addClass('hideLeMenu');
   $('.menu_name input').val('');
   $('#le_menu').empty();
+  menudata = { "menu":[] };
 
-  $.post( '/channel/menu_api/create/', {"menu": { "name": newMenuName, "items": ""  }}, function( data ) {
-      
+  $.post( '/channel/menu_api/create/', {"menu": { "name": newMenuName, "items": menudata  }}, function( data ) {
+      console.log('Publish create new menu!', data);
+
       $('#menu_selector').find('option:selected').removeAttr('selected');
       $('#menu_selector').append('<option value="' + data._id.$oid + '" selected="selected">' + data.name + '</option>');
       $('#menu_selector').next().find('ul').find('.selected').removeClass('selected');
@@ -513,30 +252,36 @@ function createNewMenu() {
       $('#menu_selector').next().find('input').val(data.name);
       $('.menu_name input').val(data.name);
       $('.category_item').remove();
+
       $('#create_category_button').attr('disabled', false);
       $('#save_menu_button').attr('disabled', false);
       $('#delete_menu_button').attr('disabled', false);
       $('.menu_name').removeClass('disabled_dropdown');
       createCategory();
-      
+
+      currentMenu = data._id.$oid
+
       setTimeout(function(){
         $('#load_indicator').css('opacity', '0');
         $('#le_menu').removeClass('hideLeMenu');
       }, 500);
-  }); 
+  });
 }
-
 
 //Update menu that is selected in #menu_selector
 function updateMenu() {
 
   $('#load_indicator').css('opacity', '1');
- 
+
   updateMenuData();
-  
   var menuNaam = $('.menu_name input').val();
+
+  // failsafe, needs to be better
+  if ( menuNaam == "Kies een menu ") return
+
   var id = $('#menu_selector').val();
   var menudata = $('#menu_items').val();
+
   $.post( '/channel/menu_api/update/' + id,  {"menu": { "name": menuNaam, "items": menudata  } } , function(data) {
     $('#load_indicator').css('opacity', '0');
   }).always(function() {
@@ -550,11 +295,10 @@ function updateMenu() {
   });
 }
 
-
 //Delete menu that is selected in #menu_selector
 function deleteMenu() {
   $('#load_indicator').css('opacity', '1');
-  
+
   var id = $('#menu_selector').find('option:selected').val();
   $.post( '/channel/menu_api/delete/' + id, {}, function(d) { });
   setTimeout(function() {
@@ -567,19 +311,17 @@ function deleteMenu() {
         $('#menu_selector').next().find('ul').find('li').first().next().trigger('click');
       }
     });
-    
+
     $('#load_indicator').css('opacity', '0');
   }, 500);
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////
+// CHANNEL FUNCTIONS
+/////////////////////////////////////////////////////////////////////////////////
 
-
-//////////////////
-//CHANNEL FUNCTIONS
-//////////////////
-
-//Create a new channel
+// Create a new channel
 function createChannel() {
   $('#load_indicator').css('opacity', '1');
   canSave = false;
@@ -589,16 +331,16 @@ function createChannel() {
   var primaryColor    = "#000000";
   var supportColor    = "#000000";
   var backgroundColor = "#000000";
-  
+
   var channelData = {
     "slug"            : channelSlug,
     "title"           : channelName,
     "background_color": backgroundColor,
     "main_color"      : primaryColor,
     "support_color"   : supportColor,
+    "menu"            : currentMenu
   };
-  
-  
+
   //Check if name and slug is longer than 1 otherwise display error
   if (channelName.length >= 1 || channelSlug.length >= 1) {
     if(channelName.length >= 1) {
@@ -622,8 +364,6 @@ function createChannel() {
     return;
   }
 
-
-  
   //Create the channel
   $.post( '/channel/channel_api/create/', { "theme":  channelData }, function(data) {
     if(data.status == "fail") {
@@ -634,15 +374,18 @@ function createChannel() {
       }, 500);
       return;
     } else {
+
+      console.log("has created channel: ", data)
+      /*
       $('#channel_selector').find('option:selected').removeAttr('selected');
       $('#channel_selector').append('<option value="' + data._id.$oid + '" selected="selected">' + data.title + '</option>');
       $('#channel_selector').next().find('ul').find('.selected').removeClass('selected');
       $('#channel_selector').next().find('ul').append('<li value="' + data._id.$oid + '" tabindex="-1" class="selected">' + data.title + '</li>');
       $('#channel_selector').next().find('input').val(data.title);
 
-      
       $('#channel_title').val(data.title);
       $('#channel_slug').val(data.slug);
+
       if(data.logo === null) {
         $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
         $('.uploader_overlay span').css({"color": "#616161"});
@@ -650,70 +393,38 @@ function createChannel() {
         $('.logo-image-preview').attr("src", data[key].logo).css({'background-color': 'rgba(255,255,255,0.99)'});
         $('.uploader_overlay span').css({"color": "#FFF"});
       }
-      $('.primary-color input').val(data.main_color).trigger('keyup');
-      $('.secundair-color input').val(data.support_color).trigger('keyup');
-      $('.mobile-background-color input').val(data.support_color).trigger('keyup');
-      $('#site_description').val(data.about);
-      $('#site_description').val(data.contact);
-      
-      
+      */
+
+      // Reset Modal
       $('#create_channel_title').val("");
       $('#create_channel_slug').val("");
-      
-      $('#theme_selector').next().find('ul').find('li').first().trigger('click');
-      $('#startvideo_selector').next().find('ul').find('li').first().trigger('click');
-      $('.bekijk-website a').attr('href', '/channel/' + data.slug );
-
-      $('.modal').modal('hide');
-      setTimeout(function(){
-        canSave = true;
-        var menus = $('#menu_selector').next().find('ul').children().length;
-        if(menus <= 1) {
-          $('#add_menu').trigger('click');
-        }
-        else {
-          $('#menu_selector').next().find('ul').find('li').first().next().trigger('click');
-        }
-      }, 300);
       $('#create_channel_slug').parent().parent().removeClass('has-error');
       $("label[for='create_channel_slug']").text("Kanaal slug");
       $('.modal').modal('hide');
-      setTimeout(function(){
-        /////////////////////////////////////////
-        //disable all dropdowns and input fields
-        /////////////////////////////////////////
-        $('#menu_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
-        $('#theme_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
-        $('#startvideo_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
-        
-        $('#edit_channel').attr('disabled', false);
-        $('#add_menu').attr('disabled', false);
-        
-        $('.logopreview').removeClass('disabled_dropdown').find('input:last-child').attr('disabled', false);
-        
-        $('.primary_color_container').removeClass('disabled_dropdown');
-        $('.primary-color input').attr('disabled', false);
-        $('.secundair-color input').attr('disabled', false);
-        $('.mobile-background-color input').attr('disabled', false);
 
-        $('#site_description').removeClass('disabled_dropdown');
-        $('#site_contact').removeClass('disabled_dropdown');
-        $('.bekijk-website').attr('disabled', false);
-        $('#load_indicator').css('opacity', '0');
-      }, 500);
+      // update
+      currentChannel = data
+
+      // update the channels and fill
+      updateChannels( fillAllDropDownsAndFields );
+
+      $('#load_indicator').css('opacity', '0');
     }
   });
 }
 
-
-//Update channel that is selected in the #channel_selector
-function updateChannel() {
+// Update channel that is selected in the #channel_selector
+// called from is for testing
+function updateChannel( calledfrom ) {
+  console.log("Publish: update Channel", calledfrom )
   if(!canSave) {
+    console.log('no can save')
     return;
   }
+
   var channelName   = $('#channel_title').val();
   var channelSlug   = $('#channel_slug').val();
-  
+
   //Check if name and slug is longer than 1 otherwise display error
   if (channelName.length >= 1 || channelSlug.length >= 1 ) {
     if(channelName.length >= 1) {
@@ -737,83 +448,68 @@ function updateChannel() {
     return;
   }
   $('#load_indicator').css('opacity', '1');
-  
+
   var channelId = $('#channel_selector').val();
   var channelData = getChannelData();
-  console.log(channelData);
-  
+  console.log("post with: ", channelData);
+
   $.post( '/channel/channel_api/update/' + channelId, { "theme":  channelData }, function(d) {
     if(d.status == "fail") {
       $('#channel_slug').parent().parent().addClass('has-error');
       $("label[for='channel_slug']").text(slugInUse);
+
       setTimeout(function(){
         $('#load_indicator').css('opacity', '0');
       }, 500);
+
       return;
+
     } else {
       var channelName = channelData.title;
       $('#channel_selector').find('option:selected').text(channelName);
       $('#channel_selector').next().find('ul').find('.selected').text(channelName);
       $('#channel_selector').next().find('input').val(channelName);
       $('.modal').modal('hide');
+
       setTimeout(function(){
       $('#load_indicator').css('opacity', '0');
       }, 500);
+
       $('#create_channel_slug').parent().parent().removeClass('has-error');
       $("label[for='create_channel_slug']").text("Kanaal slug");
+
       setTimeout(function(){
         $('#load_indicator').css('opacity', '0');
       }, 500);
+
+      // get new channel data
+      updateChannels();
     }
   });
-
 }
-
 
 //Delete channel that is selected in the #channel_selector
 function deleteChannel() {
   $('#load_indicator').css('opacity', '1');
-  
+
   var channelId = $('#channel_selector').val();
   $.post( '/channel/channel_api/delete/' + channelId, {}, function(d) {
-    console.log(d);
-    setTimeout(function(){
-      $('#channel_selector').find('option:selected').remove();
-      $('#channel_selector').next().find('ul').find('.selected').remove();
-      $.get('/channel/themes.json', function(data) {
-        if($.isEmptyObject(data)) {
-          $('#channel_selector').next().find('ul').find('li').first().trigger('click');
-        } else {
-          $('#channel_selector').next().find('ul').find('li').first().next().trigger('click');
-        }
-      });
-
-      $('#load_indicator').css('opacity', '0');
-    }, 300);
+    currentChannel = null
+    updateChannels()
+    $('#menu_selector').next().find('ul').find('li').first().trigger('click');
+    $('#channel_selector').next().find('ul').find('li').first().trigger('click');
     $('.modal').modal('hide');
   });
 }
 
-
-///////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // CLICK EVENTS
-//////////////////////
-$('#add_menu').click(function() {
-  createNewMenu();
-});
+////////////////////////////////////////////////////////////////////////////////
 
-$('#delete_menu_button').click(function() {
-  deleteMenu();
-});
-
-$('#save_menu_button').click(function(){
-  updateMenu();  
-});
-
-$('.primary-color').colorpicker().on('hidePicker.colorpicker', function(event){
-  updateChannel();
-});
-
+$('#add_menu').click(function() { createNewMenu(); });
+$('#delete_menu_button').click(function() { deleteMenu(); });
+$('#save_menu_button').click(function() { updateMenu(); });
+$('.primary-color').colorpicker().on('hidePicker.colorpicker', function(event){ updateChannel('primary color'); });
 
 //on keyup, start the countdown
 $('.channels_container :input').keyup(function(){
@@ -821,7 +517,7 @@ $('.channels_container :input').keyup(function(){
     typingTimer = setTimeout(  doneTyping, doneTypingInterval);
 });
 
-//on keydown, clear the countdown 
+//on keydown, clear the countdown
 $('.channels_container :input').keydown(function(){
     clearTimeout(typingTimer);
 });
@@ -836,47 +532,177 @@ $("#create_channel_slug, #channel_slug").on({
   }
 });
 
-
 function doneTyping() {
-  updateChannel();
+  updateChannel('done typing');
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+/// HELPERS
+////////////////////////////////////////////////////////////////////////////////
+
+// helper
+function getChannelData() {
+  var channelName       = $('#channel_title').val();
+  var slug              = $('#channel_slug').val();
+  var menuId            = $('#menu_selector').val();
+  var themeName         = $('#theme_selector').val();
+  var homeProgram       = $('#startvideo_selector').val();
+  var logo              = $('.logo-image-preview').attr('src');
+  var primaryColor      = $('.primary-color input').val();
+  var supportColor      = $('.secundair-color input').val();
+  var backgroundColor   = $('.mobile-background-color input').val();
+  var about             = $('#site_description').val();
+  var contact           = $('#site_contact').val();
+  var logoUrl = ((logo == "/assets/nabu_editor/blank_image.png") ? "" : logo);
+
+  var channelData = {
+    "about"           : about,
+    "background_color": backgroundColor,
+    "contact"         : contact,
+    "description"     : about,
+    "home_program"    : homeProgram,
+    "logo"            : logoUrl,
+    "main_color"      : primaryColor,
+    "menu"            : menuId,
+    "slug"            : slug,
+    "support_color"   : supportColor,
+    "theme"           : themeName,
+    "title"           : channelName,
+  };
+  return channelData;
+}
+
+// helper
+function autoSelect( target, value ) {
+  target.val('')
+  target.find('option[value="'+value+'"]').attr('selected', true)
+  target.next().find('ul').find('li').removeClass('selected')
+  target.next().find('ul').find('li[value="' + value + '"]').addClass('selected')
+  target.next().find('input').val( target.find('option[value="'+value+'"]').text() )
+}
+
+// helper
+function resetAllDropDownsAndFields() {
+  $('#menu_selector option').removeAttr('selected');
+  $('#menu_selector option[value="Kies een menu"]').attr("selected", "selected");
+  $('#menu_selector').next().find('ul').find('li').removeClass('selected');
+  $('#menu_selector').next().find('ul').find('li[value="Kies een menu"]').addClass('selected');
+  var menu_value = $('#menu_selector').next().find('ul').find('li[value="Kies een menu"]').text();
+  $('#menu_selector').next().find('input').val(menu_value);
+
+  //change dropdown theme
+  $('#theme_selector option').removeAttr('selected');
+  $('#theme_selector option[value="Kies een thema"]').attr("selected", "selected");
+  $('#theme_selector').next().find('ul').find('li').removeClass('selected');
+  $('#theme_selector').next().find('ul').find('li[value="Kies een thema"]').addClass('selected');
+  var theme_value = $('#theme_selector').next().find('ul').find('li[value="Kies een thema"]').text();
+  $('#theme_selector').next().find('input').val(theme_value);
+
+  //change dropdown menu
+  $('#startvideo_selector option').removeAttr('selected');
+  $('#startvideo_selector option[value="Kies startprogramma"]').attr("selected", "selected");
+  $('#startvideo_selector').next().find('ul').find('li').removeClass('selected');
+  $('#startvideo_selector').next().find('ul').find('li[value="Kies startprogramma"]').addClass('selected');
+  var startvideo_value = $('#startvideo_selector').next().find('ul').find('li[value="Kies startprogramma"]').text();
+  $('#startvideo_selector').next().find('input').val(startvideo_value);
+
+  $('#channel_title').val( '' );
+  $('#channel_slug').val( '' );
+
+  $('.logo-image-preview').attr("src", "/assets/nabu_editor/blank_image.png").removeAttr('style');
+  $('.logo-image-preview').hide().fadeIn('slow', function() {
+    $('.logopreview').height( $('.logo-image-preview').height() + 20 );
+  });
+
+  $('.primary-color input').val( '#000000' ).trigger('keyup');
+  $('.secundair-color input').val( '#000000' ).trigger('keyup');
+  $('.mobile-background-color input').val( '#000000' ).trigger('keyup');
+  $('#site_description').val( '' );
+  $('#site_contact').val( '' );
+  $('.bekijk-website a').attr('href', '/channel/' + '' );
+}
+
+// helper
+function disableDropdownsAndFields() {
+  $('#menu_selector').attr('disabled', true).next().addClass('disabled_dropdown');
+  $('#theme_selector').attr('disabled', true).next().addClass('disabled_dropdown');
+  $('#startvideo_selector').attr('disabled', true).next().addClass('disabled_dropdown');
+
+  $('#edit_channel').attr('disabled', true);
+  $('#add_menu').attr('disabled', true);
+
+  $('.logopreview').addClass('disabled_dropdown').find('input:last-child').attr('disabled', true);
+
+  $('.primary_color_container').addClass('disabled_dropdown');
+  $('.primary-color input').attr('disabled', true);
+  $('.secundair-color input').attr('disabled', true);
+  $('.mobile-background-color input').attr('disabled', true);
+
+  $('#site_description').addClass('disabled_dropdown');
+  $('#site_contact').addClass('disabled_dropdown');
+  $('.bekijk-website').attr('disabled', true);
+
+  // disables the menu
+  setMenudata("")
+}
+
+// helper
+function enableDropdownsAndFields() {
+  $('#menu_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
+  $('#theme_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
+  $('#startvideo_selector').attr('disabled', false).next().removeClass('disabled_dropdown');
+
+  $('#edit_channel').attr('disabled', false);
+  $('#add_menu').attr('disabled', false);
+
+  $('.logopreview').removeClass('disabled_dropdown').find('input:last-child').attr('disabled', false);
+
+  $('.primary_color_container').removeClass('disabled_dropdown');
+  $('.primary-color input').attr('disabled', false);
+  $('.secundair-color input').attr('disabled', false);
+  $('.mobile-background-color input').attr('disabled', false);
+
+  $('#site_description').removeClass('disabled_dropdown');
+  $('#site_contact').removeClass('disabled_dropdown');
+  $('.bekijk-website').attr('disabled', false);
+  $('#load_indicator').css('opacity', '0');
+}
+
+// helper
 function initThumbnailUploader() {
-  
   console.log("init thumbnail uploader");
-  
+
   // init uploader
   $("#preview_logo").S3Uploader( {
     max_file_size: 1258291200,
     allow_multiple_files: false,
   });
-  
+
   // Start loading asset
   $('#preview_logo').bind("s3_uploads_start", function(e, content) {
     console.log("upload start ... ");
   });
-  
+
   // complete, create an asset
   $('#preview_logo').bind("s3_upload_complete", function(e, content) {
     console.log("upload complete ... ", content.url, $('.logo-image-preview'), $('.logo-image-preview').attr('src') );
 
-  
     // throw it to the window
     $('.logo-image-preview').attr('src', content.url);
     $('.logo-image-preview').hide().fadeIn('slow', function() {
       $('.logopreview').height( $('.logo-image-preview').height() + 20 );
       $('.uploader_overlay span').css({"color": "#FFF"});
     });
-    updateChannel();
 
+    updateChannel('imageloader');
   });
-      
-
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+/// MAIN
+////////////////////////////////////////////////////////////////////////////////
+
+initializePublisher();
 initThumbnailUploader();
-
-
-
-

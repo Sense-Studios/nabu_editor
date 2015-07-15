@@ -10,47 +10,47 @@ var marqerToggled;
 // THIS DOCUMENT NEEDS CLEAN UP!
 
 // TODO: Rewrite to: toggleVideo
-var animateVideoUp = function() { 
+var animateVideoUp = function() {
   smallvideo = true;
-  
+
   var opacity = 0;
   toggle_overlays( opacity );
-  
+
   marqerToggled = 0;
   toggleMarqers( marqerToggled );
-  
+
   var smallHeight = ( 200 / aspect_width ) * aspect_height
   $('.videowrapper').animate({
   	'height': smallHeight + 'px',
   	'width': '200px',
   	'margin-right': '20px'
   }, 540);
-  
+
   $('.videowrapper').css('margin-top', '1%');
   $('.videowrapper').css("float", "right");
   $('.videowrapper .ui-resizable-se').hide()
-  
+
   setTimeout( function() { $('.small_video_description').fadeIn('slow'); }, 600);
 };
 
-var animateVideoDown = function() { 
+var animateVideoDown = function() {
   smallvideo = false;
-  
+
   var opacity = 1;
   toggle_overlays( opacity );
-  
+
   marqerToggled = 1;
   toggleMarqers( marqerToggled );
-  
-  resize_aspect_ration_change(); 
-  
+
+  resize_aspect_ration_change();
+
   var bigHeight = ( 640 / aspect_width ) * aspect_height
   $('.videowrapper').css("float", "none");
   $('.videowrapper').animate({'height': bigHeight + 'px', 'width': '640px'}, 240, function() {
   	$('.videowrapper').css('margin', '2% auto');
   });
-  
-  $('.videowrapper .ui-resizable-se').show()   
+
+  $('.videowrapper .ui-resizable-se').show()
   $('.small_video_description').fadeOut('fast');
 };
 
@@ -60,7 +60,7 @@ var toggle_overlays = function( opacity ) {
   $('.video_publish_container').fadeOut();
 }
 
-//Hide Sections 
+//Hide Sections
 var hideCreateMovie = function() {
   if( $('.video_uploader_container').is(':visible') ) {
     $('.video_uploader_container').fadeOut('fast');
@@ -69,19 +69,19 @@ var hideCreateMovie = function() {
 
 var hidePublishMovie = function () {
   if ( $('.video_publish_container').is(':visible') ) {
-    $('.video_publish_container').fadeOut('fast');       
+    $('.video_publish_container').fadeOut('fast');
   }
 };
 
 var hideDescribeMovie = function () {
   if ( $('.video_describe_container').is(':visible') ) {
-    $('.video_describe_container').fadeOut('fast');    
+    $('.video_describe_container').fadeOut('fast');
   }
 };
 
 var hideDescribeAdvancedMovie = function() {
   if ( $('.describe_movie_advanced').is(':visible') ) {
-    $('.describe_movie_advanced').fadeOut('fast');    
+    $('.describe_movie_advanced').fadeOut('fast');
   }
 };
 
@@ -96,7 +96,7 @@ var hideMarqersRightMenu = function () {
   if ( $(".marqers_container").is(':visible' ) ) {
     $('.marqers_container').fadeOut('fast');
     $('.zoomContainer').fadeOut('fast');
-    $('.tracklineOptionsContainer').fadeOut('fast');    
+    $('.tracklineOptionsContainer').fadeOut('fast');
     $('#screen').fadeOut('fast');
   }
   keysEnabled = false;
@@ -107,7 +107,7 @@ var showMarqersRightMenu = function () {
   if ( $(".marqers_container").is(':hidden' ) ) {
     $('.marqers_container').fadeIn('fast');
     $('.zoomContainer').fadeIn('fast');
-    $('.tracklineOptionsContainer').fadeIn('fast');    
+    $('.tracklineOptionsContainer').fadeIn('fast');
     $('#screen').fadeIn('fast');
     setTimeout( function() { createScrubbar() }, 600 );
     setTimeout( function() { preview() }, 1200 );
@@ -118,13 +118,13 @@ var hideChannels = function() {
   if ( $(".menu_editor").is(':visible' ) ) {
     $('.channels_container').fadeOut('fast');
     $('.menu_editor').fadeOut('fast');
-  }  
+  }
 };
 
 var showChannels = function() {
   if ( $(".menu_editor").is(':hidden' ) ) {
     $('.menu_editor').fadeIn('fast');
-  }  
+  }
 };
 
 var showHelpers = function () {
@@ -167,21 +167,19 @@ function showChannelContainer() {
   animateVideoUp();
   setTimeout(function() {
     var logoHeight = $('.logopreview img').height();
-    $('.logopreview').height(logoHeight); 
-    //TODO:: CLICK ON SELECTED CHANNEL INSTEAD OF FIRST
-    $('#channel_selector').next().find('ul').find('li:eq(1)').click();
+    $('.logopreview').height(logoHeight);
   }, 500);
 
 };
 
 // ### Sections
-var showCreateMovie = function( force, with_upload ) { 
+var showCreateMovie = function( force, with_upload ) {
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
 
   if( $('.video_uploader_container').is(':visible') ) {
     $('.video_uploader_container').fadeOut('fast');
-    if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');  
+    if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');
 
   }else{
     $('#butt-down').trigger('click');
@@ -191,13 +189,13 @@ var showCreateMovie = function( force, with_upload ) {
     $('.select_videos').fadeIn();
     $('#create_butt').removeClass('btn-material-blue-grey');
     $('#create_butt').addClass('btn-material-pink');
-    
+
     //Show/hide helpers
     $('.bubble').fadeOut('fast',function(){
       setTimeout(function(){$('.upload_helper').fadeIn('fast');}, 300);
     });
 
-    
+
     hideMarqersRightMenu();
     hideChannels();
     showHelpers();
@@ -207,27 +205,27 @@ var showCreateMovie = function( force, with_upload ) {
     toggleMarqers( marqerToggled );
     if ($('.video_frame').height() > 150) {
       animateVideoDown();
-    };        
+    };
     //$('.big-play').addClass('hidden')
   }
-  
+
   setTimeout( function() { margin_select_video() }, 500);
-  
+
   if( $('.video_publish_container').is(':visible') ) {
      $('.video_publish_container').fadeOut('fast');
      $('.video_uploader_container').fadeIn('fast') ;
   }
-  
-  setTimeout( function() { try { $('.leprograms').shapeshift( shapeshiftOptions() ) } catch(e){} }, 800 );  
+
+  setTimeout( function() { try { $('.leprograms').shapeshift( shapeshiftOptions() ) } catch(e){} }, 800 );
 };
 
 // $('.navigation .btn').removeClass('btn-material-pink')
 // $('.navigation .btn').addClass('btn-material-blue-grey')
 
-var showDescribeMovie = function( with_upload ) { 
-  
+var showDescribeMovie = function( with_upload ) {
+
   console.log("show descibr movie");
-  
+
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
 
@@ -240,8 +238,8 @@ var showDescribeMovie = function( with_upload ) {
   }
 
   if ( $('.video_describe_container').is(':visible') ) {
-    $('.video_describe_container').fadeOut('fast');    
-    if (controlsAreVisible) $('#nabu_controls').fadeIn('fast'); 
+    $('.video_describe_container').fadeOut('fast');
+    if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');
 
     //$('.select_videos').fadeIn()
 
@@ -254,15 +252,15 @@ var showDescribeMovie = function( with_upload ) {
     $('#describe_butt').removeClass('btn-material-blue-grey');
     $('#describe_butt').addClass('btn-material-pink');
 
-    
+
     // attach save
     $('#save_movie').unbind('click');
-    $('#save_movie').click( function() { 
+    $('#save_movie').click( function() {
       $('#save_movie').removeClass('btn-material-pink');
-      $('#save_movie').addClass('btn-material-yellow');      
-      postMetaData(); 
+      $('#save_movie').addClass('btn-material-yellow');
+      postMetaData();
     })
-    
+
     hideChannelContainer();
     hideMarqersRightMenu();
     hideChannels();
@@ -278,28 +276,28 @@ var showDescribeMovie = function( with_upload ) {
     $('#advanced').click( showDescribeAdvancedMovie );
 
     $('#close_button').unbind('click');
-    $('#close_button').click( function() {      
+    $('#close_button').click( function() {
       showDescribeMovie();
     });
-    
-    
+
+
     //Show/hide helpers
     $('.bubble').fadeOut('fast',function(){
       setTimeout(function(){$('.describe_helper').fadeIn('fast');}, 300);
     });
-    
-    
+
+
     //$('.big-play').addClass('hidden')
-  } 
-  
+  }
+
   setTimeout( function() { margin_select_video() }, 600);
-  
+
   if($('.video_publish_container').is(':visible') ){
      $('.select_videos').fadeIn('fast');
      $('.video_publish_container').fadeOut('fast') ;
-  } 
+  }
 }
-  
+
 var showDescribeAdvancedMovie = function() {
   $('.select_videos').fadeOut('fast', function() {
     $('.describe_movie_advanced').fadeIn('fast');
@@ -307,14 +305,14 @@ var showDescribeAdvancedMovie = function() {
 };
 
 
-var showSettingsMovie = function() { 
+var showSettingsMovie = function() {
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
-  
+
   $('#settings_butt').removeClass('btn-material-blue-grey');
   $('#settings_butt').addClass('btn-material-pink');
-  
-  
+
+
   hideChannels();
   hideChannelContainer();
   hideCreateMovie();
@@ -328,18 +326,18 @@ var showSettingsMovie = function() {
   if ($('.video_frame').height() > 150) {
     animateVideoDown();
   }
-  
-  setTimeout( function () { showMarqersRightMenu() }, 500);  
-  if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');    
+
+  setTimeout( function () { showMarqersRightMenu() }, 500);
+  if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');
   setTimeout( function() { margin_select_video() }, 500);
 };
 
-var showPublishMovie = function() { 
+var showPublishMovie = function() {
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
-    
+
   if ( $('.video_publish_container').is(':visible') ) {
-    $('.video_publish_container').fadeOut('fast');       
+    $('.video_publish_container').fadeOut('fast');
     $('#publish_butt').removeClass('btn-material-pink');
     $('#publish_butt').addClass('btn-material-blue-grey');
   }else{
@@ -349,7 +347,7 @@ var showPublishMovie = function() {
     $('#publish_butt').addClass('btn-material-pink');
   }
   $('.video_publish_container').fadeIn('fast');
-  
+
   hideCreateMovie();
   hideVideoContainer();
   hideDescribeAdvancedMovie();
@@ -363,18 +361,18 @@ var showPublishMovie = function() {
   toggleMarqers( marqerToggled );
   hideChannelContainer()
   // showMenuEditor()
-  
+
   showHelpers();
 
-    
+
   setTimeout( function () {
     showHelpers();
     margin_select_video();
   }, 500);
 
-  
+
   //Show/hide helpers
-  $('.bubble').fadeOut('fast',function() {  
+  $('.bubble').fadeOut('fast',function() {
     setTimeout(function(){$('.publish_helper').fadeIn('fast');}, 300);
   });
 };

@@ -4,13 +4,12 @@
   %div
     .form-group
       #create_new_channel.btn.btn-material-burgundy{"data-toggle" => "modal", "data-target" => "#channel_creator_dialog"}
-        Maak nieuw kanaal 
+        Maak kanaal
         %span.glyphicon.glyphicon-plus
+
       %select#channel_selector.dropdown_select.dropdown_channel.form-control{"placeholder" => "Kies kanaal"}
         %option Kies een kanaal
-        /- @channels.each do |p|
-        /  %option{:value => p['id'] }
-        /    = p['title']
+
       #edit_channel.edit_channel.btn.btn-material-burgundy-dark{"data-toggle" => "modal", "data-target" => "#channel_editor_dialog"}
         %span.glyphicon.glyphicon-pencil
 
@@ -18,27 +17,25 @@
         %option{"value" => "Kies een menu"} Kies een menu
         - @menus.each do |p|
           %option{:value => p['id'] }= p['name']
+
       #add_menu.edit_channel.btn.btn-material-custom-darkgrey
         %span.glyphicon.glyphicon-plus
-          
 
       %select#theme_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Kies thema"}
-        /%option{:disabled => "disabled" } Kies een thema
-        /- @themes.each do |p|
-        /  %option{:value=>p.slug}= p.theme
-            
+
       %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Kies startprogramma"}
         %option{:disabled => "disabled" } Kies startprogramma
-        - @programs.each do |p|   
+        - @programs.each do |p|
           %option{:value => p['id'] }= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
-          
+
+
       .logopreview.preview-image-channel
         = image_tag("nabu_editor/blank_image.png", :class=> "logo-image-preview")
         .uploader_overlay
           %span.add_logo Logo toevoegen
           %span.glyphicon.glyphicon-plus.add_logo_icon
-        = s3_uploader_form id: "preview_logo", max_file_size: 5.megabytes do          
-          = file_field_tag :file, :class => "form-control no_borders", :accept=>"image/*"      
+        = s3_uploader_form id: "preview_logo", max_file_size: 5.megabytes do
+          = file_field_tag :file, :class => "form-control no_borders", :accept=>"image/*"
 
       .primary_color_container
         %h5 Kies jouw hoofdkleur
@@ -58,18 +55,18 @@
           %input.form-control{"value" => '#000000', "type" => "text", "maxlength" => "7"}
           %span.input-group-addon
             %i
-        
+
 
       %textarea#site_description.firstarea{"placeholder" => "Korte beschrijving site"}
-    
+
       %textarea#site_contact{"placeholder" => "Contactgegevens site"}
-      
+
   %button.btn.btn-material-pink.bekijk-website
     = link_to '/channel/gazet-van-antwerpen', :target => "_blank" do
       Bekijk website
 
   = javascript_include_tag "nabu_editor/publish/drop_down"
-  = javascript_include_tag "nabu_editor/publish/channel_settings"  
+  = javascript_include_tag "nabu_editor/publish/channel_settings"
 
 =# render :partial => "shared/admin/admin_info" %>
 =# render :partial => "shared/admin/datatables_translations" %>

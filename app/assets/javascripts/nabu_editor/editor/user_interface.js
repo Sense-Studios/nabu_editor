@@ -239,6 +239,8 @@ var initEditorKeys = function() {
       alt + shift + right: lengthen left + 10 // or move left x/ view width
       i set in
       o set out
+      s goto start
+      e goto end 
       [ goto in
       ] goto out
       , move 1 frame back
