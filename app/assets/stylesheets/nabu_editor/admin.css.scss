@@ -41,7 +41,7 @@ html {
   .ui-resizable-se {
     position: relative;
     left: calc( 100% - 6px );
-    top: calc( 100% - 6px );     
+    top: calc( 100% - 6px );
     width: 10px;
     height: 10px;
     border-right: 2px solid white;
@@ -1792,6 +1792,8 @@ nav {
       width: 41%;
       height: 100%;
       overflow: hidden;
+      float: left;
+      max-height: 90%;
     }
     .program_dragger {
       border-right-width: 0px;

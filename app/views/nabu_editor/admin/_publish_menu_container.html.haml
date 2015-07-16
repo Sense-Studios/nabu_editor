@@ -3,23 +3,23 @@
     %button#hide_menu_container_overlay.btn.btn-material-burgundy
       Bewerk site
   =# render 'form'
-  
+
   .row
     .col-sm-5.menu_all_videos
       .filter
         %input.form-control{:id=>"available_program_search", :type=>"text", :placeholder=>"Zoek"}
         %i.glyphicon.glyphicon-search.search_video_menu_icon{"aria-hidden"=> 'true'}
-        
+
       %hr
-      
-      %ul#all_available.menu-editor.drop    
-        - @programs.each do |p|          
+
+      %ul#all_available.menu-editor.drop
+        - @programs.each do |p|
           %li.new-item.ui-state-default.available_program_item{:id=>p['id'], "data" => { "target" => ""}}
-            = image_tag p['thumbnail'], :class=>'pull-left menu_video_image', :height=>'32px' unless p['thumbnail'].nil?
+            = image_tag p['thumbnail'], :class=>'pull-left menu_video_image', :width=>'139px', :height=>'78px' unless p['thumbnail'].nil?
             .program_container
-              %p.program_title= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
+              %p.program_title= p['title'] unless p['title'].nil?
             .program_dragger
-              
+
     .col-sm-7.menu_all_categories
       %button#create_category_button.btn.btn-material-burgundy
         Maak categorie
@@ -32,15 +32,15 @@
       %ul#le_menu.categories
         .clear
       %input#menu_items.hidden{"name" => "menu[items]", "type" => "text", "value" => "{}"}
-  
-  
-  
-  /= link_to 'Show', @menu 
+
+
+
+  /= link_to 'Show', @menu
   /= link_to 'Back', menus_path
 
-  
+
 :javascript
-  var menudata = {}  
+  var menudata = {}
   var programs = #{@programs.to_json}
 
 = javascript_include_tag "nabu_editor/publish/edit_menu"
