@@ -2,32 +2,31 @@
   .button.btn.btn-material-burgundy.close_button#close_button_upload
     %span.glyphicon.glyphicon-remove
     = link_to '', 'javascript:showCreateMovie();', :id => "close_button_upload"
-      
-    
+
+
   %h1
-    /= I18n.t('admin.create.page_title')
-    Maak nieuwe video 
+    = t('create_movie.create_new')
   .uploader.youtube_vimeo_uploader
     %input.hidden#input_select.link_checkbox{"type"=>"radio", "data-name" => "link", "name"=>"input_select", "value"=>"link"}
     .uploader_icon
-      = image_tag "nabu_editor/youtube.png", :onClick=>"javascript:window.open('http://www.youtube.com' , '_blank');", :width=>"35px"  
+      = image_tag "nabu_editor/youtube.png", :onClick=>"javascript:window.open('http://www.youtube.com' , '_blank');", :width=>"35px"
       = image_tag "nabu_editor/vimeo.png", :onClick=>"javascript:window.open('http://www.vimeo.com' , '_blank');", :width=>"44px"
       = image_tag "nabu_editor/kaltura.png", :onClick=>"javascript:window.open('http://corp.kaltura.com/' , '_blank');", :width=>"44px"
-      
-    %input.form-control#link_url{"type"=>"text", "placeholder"=> "Plak Youtube / Vimeo / Kaltura link" }  
-      
-      
+
+    %input.form-control#link_url{"type"=>"text", "placeholder"=> t('create_movie.paste_link') }
+
+
   .uploader.upload_container
     %input.hidden#input_select.upload_checkbox{"type"=>"radio", "data-name" => "upload", "name"=>"input_select", "value"=>"s3_direct"}
     = s3_uploader_form id: "s3-uploader", max_file_size: 1200.megabytes do
-      = file_field_tag :file, :class => "form-control click_upload", :accept=>"video/*|mp4"    
+      = file_field_tag :file, :class => "form-control click_upload", :accept=>"video/*|mp4"
       .uploader_icon
         .input-group
           %span.input-group-btn
             %span.upload_button
               = image_tag "nabu_editor/upload.png", :class=>"long-shadow-3", :width=>"35px"
               = I18n.t('admin.create.browse_button')
-      %input#upload_url{:type=>"text", :readonly=>"", :class=>"form-control feedback", "placeholder"=> "Kies een video op je computer"}
+      %input#upload_url{ :type=>"text", :readonly=>"", :class=>"form-control feedback", "placeholder"=> t('create_movie.choose_video') }
 
   / depricated?
   .hidden
@@ -40,5 +39,5 @@
 / Custom javascript
 = javascript_include_tag "nabu_editor/create/create_movie"
 
-:javascript 
+:javascript
   $(function() { initCreate(); });

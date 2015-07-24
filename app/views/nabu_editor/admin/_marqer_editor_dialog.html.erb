@@ -2,41 +2,51 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Dialoogscherm</h4>
+        <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       </div>
 
-      <div class="modal-body">     
-        
+      <div class="modal-body">
+
         <!-- tabs -->
         <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-          
+
           <!-- tab header -->
           <ul id="myTab" class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#instellingen" id="instellingen-tab" role="tab" data-toggle="tab" aria-controls="instellingen" aria-expanded="true">Instellingen</a></li>
-            <li role="presentation" class=""><a href="#geavanceerd" role="tab" id="geavanceerd-tab" data-toggle="tab" aria-controls="geavanceerd" aria-expanded="false">Geavanceerd</a></li>
+            <li role="presentation" class="active">
+              <a href="#instellingen" id="instellingen-tab" role="tab" data-toggle="tab" aria-controls="instellingen" aria-expanded="true">
+                <%= t 'marqer_editor.settings' %>
+              </a>
+            </li>
+            <li role="presentation" class="">
+              <a href="#geavanceerd" role="tab" id="geavanceerd-tab" data-toggle="tab" aria-controls="geavanceerd" aria-expanded="false">
+                <%= t 'marqer_editor.advanced' %>
+              </a>
+            </li>
           </ul>
 
           <!-- tab content -->
           <div id="myTabContent" class="tab-content">
-            <div role="tabpanel" class="tab-pane fade active in" id="instellingen" aria-labelledby="instellingen-tab">                            
+            <div role="tabpanel" class="tab-pane fade active in" id="instellingen" aria-labelledby="instellingen-tab">
               <br/>
               <div class='modal-body-editors'></div>
               <br/><br/><hr/>
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="geavanceerd" aria-labelledby="geavanceerd-tab">              
-              <br/>              
+            <div role="tabpanel" class="tab-pane fade" id="geavanceerd" aria-labelledby="geavanceerd-tab">
+              <br/>
               <div class='modal-body-editors-advanced'></div>
               <br/><br/><hr/>
             </div>
           </div>
         </div>
-        
+
       </div> <!-- modal-body -->
 
       <div class="modal-footer">
         <div class="btn-group">
-          <button class="btn btn-material-burgundy" id='modal_save_button' data-dismiss="modal"> Opslaan </button>
+          <button class="btn btn-material-burgundy" id='modal_save_button' data-dismiss="modal">
+            <%= t('marqer_editor.save') %>
+          </button>
         </div>
       </div>
     </div>

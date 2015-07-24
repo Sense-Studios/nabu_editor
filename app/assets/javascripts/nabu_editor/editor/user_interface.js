@@ -20,7 +20,7 @@ mapi
 
 var ids = 1000000; // local id start
 var createTrackEvent = function( marqer, trackline, select_id ) {
-
+  console.log("MARQER", marqer);
   // get the necc. information from the marqer
   var name, type, remote_id, l, w;
   if ( marqer !== undefined ) {
@@ -40,7 +40,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
     w = ( ( ( marqer.out - marqer.in ) / pop.duration() ) * 100 ) + '%';
   }else{
     // failsafe and user scolding
-    alert('You are being an idiot. You need a marqer object to create a trackEvent');
+    alert(t.user_interface.alert);
     return;
   }
 
@@ -59,12 +59,12 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   html += '     <ul class="dropdown-menu">';
 
   if ( marqer.marqeroptions.position != undefined && marqer.marqeroptions.original != undefined ) {
-    html += '     <li><a class="position_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-modal-window ignore_events"/>Plaats</a></li>';
+    html += '     <li><a class="position_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-modal-window ignore_events"/>' + t.user_interface.place + '</a></li>';
   }
 
-  html += '      <li><a class="edit_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-pencil ignore_events"/>Bewerk</a></li>';
-  html += '      <li><a class="stratum_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-save ignore_events"/>Stramien</a></li>';
-  html += '      <li><a class="delete_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-trash ignore_events"/>Verwijder</a></li>';
+  html += '      <li><a class="edit_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-pencil ignore_events"/>' + t.user_interface.edit + '</a></li>';
+  html += '      <li><a class="stratum_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-save ignore_events"/>' + t.user_interface.prefab + '</a></li>';
+  html += '      <li><a class="delete_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-trash ignore_events"/>' + t.user_interface.delete + '</a></li>';
   html += '     </ul>';
   html += '    </li>';
   html += '   </ul>';
@@ -142,7 +142,7 @@ var addInteractionToTrackEvent = function() {
 
   // Delete-button
   $('#' + ids + ' .delete_button').click(function( e ) {
-    if ( confirm("Weet je zeker dat je deze Marqer wilt VERWIJDEREN ?") ) {
+    if ( confirm(t.user_interface.confirm_delete) ) {
       deleteMarqer( getMarqerById( $(this).data('remote_id') ) );
     }
   });
@@ -240,7 +240,7 @@ var initEditorKeys = function() {
       i set in
       o set out
       s goto start
-      e goto end 
+      e goto end
       [ goto in
       ] goto out
       , move 1 frame back
@@ -369,7 +369,7 @@ var initEditorKeys = function() {
 
       case 73:  // i
         if (  $('#scrubber').position().left > ( selected_marqer_item.position().left + selected_marqer_item.width() ) ) {
-          alert('In-punt kan niet na het uit-punt liggen');
+          alert(t.user_interface.in_out);
           return;
         }
         selected_marqer_item.css('width', ( selected_marqer_item.position().left - $('#scrubber').position().left ) + selected_marqer_item.width() +'px'  );
@@ -379,7 +379,7 @@ var initEditorKeys = function() {
 
       case 79:  // o
         if (  $('#scrubber').position().left < selected_marqer_item.position().left ) {
-          alert('Uit-punt kan niet voor het in-punt liggen');
+          alert(t.user_interface.out_in);
           return;
         }
         selected_marqer_item.css('width', $('#scrubber').position().left - selected_marqer_item.position().left + 'px' );

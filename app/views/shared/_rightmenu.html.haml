@@ -1,5 +1,5 @@
 .right_menu
-  .settings_container    
+  .settings_container
     #butt-up.btn.glyphicon.glyphicon-triangle-top.btn-material-white
     #butt-down.btn.glyphicon.glyphicon-triangle-bottom.btn-material-white
     %ul.nav.nav-tabs.btn-material-white.pull-right
@@ -10,63 +10,64 @@
           %li
             %a{:href => "javascript:$('#acount_editor_dialog').modal()", :target=>'_top'}
               %span.glyphicon.glyphicon-user
-              &nbsp;Account
+              &nbsp;
+              = t('right_menu.account')
           - if !current_user.account?
             %li
               = link_to(main_app.admin_editors_path, :target=>"_top") do
                 %span.glyphicon.glyphicon-star
-                Editors
+                = t 'right_menu.editors'
           %li.small
             %a{"data-method"=>"delete", :href=>"/users/sign_out", :rel=>"nofollow", :title => current_user.email }
-              %span.glyphicon.glyphicon-off.small 
-              &nbsp;Uitloggen
+              %span.glyphicon.glyphicon-off.small
+              &nbsp;
+              = t 'right_menu.log_out'
 
           %hr
-          
-          %li.dropdown-header.small                    
-            versienummer
+
+          %li.dropdown-header.small
+            = t 'right_menu.version'
             .code
               4.01.4
 
           %li.small
             %a.small{:href => "https://github.com/Sense-Studios/nabu_editor/tree/master", :target=>'_blank'}
-              %span.glyphicon.glyphicon-new-window  
-              &nbsp;Marduq op Github
+              %span.glyphicon.glyphicon-new-window
+              &nbsp;
+              = t 'right_menu.github'
 
           %li.small
             %a.small{:href => "/admin/dashboard", :target=>'_top'}
-              Manager
+              = t 'right_menu.manager'
     #load_indicator.glyphicon.glyphicon-refresh.pull-right
-   
-  
+
+
     %select#aspect_dropdown.form-control.input-sm.dropdown_select.dropdown_select_ratio
-      %option{:value=>'5:4'} 5:4  
-      %option{:value=>'4:3'} 4:3      
-      %option{:value=>'3:2'} 3:2      
+      %option{:value=>'5:4'} 5:4
+      %option{:value=>'4:3'} 4:3
+      %option{:value=>'3:2'} 3:2
       %option{:value=>'16:10'} 16:10
-      %option{:value=>'16:9', :selected=>'selected'} 16:9      
+      %option{:value=>'16:9', :selected=>'selected'} 16:9
       %option{:value=>'17:9'} 17:9
-      %option{:value=>'21:9'} 21:9    
+      %option{:value=>'21:9'} 21:9
       %option{:value=>'24:9'} 24:9
-    
+
   .helpers
     .bubble.upload_helper{:style => "top: 20%"}
-      %p Upload of kies hier je video. Wachten hoeft niet! Je kunt meteen verder met de titel, tags enzovoort.
+      %p= t 'right_menu.upload_helper'
       %p.readed
-        
+
     .bubble.describe_helper{:style => "top: 20%"}
-      %p Geef je video info mee, zodat iedereen weet waar hij over gaat. Hoe duidelijker, hoe meer clicks!
+      %p= t 'right_menu.describe_helper'
       %p.readed
-        
+
     .bubble.publish_helper{:style => "top: 47%"}
-      %p Deze video delen? Kopieer de link of  klik op een 'social' knop. Met embed zet je de video op je eigen site. 
+      %p= t 'right_menu.publish_helper'
       %p.readed
-          
+
   = render partial: 'nabu_editor/admin/marqers'
   = render partial: 'nabu_editor/admin/channels_right_menu'
   :javascript
     $(".dropdown_select_ratio").dropdown({
       "dropdownClass": "my-dropdown"
     });
-  
-  

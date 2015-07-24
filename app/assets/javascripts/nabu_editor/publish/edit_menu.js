@@ -26,19 +26,19 @@ function createCategory() {
   cat += '<span class="handle_icon"></span>';
   cat += '<input type="text" class="category_name" placeholder="Typ categorienaam">';
   cat += '<button class="delete_category btn btn-material-custom-darkgrey">';
-  cat += '<span class="glyphicon glyphicon-remove"></span';
+  cat += '<span class="glyphicon glyphicon-remove"></span>';
   cat += '<a id="remove_categorie"></a>';
   cat += '</button>';
   cat += '<button class="toggle_category btn btn-material-custom-darkgrey">';
-  cat += '<span class="glyphicon glyphicon-triangle-right"></span';
+  cat += '<span class="glyphicon glyphicon-triangle-right"></span>';
   cat += '<a id="toggle_categorie"></a>';
   cat += '</button>';
   cat += '<div class="clear"></div>';
 
   // list holder
   var category_id = Math.round( Math.random() * 1000000 );
-  cat += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
-  cat += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
+  cat += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="' + category_id + '"></ul>';
+  cat += '<div class="categorydrop ui-state-default dropper" ><div>' + t.publish.drag + '</div></div>';
 
   $('#le_menu').prepend(cat);
 
@@ -87,7 +87,7 @@ function loadMenuFromData() {
     cat += '<li class="category_item">';
     cat += '<input type="text" class="category_name" placeholder="Nieuwe categorie">';
     cat += '<button class="delete_category btn btn-material-custom-darkgrey pull-right">';
-    cat += '<span class="glyphicon glyphicon-remove"></span';
+    cat += '<span class="glyphicon glyphicon-remove"></span>';
     cat += '<a id="remove_categorie"></a>';
     cat += '</button>';
     cat += '<div class="clear"></div>';
@@ -124,9 +124,9 @@ function loadMenuFromData() {
           some_item += '<a id="remove_categorie" ></a>';
           some_item += '</button>';
           if ( item_value.emphasize ) {
-            some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
+            some_item += '<div class="togglebutton"><label>' + t.publish.enlarge + '<input class="emphasize" type="checkbox" /></label></div>';
           }else{
-            some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
+            some_item += '<div class="togglebutton"><label>' + t.publish.enlarge + '<input class="emphasize" type="checkbox" checked /></label></div>';
           }
           some_item += '</div></li>';
 
@@ -143,7 +143,7 @@ function loadMenuFromData() {
 
       if(parentItemCount == 1)
       {
-        $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+        $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>' + t.publish.drag + '</div></div>');
         $(parentItem).removeAttr('style');
       }
       console.log('try to delete');
@@ -203,11 +203,11 @@ function setMenudata( Menudata ) {
           menu += '<span class="handle_icon"></span>';
           menu += '<input type="text" class="category_name" placeholder="Typ categorienaam" value="' + menus.menu[key].name + '">';
           menu += '<button class="delete_category btn btn-material-custom-darkgrey">';
-          menu += '<span class="glyphicon glyphicon-remove"></span';
+          menu += '<span class="glyphicon glyphicon-remove"></span>';
           menu += '<a id="remove_categorie"></a>';
           menu += '</button>';
           menu += '<button class="toggle_category btn btn-material-custom-darkgrey" >';
-          menu += '<span class="glyphicon glyphicon-triangle-right"></span';
+          menu += '<span class="glyphicon glyphicon-triangle-right"></span>';
           menu += '<a id="toggle_categorie"></a>';
           menu += '</button>';
           menu += '<div class="clear"></div>';
@@ -215,7 +215,7 @@ function setMenudata( Menudata ) {
           // list holder
           var category_id = Math.round( Math.random() * 1000000 );
           menu += '<ul class="category menu-editor ui-state-default drop ui-sortable" id="'+category_id+'"></ul>';
-          menu += '<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>';
+          menu += '<div class="categorydrop ui-state-default dropper" ><div>' + t.publish.drag + '</div></div>';
 
           $('#le_menu').append(menu);
 
@@ -275,9 +275,9 @@ function setMenudata( Menudata ) {
               some_item += '<a id="remove_categorie"></a>';
               some_item += '</button>';
               if ( menuItem[key].emphasize === false) {
-                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>';
+                some_item += '<div class="togglebutton"><label>' + t.publish.enlarge + '<input class="emphasize" type="checkbox" /></label></div>';
               }else{
-                some_item += '<div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" checked /></label></div>';
+                some_item += '<div class="togglebutton"><label>' + t.publish.enlarge + '<input class="emphasize" type="checkbox" checked /></label></div>';
               }
               some_item += '</div></li>';
               var prependDiv = '#' + category_id;
@@ -291,7 +291,7 @@ function setMenudata( Menudata ) {
               var parentItemCount = parentItem.children().length;
 
               if(parentItemCount == 1) {
-                $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+                $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>' + t.publish.drag + '</div></div>');
                 $(parentItem).removeAttr('style');
               }
 
@@ -383,7 +383,7 @@ function setDraggables() {
     remove: function(event, ui) {
       var removedElement = $(this).children().length;
       if(removedElement === 0) {
-        $(this).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+        $(this).parent().append('<div class="categorydrop ui-state-default dropper" ><div>' + t.publish.drag + '</div></div>');
         $(this).removeAttr('style');
       }
     },
@@ -416,7 +416,7 @@ function initMenuItem( currentItem, id ) {
   if ( currentItem === undefined || !currentItem.hasClass('not_new') ) {
     var dataTarget = Math.round( Math.random() * 1000000 );
     currentItem.prop('id', id );
-    currentItem.append('<button class="btn btn-material-white pull-right item_delete_button" id="' + dataTarget + '"><span class="glyphicon glyphicon-remove"></span><a id="remove_categorie"></a></button><div class="togglebutton"><label>Vergroot<input class="emphasize" type="checkbox" /></label></div>');
+    currentItem.append('<button class="btn btn-material-white pull-right item_delete_button" id="' + dataTarget + '"><span class="glyphicon glyphicon-remove"></span><a id="remove_categorie"></a></button><div class="togglebutton"><label>' + t.publish.enlarge + '<input class="emphasize" type="checkbox" /></label></div>');
     currentItem.attr('data-target', dataTarget);
     currentItem.find('.program_dragger').remove();
     currentItem.addClass('not_new');
@@ -427,7 +427,7 @@ function initMenuItem( currentItem, id ) {
 
       if(parentItemCount == 1)
       {
-        $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>sleep hier een video uit de linkerkolom</div></div>');
+        $(parentItem).parent().append('<div class="categorydrop ui-state-default dropper" ><div>' + t.publish.drag + '</div></div>');
         $(parentItem).removeAttr('style');
       }
       console.log('try to delete');

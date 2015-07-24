@@ -1,40 +1,37 @@
 .video_publish_container
-  .publish_container{:style=>'color:white'} 
+  .publish_container{:style=>'color:white'}
     .row
       %h3
-        Deel je video  
-    
+        = t('publish_movie.share')
+
     .row
       .col-md-2
         %label.control-label{:style=>'text-align:left'}
-          /= I18n.t('admin.describe.info.other_thumbnail');
-          Link:
+          = t('publish_movie.link')
       .col-md-8
         %textarea.form-control#program_url.code
       .col-md-2
-  
-    .row  
+
+    .row
       .col-md-2
         %label.control-label{:style=>'text-align:left'}
-          /= I18n.t('admin.describe.info.other_thumbnail');
-          Embed:
+          = t('publish_movie.embed')
       .col-md-8
         %textarea.form-control#program_embed.code{:rows=>5}
       .col-md-2.col
 
-  
-    .row  
+
+    .row
       .col-md-3
         %label.control-label{:style=>'text-align:left'}
-          Social:
+          = t('publish_movie.social')
 
       .col-md-9
         .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-facebook.long-shadow-2.share-facebook
           = image_tag "nabu_editor/share/facebook.png"
 
-        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-twitter.long-shadow-2.share-twitter        
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-twitter.long-shadow-2.share-twitter
           = image_tag "nabu_editor/share/twitter.png"
 
-        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-linkedin.long-shadow-2.share-linkedin        
+        .btn.btn-fab.btn-fab-mini.btn-raised.btn-material-linkedin.long-shadow-2.share-linkedin
           = image_tag "nabu_editor/share/linkedin.png"
-

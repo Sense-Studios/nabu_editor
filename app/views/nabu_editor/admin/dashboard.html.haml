@@ -7,38 +7,37 @@
     / video
     .videowrapper
       = render :partial => "shared/player/video"
-    
-    / custom controls  
+
+    / custom controls
     = render partial: 'nabu_editor/admin/controls'
-    
+
     / video overlays
-    = render partial: 'nabu_editor/admin/create_movie'            
+    = render partial: 'nabu_editor/admin/create_movie'
     = render partial: 'nabu_editor/admin/describe_movie'
     = render partial: 'nabu_editor/admin/marqer_screen'
     = render partial: 'nabu_editor/admin/publish_movie'
 
   / videos overview
   .select_videos
-    = react_component('FilterableProgramTable', { programs: @programs.reverse! } )    
+    = react_component('FilterableProgramTable', { programs: @programs.reverse! } )
 
   / advanced describe
   = render partial: 'nabu_editor/admin/describe_movie_advanced'
-  
+
   / settings/ marqers
   = render partial: 'nabu_editor/admin/timeline_container'
-  
+
   / publishing
   = render partial: 'nabu_editor/admin/publish_menu_container'
- 
+
 
 / Dialog and Menus
 = render partial: 'shared/rightmenu'
 = render partial: 'nabu_editor/admin/marqer_editor_dialog'
 = render partial: 'nabu_editor/admin/channel_editor_dialog'
-= render partial: 'nabu_editor/admin/channel_creator_dialog'
+= render partial: 'nabu_editor/admin/channel_creator_dialog' #TRANSLATE FROM HERE
 = render partial: 'nabu_editor/admin/account_editor_dialog'
 
 / Custom javascript
-= javascript_include_tag "nabu_editor/sections" 
-= javascript_include_tag "nabu_editor/dashboard" 
-
+= javascript_include_tag "nabu_editor/sections"
+= javascript_include_tag "nabu_editor/dashboard"

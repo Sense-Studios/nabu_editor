@@ -17,33 +17,37 @@ MarduqApi
 
 // Modal Translation Helper
 var translateKey = function(key) {
+  return t.marqer_ui[key]
+/*
   var returnkey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
   var translations = {
-    'title': 'Titel',
-    'css': 'Opmaak(css)',
-    'classes': 'Classen',
-    'html': 'Markup(html)',
+    'title':    'Titel',
+    'css':      'CSS3, Opmaak',
+    'classes':  'Classen',
+    'html':     'HTML5, Hypertext Markup',
     'original': 'Origineel',
     'position': 'Positie',
-    'image': 'Plaatje',
-    'audio': 'Geluidje',
-    'url': 'Link',
-    'rss_url': 'RSS-Feed',
-    'target': 'Doel',
-    'code': 'Code',
-    'number': 'Nummer',
+    'image':    'Plaatje',
+    'audio':    'Geluidje',
+    'url':      'Link',
+    'rss_url':  'RSS-Feed',
+    'target':   'Doel',
+    'code':     'Code',
+    'number':   'Nummer',
     'hashtags': '#Hashtags',
-    'person': '@Persoon',
-    'help': 'Informatie',
-    'time': 'tijd',
-    'mp3': 'mp3',
-    'radio': 'radio'
+    'person':   '@Persoon',
+    'help':     'Informatie',
+    'time':     'tijd',
+    'mp3':      'mp3',
+    'radio':    'radio',
+    'jsx':      'React JSX, JavaScriptXml'
   };
 
   var trykey = null;
   trykey = translations[key];
   if ( trykey !== null ) returnkey = trykey;
   return trykey;
+*/
 };
 
 var showMarqerInfoFromTrackEvent = function( e, that ) {
@@ -111,14 +115,14 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
     // start post rendering, after the html has been appended
     postRender( someMarqer, context );
-
-    // show the tab
-    // $('#myTab a[href="#geavanceerd"]').tab('show');
-    setTimeout( $('#myTab a[href="#instellingen"]').tab('show'), 100 );
   });
 
   //
   convertSeconds('#time_field');
+
+  // show the tab
+  $('#myTab a[href="#instellingen"]').tab('show')
+
 
   // set the change handlers
   $('#marqer_editor_dialog input.form-control').on('input', function(e) {
@@ -173,9 +177,7 @@ var postRender = function( someMarqer, context ) {
   var element = context.element;
 
   var post_renders = {
-    text: function() {
-      // there is nothing needed here
-    },
+    text: function() {},
 
     code: function() {
       // https://github.com/ajaxorg/ace/issues/1518
@@ -188,11 +190,15 @@ var postRender = function( someMarqer, context ) {
 
       var editor = ace.edit( key + "_editor" );
       editor.setTheme("ace/theme/twilight");
+      editor.$blockScrolling = Infinity
       editor.getSession().setMode("ace/mode/" + element.language );
       editor.setValue( element.value );
       editor.on("change", function(e){
         element.value = editor.getValue();
       });
+
+      // large?
+      if (element.large) $('#'+ key + "_editor").css('height', '480px');
     },
 
     // select
@@ -336,7 +342,7 @@ var postRender = function( someMarqer, context ) {
         // Upload start
         $('#fileholder_' + key).bind('s3_uploads_start', function(e) {
             console.log("upload start ... ");
-            $('#placeholder_image').html('<p>Bestand wordt geupload ... </p>')
+            $('#placeholder_image').html('<p>' + t.marqer_ui.uploading + ' ... </p>')
 
             console.log("SET INITIAL BACK TO TRUE")
             //someMarqer.marqeroptons.initial.value = 'true'

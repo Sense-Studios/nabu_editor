@@ -16,7 +16,7 @@
 
 
     %h3.user_name= current_user.account_name
-      
+
     /%p.user_name
     /  - if  current_user.has_role? :admin
     /    = "Administrator"
@@ -26,26 +26,23 @@
     .logout
       = link_to main_app.destroy_user_session_path, :method => :delete, :title => "#{current_user.email}" do
         /%p= I18n.t('admin.menu.sign_out')
-        %p log uit
+        %p= t('menu.sign_out')
         %span.glyphicon.glyphicon-off.small
 
 
   .navigation.btn-material-blue-grey
     .btn.btn-material-pink#create_butt
       = link_to 'javascript:showCreateMovie()', :target=>"_top"  do
-        /= I18n.t('admin.menu.make_video')
-        Jouw video&#39;s
+        = t('menu.your_videos')
       %span.glyphicon.glyphicon-facetime-video.menu-item
     .btn.btn-material-blue-grey#describe_butt
       = link_to 'javascript:showDescribeMovie()', :target=>"_top"  do
-        /= I18n.t('admin.describe.describe_video')
-        Beschrijf video
+        = t('menu.describe_video')
       %span.glyphicon.glyphicon-pencil.menu-item
     .btn.btn-material-blue-grey#settings_butt
       / settings.MOUNT_POINT
       = link_to 'javascript:showSettingsMovie()', :target=>"_top"  do
-        /= I18n.t('admin.menu.home')
-        Marqers
+        = t('menu.marqers')
       %span.glyphicon.glyphicon-wrench.menu-item
     /.btn.btn-material-blue-grey
     /  = link_to main_app.admin_dashboard_path, :target=>"_top"  do
@@ -54,8 +51,7 @@
     /  %span.glyphicon.glyphicon-ok.menu-item
     .btn.btn-material-blue-grey#publish_butt
       = link_to 'javascript:showPublishMovie()', :target=>"_top"  do
-        /= I18n.t('admin.menu.home')
-        Publiceren
+        = t('menu.publish')
       %span.glyphicon.glyphicon-globe.menu-item
 
     .hide_left_menu

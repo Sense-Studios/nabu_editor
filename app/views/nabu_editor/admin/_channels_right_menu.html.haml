@@ -1,30 +1,30 @@
 .channels_container.channels
-  %h4 Site-instellingen
+  %h4= t('channels.site_settings')
 
   %div
     .form-group
       #create_new_channel.btn.btn-material-burgundy{"data-toggle" => "modal", "data-target" => "#channel_creator_dialog"}
-        Maak kanaal
+        = t 'channels.create_channel'
         %span.glyphicon.glyphicon-plus
 
-      %select#channel_selector.dropdown_select.dropdown_channel.form-control{"placeholder" => "Kies kanaal"}
-        %option Kies een kanaal
+      %select#channel_selector.dropdown_select.dropdown_channel.form-control{"placeholder" => t('channels.choose_channel')}
+        %option= t 'channels.choose_channel'
 
       #edit_channel.edit_channel.btn.btn-material-burgundy-dark{"data-toggle" => "modal", "data-target" => "#channel_editor_dialog"}
         %span.glyphicon.glyphicon-pencil
 
-      %select#menu_selector.dropdown_select.dropdown_default_color.form-control{"placeholder" => "Kies menu"}
-        %option{"value" => "Kies een menu"} Kies een menu
+      %select#menu_selector.dropdown_select.dropdown_default_color.form-control
+        %option{"value" => t('channels.choose_menu') }= t('channels.choose_menu')
         - @menus.each do |p|
           %option{:value => p['id'] }= p['name']
 
       #add_menu.edit_channel.btn.btn-material-custom-darkgrey
         %span.glyphicon.glyphicon-plus
 
-      %select#theme_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Kies thema"}
+      %select#theme_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => t('channels.choose_theme') }
 
-      %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => "Kies startprogramma"}
-        %option{:disabled => "disabled" } Kies startprogramma
+      %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => t('channels.choose_program') }
+        %option{:disabled => "disabled" }= t('channels.choose_program')
         - @programs.each do |p|
           %option{:value => p['id'] }= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
 
@@ -32,38 +32,38 @@
       .logopreview.preview-image-channel
         = image_tag("nabu_editor/blank_image.png", :class=> "logo-image-preview")
         .uploader_overlay
-          %span.add_logo Logo toevoegen
+          %span.add_logo= t 'channels.add_logo'
           %span.glyphicon.glyphicon-plus.add_logo_icon
         = s3_uploader_form id: "preview_logo", max_file_size: 5.megabytes do
           = file_field_tag :file, :class => "form-control no_borders", :accept=>"image/*"
 
       .primary_color_container
-        %h5 Kies jouw hoofdkleur
+        %h5= t 'channels.choose_main_color'
         .input-group.primary-color
           %input.form-control{"value" => '#000000', "type" => "text", "maxlength" => "7"}
           %span.input-group-addon
             %i
-        %p Voor accenten zoals knoppen
-        %h5 Kies jouw secundaire kleur
+        %p= t 'channels.accents'
+        %h5= t 'channels.secondary_color'
         .input-group.secundair-color
           %input.form-control{"value" => '#000000', "type" => "text", "maxlength" => "7"}
           %span.input-group-addon
             %i
-        %p Voor accenten zoals koppen
-        %h5 Mobiele achtergrond kleur
+        %p= t 'channels.accents'
+        %h5= t 'channels.mobile_background_color'
         .input-group.mobile-background-color
           %input.form-control{"value" => '#000000', "type" => "text", "maxlength" => "7"}
           %span.input-group-addon
             %i
 
 
-      %textarea#site_description.firstarea{"placeholder" => "Korte beschrijving site"}
+      %textarea#site_description.firstarea{"placeholder" => t('channels.short_site_description') }
 
-      %textarea#site_contact{"placeholder" => "Contactgegevens site"}
+      %textarea#site_contact{"placeholder" => t('channels.contact_info') }
 
   %button.btn.btn-material-pink.bekijk-website
-    = link_to '/channel/gazet-van-antwerpen', :target => "_blank" do
-      Bekijk website
+    = link_to '#', :target => "_blank" do
+      = t 'channels.visit_site'
 
   = javascript_include_tag "nabu_editor/publish/drop_down"
   = javascript_include_tag "nabu_editor/publish/channel_settings"

@@ -33,7 +33,7 @@ var marqer_stratum_plugin = function( name, type, icon, version, stramien ) {
   html += '<div class="plugin btn btn-material-white marqer_item" data-stramien="'+stramien+'" data-version="'+version+'" data-name="'+name+'" data-type="'+type+'">';
   html += ' <span class="marqer_item_title">'+name+'</span> &nbsp;&nbsp;';
   //html += ' <a class=""><span class="glyphicon glyphicon-pencil"></a>'  
-  html += ' <a href="javascript:" class="stramien_info_button"><span class="glyphicon glyphicon-info-sign"></a>&nbsp;'  
+  html += ' <a href="javascript:" class="stramien_info_button"><span class="glyphicon glyphicon-info-sign"></span></a>&nbsp;'  
   html += ' <a href="javascript:" class="stramien_delete_button danger"><span class="glyphicon glyphicon-trash"></span></a>'  
   html += '</div>';
   return html;
@@ -111,7 +111,7 @@ var initStramienButtons = function() {
   
   $('.marqer_item .stramien_delete_button').unbind('click');
   $('.marqer_item .stramien_delete_button').click( function() {     
-    if ( confirm("Weet je zeker dat je deze Marqer wilt VERWIJDEREN ?") ) {
+    if ( confirm(t.right_menu.delete_marqer) ) {
       var id = $(this).parent().data("stramien")
       $.post('/'+mount_point+'/deletestratum/' + id).success( function(d) {
         console.log("destruction said:", d)

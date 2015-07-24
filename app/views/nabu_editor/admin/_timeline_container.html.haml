@@ -1,6 +1,6 @@
-.zoomContainer{:tabindex=>"0"}    
+.zoomContainer{:tabindex=>"0"}
   #timeLineContainer
-    
+
     / temp fix
     /:css
     /  .btn-sm { padding: 8px 12px; }
@@ -18,36 +18,36 @@
 
 / testing
 .tracklineOptionsContainer
-  
-  // TODO: use this: http://refreshless.com/nouislider/  
-  %input#zoom{:type=>"range", :name=>"zoom", :min=>"1", :max=>"42", :value=>"1", :width=>'200px', :step=>'1', "style"=>"display:inline" }    
-  
-  %span{"style"=>"display:inline"} Zoom
+
+  // TODO: use this: http://refreshless.com/nouislider/
+  %input#zoom{:type=>"range", :name=>"zoom", :min=>"1", :max=>"42", :value=>"1", :width=>'200px', :step=>'1', "style"=>"display:inline" }
+
+  %span{"style"=>"display:inline"}= t('timeline.zoom')
 
   .form-group{"style"=>"display:inline"}
     .checkbox.checkbox-material-pink{"style"=>"display:inline"}
-      %label 
+      %label
         %input{"type"=>"checkbox", "value"=>"follow_scrubbar", "name"=>"follow_scrubbar", "id"=>"follow_scrubbar" }
-  %span{"style"=>"display:inline"} Schuif mee
+  %span{"style"=>"display:inline"}= t('timeline.follow')
   &nbsp;&nbsp;
-  
+
   .form-group{"style"=>"display:inline"}
     .checkbox.checkbox-material-pink{"style"=>"display:inline"}
-      %label 
+      %label
         %input{"type"=>"checkbox", "checked"=>"true", "value"=>"auto_preview", "name"=>"auto_preview", "id"=>"auto_preview" }
-    %span{"style"=>"display:inline"} Preview
+    %span{"style"=>"display:inline"}= t('timeline.preview')
 
   #refresh_marqers.pull-right.btn-sm
-    Ververs
+    = t('timeline.refresh')
     %span.glyphicon.glyphicon-refresh
-    
+
   #remove_all_marqers.pull-right.btn-sm
-    Verwijder alles
+    = t('timeline.remove_all')
     %span.glyphicon.glyphicon-trash
-    
-  
+
+
 / Custom javascripts for edting
 = javascript_include_tag "nabu_editor/editor/marqers.js"
-= javascript_include_tag "nabu_editor/editor/marqer_ui_renderer.js" 
-= javascript_include_tag "nabu_editor/editor/user_interface.js"  
-= javascript_include_tag "nabu_editor/editor/main.js" 
+= javascript_include_tag "nabu_editor/editor/marqer_ui_renderer.js"
+= javascript_include_tag "nabu_editor/editor/user_interface.js"
+= javascript_include_tag "nabu_editor/editor/main.js"

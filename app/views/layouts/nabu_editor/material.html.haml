@@ -5,11 +5,10 @@
   = render partial: 'shared/preloader'
 
   %head
-    %title
-      Nabu Editor Material
+    %title= t('application.title')
 
-    / pass those values to javascript    
-    :javascript  
+    / pass those values to javascript
+    :javascript
       // translations
       window.t = #{raw @t.to_json}
 
@@ -29,9 +28,9 @@
 
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
-    = javascript_include_tag "nabu_editor/application"    
-    
-    
+    = javascript_include_tag "nabu_editor/application"
+
+
     = csrf_meta_tags
 
     / looks like the only way to add this lastly
@@ -39,7 +38,7 @@
     = stylesheet_link_tag "nabu_editor/jquery.dropdown"
 
     / final override for right menu
-    :css          
+    :css
       .marqer_category {z-index: 100000 !important;}
       .marqer_category:hover {z-index: 100000 !important;}
 
@@ -47,11 +46,11 @@
     %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}
 
   %body
-  
+
     / render menu
     = render partial: 'shared/leftmenu'
 
-    / yields page    
+    / yields page
     = yield
 
     / initialize material design

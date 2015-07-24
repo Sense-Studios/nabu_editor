@@ -1,15 +1,15 @@
 .describe_movie_advanced
   .well
     .form-group
-      %h4 
-        Beschrijf video
+      %h4
+        = t('describe_movie.describe_video')
 
       .col-md-6
         .form-group
           %label.control-label= I18n.t('admin.describe.social.share.title_label')
           %input#social-title.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.title_placeholder')}
         .form-group
-          %label.control-label Link
+          %label.control-label= t('describe_movie.link')
           %input#social-url.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.url_placeholder')}
         %button#autofill.btn.btn-material-pink.btn-sm= I18n.t('admin.describe.social.autofill')
       .col-md-6
@@ -18,20 +18,20 @@
           %textarea#social-description.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.description_placeholder'), "rows"=>'8'  }
       .clear
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie Bewaren
+        .button.btn.btn-material-pink.pull-right#save_movie= t('describe_movie.save')
       .clear
       /  %h4= I18n.t('admin.describe.social.share_title')
-      /  .form-group           
-      /    .checkbox.checkbox-material-pink           
+      /  .form-group
+      /    .checkbox.checkbox-material-pink
       /      %label.checkbox-inline
       /        %input#social-facebook{"type"=>"checkbox", "checked"=>"false"} Facebook
-      /    .checkbox.checkbox-material-pink      
+      /    .checkbox.checkbox-material-pink
       /      %label.checkbox-inline
       /        %input#social-linkedin{"type"=>"checkbox", "checked"=>"true"} Linkedin
-      /    .checkbox.checkbox-material-pink                    
+      /    .checkbox.checkbox-material-pink
       /      %label.checkbox-inline
       /        %input#social-twitter{"type"=>"checkbox", "checked"=>"true"} Twitter
-      /    .checkbox.checkbox-material-pink                    
+      /    .checkbox.checkbox-material-pink
       /      %label.checkbox-inline
       /        %input#social-email{"type"=>"checkbox", "checked"=>"true"} Email
       /%hr
@@ -39,10 +39,10 @@
       /- if !@light_mode
       /  %h4= I18n.t('admin.describe.social.evaluate_title')
       /  .form-group
-      /    .checkbox.checkbox-material-pink      
+      /    .checkbox.checkbox-material-pink
       /      %label.checkbox-inline
       /        %input#social-like{"type"=>"checkbox", "checked"=>"true"} Facebook Like
-      /    .checkbox.checkbox-material-pink                    
+      /    .checkbox.checkbox-material-pink
       /      %label.checkbox-inline
       /        %input#social-plusone{"type"=>"checkbox", "checked"=>"true"} Google Plus 1
       /
@@ -60,40 +60,39 @@
   /    Bezoekersopties (einde video)
   /    /= I18n.t('admin.describe.movie_end.on_movie_end')
   /  -# Just before the movie end -#= I18n.t('admin.describe.movie_end.on_movie_end')
-  /  
+  /
   /  .form-group
   /    .checkbox.checkbox-material-pink
-  /      %label 
+  /      %label
   /        %input{"type"=>"checkbox", "value"=>"show-social-media", "name"=>"show-social-media", "id"=>"show-social-media" }
   /        = I18n.t('admin.describe.movie_end.show_social_media')
-  
+
   /  .form-group
   /    .checkbox.checkbox-material-pink
-  /      %label 
-  /        %input{"type"=>"checkbox", "name"=>"email-forwarding", "id"=>"email-forwarding" }              
+  /      %label
+  /        %input{"type"=>"checkbox", "name"=>"email-forwarding", "id"=>"email-forwarding" }
   /        = I18n.t('admin.describe.movie_end.show_email_fowarding')
-  
+
   /  .form-group
   /    .checkbox.checkbox-material-pink
-  /      %label 
+  /      %label
   /        %input{"type"=>"checkbox", "name"=>"show-opt-in", "id"=>"show-opt-in" }
   /        = I18n.t('admin.describe.movie_end.show_opt_in')
   /    .col-md-12
   /      .button.btn.btn-material-pink.pull-right#save_movie Bewaren
   /    .clear
-  
+
   .well
     %h4
-      Na afspelen...
-      /= _t('admin.describe.movie_end.on_end_of_file')          
+      = t('describe_movie.after_playback')
     .form-group
       .radio
-        %label 
-          %input{"type"=>"radio", "value"=>"do-nothing", "name"=>"on-movie-end", "checked"=>"true" }              
+        %label
+          %input{"type"=>"radio", "value"=>"do-nothing", "name"=>"on-movie-end", "checked"=>"true" }
           = I18n.t('admin.describe.movie_end.do_nothing')
     .form-group
       .radio
-        %label 
+        %label
           %input{"type"=>"radio", "value"=>"next-program", "name"=>"on-movie-end" }
           = I18n.t('admin.describe.movie_end.play_other_movie')
         %select#next-program.form-control
@@ -102,17 +101,17 @@
 
     .form-group
       .radio
-        %label 
+        %label
           %input{"type"=>"radio", "value"=>"linked-page", "name"=>"on-movie-end" }
           = I18n.t('admin.describe.movie_end.link_page_title')
         %input#linked-page.form-control{"type"=>"text", "placeholder"=> I18n.t('admin.describe.movie_end.link_page_placeholder') }
     .form-group
       .radio
-        %label 
+        %label
           %input{"type"=>"radio", "value"=>"movie-end-text", "name"=>"on-movie-end" }
           = I18n.t('admin.describe.movie_end.show_text_title')
         %br
         %textarea#movie-end-text.form-control{"placeholder"=> I18n.t('admin.describe.movie_end.show_text_placeholder')}
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie Bewaren
+        .button.btn.btn-material-pink.pull-right#save_movie= t('describe_movie.save')
       .clear

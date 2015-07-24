@@ -27,6 +27,7 @@
 // require react/react
 //= require react/react-with-addons
 //= require react/react_ujs
+//= require react/JSXTransformer
 //= require components
 //= require_tree ./components
 
@@ -65,7 +66,7 @@
 // require interact/interact.js
 
 // JQUERY HELPERS
-//= require jquery-fittext/jquery.fittext.js 
+//= require jquery-fittext/jquery.fittext.js
 //= require jquery-shapeshift/jquery.shapeshift.min
 //= require jquery-cookie/jquery.cookie
 // require jquery-fbjlike/jquery.fbjlike            // facebook
@@ -74,7 +75,7 @@
 // require dataTables/jquery.dataTables
 // require dataTables/jquery.dataTables.bootstrap3
 
-// SMOOTHER 
+// SMOOTHER
 // require smooth/smooth
 
 // SERIOUSLY ( -- seriously is injected at runtime )

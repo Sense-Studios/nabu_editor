@@ -1,22 +1,22 @@
 .marqers_container
   %h3
-    Kies Marqer
+    =t 'marqers.choose_marqer'
   .marqers
     .marqer_search
       %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
-      %input{"type"=>"text","placeholder"=>"Zoek","id"=>"zoek_marqer"}
-    
+      %input{"type"=>"text","placeholder"=> t('marqers.search'),"id"=>"zoek_marqer"}
+
     .marqers_holder
       / attach your marqers here!
 
 
   %h3
-    Kies Stramien
+    =t 'marqers.choose_prefab'
   .marqers
     .marqer_search
       %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
-      %input{"type"=>"text","placeholder"=>"Zoek","id"=>"zoek_marqer_stramien"}
-    
+      %input{ "type"=>"text", "placeholder" => t('marqers.search'), "id"=>"zoek_marqer_stramien" }
+
     .marqers_stratum_holder
       / attach your marqer stratum here!
 

@@ -259,7 +259,7 @@ function init_s3_uploader( target, img_holder, delete_button, meta_adress ) {
   });
       
   // Upload complete, show image, write it in metadata
-  $( target ).bind("s3_upload_complete", function(e, content) {                          
+  $( target ).bind("s3_upload_complete", function(e, content) {
     metaData.advanced[ meta_adress ] = content.url;
     $( img_holder ).html('');
     $( img_holder ).append("<img style='max-height:255px' src='" + content.url + "'/>");
@@ -280,13 +280,13 @@ function initTextField( field, branche, key ) {
 }
 
 // Option Helper
-function setOptions( _opt, target  ) {    
-  
+function setOptions( _opt, target  ) {
+
   $.each( _opt, function(key, value) {
-    value[1].prop('checked', toBool( target[ value[0] ] ) ); 
-    
+    value[1].prop('checked', toBool( target[ value[0] ] ) );
+
     // attach change handlers
-    value[1].change( function(e) { 
+    value[1].change( function(e) {
       if ( $(this).is(':checked') ) {
        target[value[0]] = "true";
       }else{
@@ -300,26 +300,26 @@ function setOptions( _opt, target  ) {
 // Post Helper, SAVE, save
 function postMetaData( noreload ) {
     console.log("#### POST META DATA program, noreload:", noreload);
-  
+
     // reset the warning
     window.onbeforeunload = null;
-  
+
     // set the api
     var mapi = new MarduqApi();
     var saveprogram = {};
-    
+
     // force the current values to the program
     saveprogram.id = program.id;
     saveprogram.title = $('#title').val();
     saveprogram.descriptions = $('#description').val();
-    saveprogram.tags = $('#tags').val();              
-    
-    // and save all the meta info too    
+    saveprogram.tags = $('#tags').val();
+
+    // and save all the meta info too
     saveprogram.meta = metaData;
 
     // show which movie is updating
-    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600); 
-    
+    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600);
+
     console.log(" ##### Save, Post meta data for program: ");
     console.log( program );
 
@@ -331,13 +331,13 @@ function postMetaData( noreload ) {
         // reset the save button
         $('#save_movie').removeClass('btn-material-yellow')
         $('#save_movie').addClass('btn-material-pink')
-          
+
         // reload programs
-        setPrograms()        
+        setPrograms()
       },
       failure: function( response ){
         console.log("update faal!", response);
-        alert("something went wrong during save, usually this error occurs when you try to save twice. Please reload the page.");
+        alert(t.describe_movie.update_fail);
       }
     });
 }
@@ -349,19 +349,19 @@ function postMetaData( noreload ) {
 // To-JSON helper
 function updateJson() {
   var md = JSON.stringify( metaData );
-  $('#feedback').val( md );  
+  $('#feedback').val( md );
   if ( md != formerMetaData ) {
-    //alert("data has changed")    
+    //alert("data has changed")
     dataHasChanges = true;
     //$('#save-all-button-top').removeClass('disabled')
     //$('#save-all-button-bottom').removeClass('disabled')
   }
-  
+
   formerMetaData = md;
 }
 
 // ### Shows a warning on pageleave
-function doWarning() {    
+function doWarning() {
   if (dataHasChanges) {
     var msg = "You have unsaved changes! Are you sure you want to leave the page?";
     return msg;
@@ -373,31 +373,31 @@ function doWarning() {
 // #############################################################################
 
 function initProgramThumbnailUploader() {
-  
+
   console.log("init thumbnail uploader");
-  
-  // init uploader  
+
+  // init uploader
   $("#preview_thumbnail").S3Uploader( {
     max_file_size: 1258291200,
     allow_multiple_files: false,
   });
-  
+
   console.log("bind ... ")
   // Start loading asset
   $('#preview_thumbnail').bind("s3_uploads_start", function(e, content) {
     console.log("upload start ... ");
     $('.leprograms').find('.selected').animate({'opacity':0.4}, 600);
   });
-  
+
   console.log("bind ... ")
   // complete, create an asset
   $('#preview_thumbnail').bind("s3_upload_complete", function(e, content) {
     console.log("upload complete ... ");
-    
+
     // create asset with image
     var assetData = {};
-  
-    // this is a little dirty, but the fastest for now           
+
+    // this is a little dirty, but the fastest for now
     var type = "Image"; // default
     if (content.filetype.toLowerCase().indexOf('audio') != -1) type = "Audio";
     if (content.filetype.toLowerCase().indexOf('video') != -1) type = "Video";
@@ -406,10 +406,10 @@ function initProgramThumbnailUploader() {
     assetData.original_url = content.url;
     assetData.original_filename = content.filename;
     assetData.s3_key = content.s3_key;
-    assetData.title = "custom thumbnail bij " + $('#title').val();
-    assetData.description = "thumbnail for " + $('#title').val();
+    assetData.title = t.describe_movie.custom_thumbnail + $('#title').val();
+    assetData.description = t.describe_movie.thumbnail_for + $('#title').val();
     assetData.tags = "thumbnail";
-  
+
     // throw it into the marduq API
     var mapi = new MarduqApi();
     mapi.createAsset({
@@ -421,7 +421,7 @@ function initProgramThumbnailUploader() {
           console.log("SAVE: create asset FAIL !!", response);
       }
     });
-      
+
     // select and set it in the data
     metaData.moviedescription.thumbnail = content.url;
 
@@ -443,37 +443,37 @@ var formerMetaData = "";
 
 // helper, waits for the program to load, then starts the site
 function loadProgram() {
-  
+
   // wait for a program to be available
   if ( program === undefined ) {
     setTimeout( loadProgram, 500 );
     return;
   }
-  
+
   // create the program from save
   console.log("call setting data from program")
   setDataFromProgram();
-    
+
   // update the dataobject
   formerMetaData = JSON.stringify( metaData );
   setInterval( updateJson, 500 );
-  
+
   // set the warning script
   window.onbeforeunload = doWarning;
 }
 
 function initDescribe() {
-  
+
   // this can be done more neatly
   // but this is a quick and flexible fix
-  // should be rewritten with a naming convention 
+  // should be rewritten with a naming convention
   // or put the jquery objects directly into the meta info
   if (program === undefined) return;
-  
+
   // handle saving
-  $('#save-all-button-top').click( function(e) { postMetaData() } );  
-  $('#save-all-button-bottom').click( function(e) { postMetaData() } );  
-  
+  $('#save-all-button-top').click( function(e) { postMetaData() } );
+  $('#save-all-button-bottom').click( function(e) { postMetaData() } );
+
   // for ze thumbnails
   initProgramThumbnailUploader();
 

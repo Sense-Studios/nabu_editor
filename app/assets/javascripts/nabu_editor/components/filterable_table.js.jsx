@@ -7,53 +7,53 @@ var CreateNewProgramTile = React.createClass({
 
   render:function() {
     return (
-      <div className="program_container add_program_container long-shadow-3 btn-black ss-active-child" >        
+      <div className="program_container add_program_container long-shadow-3 btn-black ss-active-child" >
         <div className='btn dotted btn-white' onClick={this.handleClick}>
           +
-        </div>        
+        </div>
       </div>
     )
   }
 })
 
 var ProgramTile = React.createClass({
-  
+
   selectMovie:function() {
     doSelectMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
     $('.active').removeClass('active') // this is nasty
   },
-  
+
   showMovieRelay:function() {
     doShowMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
     $('.active').removeClass('active') // this is nasty
   },
-  
+
   describeMovieRelay:function() {
     doDescribeMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
     $('.active').removeClass('active') // this is nasty
   },
-  
+
   timeLineEditMovieRelay:function() {
     doTimeLineEditMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
     $('.active').removeClass('active') // this is nasty
   },
-  
+
   publishMovieRelay:function() {
     doPublishMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
     $('.active').removeClass('active') // this is nasty
   },
-  
+
   copyMovieRelay:function() {
     doCopyMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
     $('.active').removeClass('active') // this is nasty
   },
-  
+
   deleteMovieRelay:function() {
     doDeleteMovie(this.props.program.id)
     $('#' + this.props.program.id ).animate({"opacity":0.2}, 600)
@@ -61,20 +61,20 @@ var ProgramTile = React.createClass({
 
   render:function() {
       var id = this.props.program.id
-      
+
       //var link = '/'+ this.props.program.id
-      var title = this.props.program.title     
-      var description = this.props.program.description     
+      var title = this.props.program.title
+      var description = this.props.program.description
       var tags = this.props.program.tags.join(', ')
 
       //var thumb = this.props.program.meta.moviedescription.thumbnail
       var thumb = this.props.program.thumbnail
 
       //console.log(title, this.props.hide)
-      var classes = 'program_container'      
-      if ( this.props.parentTable.state.selectedProgramItem == this.props.program.id ) { 
+      var classes = 'program_container'
+      if ( this.props.parentTable.state.selectedProgramItem == this.props.program.id ) {
       // || ( program !== null && this.props.program.id == program.id ) ) {
-      
+
         classes += ' long-shadow-5 btn-material-pink selected'
       }else{
         classes += ' long-shadow-3 btn-white'
@@ -85,11 +85,11 @@ var ProgramTile = React.createClass({
       }
 
       return (
-        <div className={classes} id={id} title={description} alt={description}>          
+        <div className={classes} id={id} title={description} alt={description}>
           <span className='pseudolink' onClick={this.selectMovie} >
             <img src={thumb} width="100%"  />
-            <div className="description"> {title} <br/><small className="code"> {tags} </small></div>            
-          </span>          
+            <div className="description"> {title} <br/><small className="code"> {tags} </small></div>
+          </span>
           <ul className='nav nav-tabs btn-material-pink'>
             <li className='dropdown'>
               <span className='glyphicon glyphicon-menu-hamburger' aria='' hidden='true'>
@@ -97,7 +97,7 @@ var ProgramTile = React.createClass({
               <a className='dropdown-toggle' href="#" data-toggle='dropdown' data-target='#'>
               </a>
               <ul className='dropdown-menu'>
-                <li>                  
+                <li>
                   <a href='#' onClick={this.showMovieRelay} data-toggle='tab'> Bekijk </a>
                 </li>
                 <li>
@@ -124,7 +124,7 @@ var ProgramTile = React.createClass({
 });
 
 var ProgramTable = React.createClass({
-  
+
     getInitialState: function() {
       return {
         lastLength: 0,
@@ -132,61 +132,61 @@ var ProgramTable = React.createClass({
         selectedProgramItem: 0
       };
     },
-    
+
     // after creation
-    componentDidMount: function() {   
-      try {   
+    componentDidMount: function() {
+      try {
         $('.leprograms').shapeshift(shapeshiftOptions());
       }catch(e){}
-      $('.numvideos').text( $('.leprograms .program_container:not(.hidden)').length )      
-    }, 
-    
+      $('.numvideos').text( $('.leprograms .program_container:not(.hidden)').length )
+    },
+
     // after render
-    componentDidUpdate: function() {      
+    componentDidUpdate: function() {
 
-      setTimeout( function() { $(".leprograms").trigger("ss-rearrange")}, 100 )   
+      setTimeout( function() { $(".leprograms").trigger("ss-rearrange")}, 100 )
 
-      if ( this.state.lastLength > this.state.itemLength ) {        
+      if ( this.state.lastLength > this.state.itemLength ) {
         $('.leprograms').css('opacity','0')
         if ( this.props.inShift === true ) return
         this.props.inShift = true
         setTimeout( function() {
-          $('.leprograms').shapeshift(shapeshiftOptions()); 
-          $('.leprograms').animate({'opacity':'1'}, 420)          
+          $('.leprograms').shapeshift(shapeshiftOptions());
+          $('.leprograms').animate({'opacity':'1'}, 420)
           setTimeout( function() { if ($(".leprograms").is(':visible')) $(".leprograms").trigger("ss-rearrange")}, 100 ) }
-        , 300 )        
+        , 300 )
       }
 
-      if ( this.props.filterText == "" && this.props.inShift !== true) {        
+      if ( this.props.filterText == "" && this.props.inShift !== true) {
         this.props.inShift = true
         setTimeout( function() { if ($(".leprograms").is(':visible')) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 800 )
       }
 
       $('.numvideos').text( $('.leprograms .program_container:not(.hidden)').length )
     },
-    
-    
+
+
     render: function() {
       //console.log(this.props);
       var items = [];
-      var lastCategory = null;         
+      var lastCategory = null;
 
-      // push add new program      
+      // push add new program
       // items.push( <CreateNewProgramTile parentTable={this} key="createNewProgram" /> )
 
       this.state.lastLength = this.state.itemLength
-      this.state.itemLength = 0              
+      this.state.itemLength = 0
       this.props.programs.forEach( function( program ) {
 
         // failsave, for now
         if ( program.title === null ) program.title = " [ Title goes here ] "
-  
+
         console.log( program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()), program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase() ) )
         if ( program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()) == -1 && program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase()) == -1 ) { // || (!program.stocked && this.props.inStockOnly
           //return;
           items.push( <ProgramTile parentTable={this} hide='true' program={program} key={program.id} /> );
           this.state.itemLength+=1
-        }else{            
+        }else{
           items.push( <ProgramTile parentTable={this} program={program} key={program.id} /> );
         }
 
@@ -197,7 +197,7 @@ var ProgramTable = React.createClass({
       }
 
       return (
-        <div className="leprograms">          
+        <div className="leprograms">
             {items}
         </div>
       );
@@ -205,28 +205,30 @@ var ProgramTable = React.createClass({
 });
 
 var SearchBar2 = React.createClass({
-    handleChange: function() {        
+    handleChange: function() {
       this.props.onUserInput(
         this.refs.filterTextInput.getDOMNode().value
         //this.refs.inStockOnlyInput.getDOMNode().checked
+        //this.placeholder = window.t.devise.confirmations.confirmed
       );
     },
 
-    render: function() {
+    render: function() {        
         return (
             <form className='video_search_wrapper'>
               <i className="glyphicon glyphicon-search search_video_icon" aria-hidden='true' />
               <input
                   className='video_search'
                   type="text"
-                  placeholder="Zoek in jouw video&#39;s"
+                  //placeholder="Zoek in jouw video&#39;s"
+                  placeholder={t.devise.confirmations.confirmed}
                   value={this.props.filterText}
                   ref="filterTextInput"
                   onChange={this.handleChange}
               />
-              <div className='video_count' > 
+              <div className='video_count' >
                 <span className='numvideos'> 0 </span><p>video&#39;s</p>
-              </div>                
+              </div>
             </form>
         );
     }
@@ -251,7 +253,7 @@ var FilterableProgramTable = React.createClass({
 
     handleUserInput: function(filterText, inStockOnly) {
         this.setState({
-            filterText: filterText            
+            filterText: filterText
         });
     },
 
@@ -259,7 +261,7 @@ var FilterableProgramTable = React.createClass({
       window.filter_table = this
       console.log("has programs?", this.props.programs )
         return (
-            <div>        
+            <div>
                 <SearchBar2
                     filterText={this.state.filterText}
                     inStockOnly={this.state.inStockOnly}

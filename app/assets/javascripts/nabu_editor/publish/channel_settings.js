@@ -5,11 +5,11 @@ mount_point
 */
 
 //ERROR MESSAGES!
-var slugEmpty         = "Kanaal slug ontbreekt";
-var slugInUse         = "Kanaal slug is al ingebruik";
-var slugHasSpaces     = "Kanaal slug mag geen spaties bevatten";
-var channelNameEmpty  = "Kanaal naam ontbreekt";
-var newMenuName       = "Nieuwe menu"
+var slugEmpty         = t.publish.missing_slug;
+var slugInUse         = t.publish.slug_in_use;
+var slugHasSpaces     = t.publish.slug_has_spaces;
+var channelNameEmpty  = t.publish.no_channel_name;
+var newMenuName       = t.publish.new_menu
 
 // some placeholders
 var all_channels      = {}
@@ -110,7 +110,7 @@ function buildChannelSelector() {
   // reset and build channel selector
   var $select = $('#channel_selector');
   $select.find('option').remove();
-  $select.append("<option value='Kies een kanaal'>" + "Kies een kanaal" + "</option>");
+  $select.append("<option value='Kies een kanaal'>" + t.channels.choose_channel + "</option>");
 
   if(!$.isEmptyObject( all_channels )) {
     $.each(all_channels,function(key, channel)  {
@@ -131,7 +131,7 @@ function buildChannelSelector() {
 function buildThemesSelector() {
     var $select = $('#theme_selector');
   $select.find('option').remove();
-  $select.append("<option value='Kies een thema'>" + "Kies een thema" + "</option>");
+  $select.append("<option value='Kies een thema'>" + t.channels.choose_theme + "</option>");
 
   if(!$.isEmptyObject( available_themes )) {
     $.each(available_themes,function(key, theme)  {
@@ -368,7 +368,7 @@ function createChannel() {
   $.post( '/channel/channel_api/create/', { "theme":  channelData }, function(data) {
     if(data.status == "fail") {
       $('#create_channel_slug').parent().parent().addClass('has-error');
-      $("label[for='create_channel_slug']").text("Kanaal slug bestaat al");
+      $("label[for='create_channel_slug']").text(t.publish.slug_in_use);
       setTimeout(function(){
         $('#load_indicator').css('opacity', '0');
       }, 500);
@@ -399,7 +399,7 @@ function createChannel() {
       $('#create_channel_title').val("");
       $('#create_channel_slug').val("");
       $('#create_channel_slug').parent().parent().removeClass('has-error');
-      $("label[for='create_channel_slug']").text("Kanaal slug");
+      $("label[for='create_channel_slug']").text(t.channel_editor.slug);
       $('.modal').modal('hide');
 
       // update
@@ -429,11 +429,11 @@ function updateChannel( calledfrom ) {
   if (channelName.length >= 1 || channelSlug.length >= 1 ) {
     if(channelName.length >= 1) {
       $('#channel_title').parent().parent().removeClass('has-error');
-      $("label[for='channel_title']").text("Kanaal naam");
+      $("label[for='channel_title']").text(t.channel_editor.name);
     }
     if(channelSlug.length >= 1) {
       $('#channel_slug').parent().parent().removeClass('has-error');
-      $("label[for='channel_slug']").text("Kanaal slug");
+      $("label[for='channel_slug']").text(t.channel_editor.slug);
     }
   }
   if(channelName.length < 1 || channelSlug.length < 1) {
@@ -476,7 +476,7 @@ function updateChannel( calledfrom ) {
       }, 500);
 
       $('#create_channel_slug').parent().parent().removeClass('has-error');
-      $("label[for='create_channel_slug']").text("Kanaal slug");
+      $("label[for='create_channel_slug']").text(t.channel_editor.slug);
 
       setTimeout(function(){
         $('#load_indicator').css('opacity', '0');
