@@ -30,6 +30,8 @@
         // Don't do anything if this is not a select or if this select was already initialized
         if ($select.data("dropdownjs") || !$select.is("select")) {
           return;
+          // just fuck you
+          // $select.next().remove();
         }
 
         // Is it a multi select?

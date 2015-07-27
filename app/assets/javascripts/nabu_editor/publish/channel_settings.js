@@ -70,21 +70,7 @@ function initializeDropdowns() {
     $( selected[0] ).find('option[value="' + selectedvalue + '"]').attr('selected', 'selected');
   });
 
-  // Enable drop downs
-  $('#channel_selector').next().find('ul').find('li').click(function(){
-    var selectedvalue = $(this).attr('value');
-    console.log("click the channel, change the station", selectedvalue)
-    canSave = false;
-
-    if( selectedvalue == 'Kies een kanaal' ) {
-      resetAllDropDownsAndFields()
-      disableDropdownsAndFields()
-      canSave = true;
-    } else {
-      fillAllDropDownsAndFields( selectedvalue )
-      //enableDropdownsAndFields()
-    }
-  });
+  buildChannelSelector()
 
   $('#menu_selector').next().find('ul').find('li').click( function(){
     if ( currentChannel == undefined || currentChannel == null ) {
@@ -118,11 +104,32 @@ function buildChannelSelector() {
     });
   }
 
-  if  ($select.data("dropdownjs") ) {
+  console.log("should re-init? ", $('#channel_selector').attr('data-dropdownjs'), $select.data("dropdownjs") )
+
+  // if  ( $select.data("dropdownjs") ) {
+  if ( $('#channel_selector').attr('data-dropdownjs') == "true" || $select.data("dropdownjs") ) {
+    console.log("CLEANING THE FUCK UP")
     $select.data("dropdownjs", false);
     $select.next().remove();
-    $select.dropdown(); // re-init the selector
   }
+
+  $select.dropdown(); // re-init the selector
+
+  // re-Enable drop downs
+  $('#channel_selector').next().find('ul').find('li').click( function() {
+    var selectedvalue = $(this).attr('value');
+    console.log("click the channel, change the station", selectedvalue)
+    canSave = false;
+
+    if( selectedvalue == 'Kies een kanaal' ) {
+      resetAllDropDownsAndFields()
+      disableDropdownsAndFields()
+      canSave = true;
+    } else {
+      fillAllDropDownsAndFields( selectedvalue )
+      //enableDropdownsAndFields()
+    }
+  });
 
   if ( currentChannel != null ) autoSelect( $('#channel_selector'), currentChannel._id.$oid )
   canSave = true

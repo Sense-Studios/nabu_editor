@@ -32,35 +32,36 @@ var marqer_stratum_plugin = function( name, type, icon, version, stramien ) {
   var html = '';
   html += '<div class="plugin btn btn-material-white marqer_item" data-stramien="'+stramien+'" data-version="'+version+'" data-name="'+name+'" data-type="'+type+'">';
   html += ' <span class="marqer_item_title">'+name+'</span> &nbsp;&nbsp;';
-  //html += ' <a class=""><span class="glyphicon glyphicon-pencil"></a>'  
-  html += ' <a href="javascript:" class="stramien_info_button"><span class="glyphicon glyphicon-info-sign"></span></a>&nbsp;'  
-  html += ' <a href="javascript:" class="stramien_delete_button danger"><span class="glyphicon glyphicon-trash"></span></a>'  
+  //html += ' <a class=""><span class="glyphicon glyphicon-pencil"></a>'
+  html += ' <a href="javascript:" class="stramien_share_button active"><i class="glyphicon glyphicon-share"></i></a>&nbsp;'  
+  html += ' <a href="javascript:" class="stramien_info_button"><span class="glyphicon glyphicon-info-sign"></span></a>&nbsp;'
+  html += ' <a href="javascript:" class="stramien_delete_button danger"><span class="glyphicon glyphicon-trash"></span></a>'
   html += '</div>';
   return html;
 };
 
 // marqermenu
-var fillMenu = function( srch ) {   
+var fillMenu = function( srch ) {
   $('.marqers_holder').html(''); // reset
   if ( srch === undefined || srch == "" ) {
     $.each( categories, function( key, cat ) {
       $('.marqers_holder').append( category_header( cat.title, cat.id) );
-    });  
-    
+    });
+
     $.each( available_marqers, function( key, mrqr ) {
       $('#' + mrqr.category ).after( marqer_plugin( mrqr.name, mrqr.type, mrqr.icon, mrqr.version ) );
     });
-    
+
     addMenuInteraction();
-    
-  }else{    
+
+  }else{
     $.each( available_marqers, function( key, mrqr ) {
-      if ( mrqr.name.toLowerCase().indexOf( srch.toLowerCase() ) != -1 ) {      
+      if ( mrqr.name.toLowerCase().indexOf( srch.toLowerCase() ) != -1 ) {
         $('.marqers_holder').append( marqer_plugin( mrqr.name, mrqr.type, mrqr.icon, mrqr.version ) + "<br/>" );
       }
-    });    
+    });
   }
-  
+
   initDragDroppablePlugins();
 };
 
@@ -69,13 +70,13 @@ var marqer_stramienen = []
 var updateStramienen = function() {
   $('.marqers_stratum_holder').html('')
   marqer_stramienen = []
-  $.get('/'+mount_point+'/marqerstrata', function(d) {    
-    marqer_stramienen = d        
+  $.get('/'+mount_point+'/marqerstrata', function(d) {
+    marqer_stramienen = d
     $.each( marqer_stramienen.reverse(), function( key, mrqr ) {
-      mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)      
+      mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)
       $('.marqers_stratum_holder').append( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
     });
-    
+
     initStramienButtons();
     initDragDroppablePlugins();
   })
@@ -90,12 +91,12 @@ var fillStramienMenu = function( srch ) {
       if ( val.name.toLowerCase().indexOf( srch.toLowerCase() ) != -1 ) {
         listing.push(val)
       }
-    })    
+    })
   }
 
   // reset and fill
   $('.marqers_stratum_holder').html('')
-  $.each( listing, function( key, mrqr ) {    
+  $.each( listing, function( key, mrqr ) {
     $('.marqers_stratum_holder').prepend( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
   });
 
@@ -105,12 +106,12 @@ var fillStramienMenu = function( srch ) {
 
 var initStramienButtons = function() {
   $('.marqer_item .stramien_info_button').unbind('click');
-  $('.marqer_item .stramien_info_button').click( function() {     
-    alert("Marqer Stratum\n - based on type: " + $(this).parent().data("type") + "\n - stratum name: " + $(this).parent().data("name") ) 
+  $('.marqer_item .stramien_info_button').click( function() {
+    alert("Marqer Stratum\n - based on type: " + $(this).parent().data("type") + "\n - stratum name: " + $(this).parent().data("name") )
   });
-  
+
   $('.marqer_item .stramien_delete_button').unbind('click');
-  $('.marqer_item .stramien_delete_button').click( function() {     
+  $('.marqer_item .stramien_delete_button').click( function() {
     if ( confirm(t.right_menu.delete_marqer) ) {
       var id = $(this).parent().data("stramien")
       $.post('/'+mount_point+'/deletestratum/' + id).success( function(d) {
@@ -128,8 +129,8 @@ var initStramienButtons = function() {
   })
 }
 
-var addMenuInteraction = function() { 
-  var clicked = 0; 
+var addMenuInteraction = function() {
+  var clicked = 0;
   $(".marqer_category_title").click(function(){
     var curheight = $(this).parent().height();
       if(curheight > 50){
@@ -159,9 +160,9 @@ var addMenuInteraction = function() {
           $(".glyphicon", this).css('-webkit-transform','rotate(90deg)');
           $(".glyphicon", this).css('-moz-transform','rotate(90deg)');
           $(".glyphicon", this).css('transform','rotate(90deg)');
-          clicked = 1; 
-          $(this).parent().delay(500).queue( function(next){               
-              $(this).css("overflow", "visible"); 
+          clicked = 1;
+          $(this).parent().delay(500).queue( function(next){
+              $(this).css("overflow", "visible");
               next();
           });
       }
@@ -181,25 +182,25 @@ var initDragDroppablePlugins = function() {
 };
 
 // attach search
-var initSearch = function() { 
-  $('#zoek_marqer').keyup( function() { fillMenu( $(this).val() ); });  
-  $('#zoek_marqer').focusin( function() { keysEnabled = false; })  
-  
-  $('#zoek_marqer_stramien').keyup( function() { fillStramienMenu( $(this).val() ); });    
-  $('#zoek_marqer_stramien').focusin( function() { keysEnabled = false; })  
+var initSearch = function() {
+  $('#zoek_marqer').keyup( function() { fillMenu( $(this).val() ); });
+  $('#zoek_marqer').focusin( function() { keysEnabled = false; })
+
+  $('#zoek_marqer_stramien').keyup( function() { fillStramienMenu( $(this).val() ); });
+  $('#zoek_marqer_stramien').focusin( function() { keysEnabled = false; })
 };
 
 // ####################################################################
 // #### Initialize rightmenu
 // ####################################################################
 
-$(document).ready(function () {  
+$(document).ready(function () {
   fillMenu();
   addMenuInteraction();
   initDragDroppablePlugins();
   initSearch();
   updateStramienen();
-  
+
   // note that the save_marqers function is located in 'editor/marqers.js'
   // $('#save_marqers').click( save_marqers );
 });

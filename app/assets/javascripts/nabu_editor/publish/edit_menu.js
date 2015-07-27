@@ -52,17 +52,19 @@ function createCategory() {
 
   //
   $(".toggle_category").click(function(){
-    var curheight = $(this).parent().height();
+    var temp_target = $(this).parent();
     if(curheight >= 145){
-      $(this).parent().animate({height: "50px"}, 300);
+      // close
+      temp_target.animate({height: "50px"}, 300)
       $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
-    }
-    else {
-      $(this).parent().css('height', 'auto');
-      var clickeddiv = $(this).parent().height();
-      $(this).parent().css('height', '50px');
+    } else {
+      // open
+      temp_target.closest('.category').css("display", "block")
+      temp_target.css('height', 'auto');
+      var clickeddiv = temp_target.height();
+      temp_target.css('height', '50px');
       $('span', this).css({'transform': 'rotate(90deg)', '-webkit-transform': 'rotate(90deg)'});
-      $(this).parent().animate({height: clickeddiv}, 300, function() {
+      temp_target.animate({height: clickeddiv}, 300, function() {
         $(this).css({height: 'auto'});
       });
       clicked = 1;
@@ -155,6 +157,7 @@ function loadMenuFromData() {
   });
 }
 
+
 // ### Set and append al menu data when a menu is selected in the menu
 function setMenudata( Menudata ) {
   $('#le_menu').addClass('hideLeMenu');
@@ -230,11 +233,15 @@ function setMenudata( Menudata ) {
           //
           $(".toggle_category").click(function(){
             var curheight = $(this).parent().height();
+            var temp = $(this).parent();
             if(curheight >= 145){
-              $(this).parent().animate({height: "50px"}, 300);
+              $(this).parent().animate({height: "50px"}, 300, function() {
+                temp.find('ul').css("display", "none");
+              });
               $('span', this).css({'transform': 'rotate(0deg)', '-webkit-transform': 'rotate(0deg)'});
             }
             else {
+              temp.find('ul').css("display", "block");
               $(this).parent().css('height', 'auto');
               var clickeddiv = $(this).parent().height();
               $(this).parent().css('height', '50px');

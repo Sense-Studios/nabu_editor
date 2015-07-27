@@ -213,15 +213,15 @@ var SearchBar2 = React.createClass({
       );
     },
 
-    render: function() {        
+    render: function() {
         return (
             <form className='video_search_wrapper'>
               <i className="glyphicon glyphicon-search search_video_icon" aria-hidden='true' />
               <input
                   className='video_search'
                   type="text"
-                  //placeholder="Zoek in jouw video&#39;s"
-                  placeholder={t.devise.confirmations.confirmed}
+                  placeholder="Zoek in jouw video&#39;s"
+                  //placeholder={t.devise.confirmations.confirmed}
                   value={this.props.filterText}
                   ref="filterTextInput"
                   onChange={this.handleChange}

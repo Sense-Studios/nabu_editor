@@ -26,7 +26,7 @@
       %select#startvideo_selector.dropdown_select_small.dropdown_default_color.form-control{"placeholder" => t('channels.choose_program') }
         %option{:disabled => "disabled" }= t('channels.choose_program')
         - @programs.each do |p|
-          %option{:value => p['id'] }= p['title'][0..35].gsub(/\s\w+$/,'...') unless p['title'].nil?
+          %option{:value => p['id'] }= p['title'] unless p['title'].nil?
 
 
       .logopreview.preview-image-channel
