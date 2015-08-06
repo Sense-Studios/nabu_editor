@@ -1,4 +1,6 @@
 .marqers_container
+
+  / **** MARQERS ****
   %h3
     =t 'marqers.choose_marqer'
   .marqers
@@ -10,15 +12,48 @@
       / attach your marqers here!
 
 
+  / **** MARQERS STRATA ****
   %h3
     =t 'marqers.choose_prefab'
   .marqers
-    .marqer_search
-      %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
-      %input{ "type"=>"text", "placeholder" => t('marqers.search'), "id"=>"zoek_marqer_stramien" }
 
-    .marqers_stratum_holder
-      / attach your marqer stratum here!
+    %ul.nav.nav-tabs{"role"=>"tablist"}
+      %li.active{"role"=>"presentation"}
+        %a{"href"=>"#local", "aria-controls"=>"local", 'role'=>"tab", "data-toggle"=>"tab"}
+          Local
+      %li{"role"=>"presentation"}
+        %a{"href"=>"#shared", "aria-controls"=>"shared", 'role'=>"tab", "data-toggle"=>"tab"}
+          Shared
+      %li{"role"=>"presentation"}
+        %a{"href"=>"#global", "aria-controls"=>"global", 'role'=>"tab", "data-toggle"=>"tab"}
+          Global
+
+    .tab-content
+      #local.tab-pane.fade.in.active{"role"=>"tabpanel"}
+        .marqer_search
+          %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
+          %input{ "type"=>"text", "placeholder" => t('marqers.search'), "id"=>"zoek_marqer_stramien" }
+
+        .marqers_stratum_holder
+          / attach your marqer stratum here!
+
+      #shared.tab-pane.fade{"role"=>"tabpanel"}
+        .marqer_search
+          %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
+          %input{ "type"=>"text", "placeholder" => t('marqers.search'), "id"=>"zoek_marqer_stramien" }
+
+        .marqers_shared_stratum_holder
+          / attach your marqer stratum here!
+
+      #global.tab-pane.fade{"role"=>"tabpanel"}
+        .marqer_search
+          %i.glyphicon.glyphicon-search.search_marqer_icon{"aria-hidden"=> 'true'}
+          %input{ "type"=>"text", "placeholder" => t('marqers.search'), "id"=>"zoek_marqer_stramien" }
+
+        .marqers_global_stratum_holder
+          / attach your marqer stratum here!
+
+= render "marqer_stratum_modal"
 
 / custom javascripts
 = javascript_include_tag "nabu_editor/editor/marqer_definitions.js"

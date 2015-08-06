@@ -1,22 +1,22 @@
 require_dependency "nabu_editor/application_controller"
 
 module NabuEditor
-  class AdminController < ApplicationController    
-    layout "nabu_editor/material"            
+  class AdminController < ApplicationController
+    layout "nabu_editor/material"
     before_action :set_account_id
     #impersonates :user
 
-    # not used    
+    # not used
     def index
       # find me in dashboard
     end
-    
+
     def image
       render layout: false
     end
-    
+
     def test
-      @programs = MarduqResource::ProgramDecorator.decorate_collection(MarduqResource::Program.where(client_id:  current_user.client_id)) || []  
+      @programs = MarduqResource::ProgramDecorator.decorate_collection(MarduqResource::Program.where(client_id:  current_user.client_id)) || []
     end
 
     def inject_metadata
@@ -37,8 +37,8 @@ module NabuEditor
 
       # this should come from a file
       some_marqer.out = @program.program_items[0].asset.duration_in_ms.to_f / 1000
-      some_marqer.type = "ImageMarqer"      
-      some_marqer.program_id = @program.id      
+      some_marqer.type = "ImageMarqer"
+      some_marqer.program_id = @program.id
       some_marqer.marqeroptions = {
         "image"=> {
           "type"=> "file",
@@ -102,10 +102,10 @@ module NabuEditor
       if @program.program_items[0].asset._type == "Video"
         @program.program_items[0].asset.thumbnail_url = @program.program_items[0].asset.thumbnails.medium[0]
       end
-      
+
       # trick the program data from the asset data
       # this should come from a file
-      @program.meta = {        
+      @program.meta = {
         "moviedescription"=> {
           "title"=> @program.program_items[0].asset.title,
           "description"=> @program.program_items[0].asset.description,
@@ -116,7 +116,7 @@ module NabuEditor
           "urchin"=> "",
           "duration_in_ms"=> @program.program_items[0].asset.duration_in_ms
         },
-        
+
         "player_options"=> {
           "autoplay"=> "false",
           "showscores"=>"true",
@@ -124,7 +124,7 @@ module NabuEditor
           "allow_scrubbing"=> "true",
           "loader"=> "true",
           "playhead"=> "true",
-          "time"=> "true",    
+          "time"=> "true",
           "duration"=> "true",
           "quality"=> "false",
           "fullscreen"=> "true",
@@ -133,11 +133,11 @@ module NabuEditor
           "mute"=> "true",
           "show_big_play"=> "true",
           "title"=> "true",
-          "description"=> "true",  
+          "description"=> "true",
           "pop_under"=> "false",
           "pop_under_target"=> ""
         },
-        
+
         "on_movie_end"=> {
           "set"=> "do-nothing",
           "linked_page"=> "",
@@ -152,7 +152,7 @@ module NabuEditor
           "email-forwarding"=> "true",
           "show-score-dependant-texts"=> "true"
         },
-        
+
         "social"=> {
           "title"=> @program.program_items[0].asset.title,
           "url"=> @program.id,
@@ -169,12 +169,12 @@ module NabuEditor
           "like"=> "false",
           "plusone"=> "false"
         },
-        
+
         "advanced"=> {
           # note that these are relayed through
-          # custom marquers; ImageBeforeMarqer, ImageDuringMarqer, ImageAfterMarqer 
+          # custom marquers; ImageBeforeMarqer, ImageDuringMarqer, ImageAfterMarqer
           # (nameing sucked out of my thumb)
-        
+
           "show_image_before"=> "false",
           "show_image_before_url"=> "",
           "show_image_before_asset_id"=> "",
@@ -185,31 +185,31 @@ module NabuEditor
           "show_image_after_url"=> "",
           "show_image_after_asset_id"=> ""
         },
-        
+
         "statistics"=> {
           "views"=> "0",
           "openers"=> "0",
           "completed"=> "0",
-          "statistics"=> "0"  
+          "statistics"=> "0"
         }
       }
-  
-      
+
+
       if @program.save
         logger.info "Save complete!"
       else
         logger.error "Save error!"
       end
-        
+
       render json: @program
     end
 
     def get_programs
-      @programs_data = MarduqResource::Program.where( client_id:  current_user.client_id ) || [] 
+      @programs_data = MarduqResource::Program.where( client_id:  current_user.client_id ) || []
       # sort on created at
-      @programs_data = @programs_data.sort_by(&:created_at)      
+      @programs_data = @programs_data.sort_by(&:created_at)
       @programs = []
-      @programs_data.each do |p|  
+      @programs_data.each do |p|
         temp_program = {}
         temp_program['title'] = p.title
         temp_program['description'] = p.description
@@ -223,29 +223,29 @@ module NabuEditor
         end
 
         temp_program['created_at'] = p.created_at
-        @programs.push(temp_program)  
-      end      
+        @programs.push(temp_program)
+      end
       render json: @programs.reverse!
     end
 
     def dashboard
       set_account_id
-      @programs_data = MarduqResource::Program.where( client_id: @account_id ) || []  
+      @programs_data = MarduqResource::Program.where( client_id: @account_id ) || []
       @programs_data = @programs_data.sort_by(&:created_at)
-      
+
       if current_user.account?
         owner = User.find( current_user.client_id )
       else
         owner = current_user
       end
 
-      @kaltura_partner_id = owner.kaltura_partner_id       
+      @kaltura_partner_id = owner.kaltura_partner_id
       @kaltura_uiconfig_id = owner.kaltura_uiconfig_id
-      
-      # we need to trim down all the data from programs, 
+
+      # we need to trim down all the data from programs,
       # we don't need marqers and stuff at this point
       @programs = []
-      @programs_data.each do |p|  
+      @programs_data.each do |p|
         temp_program = {}
         temp_program['title'] = p.title
         temp_program['description'] = p.description
@@ -259,12 +259,12 @@ module NabuEditor
         end
 
         temp_program['created_at'] = p.created_at
-        @programs.push(temp_program)  
+        @programs.push(temp_program)
       end
-      
+
       @themes = NabuThemes::Theme.where( :owner => @account_id )
-      @menus = NabuThemes::Menu.where( :owner => @account_id )      
-      
+      @menus = NabuThemes::Menu.where( :owner => @account_id )
+
     end
 
     def create
@@ -280,10 +280,10 @@ module NabuEditor
     end
 
     def post_marqerstratum
-      
+
       logger.debug "got params"
       logger.debug params
-      
+
       set_account_id
       @ms = MarqerStratum.new
       @ms.type = params[:type]
@@ -291,31 +291,38 @@ module NabuEditor
       @ms.name = params[:name]
       @ms.marqeroptions = params[:marqeroptions]
       @ms.account_id = @account_id
-      
+
       if @ms.save
         render json: @ms
       else
         render json: 'alles is kapot'
-      end  
+      end
     end
 
     def get_marqerstratum
       if params[:id].blank?
         set_account_id
-        @marqerstrata = MarqerStratum.where( :account_id => @account_id )
+        own_marqer_strata = MarqerStratum.where( :account_id => @account_id ).to_a
+        shared_marqer_strata = MarqerStratum.or( :shares => @user_id, :shares => @account_id ).to_a
+        global_marqer_strata = MarqerStratum.where( :global => true ).to_a
+        @marqerstrata = {}
+        @marqerstrata[:own_strata] = own_marqer_strata.reverse!
+        @marqerstrata[:shared_strata] = shared_marqer_strata.reverse!
+        @marqerstrata[:global_strata] = global_marqer_strata.reverse!
+
         render json: @marqerstrata
       else
         @marqerstratum = MarqerStratum.find( params[:id])
-        render json: @marqerstratum        
+        render json: @marqerstratum
       end
     end
-    
+
     def delete_marqerstratum
       if !params[:id].blank?
         @marqerstratum = MarqerStratum.find( params[:id])
-        if @marqerstratum.destroy         
+        if @marqerstratum.destroy
           render json: {"status"=>"ok"}
-        else          
+        else
           render json: {"status"=>"alles is kapot"}
         end
       else
@@ -325,13 +332,13 @@ module NabuEditor
 
   protected
 
-    def set_account_id    
+    def set_account_id
       if !current_user.account_id.nil?
         @account_id = User.find( current_user.id ).account_id
-        @user_id =  current_user.id 
+        @user_id =  current_user.id
       else
-        @account_id = current_user.id 
-        @user_id =  current_user.id 
+        @account_id = current_user.id
+        @user_id =  current_user.id
       end
       @account = User.find(@account_id)
     end

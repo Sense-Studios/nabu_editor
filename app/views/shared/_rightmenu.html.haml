@@ -2,6 +2,8 @@
   .settings_container
     #butt-up.btn.glyphicon.glyphicon-triangle-top.btn-material-white
     #butt-down.btn.glyphicon.glyphicon-triangle-bottom.btn-material-white
+
+    / *** SETTINGS ***
     %ul.nav.nav-tabs.btn-material-white.pull-right
       %li.dropdown
         %span.glyphicon.glyphicon-cog{'aria' => '', 'hidden' => 'true'}
@@ -39,6 +41,20 @@
           %li.small
             %a.small{:href => "/admin/dashboard", :target=>'_top'}
               = t 'right_menu.manager'
+
+    / *** LANGUAGE ***
+    %ul.nav.nav-tabs.btn-material-white.pull-right
+      %li.dropdown
+        %span.glyphicon.glyphicon-globe{'aria' => '', 'hidden' => 'true'}
+        %a.btn-material-white.dropdown-toggle{:href => "#", :data => {:toggle => "dropdown", :target => "#"}}
+        %ul.dropdown-menu
+          %li
+            %a{:href => "/" + NABU_EDITOR_MOUNT_POINT + "/dashboard?locale=nl", :target=>'_top'}
+              Nederlands
+          %li
+            %a{:href => "/" + NABU_EDITOR_MOUNT_POINT + "/dashboard?locale=en", :target=>'_top'}
+              English
+
     #load_indicator.glyphicon.glyphicon-refresh.pull-right
 
 

@@ -33,7 +33,7 @@ var marqer_stratum_plugin = function( name, type, icon, version, stramien ) {
   html += '<div class="plugin btn btn-material-white marqer_item" data-stramien="'+stramien+'" data-version="'+version+'" data-name="'+name+'" data-type="'+type+'">';
   html += ' <span class="marqer_item_title">'+name+'</span> &nbsp;&nbsp;';
   //html += ' <a class=""><span class="glyphicon glyphicon-pencil"></a>'
-  html += ' <a href="javascript:" class="stramien_share_button active"><i class="glyphicon glyphicon-share"></i></a>&nbsp;'  
+  html += ' <a href="javascript:" class="stramien_share_button active"><i class="glyphicon glyphicon-share"></i></a>&nbsp;'
   html += ' <a href="javascript:" class="stramien_info_button"><span class="glyphicon glyphicon-info-sign"></span></a>&nbsp;'
   html += ' <a href="javascript:" class="stramien_delete_button danger"><span class="glyphicon glyphicon-trash"></span></a>'
   html += '</div>';
@@ -71,25 +71,40 @@ var updateStramienen = function() {
   $('.marqers_stratum_holder').html('')
   marqer_stramienen = []
   $.get('/'+mount_point+'/marqerstrata', function(d) {
-    marqer_stramienen = d
-    $.each( marqer_stramienen.reverse(), function( key, mrqr ) {
+    // TODO: other strata
+    // shared strata
+    // global strata
+    $.each( d.own_strata, function( key, mrqr ) {
       mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)
       $('.marqers_stratum_holder').append( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
+    });
+
+    $.each( d.global_strata, function( key, mrqr ) {
+      mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)
+      $('.marqers_global_stratum_holder').append( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
+    });
+
+    $.each( d.shared_strata, function( key, mrqr ) {
+      mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)
+      $('.marqers_shared_stratum_holder').append( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
     });
 
     initStramienButtons();
     initDragDroppablePlugins();
   })
 }
+
 var fillStramienMenu = function( srch ) {
   var listing = []
   if ( srch == undefined || srch == null || srch == "" ) {
     listing = marqer_stramienen
   }else{
-    $.each( marqer_stramienen, function(k, val) {
-      console.log(val.name.toLowerCase(), val.name.toLowerCase().indexOf( srch ))
-      if ( val.name.toLowerCase().indexOf( srch.toLowerCase() ) != -1 ) {
-        listing.push(val)
+    $.each( marqer_stramienen.own_strata, function( k, stratum ) {
+      console.log("stratum global: ", stratum.global )
+      console.log("stratum shared: ", stratum.shared )
+      console.log(stratum.name.toLowerCase(), stratum.name.toLowerCase().indexOf( srch ))
+      if ( stratum.name.toLowerCase().indexOf( srch.toLowerCase() ) != -1 ) {
+        listing.push(stratum)
       }
     })
   }

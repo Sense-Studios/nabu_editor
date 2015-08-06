@@ -388,6 +388,7 @@ var postRender = function( someMarqer, context ) {
           if (key == 'image') {
             $('#imageholder_' + key + ' img').attr( 'src', content.url  );
           }
+
           if (key == 'audio') {
             $('#imageholder_' + key + ' img').remove();
             $('#audio_controls audio').remove();
@@ -400,7 +401,10 @@ var postRender = function( someMarqer, context ) {
           $('#placeholder_image').remove();
 
           // throw it to the element
+          console.log('i has an a file', key, content.url )
           someMarqer.marqeroptions[key].value = content.url;
+
+          // save and preview
           preview();
         });
       },
