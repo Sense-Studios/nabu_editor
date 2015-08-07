@@ -265,8 +265,6 @@ function setMenudata( Menudata ) {
 
           if(menuItem.length > 0) {
             $.each(menuItem,function(key,value){
-              var title = menuItem[key].name;
-              var shortText = jQuery.trim(title).substring(0, 38).split(" ").slice(0, -1).join(" ") + "...";
               var item_id = Math.round( Math.random() * 1000000 );
               console.log('item id: ', item_id)
               var some_item = "";
@@ -274,7 +272,7 @@ function setMenudata( Menudata ) {
               some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
               some_item += '<div class="program_container">';
               some_item += '<p class="program_title">';
-              some_item += shortText;
+              some_item += menuItem[key].name;;
               some_item += '</p>';
               some_item += '</div>';
               some_item += '<button class="btn btn-material-white pull-right item_delete_button" id="' + item_id  + '">';
