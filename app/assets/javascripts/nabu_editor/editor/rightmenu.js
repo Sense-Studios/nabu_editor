@@ -89,6 +89,9 @@ var updateStramienen = function() {
       $('.marqers_shared_stratum_holder').append( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
     });
 
+    // for lookup
+    marqer_stramienen = d.own_strata.concat( d.shared_strata, d.global_strata )
+
     initStramienButtons();
     initDragDroppablePlugins();
   })

@@ -22,33 +22,34 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id ) {
   m.in = ( ( event.pageX - $('#tracks').offset().left ) / $('#tracks').width() ) * pop.duration()
   m.out = m.in + ( 0.12 * pop.duration() )
   m.program_id = program.id;
-  m.marqeroptions = m.defaultvalues;    
+  m.marqeroptions = m.defaultvalues;
 
   // check for stramien
-  if ( stramien_id != undefined && stramien_id != "undefined" && stramien_id != null ) {    
+  if ( stramien_id != undefined && stramien_id != "undefined" && stramien_id != null ) {
     var stramien = getStramienById( stramien_id )
+    console.log(stramien)
     console.log("find marqer with stramien:", stramien_id, stramien.name)
-    m.marqeroptions = stramien.marqeroptions  
+    m.marqeroptions = stramien.marqeroptions
   }else{
     //
   }
-  
+
   // check for tracklines
   if ( forceAdd ) {
     m.marqeroptions.track = createTrackLine().index() - 1
   }else{
     m.marqeroptions.track = $(event.target).index()
   }
-  
+
   // set name
   m.title = name;
-  
+
   // create a copy
   mapi.createMarqer({
     marqer: m,
-    success: function( marqer ) {      
+    success: function( marqer ) {
       // add it to the local marqers (note that this can cause discrepencies between the server!)
-      marqers.push( marqer )                  
+      marqers.push( marqer )
       preview()
     },
     fail: function(resp) {
@@ -56,12 +57,10 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id ) {
     }
   })
 }
-//"538c84d864657614b7010000" willik
-//"557a150b6465760f80010000"
 
 var getStramienById = function( _id ) {
   var result = null
-  $.each(marqer_stramienen, function(i, stramien) {    
+  $.each(marqer_stramienen, function(i, stramien) {
     if (stramien._id.$oid == _id) {
       result = stramien
     }
@@ -72,11 +71,11 @@ var getStramienById = function( _id ) {
 var updateMarqer = function( marqer ) {
   console.log("updateMarqer", marqer )
   $('#load_indicator.glyphicon').css("opacity", 1)
-  mapi.updateMarqer({ 
-    marqer: marqer, 
-    success: function(){ 
+  mapi.updateMarqer({
+    marqer: marqer,
+    success: function(){
       console.log('yuy')
-      $('#load_indicator.glyphicon').css("opacity", 0)      
+      $('#load_indicator.glyphicon').css("opacity", 0)
       preview()
       aMarqerIsUpdating = false
     },
@@ -96,15 +95,15 @@ var updateMarqerFromTimeLine = function( e, u ) {
 }
 
 var updateMarqersFromTimeLine = function( marqers ) {
-  $.each( marqers, function() { 
+  $.each( marqers, function() {
     // updateMarqerFromTimeLine( marqer.event, marquer.ui )
   })
 }
 
-var deleteMarqer = function ( marqer ) {  
+var deleteMarqer = function ( marqer ) {
   marqer.remote_id = marqer.id // failsave
-  mapi.deleteMarqer( { 
-    marqer: marqer, 
+  mapi.deleteMarqer( {
+    marqer: marqer,
     failure: function(e) {
       console.log('delete marqer fail: ', e)
     },
@@ -112,12 +111,12 @@ var deleteMarqer = function ( marqer ) {
       console.log('yuy')
       var kill = -1
       $.each(marqers, function(i, m) {
-        if (m.id == marqer.id) kill = i             
+        if (m.id == marqer.id) kill = i
       })
       if (kill != -1) marqers.splice( kill, 1)
       preview()
     }
-   })  
+   })
 };
 
 var getMarqerById = function( id ) {
@@ -136,13 +135,13 @@ var getMarqerById = function( id ) {
 
 // yes, this redraws everything it gets from the server
 var preview = function( _m, force ) {
-  
+
   // only update when checked or forced
   if ( !$('#auto_preview').prop('checked') && force == undefined ) return;
-  
+
   if ( _m === undefined ) _m = marqers;
-  console.log("reset marqers", $('#feedback').val());  
+  console.log("reset marqers", $('#feedback').val());
   resetMarqers();
   setMarqers( _m, pop.duration() );
-  convertMarqersIntoTrackevents( _m );  
+  convertMarqersIntoTrackevents( _m );
 }
