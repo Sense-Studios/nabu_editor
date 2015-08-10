@@ -6,10 +6,10 @@
 // AVENIR
 
 .dropdown-menu > li > a {
-                    background-color: #e5e5e5;
-                    color: initial;
-                    font-weight: 600;
-                    //background-color: pink;
+  background-color: #e5e5e5;
+  color: initial;
+  font-weight: 600;
+  //background-color: pink;
 */
 
 // add shadow library
@@ -1464,9 +1464,11 @@ nav {
           cursor: pointer;
           margin: 0;
           border-radius: 0;
+
           &:hover {
             z-index: 11000;
           }
+
           .marqer_item_title {
             display: table-cell;
             vertical-align: middle;
@@ -1485,7 +1487,7 @@ nav {
         overflow-x: hidden;
         overflow-y: auto;
 
-        .marqer_item {
+        .marqer_stratum_item {
           display: table;
           height: 40px;
           width: 100%;
@@ -1495,11 +1497,19 @@ nav {
           border-radius: 0;
           text-align: right;
           background-color: transparent;
+          line-height: 12px;
+
+          .marqer_stratum_item_title {
+            width: 162px;
+            display: inline-block;
+            overflow: hidden;
+          }
 
           a {
             color: rgba(0, 0, 0, 0.843137);
             -webkit-transition-duration: 0.3s; /* Safari */
             transition-duration: 0.3s;
+
             &:hover {
               color: rgba(0, 0, 0, 0.843137);
               text-decoration: none;

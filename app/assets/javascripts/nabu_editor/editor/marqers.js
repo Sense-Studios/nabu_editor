@@ -60,7 +60,8 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id ) {
 
 var getStramienById = function( _id ) {
   var result = null
-  $.each(marqer_stramienen, function(i, stramien) {
+  var all_strata = marqer_stramienen.own_strata.concat( marqer_stramienen.shared_strata, marqer_stramienen.global_strata )
+  $.each(all_strata, function(i, stramien) {
     if (stramien._id.$oid == _id) {
       result = stramien
     }
@@ -89,6 +90,7 @@ var updateMarqer = function( marqer ) {
    })
 };
 
+/* depricated
 // updateMarqers()
 var updateMarqerFromTimeLine = function( e, u ) {
   // updateMarqer(m)
@@ -99,6 +101,7 @@ var updateMarqersFromTimeLine = function( marqers ) {
     // updateMarqerFromTimeLine( marqer.event, marquer.ui )
   })
 }
+*/
 
 var deleteMarqer = function ( marqer ) {
   marqer.remote_id = marqer.id // failsave

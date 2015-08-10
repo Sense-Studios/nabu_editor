@@ -3,41 +3,62 @@
     .modal-content
       .modal-header
         %h4.modal-title
-          Edit Marqer Stratum
+          Edit Marqer Prefab
         %button{"type"=>"button", "class"=>"close", "data-dismiss"=>"modal", "aria-hidden"=>"true"} ×
 
       .modal-body
         .form-group.form-group-sm.has-feedback
-          .col-sm-12
+          .row
+            .col-sm-3
+              From Type
+            .col-sm-9
+              %em No Type
 
-            From Type
-            %br
+          .row
+            .col-sm-3
+              Label
+            .col-sm-9
+              %em No label
 
-            Label
-            %br
+          .row
+            .col-sm-3
+              %label.control-label Title
+            .col-sm-9
+              %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
 
-            %label.control-label Title
-            %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
+          .row
+            .col-sm-3
+              %label.control-label Author
+            .col-sm-9
+              %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
 
-            %label.control-label Author
-            %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
+          .row
+            .col-sm-3
+              %label.control-label Description
+            .col-sm-9
+              %textarea.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
+                [ Tik hier wat in ]
 
-            %label.control-label Description
-            %textarea.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
-              = t('channel_editor.title')
+          .row
+            .col-sm-3
+              %label.control-label Tags
+            .col-sm-9
+              %input.form-control.input-sm{:placeholder =>"Tags", "data-key" => "title", :type => "text", :value => ""}
+                = t('channel_editor.title')
 
-            %label.control-label Tags
-            %input.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
-              = t('channel_editor.title')
+          .row
+            .col-sm-3
+              %label.control-label Share
+            .col-sm-9
+              %input.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
+                = t('channel_editor.title')
 
-            %label.control-label Share
-            %input.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
-              = t('channel_editor.title')
-
-            %button
-              Request Global
-
-            .clear
+          .row
+            .col-sm-3
+              %button
+                Request Global
+            .col-sm-9
+              [ some explanation ]
 
       .modal-footer
         .btn-group

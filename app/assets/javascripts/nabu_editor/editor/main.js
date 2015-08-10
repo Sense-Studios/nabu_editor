@@ -52,12 +52,17 @@ $(function() {
   $('#refresh_marqers').click(function() {
     preview(undefined, true)
   });
+
+
+  $('#remove_all_marqers').css('cursor','pointer');
   $('#remove_all_marqers').click(function() {
-    if (confirm(t.editor.confirm_delete)) {
+    //if (confirm(t.editor.confirm_delete)) { // FUCK THIS SHIT, race error :(
+    if (confirm("Weet je zeker dat je ALLE Marqers wilt VERWIJDEREN?")) {
       $.each(marqers, function(i, m) {
         deleteMarqer(m)
       });
       marqers = [];
     }
   });
+
 });
