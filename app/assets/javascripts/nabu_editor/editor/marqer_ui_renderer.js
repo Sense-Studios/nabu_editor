@@ -65,16 +65,16 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   // html += renderInOutEditor( that )
   var someMarqer = getMarqerById( $(that).data('remote_id') );
 
-  // this is needed for some depricated
-  // issues from the old days, right now we only use
-  // remote ids
-  someMarqer.remote_id = someMarqer.id;
-
   // failsafe
   if ( someMarqer === null ) {
     console.log("WARNING: marqer not found");
     return;
   }
+
+  // this is needed for some depricated
+  // issues from the old days, right now we only use
+  // remote_id, every id is remote in the cloud
+  someMarqer.remote_id = someMarqer.id;
 
   // traverse through the option/value pairs of the marqer
   $.each( someMarqer.marqeroptions, function(key, element ) {
@@ -84,8 +84,8 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     var context = {
       key: key,
       element: element,
-      label: translateKey(key), //key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
-      rand_id: (+new Date()) // use remote id ?
+      label: translateKey(key),  //key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
+      rand_id: (+new Date())     // or use remote_id, or utils.guid
     };
 
     console.log("--> render marqer elements KEY: ", key );
@@ -168,8 +168,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
   // post render contains functions that are initialized
   // AFTER the HTML is appended, it then proceeds to add
-  // interaction and callbacks to that element based on its key
-
+  // interaction and callbacks to that element based on the marqers original key
 
 var postRender = function( someMarqer, context ) {
 
@@ -197,7 +196,7 @@ var postRender = function( someMarqer, context ) {
         element.value = editor.getValue();
       });
 
-      // large?
+      // large? --> stylessheets/admin.css .ace_editor
       if (element.large) $('#'+ key + "_editor").css('height', '480px');
     },
 

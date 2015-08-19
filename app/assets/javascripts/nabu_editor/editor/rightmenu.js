@@ -21,7 +21,7 @@ var category_header = function( title, id ) {
 // helper
 var marqer_plugin = function( name, type, icon, version, stramien ) {
   var html = '';
-  html += '<div class="plugin btn btn-material-white marqer_item" data-stramien="'+stramien+'" data-version="'+version+'" data-name="'+name+'" data-type="'+type+'">';
+  html += '<div class="plugin btn btn-material-white marqer_item"  title="'+name+'" alt="'+name+'" data-stramien="'+stramien+'" data-version="'+version+'" data-name="'+name+'" data-type="'+type+'">';
   html += ' <span class="marqer_item_title">'+name+'</span>';
   html += '</div>';
   return html;
@@ -30,7 +30,7 @@ var marqer_plugin = function( name, type, icon, version, stramien ) {
 // helper
 var marqer_stratum_plugin = function( name, type, icon, version, stramien, allow_delete ) {
   var html = '';
-  html += '<div class="plugin btn btn-material-white marqer_stratum_item"';
+  html += '<div class="plugin btn btn-material-white marqer_stratum_item" title="'+name+'" alt="'+name+'"';
   html += '" data-stramien="' + stramien + '"'
   html += '" data-version="' + version + '"'
   html += '" data-name="' + name + '"'
