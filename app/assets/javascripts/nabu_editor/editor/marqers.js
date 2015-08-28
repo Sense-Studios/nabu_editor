@@ -35,16 +35,17 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id, _marqe
     m.marqeroptions = stramien.marqeroptions
 
   }else if( _marqer != undefined ) {
-    m.marqeroptions = _marqer.marqeroptions
+    m.marqeroptions = _marqer.marqeroptions // JSON.stringify
     m.in = _marqer.in
     m.out = _marqer.out
-    m.name = _marqer.name  + "_copy"
+    m.name = _marqer.title  + "_copy"
+    m.title = _marqer.title
   }else{
     //
   }
 
   // check for tracklines
-  if (marqer != undefined ) {
+  if (_marqer != undefined ) {
     // do nothing, track is already defined
   }else if ( forceAdd ) {
     m.marqeroptions.track = createTrackLine().index() - 1
@@ -89,14 +90,15 @@ var saveMarqersAsSet = function( marqer_set_id ) {
     data.title = "none"
     data.description = "none"
     data.name = "none"
-    data.marqers = marqers
+    data.marqers = JSON.stringify(marqers)
+
     $.post('/marqerset/', data, function(res) {
       console.log("your set was saved")
       console.log("got response: ", res)
     })
 
   }else{
-    // update set
+    // update set ?
   }
 }
 
@@ -107,8 +109,12 @@ var createMarqersFromSet = function( marqer_set_id ) {
   // get marqer set
   $.get('/marqerset/' + marqer_set_id, function( marqer_set ){
     // generate
-    $.each( marqer_set.marqers, function( k, _m ){
-      createNewMarqer( _m.type, _m.title, undefined, false, undefined, _m )
+    $.each( JSON.parse(marqer_set.marqers), function( k, _m ){
+      console.log("schedule", k, _m.title)
+      setTimeout( function() {
+        console.log("CREATE!!!", k, _m.title)
+        createNewMarqer( _m.type, _m.title, undefined, false, undefined, _m )
+      }, 200*k )
     });
   });
 }
