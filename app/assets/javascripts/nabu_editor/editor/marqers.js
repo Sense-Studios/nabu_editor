@@ -15,7 +15,7 @@ convertMarqersIntoTrackevents
 */
 
 // getMarqers( program_id )
-var createNewMarqer = function( type, name, event, forceAdd, stramien_id, _marqer ) {
+var createNewMarqer = function( type, name, event, forceAdd, stramien_id, set_marqer ) {
   // create a new marqer from a drag/drop
   m = new window[ type ]
 
@@ -27,25 +27,25 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id, _marqe
   m.marqeroptions = m.defaultvalues;
 
   // check for stramien\
-  console.log("has stramien id", type, name, event, forceAdd, stramien_id, _marqer)
+  console.log("has stramien id", type, name, event, forceAdd, stramien_id, set_marqer)
   if ( stramien_id != undefined && stramien_id != "undefined" && stramien_id != null ) {
     var stramien = getStramienById( stramien_id )
     console.log(stramien)
     console.log("find marqer with stramien:", stramien_id, stramien.name)
     m.marqeroptions = stramien.marqeroptions
 
-  }else if( _marqer != undefined ) {
-    m.marqeroptions = _marqer.marqeroptions // JSON.stringify
-    m.in = _marqer.in
-    m.out = _marqer.out
-    m.name = _marqer.title  + "_copy"
-    m.title = _marqer.title
+  }else if( set_marqer != undefined ) {
+    m.marqeroptions = set_marqer.marqeroptions // JSON.stringify
+    m.in = set_marqer.in
+    m.out = set_marqer.out
+    m.name = set_marqer.title  + "_copy"
+    m.title = set_marqer.title
   }else{
     //
   }
 
   // check for tracklines
-  if (_marqer != undefined ) {
+  if (set_marqer != undefined ) {
     // do nothing, track is already defined
   }else if ( forceAdd ) {
     m.marqeroptions.track = createTrackLine().index() - 1
@@ -110,9 +110,7 @@ var createMarqersFromSet = function( marqer_set_id ) {
   $.get('/marqerset/' + marqer_set_id, function( marqer_set ){
     // generate
     $.each( JSON.parse(marqer_set.marqers), function( k, _m ){
-      console.log("schedule", k, _m.title)
       setTimeout( function() {
-        console.log("CREATE!!!", k, _m.title)
         createNewMarqer( _m.type, _m.title, undefined, false, undefined, _m )
       }, 200*k )
     });
