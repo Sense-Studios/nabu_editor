@@ -24,6 +24,8 @@ module NabuEditor
       # get (default) metadata, moviedescription, player_settings
       @program = MarduqResource::Program.find(params[:id])
 
+      # we asssume at least 1 assets, or it errors
+
       # use the first asset settings for defaults values
       @program.title = @program.program_items[0].asset.title
       @program.description = @program.program_items[0].asset.description
@@ -228,6 +230,7 @@ module NabuEditor
       render json: @programs.reverse!
     end
 
+    # Sites
     def dashboard
       set_account_id
       @programs_data = MarduqResource::Program.where( client_id: @account_id ) || []
@@ -277,57 +280,6 @@ module NabuEditor
 
     def edit
       get_current_program
-    end
-
-    def post_marqerstratum
-
-      logger.debug "got params"
-      logger.debug params
-
-      set_account_id
-      @ms = MarqerStratum.new
-      @ms.type = params[:type]
-      @ms.label = params[:label]
-      @ms.name = params[:name]
-      @ms.marqeroptions = params[:marqeroptions]
-      @ms.account_id = @account_id
-
-      if @ms.save
-        render json: @ms
-      else
-        render json: 'alles is kapot'
-      end
-    end
-
-    def get_marqerstratum
-      if params[:id].blank?
-        set_account_id
-        own_marqer_strata = MarqerStratum.where( :account_id => @account_id ).to_a
-        shared_marqer_strata = MarqerStratum.or( :shares => @user_id, :shares => @account_id ).to_a
-        global_marqer_strata = MarqerStratum.where( :global => true ).to_a
-        @marqerstrata = {}
-        @marqerstrata[:own_strata] = own_marqer_strata.reverse!
-        @marqerstrata[:shared_strata] = shared_marqer_strata.reverse!
-        @marqerstrata[:global_strata] = global_marqer_strata.reverse!
-
-        render json: @marqerstrata
-      else
-        @marqerstratum = MarqerStratum.find( params[:id])
-        render json: @marqerstratum
-      end
-    end
-
-    def delete_marqerstratum
-      if !params[:id].blank?
-        @marqerstratum = MarqerStratum.find( params[:id])
-        if @marqerstratum.destroy
-          render json: {"status"=>"ok"}
-        else
-          render json: {"status"=>"alles is kapot"}
-        end
-      else
-        render json: {"status"=>"you did not specify an id"}
-      end
     end
 
   protected

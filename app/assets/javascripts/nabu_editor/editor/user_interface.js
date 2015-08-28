@@ -1030,7 +1030,7 @@ var createGrid = function() {
     return size;
   }
 
-  for ( var i=0;i<n;i++ ) grid += '<div class="grid_cell" style="width:'+getSize(i).width+';height:'+getSize(i).height+';">&nbsp</div>';
+  for ( var i = 0; i < n; i++ ) grid += '<div class="grid_cell" style="width:'+getSize(i).width+';height:'+getSize(i).height+';">&nbsp</div>';
   grid += '</div> <!-- end grid -->';
   return grid;
 };
@@ -1059,7 +1059,7 @@ var saveMarqerStratum = function( m ) {
   }
 
   // save
-  $.post('/'+mount_point+'/marqerstratum/', data, function() {
+  $.post('/marqerstratum/', data, function() {
     updateStramienen()
   }).fail(function() {
     console.log("saving stratum failed")

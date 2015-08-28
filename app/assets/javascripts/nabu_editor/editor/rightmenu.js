@@ -78,7 +78,7 @@ var marqer_stramienen = []
 var updateStramienen = function() {
   $('.marqers_stratum_holder').html('')
   marqer_stramienen = {}
-  $.get('/'+mount_point+'/marqerstrata', function(d) {
+  $.get('/marqerstrata/', function(d) {
     marqer_stramienen = d
     $.each( marqer_stramienen.own_strata, function( key, mrqr ) {
       mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)
@@ -117,7 +117,7 @@ var fillStramienMenu = function( srch, subset, target ) {
   // reset and fill
   target.html('')
   $.each( listing, function( key, mrqr ) {
-    target.prepend( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'], subset == 'own_strata' ) );
+    target.append( marqer_stratum_plugin( mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'], subset == 'own_strata' ) );
   });
 
   initStramienButtons();
@@ -139,7 +139,7 @@ var initStramienButtons = function() {
     if ( confirm(t.right_menu.delete_marqer) ) {
       var id = $(this).parent().data("stramien")
       // TODO (2nd) make sure to doublecheck the user id before deletion
-      $.post('/'+mount_point+'/deletestratum/' + id).success( function(d) {
+      $.post('/deletestratum/' + id).success( function(d) {
         console.log("destruction said:", d)
         $('#zoek_marqer_stramien').val('')
         $('#zoek_global_marqer_stramien').val('')

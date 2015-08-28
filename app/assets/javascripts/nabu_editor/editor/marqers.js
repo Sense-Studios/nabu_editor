@@ -15,27 +15,38 @@ convertMarqersIntoTrackevents
 */
 
 // getMarqers( program_id )
-
-var createNewMarqer = function( type, name, event, forceAdd, stramien_id ) {
-  // create a new marqer
+var createNewMarqer = function( type, name, event, forceAdd, stramien_id, _marqer ) {
+  // create a new marqer from a drag/drop
   m = new window[ type ]
-  m.in = ( ( event.pageX - $('#tracks').offset().left ) / $('#tracks').width() ) * pop.duration()
+
+  if (event  != undefined ) {
+    m.in = ( ( event.pageX - $('#tracks').offset().left ) / $('#tracks').width() ) * pop.duration()
+  }
   m.out = m.in + ( 0.12 * pop.duration() )
   m.program_id = program.id;
   m.marqeroptions = m.defaultvalues;
 
-  // check for stramien
+  // check for stramien\
+  console.log("has stramien id", type, name, event, forceAdd, stramien_id, _marqer)
   if ( stramien_id != undefined && stramien_id != "undefined" && stramien_id != null ) {
     var stramien = getStramienById( stramien_id )
     console.log(stramien)
     console.log("find marqer with stramien:", stramien_id, stramien.name)
     m.marqeroptions = stramien.marqeroptions
+
+  }else if( _marqer != undefined ) {
+    m.marqeroptions = _marqer.marqeroptions
+    m.in = _marqer.in
+    m.out = _marqer.out
+    m.name = _marqer.name  + "_copy"
   }else{
     //
   }
 
   // check for tracklines
-  if ( forceAdd ) {
+  if (marqer != undefined ) {
+    // do nothing, track is already defined
+  }else if ( forceAdd ) {
     m.marqeroptions.track = createTrackLine().index() - 1
   }else{
     m.marqeroptions.track = $(event.target).index()
@@ -58,6 +69,7 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id ) {
   })
 }
 
+// Stramien helper
 var getStramienById = function( _id ) {
   var result = null
   var all_strata = marqer_stramienen.own_strata.concat( marqer_stramienen.shared_strata, marqer_stramienen.global_strata )
@@ -67,6 +79,38 @@ var getStramienById = function( _id ) {
     }
   })
   return result
+}
+
+// MarqerSetHelper
+var saveMarqersAsSet = function( marqer_set_id ) {
+  if ( marqer_set_id == undefined ) {
+    // make new set
+    var data = {}
+    data.title = "none"
+    data.description = "none"
+    data.name = "none"
+    data.marqers = marqers
+    $.post('/marqerset/', data, function(res) {
+      console.log("your set was saved")
+      console.log("got response: ", res)
+    })
+
+  }else{
+    // update set
+  }
+}
+
+var createMarqersFromSet = function( marqer_set_id ) {
+  // delete marqers and wait for confirm
+  //
+
+  // get marqer set
+  $.get('/marqerset/' + marqer_set_id, function( marqer_set ){
+    // generate
+    $.each( marqer_set.marqers, function( k, _m ){
+      createNewMarqer( _m.type, _m.title, undefined, false, undefined, _m )
+    });
+  });
 }
 
 var updateMarqer = function( marqer ) {
