@@ -161,6 +161,7 @@ en:
     prefab: "Prefab"
     delete: "Delete"
     confirm_delete: "Are you sure you want to DELETE this Marqer ?"
+    confirm_delete_program: "Are you sure you want to DELETE this Program ?"
     in_out: "In-point can't be after the out-point"
     out_in: "Out-point can't be before the in-point"
   publish:

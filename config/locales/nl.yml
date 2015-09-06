@@ -161,6 +161,7 @@ nl:
     prefab: "Stramien"
     delete: "Verwijder"
     confirm_delete: "Weet je zeker dat je deze Marqer wilt VERWIJDEREN?"
+    confirm_delete_program: "Weet je zeker dat je deze Programma wilt VERWIJDEREN?"
     in_out: "In-punt kan niet na het uit-punt liggen"
     out_in: "Uit-punt kan niet voor het in-punt liggen"
   publish:
