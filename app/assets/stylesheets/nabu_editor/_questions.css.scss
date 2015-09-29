@@ -74,6 +74,8 @@
 
     &:hover {
       box-shadow: $boxlong5;
+      position: relative;
+      z-index: 1;
     }
 
     .btn {
@@ -92,6 +94,8 @@
     &:hover {
       margin: 6px 14px;
       box-shadow: $boxlong4;
+      position: relative;
+      z-index: 1;
     }
   }
   // Button Overrides!

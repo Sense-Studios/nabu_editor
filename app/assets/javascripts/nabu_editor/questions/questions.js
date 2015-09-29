@@ -124,7 +124,7 @@ function addQuestion( remote_id ) {
   changeQuestionType( that, "fmc" );
 
   // use smpt
-  convertSeconds('.in-point')
+  // convertSeconds('.in-point')
 
   // return id, for autogeneration of quesions
   return id;
@@ -132,7 +132,7 @@ function addQuestion( remote_id ) {
 
 // Change the question type
 function changeQuestionType( question_id, _to ) {
-  console.log("change", question_id, _to );
+  console.log("change type", question_id, _to );
 
   if (_to == undefined) return;
 
@@ -160,7 +160,7 @@ function changeQuestionType( question_id, _to ) {
   // FIXME, this should be so much more condensed:
 
   if ( _to == "mc" ) { // multiple choice
-    console.log("mc");
+    //console.log("mc");
     $(question_id + ' .add_new_answer').unbind('click');
     $(question_id + ' .add_new_answer').click( function() {
       var id = new Date().getTime();
@@ -172,7 +172,7 @@ function changeQuestionType( question_id, _to ) {
 
   if (_to == "mmc" ) { // multiple multiple choice
     // activate add question handler
-    console.log("mmc");
+    //console.log("mmc");
     $(question_id + ' .add_new_answer').unbind('click');
     $(question_id + ' .add_new_answer').click( function() {
       var id = new Date().getTime();
@@ -183,7 +183,7 @@ function changeQuestionType( question_id, _to ) {
   }
 
   if ( _to == "fmc" ) { // ( Single choice ) force multiple choice
-    console.log("fmc");
+    //console.log("fmc");
     $(question_id + ' .add_new_answer').unbind('click');
     $(question_id + ' .add_new_answer').click( function() {
       var id = new Date().getTime();
@@ -196,7 +196,7 @@ function changeQuestionType( question_id, _to ) {
 
   if ( _to == "fmmc" ) { // ( Plural choice ) force multiple multiple choice
     // activate add question handler
-    console.log("fmmc");
+    //console.log("fmmc");
     $(question_id + ' .add_new_answer').unbind('click');
     $(question_id + ' .add_new_answer').click( function() {
       var id = new Date().getTime();
@@ -214,7 +214,7 @@ function changeQuestionType( question_id, _to ) {
     if ( $(question_id).find('.oq-answer').length === 0 ) {
       var oq_output= HandlebarsTemplates['open_answer']( context );
       $(question_id + ' .answers_holder').append( oq_output );
-      console.log("hide new answer");
+      //console.log("hide new answer");
       $(question_id + ' .add_new_answer').hide();
       addInteractionToAnswer(id, question_id );
     }
@@ -222,7 +222,7 @@ function changeQuestionType( question_id, _to ) {
 }
 
 function addInteractionToAnswer( id, question_id ) {
-    console.log(' ### add interaction', id, question_id, $('#'+id).find('.delete-answer').length, $('#'+id).find('.answer-score').length );
+    //console.log(' ### add interaction', id, question_id, $('#'+id).find('.delete-answer').length, $('#'+id).find('.answer-score').length );
 
       // initialize delete button
     $('#'+id).find('.delete-answer').click( function() {
@@ -259,6 +259,7 @@ function addInteractionToAnswer( id, question_id ) {
     checkCorrectAnswer( question_id );
     updateOverallScore(question_id);
     checkAndDisableCorrect(question_id);
+    convertSeconds(".in-point");
 }
 
 function checkAndDisableCorrect( question_id, answer_id ) {
@@ -270,7 +271,7 @@ function checkAndDisableCorrect( question_id, answer_id ) {
     }else{
       $( value ).find('.answer-score').attr("disabled", true);
 
-      console.log('zeg, ', parseInt( $( value ).find('.answer-score').val(), 10 ))
+      //console.log('zeg, ', parseInt( $( value ).find('.answer-score').val(), 10 ))
       if ( parseInt( $( value ).find('.answer-score').val(), 10 ) !== 0 )  {
         $( value ).attr('orig_score', parseInt(  $( value ).find('.answer-score').val(), 10 ) );
       }
@@ -290,7 +291,7 @@ function updateOverallScore( question_id, answer_id ) {
 }
 
 function checkCorrectAnswer( question_id, answer_id ) {
-  console.log("CHECK CORRECT ANSWER ?");
+  //console.log("CHECK CORRECT ANSWER ?");
   // if no answer has been selected, do that now ( as it is mandator
   // if no answer has been selected, do that now ( as it is mandator
   var hasCorrect = false;
@@ -331,10 +332,7 @@ function generateQuesionsFromProgram() {
         var thisQuestionId = addQuestion( marqer.id ); // returns a local id
 
         // fill the data,
-        $( '#' + thisQuestionId ).find('.in-point').val( secondsToSMPTE(marqer.in) );
-
-        // update the time fields to SMTPE
-        convertSeconds('.in-point')
+        $( '#' + thisQuestionId ).find('.in-point').val( marqer.in );
 
         $( '#' + thisQuestionId ).find('.question-question').val( marqer.marqeroptions.question );
         $( '#' + thisQuestionId ).find('.question-score').val( marqer.marqeroptions.score );
@@ -347,11 +345,9 @@ function generateQuesionsFromProgram() {
         if (marqer.marqeroptions.answers != null && marqer.marqeroptions.answers.length != 0 ) {
 
           var recalculatedScore = 0 ;
-          changeQuestionType( '#' +thisQuestionId, marqer.marqeroptions.questiontype );
+          changeQuestionType( '#' +thisQuestionId, marqer.marqeroptions.questiontype ); // appends it
 
           $.each( marqer.marqeroptions.answers, function( key2, value ) {
-
-            console.log("adding answer", marqer.marqeroptions.questiontype, key2, value )
 
             if ( marqer.marqeroptions.questiontype == "mc" ) {
               var mc_output = HandlebarsTemplates['mc_answer']({"id":value.id, "q_id": thisQuestionId, "type": marqer.marqeroptions.questiontype });
@@ -374,7 +370,7 @@ function generateQuesionsFromProgram() {
               $( '#' + thisQuestionId ).find('.answers_holder').append( fmc_output );
               $( '#' + thisQuestionId ).find('.answer-text:last').val( value.text );
               $( '#' + thisQuestionId ).find('.answer-score:last').val( value.score );
-              console.log(value.score)
+              //console.log(value.score)
               if (value.correct === "true") $( '#' + thisQuestionId ).find('.iscorrect:last').attr('checked', true);
               addInteractionToAnswer( value.id, "#qid-"+thisQuestionId);
             }
@@ -544,7 +540,7 @@ function saveEndText() {
   });
 
   // put the holder in there
-  console.log(holder);
+  //console.log(holder);
   metaData.on_movie_end.score_dependent_texts = holder;
 }
 
@@ -562,6 +558,7 @@ function updateQuestionData(e) {
         if ( $(value).attr("remote_id") == marqer.id ) {
 
           // upate in/out
+          console.log("storing in point: ", $(value).find('.in-point').val() )
           marqer.in = $(value).find('.in-point').val();
           marqer.out = Number( $(value).find('.in-point').val() ) + 1;
 
@@ -614,7 +611,7 @@ function setChangeHandlers() {
   $('#add-score-dependent-text').click( function() { enableWarning() } );
   $('.delete').click( function() { enableWarning() } );
 
-  convertSeconds('.in-point')
+  //convertSeconds('.in-point')
   updateQuestionData();
   preview();
 }
@@ -746,7 +743,7 @@ function initQuestions() {
 
   // listen for change
   setChangeHandlers();
-  convertSeconds('.in-point')
+  //convertSeconds('.in-point')
 
   // init in and out point handlers
   initInOutPoint();
