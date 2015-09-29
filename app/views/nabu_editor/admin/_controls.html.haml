@@ -4,17 +4,19 @@
     .bar.progressbar
     .progress-bar.playhead.primary-background-color.bar{"role"=>"progressbar", "aria-valuenow"=>"60", "aria-valuemin"=>"0", "aria-valuemax"=>"100"}
     .marqers.bar
-  
+
   .btn-group.mute-time-group
     #butt-togglemute.btn.glyphicon.glyphicon-volume-off.btn-material-burgundy-controls
     .videotime.btn
       #time.label.label-default
-        %span.current_time_smpte
+        %span.current_time
+        %span.devider |
+        %span.duration
 
   .btn-group.play-seek-group
     #butt-seekbwd.btn.glyphicon.glyphicon-fast-backward.btn-material-burgundy-controls
     #butt-playpause.btn.glyphicon.glyphicon-play-circle.btn-material-burgundy-controls
     #butt-seekfwd.btn.glyphicon.glyphicon-fast-forward.btn-material-burgundy-controls
-  
+
   .btn-group.collapse-fullscreen-group
     #butt-togglefullscreen.btn.glyphicon.glyphicon-resize-full.btn-material-burgundy-controls

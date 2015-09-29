@@ -15,6 +15,10 @@ convertMarqersIntoTrackevents
 */
 
 // getMarqers( program_id )
+// - type and name are mandatory
+// - event makes sure it goed on the right place in the tracks
+// - force-add ensures the marqer is added on the bottom of the track
+// - stramien_id and set_marqer define having a set or stramien
 var createNewMarqer = function( type, name, event, forceAdd, stramien_id, set_marqer ) {
   // create a new marqer from a drag/drop
   m = new window[ type ]
@@ -22,16 +26,14 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id, set_ma
   if (event  != undefined ) {
     m.in = ( ( event.pageX - $('#tracks').offset().left ) / $('#tracks').width() ) * pop.duration()
   }
+
   m.out = m.in + ( 0.12 * pop.duration() )
   m.program_id = program.id;
   m.marqeroptions = m.defaultvalues;
 
-  // check for stramien\
-  console.log("has stramien id", type, name, event, forceAdd, stramien_id, set_marqer)
+  // check for stramien
   if ( stramien_id != undefined && stramien_id != "undefined" && stramien_id != null ) {
     var stramien = getStramienById( stramien_id )
-    console.log(stramien)
-    console.log("find marqer with stramien:", stramien_id, stramien.name)
     m.marqeroptions = stramien.marqeroptions
 
   }else if( set_marqer != undefined ) {
@@ -41,15 +43,17 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id, set_ma
     m.name = set_marqer.title  + "_copy"
     m.title = set_marqer.title
   }else{
-    //
+    // do nothing
   }
 
   // check for tracklines
   if (set_marqer != undefined ) {
-    // do nothing, track is already defined
+    // do nothing, track is already defined in the set
   }else if ( forceAdd ) {
+    // force it, track line is on the bottom
     m.marqeroptions.track = createTrackLine().index() - 1
-  }else{
+  }else if(event) {
+    // get the track from the event
     m.marqeroptions.track = $(event.target).index()
   }
 
@@ -65,7 +69,7 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id, set_ma
       preview()
     },
     fail: function(resp) {
-      console.log('helaas pindakaas')
+      console.log('Marqer creation failed', resp)
     }
   })
 }

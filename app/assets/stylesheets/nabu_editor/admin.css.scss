@@ -14,6 +14,7 @@
 
 // add shadow library
 @import 'shadows';
+@import 'questions';
 
 @-webkit-keyframes fadeinout {
   15% { opacity: 0; }
@@ -362,11 +363,11 @@ nav {
   .navigation {
     position: absolute;
     width: 100%;
-    height: calc(100% - 399px);
-    top: 400px;
+    height: calc(100% - 340px);
+    top: 340px;
     >.btn {
       display: table;
-      height: 60px;
+      height: 48px;
       width: 101%;
       padding: 9px 20px;
       margin: 0;
@@ -388,7 +389,7 @@ nav {
         vertical-align: middle;
         color: #FFF;
         font-size: 1.3em;
-        line-height: 2;
+        line-height: 1.2;
         font-weight: 100;
         text-decoration: none;
         text-transform: uppercase;
@@ -397,7 +398,7 @@ nav {
       }
       >.glyphicon {
         float: right;
-        font-size: 30px;
+        font-size: 24px;
       }
     }
     .hide_left_menu {
@@ -470,7 +471,7 @@ nav {
   float: left;
   width: 60%;
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   background-color: #e0e0e4;
   transition: width 0.5s;
 
@@ -920,6 +921,15 @@ nav {
     transform: translate(-50%, 0%);
   }
 
+  #nabu_controls_background {
+    background-color: lightgrey;
+    height: 39px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-color: grey;
+  }
+
   #nabu_controls {
     position: absolute;
     bottom: -40px;
@@ -967,8 +977,13 @@ nav {
           background-color: rgba(0,0,0,0);
         }
         > #time {
+          font-family: monospace;
           background-color: rgba(0,0,0,0);
           font-weight: 100;
+
+          .darken {
+            color: grey;
+          }
         }
       }
       > .btn-default {

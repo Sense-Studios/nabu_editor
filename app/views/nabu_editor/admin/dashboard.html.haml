@@ -1,3 +1,6 @@
+/ render nav menu
+= render partial: 'nabu_editor/admin/leftmenu'
+
 .contentwrapper
 
   .video_holder#video_container
@@ -24,6 +27,9 @@
   / advanced describe
   = render partial: 'nabu_editor/admin/describe_movie_advanced'
 
+  / questions
+  = render partial: 'nabu_editor/admin/questions'
+
   / settings/ marqers
   = render partial: 'nabu_editor/admin/timeline_container'
 
@@ -32,7 +38,7 @@
 
 
 / Dialog and Menus
-= render partial: 'shared/rightmenu'
+= render partial: 'nabu_editor/admin/rightmenu'
 = render partial: 'nabu_editor/admin/marqer_editor_dialog'
 = render partial: 'nabu_editor/admin/channel_editor_dialog'
 = render partial: 'nabu_editor/admin/channel_creator_dialog' #TRANSLATE FROM HERE

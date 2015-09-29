@@ -1,10 +1,11 @@
 /* globals
 initControls
 initDescribe
-showCreateMovie
-showDescribeMovie
-showPublishMovie
-showSettingsMovie
+sections/showCreateMovie
+sections/showDescribeMovie
+sections/showPublishMovie
+sections/showSettingsMovie
+sections/showQuestionsMovie
 
 checkUserAgent
 setDataFromProgram
@@ -77,7 +78,7 @@ var doShowMovie = function(id) {
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
   if ( $('.video_describe_container').is(':visible') ) showDescribeMovie();
   //if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();
-  if ( $('.editor_container').is(':visible') ) showSettingsMovie();
+  if ( $('.editor_container').is(':visible') ) showQuestionsMovie();
   if ( $('.video_publish_container').is(':visible') ) showPublishMovie();
   $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
   setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
@@ -106,6 +107,19 @@ var doTimeLineEditMovie = function(id) {
   //showSettingsMovie();
   setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
+
+var doQuestionsMovie = function(id) {  
+  setProgram( id );
+  if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
+  if ( $('.video_describe_container').is(':visible') ) showDescribeMovie();
+  //if ( $('.describe_movie_advanced').is(':visible') ) showDescribeMovie();
+  if ( $('.editor_container').is(':visible') ) showSettingsMovie();
+  if ( !$('.questions_container').is(':visible') ) showQuestionsMovie();
+  if ( $('.video_publish_container').is(':visible') ) showPublishMovie();
+  $(".contentwrapper").animate({ scrollTop: 0 }, "slow");
+  //showQuestionsMovie();
+  setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
+}
 
 var doPublishMovie = function(id) {
   setProgram( id );
@@ -200,7 +214,8 @@ var setProgram = function( id ) {
     setMarqerAfterPopInits();
     setDataFromProgram();
     setDisabledStatesLeftMenu();
-    setSocial()
+    setSocial();
+
     if(!smallvideo) {
       setTimeout( resize_aspect_ratio, 200);
     }
@@ -211,11 +226,11 @@ function setDisabledStatesLeftMenu() {
   if( pop === null ) {
     $("#describe_butt").addClass("disabled");
     $("#settings_butt").addClass("disabled");
-    console.log("add disabled");
+    $("#questions_butt").addClass("disabled");
   }else {
     $("#describe_butt").removeClass("disabled");
     $("#settings_butt").removeClass("disabled");
-    console.log("remove disabled");
+    $("#questions_butt").removeClass("disabled");
   }
 }
 
@@ -406,6 +421,7 @@ $(document).ready(function() {
   $('.video_describe_container').hide();
   $('.video_publish_container').hide();
   $('.describe_movie_advanced').hide();
+  $('.questions_container').hide();
   $('.zoomContainer').hide();
   $('.channels_container').hide();
 
@@ -414,7 +430,7 @@ $(document).ready(function() {
   $('.publish_helper').hide();
 
   /////////////////////////////////////////////////
-  //HIDE TESTERS FOR MARQERS FOR TEST PURPOSE ONLY!
+  // HIDE TESTERS FOR MARQERS FOR TEST PURPOSE ONLY!
   /////////////////////////////////////////////////
   $('.marqers_container').hide();
 

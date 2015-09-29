@@ -42,6 +42,12 @@ var ProgramTile = React.createClass({
     $('.select_videos .active').removeClass('active') // this is nasty
   },
 
+  questionsEditorMovieRelay:function() {
+    doQuestionsMovie(this.props.program.id)
+    this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.select_videos .active').removeClass('active') // this is nasty
+  },
+
   publishMovieRelay:function() {
     doPublishMovie(this.props.program.id)
     this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
@@ -105,6 +111,9 @@ var ProgramTile = React.createClass({
                 </li>
                 <li>
                   <a href='#' onClick={this.timeLineEditMovieRelay} data-toggle='tab'> Marqers </a>
+                </li>
+                <li>
+                  <a href='#' onClick={this.questionsEditorMovieRelay} data-toggle='tab'> Quiz </a>
                 </li>
                 <li>
                   <a href='#' onClick={this.publishMovieRelay} data-toggle='tab'> Publiceer </a>

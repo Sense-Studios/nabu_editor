@@ -29,8 +29,13 @@ var animateVideoUp = function() {
   $('.videowrapper').css('margin-top', '1%');
   $('.videowrapper').css("float", "right");
   $('.videowrapper .ui-resizable-se').hide()
+  $('#nabu_controls_background').hide()
 
-  setTimeout( function() { $('.small_video_description').fadeIn('slow'); }, 600);
+  setTimeout( function() {
+    $('.small_video_description').fadeIn('slow');
+  }, 600);
+
+  questionsOnResize()
 };
 
 var animateVideoDown = function() {
@@ -49,9 +54,11 @@ var animateVideoDown = function() {
   $('.videowrapper').animate({'height': bigHeight + 'px', 'width': '640px'}, 240, function() {
   	$('.videowrapper').css('margin', '2% auto');
   });
+  $('#nabu_controls_background').show()
 
   $('.videowrapper .ui-resizable-se').show()
   $('.small_video_description').fadeOut('fast');
+  questionsOnResize()
 };
 
 var toggle_overlays = function( opacity ) {
@@ -79,6 +86,12 @@ var hideDescribeMovie = function () {
   }
 };
 
+var hideQuestionsMovie = function () {
+  if ( $('.questions_container').is(':visible') ) {
+    $('.questions_container').fadeOut('fast');
+  }
+}
+
 var hideDescribeAdvancedMovie = function() {
   if ( $('.describe_movie_advanced').is(':visible') ) {
     $('.describe_movie_advanced').fadeOut('fast');
@@ -102,8 +115,7 @@ var hideMarqersRightMenu = function () {
   keysEnabled = false;
 };
 
-// TODO rename this, it handles all elements
-var showMarqersRightMenu = function () {
+var showMarqerEditor = function () {
   if ( $(".marqers_container").is(':hidden' ) ) {
     $('.marqers_container').fadeIn('fast');
     $('.zoomContainer').fadeIn('fast');
@@ -113,6 +125,17 @@ var showMarqersRightMenu = function () {
     setTimeout( function() { preview() }, 1200 );
   }
 };
+
+//var once = false
+var qonce = false
+var showQuestions = function () {
+  if (!qonce) initQuestions(); qonce = true
+  generateQuesionsFromProgram();
+
+  if ( $(".questions_container").is(':hidden' ) ) {
+    $('.questions_container').fadeIn('fast');
+  }
+}
 
 var hideChannels = function() {
   if ( $(".menu_editor").is(':visible' ) ) {
@@ -201,6 +224,7 @@ var showCreateMovie = function( force, with_upload ) {
     showHelpers();
     showVideosAlways();
     hideChannelContainer();
+    hideQuestionsMovie();
     marqerToggled = 0;
     toggleMarqers( marqerToggled );
     if ($('.video_frame').height() > 150) {
@@ -252,7 +276,6 @@ var showDescribeMovie = function( with_upload ) {
     $('#describe_butt').removeClass('btn-material-blue-grey');
     $('#describe_butt').addClass('btn-material-pink');
 
-
     // attach save
     $('#save_movie').unbind('click');
     $('#save_movie').click( function() {
@@ -263,6 +286,7 @@ var showDescribeMovie = function( with_upload ) {
 
     hideChannelContainer();
     hideMarqersRightMenu();
+    hideQuestionsMovie();
     hideChannels();
     showHelpers();
     showVideosAlways();
@@ -319,6 +343,7 @@ var showSettingsMovie = function() {
   hideVideoContainer();
   hideDescribeMovie();
   hideDescribeAdvancedMovie();
+  hideQuestionsMovie();
   hidePublishMovie();
   hideHelpers();
   marqerToggled = 1;
@@ -327,10 +352,40 @@ var showSettingsMovie = function() {
     animateVideoDown();
   }
 
-  setTimeout( function () { showMarqersRightMenu() }, 500);
+  setTimeout( function () { showMarqerEditor() }, 500);
   if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');
   setTimeout( function() { margin_select_video() }, 500);
 };
+
+var showQuestionsMovie = function() {
+  $('.navigation .btn').removeClass('btn-material-pink');
+  $('.navigation .btn').addClass('btn-material-blue-grey');
+
+  $('#questions_butt').removeClass('btn-material-blue-grey');
+  $('#questions_butt').addClass('btn-material-pink');
+
+  hideChannels();
+  hideChannelContainer();
+  hideCreateMovie();
+  hideVideoContainer();
+  hideDescribeMovie();
+  hideDescribeAdvancedMovie();
+  hidePublishMovie();
+  hideHelpers();
+  hideMarqersRightMenu();
+
+  marqerToggled = 1;
+  toggleMarqers( marqerToggled );
+
+  if ($('.video_frame').height() > 150) {
+    animateVideoDown();
+  }
+
+  setTimeout( function () { showQuestions() }, 500);
+  if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');
+  setTimeout( function() {margin_select_video() }, 500);
+}
+
 
 var showPublishMovie = function() {
   $('.navigation .btn').removeClass('btn-material-pink');
@@ -353,7 +408,9 @@ var showPublishMovie = function() {
   hideDescribeAdvancedMovie();
   hideDescribeMovie();
   hideMarqersRightMenu();
+  hideQuestionsMovie();
   showChannels();
+
   if ($('.video_frame').height() > 150) {
     animateVideoDown();
   }

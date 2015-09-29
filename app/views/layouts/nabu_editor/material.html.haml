@@ -12,13 +12,10 @@
       // translations
       window.t = #{raw @t.to_json}
 
-      // kaltura
-      var kalturaPartnerId = "#{@kaltura_partner_id}";
-      var kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
-
       // owner and users
       var client_id = "#{@user_id}";      // this users id
       var account_id = "#{@account_id}";  // this users account
+      var clipcard_id = "";
 
       // engine mount point
       var mount_point = "#{NABU_EDITOR_MOUNT_POINT}"; // mount point of the engine
@@ -26,10 +23,13 @@
       // available themes
       var available_themes = #{NABU_THEMES_AVAILABLE_THEMES.to_json};
 
+      // kaltura
+      var kalturaPartnerId = "#{@kaltura_partner_id}";
+      var kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
+
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
     = javascript_include_tag "nabu_editor/application"
-
 
     = csrf_meta_tags
 
@@ -37,18 +37,16 @@
     = stylesheet_link_tag "nabu_editor/admin"
     = stylesheet_link_tag "nabu_editor/jquery.dropdown"
 
-    / final override for right menu
+    / final override for right menu -- which still doesnt work
     :css
       .marqer_category {z-index: 100000 !important;}
       .marqer_category:hover {z-index: 100000 !important;}
+      .dropdown-menu {z-index: 100001 !important;}
 
     / favicon
     %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}
 
   %body
-
-    / render menu
-    = render partial: 'shared/leftmenu'
 
     / yields page
     = yield

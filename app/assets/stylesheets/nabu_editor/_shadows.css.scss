@@ -3,45 +3,49 @@
 
 $sblur: 4px;
 
+$boxlong0:
+               - 0 1px 6px 0 rgba(0,0,0,.12),
+               - 0 1px 6px 0 rgba(0,0,0,.12);
+
 $boxlong1:
-               - 1px  1px $sblur rgba(100,100,100,0.20),  
-               - 2px  2px $sblur rgba(100,100,100,0.12),  
-               - 4px  4px $sblur rgba(100,100,100,0.08),  
+               - 1px  1px $sblur rgba(100,100,100,0.20),
+               - 2px  2px $sblur rgba(100,100,100,0.12),
+               - 4px  4px $sblur rgba(100,100,100,0.08),
                - 6px  6px $sblur rgba(100,100,100,0.04);
 
 $boxlong2:
-               - 1px  1px $sblur rgba(100,100,100,0.30),  
-               - 2px  2px $sblur rgba(100,100,100,0.22),  
-               - 4px  4px $sblur rgba(100,100,100,0.14),       
-               - 8px  8px $sblur rgba(100,100,100,0.05), 
+               - 1px  1px $sblur rgba(100,100,100,0.30),
+               - 2px  2px $sblur rgba(100,100,100,0.22),
+               - 4px  4px $sblur rgba(100,100,100,0.14),
+               - 8px  8px $sblur rgba(100,100,100,0.05),
                -10px 10px $sblur rgba(100,100,100,0.03),
                -12px 12px $sblur rgba(100,100,100,0.01);
 
 $boxlong3:
-               - 1px  1px $sblur rgba(100,100,100,0.40),  
-               - 4px  4px $sblur rgba(100,100,100,0.30),  
-               - 8px  8px $sblur rgba(100,100,100,0.20),  
-               -12px 12px $sblur rgba(100,100,100,0.10), 
-               -16px 16px $sblur rgba(100,100,100,0.05), 
+               - 1px  1px $sblur rgba(100,100,100,0.40),
+               - 4px  4px $sblur rgba(100,100,100,0.30),
+               - 8px  8px $sblur rgba(100,100,100,0.20),
+               -12px 12px $sblur rgba(100,100,100,0.10),
+               -16px 16px $sblur rgba(100,100,100,0.05),
                -20px 20px $sblur rgba(100,100,100,0.01);
 
 $boxlong4:
-               - 1px  1px $sblur rgba(100,100,100,0.30),  
-               - 4px  4px $sblur rgba(100,100,100,0.20),  
-               - 8px  8px $sblur rgba(100,100,100,0.14),  
-               -12px 12px $sblur rgba(100,100,100,0.08), 
-               -16px 16px $sblur rgba(100,100,100,0.06), 
+               - 1px  1px $sblur rgba(100,100,100,0.30),
+               - 4px  4px $sblur rgba(100,100,100,0.20),
+               - 8px  8px $sblur rgba(100,100,100,0.14),
+               -12px 12px $sblur rgba(100,100,100,0.08),
+               -16px 16px $sblur rgba(100,100,100,0.06),
                -20px 20px $sblur rgba(100,100,100,0.04),
                -24px 24px $sblur rgba(100,100,100,0.02),
                -28px 28px $sblur rgba(100,100,100,0.02),
                -32px 32px $sblur rgba(100,100,100,0.01);
 
 $boxlong5:
-               - 1px  1px $sblur rgba(100,100,100,0.30),  
-               - 4px  4px $sblur rgba(100,100,100,0.24),  
-               - 8px  8px $sblur rgba(100,100,100,0.18),  
-               -12px 12px $sblur rgba(100,100,100,0.12), 
-               -16px 16px $sblur rgba(100,100,100,0.09), 
+               - 1px  1px $sblur rgba(100,100,100,0.30),
+               - 4px  4px $sblur rgba(100,100,100,0.24),
+               - 8px  8px $sblur rgba(100,100,100,0.18),
+               -12px 12px $sblur rgba(100,100,100,0.12),
+               -16px 16px $sblur rgba(100,100,100,0.09),
                -20px 20px $sblur rgba(100,100,100,0.07),
                -24px 24px $sblur rgba(100,100,100,0.05),
                -28px 28px $sblur rgba(100,100,100,0.03),
@@ -51,23 +55,27 @@ $boxlong5:
                -46px 46px $sblur rgba(100,100,100,0.01),
                -50px 50px $sblur rgba(100,100,100,0.01);
 
-.long-shadow-1 {  
+.long-shadow-0 {
+  box-shadow: $boxlong0!important;
+}
+
+.long-shadow-1 {
   box-shadow: $boxlong1!important;
 }
 
-.long-shadow-2 {  
+.long-shadow-2 {
   box-shadow: $boxlong2!important;
 }
 
-.long-shadow-3 {  
+.long-shadow-3 {
   box-shadow: $boxlong3!important;
 }
 
-.long-shadow-4 {  
+.long-shadow-4 {
   box-shadow: $boxlong4!important;
 }
 
-.long-shadow-5 {  
+.long-shadow-5 {
   box-shadow: $boxlong5!important;
 }
 
@@ -84,7 +92,7 @@ $boxlong5:
 
 .paper-leaf {
   width: 50px;
-  height: 50px;  
+  height: 50px;
   background-color: #FBFBFB;
   margin-top: 20px;
 }

@@ -104,6 +104,10 @@
 //= require marduq/player
 // require marduq/editor
 
+// MOVIETRADER
+//= require_tree ./questions/templates
+//= require nabu_editor/questions/questions
+
 // ### EXTRAS ####
 //= require marduq/marqers/MarqerPrototype
 //= require marduq/marqer_definitions
