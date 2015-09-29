@@ -105,13 +105,13 @@
 // require marduq/editor
 
 // MOVIETRADER
-//= require questions/templates/fmc_answers.hamlbars
-//= require questions/templates/fmmc_answers.hamlbars
-//= require questions/templates/mc_answers.hamlbars
-//= require questions/templates/mmc_answers.hamlbars
-//= require questions/templates/open_answers.hamlbars
-//= require questions/templates/question.hamlbars
-//= require questions/templates/score_dependent_text.hamlbars
+//= require nabu_editor/questions/templates/fmc_answers.hamlbars
+//= require nabu_editor/questions/templates/fmmc_answers.hamlbars
+//= require nabu_editor/questions/templates/mc_answers.hamlbars
+//= require nabu_editor/questions/templates/mmc_answers.hamlbars
+//= require nabu_editor/questions/templates/open_answers.hamlbars
+//= require nabu_editor/questions/templates/question.hamlbars
+//= require nabu_editor/questions/templates/score_dependent_text.hamlbars
 //= require nabu_editor/questions/questions
 
 // ### EXTRAS ####
