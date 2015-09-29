@@ -1,0 +1,66 @@
+%div{ "id"=>"qid-{{id}}", "remote_id"=>"{{r_id}}"}
+
+  .question{"id"=>"{{id}}", "remote_id"=>"{{r_id}}"}
+    .question-header
+      .row{:style=>'margin-bottom: 6px;'}
+        .col-xs-2
+          .input-group.input-group-sm
+            %strong
+              %input.in-point.form-control.input-sm{ "placeholder"=>"1", "style"=>"text-align:center;padding:0;padding-left:2px", "type"=>"number", "value"=>"{{time}}" }
+            .input-group-addon
+              {{t 'admin.questions.seconds_abbrivation'}}
+
+        .col-xs-1
+          %button.btn-skip-to.btn.btn-default.btn-sm{"title"=>"go to this question in the video"}
+            %span.glyphicon.glyphicon-step-forward
+
+        .col-xs-5
+          .input-group.input-group-sm
+            -#.input-group-addon
+            -#  type
+            %select.form-control.question-type
+              %option{ "title"=>"{{t 'admin.questions.explanation_fmc'}}", "value"=>"fmc"} {{t 'admin.questions.force_multiplechoice'}}
+              %option{ "title"=>"{{t 'admin.questions.explanation_fmmc'}}" ,"value"=>"fmmc"} {{t 'admin.questions.force_multiplemultiplechoice'}}
+              %option{ "title"=>"{{t 'admin.questions.explanation_mc'}}", "value"=>"mc"} {{t 'admin.questions.multiplechoice'}}
+              %option{ "title"=>"{{t 'admin.questions.explanation_mmc'}}", "value"=>"mmc"} {{t 'admin.questions.multiplemultiplechoice'}}
+              %option{ "title"=>"{{t 'admin.questions.explanation_oq'}}", "value"=>"oq"} {{t 'admin.questions.openquestion'}}
+
+        .col-xs-3
+          .input-group.input-group-sm
+            %input.question-score.form-control.disbaled.input-sm{"placeholder"=>"0", "value"=>"0", "type"=>"text", "disabled"=>"true"}
+            .input-group-addon
+              {{t 'admin.questions.points_abbrivation'}}
+
+        .col-xs-1
+          /%button.btn.btn-sm.btn-fab.btn-fab-mini.btn-material-burgundy.help.pull-right{"title"=>"Help with Scoring and Questions", "data-toggle"=>"tooltip", "data-placement"=>"top", "style"=>"background-color:#f0ad4e"}
+          / .glyphicon.glyphicon-question-sign
+
+          %button.btn.btn-sm.btn-fab.btn-fab-mini.btn-material-pink.delete.pull-right{"title"=>"delete this question"}
+            .glyphicon.glyphicon-trash
+
+      .row
+        .col-xs-12
+          .input_group.input-group-sm
+            %textarea.question-question.form-control{"placeholder"=>"{{t 'admin.questions.question_placeholder'}}", "rows"=>"4", "value"=>"{{question-suggestion}}"}
+
+
+
+    .type-selector.row
+      .col-xs-10.nopadding
+
+      .col-xs-2.nopadding
+
+    .answers.row
+      .answers_holder
+
+        -# ***********************************************************
+        -#  Answers go here
+        -# ***********************************************************
+
+      .col-xs-12.nopadding{:style=>"margin-top: 8px;"}
+        -# hide for open questions!
+
+        %button.add_new_answer.btn.btn-material-pink.btn-sm.pull-right
+          .glyphicon.glyphicon-plus-sign
+          &nbsp
+          {{t 'admin.questions.btn-add_answer'}}

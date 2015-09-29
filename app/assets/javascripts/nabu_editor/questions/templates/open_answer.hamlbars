@@ -1,0 +1,16 @@
+.answer.oq-answer{"id"=>"{{id}}", "type"=>"{{type}}"}
+
+  .col-xs-8.nopadding
+  -#  -# {{t 'admin.questions.btn-add_answer'}}
+  -#  .input-group.input-group-sm
+  -#    %textarea.form-control.answer-text{"placeholder"=>"{{t 'admin.questions.open_answer_placeholder'}}" }
+
+  .col-xs-3.nopadding
+    .input-group.input-group-sm
+      %input.answer-score.form-control.input-sm{"placeholder"=>"10", "value"=>"10", "type"=>"number"}
+      .input-group-addon
+        {{t 'admin.questions.points_abbrivation'}}
+
+  .col-xs-1.nopadding
+  -#  %button.btn.btn-danger.btn-xs.delete-answer.hidden.pull-right
+  -#    %span.glyphicon.glyphicon-trash

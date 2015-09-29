@@ -105,7 +105,13 @@
 // require marduq/editor
 
 // MOVIETRADER
-//= require_tree ./questions/templates
+//= require questions/templates/fmc_answers.hamlbars
+//= require questions/templates/fmmc_answers.hamlbars
+//= require questions/templates/mc_answers.hamlbars
+//= require questions/templates/mmc_answers.hamlbars
+//= require questions/templates/open_answers.hamlbars
+//= require questions/templates/question.hamlbars
+//= require questions/templates/score_dependent_text.hamlbars
 //= require nabu_editor/questions/questions
 
 // ### EXTRAS ####

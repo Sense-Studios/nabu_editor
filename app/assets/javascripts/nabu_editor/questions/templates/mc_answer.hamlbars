@@ -1,0 +1,17 @@
+.answer.mc-answer{"id"=>"{{id}}", "type"=>"{{type}}"}
+
+  .col-xs-8.nopadding
+    .input-group.input-group-sm
+      -# %span.input-group-addon
+      -#   %input{"type"=>"radio", "class"=>"iscorrect", "name"=>"radio-{{q_id}}"}
+      %input.form-control.answer-text{"placeholder"=>"{{t 'admin.questions.answer_placeholder'}}", "type"=>"text"}
+
+  .col-xs-3.nopadding
+    .input-group.input-group-sm.score
+      %input.answer-score.form-control.input-sm{"placeholder"=>"10", "value"=>"10", "type"=>"number"}
+      .input-group-addon
+        {{t 'admin.questions.points_abbrivation'}}
+
+  .col-xs-1.nopadding
+    %button.btn.btn-fab.btn-fab-micro.btn-material-pink.delete-answer.pull-right
+      %span.glyphicon.glyphicon-trash

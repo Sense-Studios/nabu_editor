@@ -1,0 +1,46 @@
+.questions_container
+  .main_container
+    .row.main
+      .inner-padding
+        .col-md-6
+          = image_tag "nabu_editor/movietrader.png"
+
+
+        .col-md-6
+
+          .form-group
+            %button.btn.btn-material-burgundy.stats-butt.pull-right{:title=>I18n.t('tooltips.preview_questions'), "data-toggle"=>"tooltip", "data-placement"=>"top"}
+              %span.glyphicon.glyphicon-signal
+              &nbsp
+              /= I18n.t('common.statistics')
+
+            %button.btn.btn-material-burgundy.preview-butt.pull-right{:title=>I18n.t('tooltips.preview_questions'), "data-toggle"=>"tooltip", "data-placement"=>"top"}
+              %span.glyphicon.glyphicon-refresh
+              &nbsp
+              /= I18n.t('common.refresh')
+
+            / %button.btn.btn-material-burgundy{:title=>I18n.t('tooltips.save_questions'), "data-toggle"=>"tooltip", "data-placement"=>"top"}
+            /   %span.glyphicon.glyphicon-floppy-saved
+            /   &nbsp
+            /   = I18n.t('common.save')
+
+            /  #&nbsp
+            /  #.save_status
+            /#%button.btn.btn-default.btn-sm.refresh-butt{:title=>"reload", "data-toggle"=>"tooltip", "data-placement"=>"top"}
+            /    #%span.glyphicon.glyphicon-refresh
+
+            %button.btn.btn-material-pink.pull-right#add-question
+              %span.glyphicon.glyphicon-plus-sign
+              &nbsp
+              = I18n.t('admin.questions.btn-add_question')
+
+
+  .scroll_container
+    /.invisible-well.well-sm{:style=>"height: 512px; overflow: hidden; overflow-y: scroll;"}
+    #questions_holder
+
+    -# ***********************************************************
+    -#  Questions go here
+    -# ***********************************************************
+
+    / end questions **********************************

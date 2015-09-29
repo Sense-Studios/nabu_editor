@@ -1,0 +1,12 @@
+.row.score-text{id: '{{id}}'}
+  .form-group.input-group
+    .col-md-3
+      .input-group
+        %input.points-value.form-control{ type: "number", value: "0" }
+        %span.input-group-addon
+          {{t 'admin.questions.points_abbrivation'}}
+    .col-md-8
+      %input.points-text.form-control{ type: "text", placeholder: " {{t 'admin.questions.end_text_placeholder'}}" }
+    .col-md-1
+      %button.btn.btn-danger.btn-sm.pull-right.delete-score-text
+        %span.glyphicon.glyphicon-trash

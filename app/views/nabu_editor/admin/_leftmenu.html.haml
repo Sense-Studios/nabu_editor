@@ -1,0 +1,68 @@
+%nav
+
+  / *** LOGO ***
+  = link_to main_app.admin_dashboard_path, :target=>"_top"  do
+    = image_tag "nabu_editor/beeld_merk.png",:class => "logo"
+    = image_tag "nabu_editor/naam_merk.png",:class => "logo"
+
+  / *** USER ***
+  %h4.text-center
+    /= I18n.t('common.welcome')
+    - my_email = current_user.email
+    - emailcutted = my_email[/[^@]+/]
+    %strong= emailcutted
+  .user_description
+    .user_image_wrapper
+      - if current_user
+        = image_tag current_user.gravatar_url size: 120
+      - else
+        = image_tag("nabu_editor/avatar_placeholder.png", class: "user_image")
+
+
+    %h3.user_name= current_user.account_name
+
+    /%p.user_name
+    /  - if  current_user.has_role? :admin
+    /    = "Administrator"
+    /  - else
+    /    = "Editor"
+
+    .logout
+      = link_to main_app.destroy_user_session_path, :method => :delete, :title => "#{current_user.email}" do
+        /%p= I18n.t('admin.menu.sign_out')
+        %p= t('menu.sign_out')
+        %span.glyphicon.glyphicon-off.small
+
+
+  / *** NAVIGATION ***
+  .navigation.btn-material-blue-grey
+    .btn.btn-material-pink#create_butt
+      = link_to 'javascript:showCreateMovie()', :target=>"_top"  do
+        = t('menu.your_videos')
+      %span.glyphicon.glyphicon-facetime-video.menu-item
+    .btn.btn-material-blue-grey#describe_butt
+      = link_to 'javascript:showDescribeMovie()', :target=>"_top"  do
+        = t('menu.describe_video')
+      %span.glyphicon.glyphicon-pencil.menu-item
+    .btn.btn-material-blue-grey#settings_butt
+      / settings.MOUNT_POINT
+      = link_to 'javascript:showSettingsMovie()', :target=>"_top"  do
+        = t('menu.marqers')
+      %span.glyphicon.glyphicon-wrench.menu-item
+    .btn.btn-material-blue-grey#questions_butt
+      = link_to 'javascript:showQuestionsMovie()', :target=>"_top"  do
+        /= link_to main_app.admin_dashboard_path, :target=>"_top"  do
+        /= I18n.t('admin.finish.publish')
+        Quiz
+      %span.glyphicon.glyphicon-question-sign
+    .btn.btn-material-blue-grey#publish_butt
+      = link_to 'javascript:showPublishMovie()', :target=>"_top"  do
+        = t('menu.publish')
+      %span.glyphicon.glyphicon-globe.menu-item
+
+    .hide_left_menu
+      %span.glyphicon.glyphicon-menu-left
+      %span.glyphicon.glyphicon-menu-right
+
+  / Custom javascript
+  = javascript_include_tag "nabu_editor/leftmenu"
