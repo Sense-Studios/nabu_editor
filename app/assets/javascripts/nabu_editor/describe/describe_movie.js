@@ -21,24 +21,24 @@ metaData
 // and past it into the website
 
 function setDataFromProgram() {
-  
+
   console.log("SETTING DATA FROM PROGRAM");
-  
+
     // this is a new program, appearently, set meta data to descriptor
   if ( program.meta === "" || program.meta === null || program.meta === undefined ) {
-    
+
     console.log("ignoring empty meta info");
     console.log("this should be handled by the server!!");
     // injectMetadata( id )
-    
+
     //console.log("no meta info found on program, setting it .. ");
-    
+
     //// fill with the data from the asset
     //metaData.moviedescription.title = program.program_items[0].asset.title;
     //metaData.moviedescription.description = program.program_items[0].asset.description;
     //metaData.moviedescription.tags = program.program_items[0].asset.tags.join(',');
     //metaData.moviedescription.thumbnail = program.program_items[0].asset.thumbnail_url;
-    
+
     //// set it
     //program.meta = metaData;
 
@@ -48,14 +48,14 @@ function setDataFromProgram() {
     //// initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
     //// initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
     //initTextField( $('#tags'), metaData.moviedescription, "tags" );
-    
+
     //// inject default marqers
     //injectMarqers();
-  
-  }else{    
+
+  }else{
     metaData = program.meta;
   }
-  
+
   console.log("doublecheck program data:");
   console.log(" -- ", program.program_items[0].asset.title );
   console.log(" -- ", program.program_items[0].asset.description );
@@ -67,7 +67,7 @@ function setDataFromProgram() {
   console.log(" -- ", metaData.moviedescription.description );
   console.log(" -- ", metaData.moviedescription.tags );
   console.log(" -- ", metaData.moviedescription.thumbnail );
-  
+
   // Tab1: set Movie Info Tab
   // initTextField( $('#title'), program.program_items[0].asset, "title" );
   // initTextField( $('#description'),  program.program_items[0].asset, "description"  );
@@ -78,52 +78,52 @@ function setDataFromProgram() {
   initTextField( $('#description'),  metaData.moviedescription, "description"  );
   $('#small_description').text(metaData.moviedescription.description);
   initTextField( $('#tags'), metaData.moviedescription, "tags" );
-  
+
   // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
   // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
   // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
-  
+
   // $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '+/kaltura/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
   $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '/embed/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
   $('textarea#program_url').text( window.location.origin + '/embed/' + program.id );
 
-  
+
   // add the pictiures
   $('.image-picker').html('');                                                //reset
   $('.thumbnail-image-preview').attr('src', 'http://placehold.it/640x360');   // reset
-    
-  // each thumbnail in the asset  
+
+  // each thumbnail in the asset
   if ( program.program_items[0].asset._type == "Video" ) {
     var cn = 0;
-    $.each( program.program_items[0].asset.thumbnails.medium, function( key, value ) { 
+    $.each( program.program_items[0].asset.thumbnails.medium, function( key, value ) {
       $('.image-picker').append('<option data-img-src="' + value + '" value="1" > Thumbnail </option>');
       cn++;
     });
   }
-    
+
   if ( program.program_items[0].asset._type == "Youtube" || program.program_items[0].asset._type == "Vimeo" ) {
     $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>');
   }
-  
+
   // add the current, floating thumbnail
-  // $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>') 
-  
+  // $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>')
+
   // initialize the thumbnails
-  $(".image-picker").imagepicker({            
-    //clicked: function(e) {      
+  $(".image-picker").imagepicker({
+    //clicked: function(e) {
     //  console.log('updating thumbnail', $(this).find('option:selected').attr('data-img-src'))
-    //  metaData.moviedescription.thumbnail = $(this).find('option:selected').attr('data-img-src');      
+    //  metaData.moviedescription.thumbnail = $(this).find('option:selected').attr('data-img-src');
     //  postMetaData() // fuck it and safe
     //}
-  }); 
-   
+  });
+
   // image picker click doesn't work, so I had to rewrite it here, bitches
   $('.image_picker_image').unbind('click')
   $('.image_picker_image').click( function() {
-    metaData.moviedescription.thumbnail = $(this).attr('src'); 
-    
+    metaData.moviedescription.thumbnail = $(this).attr('src');
+
     // should be wrapped in a more commen 'updating' state
-    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600); 
+    $('.leprograms').find('.selected').animate({'opacity':0.4}, 600);
     postMetaData() // fuck it and safe
   })
 
@@ -136,9 +136,9 @@ function setDataFromProgram() {
   $('input[name="on-movie-end"]').change(function(e) { metaData.on_movie_end.set = $('input[name="on-movie-end"]:checked').val(); });
   initTextField( $('#linked-page'),  metaData.on_movie_end, "linked_page" );
   initTextField( $('#movie-end-text'),  metaData.on_movie_end, "shown_text" );
-  initTextField( $('#next-program'),  metaData.on_movie_end, "next_program_id" );  
+  initTextField( $('#next-program'),  metaData.on_movie_end, "next_program_id" );
   setOptions( movie_end_checkboxes, metaData.on_movie_end  );
-  
+
   // ###  Tab4 set Social
   initTextField( $('#social-title'),  metaData.social, "title" );
   initTextField( $('#social-url'),  metaData.social, "url" );
@@ -146,7 +146,7 @@ function setDataFromProgram() {
   initTextField( $('#social-subject'),  metaData.social, "subject" );
   initTextField( $('#social-body'),  metaData.social, "body"  );
   setOptions( social_checkboxes, metaData.social  );
-    
+
   // activate autofill social from movie data
   $('#autofill').click(function() {
     $('#social-title').val( metaData.moviedescription.title );
@@ -154,7 +154,7 @@ function setDataFromProgram() {
     $('#social-description').val( metaData.moviedescription.description );
     $('#social-subject').val( metaData.moviedescription.title );
     $('#social-body').val( metaData.moviedescription.description );
-    
+
     metaData.social.title = metaData.moviedescription.title;
     metaData.social.url = "http://" + location.hostname + "/" + program_id;
     metaData.social.description = metaData.moviedescription.description;
@@ -164,43 +164,43 @@ function setDataFromProgram() {
 
   // Tab5 set Advanced
 
-  // set images, if any
-  if ( metaData.advanced.show_image_before_url !== "" ) {
-    $('#img_holder_before_movie_image').html('');
-    $('#img_holder_before_movie_image').append("<img style='max-height:255px' src='" + metaData.advanced.show_image_before_url + "'/>");
-  }
-  
-  if ( metaData.advanced.show_image_during_url !== "" ) {    
-    $('#img_holder_branded_logo_image').html('');
-    $('#img_holder_branded_logo_image').append("<img style='max-height:255px;' src='" + metaData.advanced.show_image_during_url + "' />");
-  }
-    
-  if ( metaData.advanced.show_image_after_url !== "" ) {
-    $('#img_holder_after_movie_image').html('');
-    $('#img_holder_after_movie_image').append("<img style='max-height:255px;' src='" + metaData.advanced.show_image_after_url + "'/>");    
-  }
-  
+  // set images, if any --> This is now depricated
+  //if ( metaData.advanced.show_image_before_url !== "" ) {
+  //  $('#img_holder_before_movie_image').html('');
+  //  $('#img_holder_before_movie_image').append("<img style='max-height:255px' src='" + metaData.advanced.show_image_before_url + "'/>");
+  //}
+
+  //if ( metaData.advanced.show_image_during_url !== "" ) {
+  //  $('#img_holder_branded_logo_image').html('');
+  //  $('#img_holder_branded_logo_image').append("<img style='max-height:255px;' src='" + metaData.advanced.show_image_during_url + "' />");
+  //}
+
+  //if ( metaData.advanced.show_image_after_url !== "" ) {
+  //  $('#img_holder_after_movie_image').html('');
+  //  $('#img_holder_after_movie_image').append("<img style='max-height:255px;' src='" + metaData.advanced.show_image_after_url + "'/>");
+  //}
+
   // set checkboxes
   setOptions( advanced_checkboxes, metaData.advanced );
-  
-  // init uploaders  
+
+  // init uploaders
   // init_s3_uploader( '#before_movie_image', '#img_holder_before_movie_image', '#delete_before_movie_image', "show_image_before_url" );
   // init_s3_uploader( '#branded_logo_image', '#img_holder_branded_logo_image', '#delete_branded_logo_image', "show_image_during_url"  );
   // init_s3_uploader( '#after_movie_image', '#img_holder_after_movie_image', '#delete_after_movie_image', "show_image_after_url" );
-  
+
   // first time parsing of the meta data object
   // so all checkboxes etc. will concurr
-  
+
   updateMetaData();
 }
 
-// for now I wire up all the different elements, 
+// for now I wire up all the different elements,
 // but of course we could agree upon one data object
 // that holds everything, but as this will prolly
 // be debated a lot, I choose flexibility over code
 // convenience
 function updateMetaData() {
-  
+
   // player data
   // switches the player on and off whil checking the boxes
   // Move to player options, although these are needed to show realtime what its gonna be?
@@ -213,24 +213,24 @@ function updateMetaData() {
   metaData.player_options.fullscreen === "true"  ? $("#butt-togglefullscreen").show() : $("#butt-togglefullscreen").hide();
   metaData.player_options.seek === "true"  ? $(".seek").show() : $(".seek").hide();
   metaData.player_options.volume === "true"  ? $(".volume").show() : $(".volume").hide();
-  metaData.player_options.mute === "true"  ? $(".mute").show() : $(".mute").hide();  
+  metaData.player_options.mute === "true"  ? $(".mute").show() : $(".mute").hide();
   metaData.player_options.show_big_play === "true"  ? $(".big-play").show() : $(".big-play").hide();
-  
+
   // bring this back ?
   //metaData.player_options.title === "true"  ? $("#video_frame .title").show() : $("#video_frame .title").hide();
-  
+
   // depricated
   metaData.player_options.showscores === "true"  ? $(".MTScoreMarqer").fadeIn() : $(".MTScoreMarqer").fadeOut();
 
-  
+
   // takes out the scrubbar
   if ( metaData.player_options.allow_scrubbing === "true" ) {
     $('.progress').css({'pointer-events':'all'});
     $('.progress').css({'cursor':'all'});
   }else{
     $('.progress').css({'pointer-events':'none'});
-    $('.progress').css({'cursor':'none'})  ;  
-  }  
+    $('.progress').css({'cursor':'none'})  ;
+  }
 }
 
 // #############################################################################
@@ -238,12 +238,12 @@ function updateMetaData() {
 // #############################################################################
 
 // S3 Uploader
-function init_s3_uploader( target, img_holder, delete_button, meta_adress ) {  
+function init_s3_uploader( target, img_holder, delete_button, meta_adress ) {
   // post, activate delete button
   // TODO, use delete_button
-  
+
   console.log("init uploader", target );
-  
+
   // activate the s3 uploader
   $( target ).S3Uploader({
     max_file_size: 1258291200
@@ -251,13 +251,13 @@ function init_s3_uploader( target, img_holder, delete_button, meta_adress ) {
     // allow_multiple_files: false,
     // remove_completed_progress_bar: false
   });
-  
+
   // Upload start
   $( target ).bind('s3_uploads_start', function(e) {
     console.log("start upload");
     // we could add a loader here, but ...
   });
-      
+
   // Upload complete, show image, write it in metadata
   $( target ).bind("s3_upload_complete", function(e, content) {
     metaData.advanced[ meta_adress ] = content.url;

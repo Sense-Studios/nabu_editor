@@ -1056,6 +1056,58 @@ nav {
       position: absolute;
       /*overflow: hidden;*/ // lets movethis to a use_grid class
       border-bottom: 2px solid rgba(73,73,73,0.34);
+      transition-duration: 0.23s;
+
+      box-shadow: $boxlong1 !important;
+      margin: 4px 0px;
+
+
+      &:hover {
+        box-shadow: $boxlong3 !important;
+        margin: -2px 0px;
+
+        .stats {
+          opacity: 1;
+          font-size: 12px;
+        }
+      }
+
+      &:active {
+        box-shadow: $boxlong5 !important;
+        z-index:100000000;
+        margin: -3px 0px;
+      }
+
+      // hack to find active
+      &.btn-material-pink {
+        box-shadow: $boxlong5 !important;
+        z-index:100000000;
+        margin: -3px 0px;
+
+        .stats {
+          opacity: 1;
+          font-size: 12px;
+        }
+      }
+
+      .stats {
+        top: 11px;
+        left: 11px;
+        padding: 0px 5px;
+        color: #f5f5f5;
+        position: absolute;
+        text-shadow: 0px 0px 5px black;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        line-height: 20px;
+        background-color: rgba(42,42,42,0.3);
+        opacity: 0.5;
+        transition-duration: 0.16s;
+
+        .glyphicon {
+        }
+      }
 
       // created a pseudolink, so
       // the color of the text will adhere to
@@ -1064,6 +1116,10 @@ nav {
         display: block;
         width: 100%;
         cursor:pointer;
+
+        //&:hover {
+        //  box-shadow: $boxlong5 !important;
+        //}
 
         .description {
           width: 100%;

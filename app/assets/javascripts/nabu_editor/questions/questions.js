@@ -124,7 +124,7 @@ function addQuestion( remote_id ) {
   changeQuestionType( that, "fmc" );
 
   // use smpt
-  // convertSeconds('.in-point')
+  setTimeout( function() { convertSeconds('.in-point') }, 250 ); 
 
   // return id, for autogeneration of quesions
   return id;
@@ -259,7 +259,8 @@ function addInteractionToAnswer( id, question_id ) {
     checkCorrectAnswer( question_id );
     updateOverallScore(question_id);
     checkAndDisableCorrect(question_id);
-    convertSeconds(".in-point");
+
+    setTimeout( function() { convertSeconds(".in-point") }, 250 );
 }
 
 function checkAndDisableCorrect( question_id, answer_id ) {

@@ -67,11 +67,17 @@ var ProgramTile = React.createClass({
 
   render:function() {
       var id = this.props.program.id
+      var embedlink = "/embed/" + id
 
       //var link = '/'+ this.props.program.id
       var title = this.props.program.title
       var description = this.props.program.description
       var tags = this.props.program.tags.join(', ')
+
+      // for statistics
+      var temp_time = toTime( Math.round( this.props.program.timewatched ) )
+      var timewatched =  temp_time.h + ":" + temp_time.m
+      var openers = this.props.program.openers + "/" + this.props.program.completed
 
       //var thumb = this.props.program.meta.moviedescription.thumbnail
       var thumb = this.props.program.thumbnail
@@ -94,6 +100,11 @@ var ProgramTile = React.createClass({
         <div className={classes} id={id} title={description} alt={description}>
           <span className='pseudolink' onClick={this.selectMovie} >
             <img src={thumb} width="100%"  />
+            <div className='stats'>
+              <span className='glyphicon glyphicon-time'/> {timewatched}<br/>
+              <span className='glyphicon glyphicon-eye-open'/> {openers}<br/>
+            </div>
+
             <div className="description"> {title} <br/><small className="code"> {tags} </small></div>
           </span>
           <ul className='nav nav-tabs btn-material-pink'>
@@ -105,6 +116,9 @@ var ProgramTile = React.createClass({
               <ul className='dropdown-menu'>
                 <li>
                   <a href='#' onClick={this.showMovieRelay} data-toggle='tab'> Bekijk </a>
+                </li>
+                <li>
+                  <a href={embedlink} target='_blank'> Embed </a>
                 </li>
                 <li>
                   <a href='#' onClick={this.describeMovieRelay} data-toggle='tab'> Beschrijf </a>

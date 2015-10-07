@@ -110,7 +110,7 @@ nl:
     layout: "Opmaak"
     beta: "beta"
   marqer_names:
-    title: "title"
+    title: "Title"
     simple_text: "Tekst"
     srt: "Ondertiteling"
     subtitle: "Ondertitel"

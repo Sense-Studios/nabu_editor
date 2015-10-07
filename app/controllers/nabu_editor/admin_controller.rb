@@ -120,8 +120,10 @@ module NabuEditor
         },
 
         "player_options"=> {
+          "title"=> "true",
+          "description"=> "true",
           "autoplay"=> "false",
-          "showscores"=>"true",
+          #"showscores"=>"true",
           "scrubbar"=> "true",
           "allow_scrubbing"=> "true",
           "loader"=> "true",
@@ -134,25 +136,27 @@ module NabuEditor
           "volume"=> "false",
           "mute"=> "true",
           "show_big_play"=> "true",
-          "title"=> "true",
-          "description"=> "true",
+
           "pop_under"=> "false",
-          "pop_under_target"=> ""
+          "pop_under_target"=> "",
+
+          "custom_widget_id" => "",
+          "custom_embed_code" => ""
         },
 
         "on_movie_end"=> {
           "set"=> "do-nothing",
           "linked_page"=> "",
-          "shown_text"=> "",
-          "next_program_id"=> "",
-          "score_dependent_texts"=> [],
-          "score_dependent_texts_header"=> "",
-
-          "show_social_media"=> "false",
-          "show_highscores"=> "true",
-          "show-opt-in"=> "true",
-          "email-forwarding"=> "true",
-          "show-score-dependant-texts"=> "true"
+          #"shown_text"=> "",
+          "show_text"=> "",
+          "next_program_id"=> ""
+          #"score_dependent_texts"=> [],
+          #"score_dependent_texts_header"=> "",
+          #"show_social_media"=> "false",
+          #"show_highscores"=> "true",
+          #"show-opt-in"=> "true",
+          #"email-forwarding"=> "true",
+          #"show-score-dependant-texts"=> "true"
         },
 
         "social"=> {
@@ -172,27 +176,28 @@ module NabuEditor
           "plusone"=> "false"
         },
 
-        "advanced"=> {
+        #{}"advanced"=> {
           # note that these are relayed through
           # custom marquers; ImageBeforeMarqer, ImageDuringMarqer, ImageAfterMarqer
           # (nameing sucked out of my thumb)
 
-          "show_image_before"=> "false",
-          "show_image_before_url"=> "",
-          "show_image_before_asset_id"=> "",
-          "show_image_during"=> "false",
-          "show_image_during_url"=> "",
-          "show_image_during_asset_id"=> "",
-          "show_image_after"=> "false",
-          "show_image_after_url"=> "",
-          "show_image_after_asset_id"=> ""
-        },
+        #  "show_image_before"=> "false",
+        #  "show_image_before_url"=> "",
+        #  "show_image_before_asset_id"=> "",
+        #  "show_image_during"=> "false",
+        #  "show_image_during_url"=> "",
+        #  "show_image_during_asset_id"=> "",
+        #  "show_image_after"=> "false",
+        #  "show_image_after_url"=> "",
+        #  "show_image_after_asset_id"=> ""
+        #},
 
         "statistics"=> {
-          "views"=> "0",
-          "openers"=> "0",
-          "completed"=> "0",
-          "statistics"=> "0"
+          "views" => 0,
+          "openers" => 0,
+          "completed" => 0,
+          "timewatched" => 0
+          # "statistics" => "0",
         }
       }
 
@@ -259,6 +264,22 @@ module NabuEditor
           temp_program['thumbnail'] = "http://thumb10.shutterstock.com/photos/thumb_large/702052/115219567.jpg"
         else
           temp_program['thumbnail'] = p.meta.moviedescription.thumbnail
+
+          temp_program['timewatched'] = 0
+          temp_program['openers'] = 0
+          temp_program['completed'] = 0
+
+          if p.meta.respond_to? :statistics
+            if p.meta.statistics.respond_to? :timewatched
+              temp_program['timewatched'] = p.meta.statistics.timewatched
+            end
+            if p.meta.statistics.respond_to? :openers
+              temp_program['openers'] = p.meta.statistics.openers
+            end
+            if p.meta.statistics.respond_to? :completed
+              temp_program['completed'] = p.meta.statistics.completed
+            end
+          end
         end
 
         temp_program['created_at'] = p.created_at

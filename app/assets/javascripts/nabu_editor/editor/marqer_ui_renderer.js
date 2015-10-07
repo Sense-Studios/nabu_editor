@@ -84,10 +84,12 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     var context = {
       key: key,
       element: element,
-      label: translateKey(key),  //key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
+      //label: translateKey(key),  //key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
       rand_id: (+new Date())     // or use remote_id, or utils.guid
     };
 
+    // assign label if any
+    if ( element.label !== undefined ) context.label = element.label
     console.log("--> render marqer elements KEY: ", key );
 
     // extra's (unit renders a value after a textfield)
