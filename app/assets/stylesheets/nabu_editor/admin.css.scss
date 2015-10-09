@@ -1061,10 +1061,10 @@ nav {
       box-shadow: $boxlong1 !important;
       margin: 4px 0px;
 
-
       &:hover {
         box-shadow: $boxlong3 !important;
         margin: -2px 0px;
+        z-index:100000000;
 
         .stats {
           opacity: 1;

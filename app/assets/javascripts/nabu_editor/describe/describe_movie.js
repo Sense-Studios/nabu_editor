@@ -131,6 +131,11 @@ function setDataFromProgram() {
   setOptions( movie_options_checkboxes, metaData.player_options  );
   initTextField( $('#pop_under_program'),  metaData.player_options, "pop_under_target" );
 
+  // custom embed info
+  initTextField( $('#custom_widget_id'),  metaData.player_options, "custom_widget_id" );
+  initTextField( $('#custom_embed_code'),  metaData.player_options, "custom_embed_code" );
+
+
   // Tab3: set On Movie End
   $('input[name="on-movie-end"][value="'+ metaData.on_movie_end.set +'"]').attr("checked", "checked");
   $('input[name="on-movie-end"]').change(function(e) { metaData.on_movie_end.set = $('input[name="on-movie-end"]:checked').val(); });

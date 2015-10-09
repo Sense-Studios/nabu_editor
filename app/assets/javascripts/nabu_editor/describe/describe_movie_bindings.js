@@ -118,8 +118,15 @@ movie_options_checkboxes = [
   [ 'title',           $('#show-title')      ],
   [ 'autoplay',        $('#autoplay')        ],
   [ 'description',     $('#show-description')],
+
   //[ 'showscores',      $('#show-scores')     ],
-  [ 'pop_under',       $('#use_pop_under')   ]
+  [ 'pop_under',       $('#use_pop_under')   ],
+
+  // "pop_under": "false",
+  // "pop_under_target": "",
+
+  [ "custom_widget_id", $('#custom_widget_id') ],
+  [ "custom_embed_code", $('#custom_embed_code') ]
 ];
 
 movie_end_checkboxes = [

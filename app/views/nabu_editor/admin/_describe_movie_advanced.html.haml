@@ -18,7 +18,7 @@
           %textarea#social-description.form-control{:type => "text", "placeholder"=> I18n.t('admin.describe.social.share.description_placeholder'), "rows"=>'8'  }
       .clear
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie= t('describe_movie.save')
+        .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
       .clear
       /  %h4= I18n.t('admin.describe.social.share_title')
       /  .form-group
@@ -113,5 +113,26 @@
         %br
         %textarea#movie-end-text.form-control{"placeholder"=> I18n.t('admin.describe.movie_end.show_text_placeholder')}
       .col-md-12
-        .button.btn.btn-material-pink.pull-right#save_movie= t('describe_movie.save')
+        .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
       .clear
+
+  .well
+    %h4
+      Kaltura custom embed info
+    .form-group
+      %label widget id
+      %input#custom_widget_id.form-control{"type"=>"text", "placeholder"=> "" }
+
+    .form-group
+      %label custom code
+      %textarea#custom_embed_code.form-control{"placeholder"=> "" }
+
+    .col-md-12
+      .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
+    .clear
+
+:javascript
+  $(function() {
+    $('.save_movie').unbind('click');
+    $('.save_movie').click( function(e) { postMetaData() } );
+  });
