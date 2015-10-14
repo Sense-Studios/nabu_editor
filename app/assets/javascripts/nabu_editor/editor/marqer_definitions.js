@@ -46,7 +46,7 @@ var available_marqers = [
   //{ "name": "Post Message",                  "type": "PostMessageMarqer",              "icon": "", "category": "experimental", "version":"alpha" },
   { "name": "Highscores",                    "type": "MTHighscoreMarqer",              "icon": "", "category": "movietrader",    "version":"alpha" },
   { "name": "Opt in",                        "type": "MTOptInMarqer",                  "icon": "", "category": "movietrader",    "version":"alpha" },
-  //{ "name": "Score",                         "type": "MTScoreMarqer",                  "icon": "", "category": "test_quiz"     "version":"alpha" },
+  { "name": "Score",                         "type": "MTScoreMarqer",                  "icon": "", "category": "movietrader",    "version":"alpha" },
   //{ "name": "Tekstblok",                     "type": "TextAreaMarqer",                 "icon": "", "category": "text",         "version":"alpha" },
   //{ "name": "Vragen",                        "type": "MTQuestionMarqer",               "icon": "", "category": "",             "version":"alpha" },
   { "name": "Score Afhankelijke Eindteksten","type": "MTScoreDependantEndTextMarqer",  "icon": "", "category": "movietrader",    "version":"alpha" },
