@@ -201,7 +201,6 @@ module NabuEditor
         }
       }
 
-
       if @program.save
         logger.info "Save complete!"
       else
@@ -212,34 +211,14 @@ module NabuEditor
     end
 
     def get_programs
-      @programs_data = MarduqResource::Program.where( client_id:  current_user.client_id ) || []
-      # sort on created at
-      @programs_data = @programs_data.sort_by(&:created_at)
-      @programs = []
-      @programs_data.each do |p|
-        temp_program = {}
-        temp_program['title'] = p.title
-        temp_program['description'] = p.description
-        temp_program['id'] = p.id
-        temp_program['tags'] = p.tags
-
-        if ( p.meta.blank? )
-          temp_program['thumbnail'] = "http://thumb10.shutterstock.com/photos/thumb_large/702052/115219567.jpg"
-        else
-          temp_program['thumbnail'] = p.meta.moviedescription.thumbnail
-        end
-
-        temp_program['created_at'] = p.created_at
-        @programs.push(temp_program)
-      end
+      # this would be the api call
+      do_get_programs
       render json: @programs.reverse!
     end
 
     # Sites
     def dashboard
       set_account_id
-      @programs_data = MarduqResource::Program.where( client_id: @account_id ) || []
-      @programs_data = @programs_data.sort_by(&:created_at)
 
       if current_user.account?
         owner = User.find( current_user.client_id )
@@ -250,8 +229,33 @@ module NabuEditor
       @kaltura_partner_id = owner.kaltura_partner_id
       @kaltura_uiconfig_id = owner.kaltura_uiconfig_id
 
-      # we need to trim down all the data from programs,
-      # we don't need marqers and stuff at this point
+      # get programs
+      do_get_programs
+
+      @themes = NabuThemes::Theme.where( :owner => @account_id )
+      @menus = NabuThemes::Menu.where( :owner => @account_id )
+
+    end
+
+    def create
+      get_current_program
+    end
+
+    def describe
+      get_current_program
+    end
+
+    def edit
+      get_current_program
+    end
+
+  protected
+
+    # get programs helper
+    def do_get_programs
+      @programs_data = MarduqResource::Program.where( client_id:  current_user.client_id ) || []
+      #@programs_data = @programs_data.sort_by(&:created_at)
+
       @programs = []
       @programs_data.each do |p|
         temp_program = {}
@@ -286,24 +290,16 @@ module NabuEditor
         @programs.push(temp_program)
       end
 
-      @themes = NabuThemes::Theme.where( :owner => @account_id )
-      @menus = NabuThemes::Menu.where( :owner => @account_id )
-
+      if params[:sort].nil?
+        @programs = @programs.sort_by{|e| e['created_at'] }
+      else
+        if params[:sort] == 'timewatched' || params[:sort] == 'openers' || params[:sort] == 'completed'
+          @programs = @programs.sort_by{|e| e[params[:sort]].to_i }
+        else
+          @programs = @programs.sort_by{|e| e[params[:sort]].to_s }
+        end
+      end
     end
-
-    def create
-      get_current_program
-    end
-
-    def describe
-      get_current_program
-    end
-
-    def edit
-      get_current_program
-    end
-
-  protected
 
     def set_account_id
       if !current_user.account_id.nil?

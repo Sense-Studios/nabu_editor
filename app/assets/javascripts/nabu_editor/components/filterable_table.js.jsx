@@ -70,6 +70,7 @@ var ProgramTile = React.createClass({
       var embedlink = "/embed/" + id
 
       //var link = '/'+ this.props.program.id
+      if ( this.props.program.title == null || this.props.program.title == "" ) this.props.program.title = "( geen titel )"
       var title = this.props.program.title
       var description = this.props.program.description
       var tags = this.props.program.tags.join(', ')
