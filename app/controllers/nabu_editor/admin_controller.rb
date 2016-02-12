@@ -313,6 +313,9 @@ module NabuEditor
     end
 
     def get_current_program
+      puts "------------------------------------------------------------------"
+      puts " get current program "
+      puts "------------------------------------------------------------------"
     end
 
   end

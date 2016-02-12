@@ -896,10 +896,11 @@ var startScreenEditor = function( event, ui ) {
     e.preventDefault(); // prevent the default action (scroll / move caret)
 
     var d = 1;
-    var u = false;
+    var u = false; // update or not (?)
     if (e.shiftKey) d = 10;
-
+    console.log("################### ", e.which )
     switch(e.which) {
+
       case 37: // left
         $( ".se_drag_container" ).css("left", "-=" + d);
         u = true;
@@ -940,6 +941,29 @@ var startScreenEditor = function( event, ui ) {
         u = true;
         break;
 
+      case 70: // F
+        // full video frame!
+        $( ".se_drag_container" ).css({
+          "top": -2, // Ow god. Why?!
+          "left": -2,
+          "width": $('#video_frame').width(),
+          "height": $('#video_frame').height()
+        });
+        u = true;
+        break;
+
+      case 82: // F
+        // (hard) reset
+        $( ".se_drag_container" ).css({
+          "top": "50px",
+          "left": "50px",
+          "width": "320px",
+          "height": "240px",
+        });
+        u = true;
+        break;
+
+
       case 13: // enter
         stopScreenEditor();
         break;
@@ -970,13 +994,14 @@ var createGrid = function() {
 
   var sizes = [
     4,4,1,2,2,2,2,2,2,1,4,4,
+    4,4,1,2,2,2,2,2,2,1,4,4,
     5,5,3,0,0,0,0,0,0,3,5,5,
     5,5,3,0,0,0,0,0,0,3,5,5,
     5,5,3,0,0,0,0,0,0,3,5,5,
     5,5,3,0,0,0,0,0,0,3,5,5,
     5,5,3,0,0,0,0,0,0,3,5,5,
     5,5,3,0,0,0,0,0,0,3,5,5,
-    5,5,3,0,0,0,0,0,0,3,5,5,
+    4,4,1,2,2,2,2,2,2,1,4,4,
     4,4,1,2,2,2,2,2,2,1,4,4
   ];
 

@@ -124,6 +124,7 @@ function buildChannelSelector() {
     if( selectedvalue == 'Kies een kanaal' ) {
       resetAllDropDownsAndFields()
       disableDropdownsAndFields()
+      currentChannel = null
       canSave = true;
     } else {
       fillAllDropDownsAndFields( selectedvalue )
@@ -458,6 +459,7 @@ function updateChannel( calledfrom ) {
 
   var channelId = $('#channel_selector').val();
   var channelData = getChannelData();
+  channelData.settings = currentChannel.settings
   console.log("post with: ", channelData);
 
   $.post( '/channel/channel_api/update/' + channelId, { "theme":  channelData }, function(d) {

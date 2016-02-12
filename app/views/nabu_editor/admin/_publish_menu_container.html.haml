@@ -21,12 +21,16 @@
             .program_dragger
 
     .col-sm-7.menu_all_categories
+      / Channel Menu Options
       %button#create_category_button.btn.btn-material-burgundy
         = t('publish_menu.create_category')
       %button#save_menu_button.btn.btn-material-pink
         = t 'publish_menu.save'
       %button#delete_menu_button.btn.btn-material-pink
         = t 'publish_menu.remove'
+      %button#channel_config.pull-right.btn{:alt=>"configure channel", :title=>"configure channel"}
+        .li.glyphicon.glyphicon-cog
+
       .menu_name
         %input{"type" => "text", "placeholder" => t('publish_menu.type_name'), "value" => ""}
       %ul#le_menu.categories

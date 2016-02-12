@@ -501,8 +501,55 @@ $(function() {
   $('#save_menu_button').click( exportAndSaveMenu );
   $('#create_category_button').click( createCategory );
 
+  // Configure
+  $('#channel_config').click( configureChannel );
+
 });
 
+// ##############################
+// ### Channel Configuration
+// ##############################
+
+var configureChannel = function() {
+  $('#channel_config_dialog').modal()
+
+  if ( currentChannel == null ) {
+    $("#config_editor_placeholder").html('There was no channel loaded');
+    $('#update_channel_config').hide()
+    return;
+  }
+
+  $("#config_editor_placeholder").html('') // reset
+  $("#config_editor_placeholder").html('<div id="ace_config_editor"></div>')
+
+  // https://github.com/ajaxorg/ace/issues/1518
+  ace.config.set('basePath', '/assets/ace');
+
+  // http://stackoverflow.com/questions/14053820/how-to-set-the-source-path-in-ace-editor
+  ace.config.set("modePath", "/assets/ace");
+  ace.config.set("workerPath", "/assets/ace");
+  ace.config.set("themePath", "/assets/ace");
+
+  var editor = ace.edit( "ace_config_editor" );
+  editor.setTheme("ace/theme/twilight");
+  editor.$blockScrolling = Infinity
+  editor.getSession().setMode("ace/mode/javascript" );
+  editor.setValue( currentChannel.settings );
+  editor.off("change")
+  editor.on("change", function(e){
+    //
+  });
+
+  // save
+  $('#update_channel_config').show()
+
+  // post it
+  $('#update_channel_config').unbind('click')
+  $('#update_channel_config').click(function() {
+    currentChannel.settings = editor.getValue()
+    updateChannel( "update_channel_config" )
+  })
+}
 
 // #############################################################################
 // ### CLOSE OVERLAY AND SHOW MENU CONTAINER

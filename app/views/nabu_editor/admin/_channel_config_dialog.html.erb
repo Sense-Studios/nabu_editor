@@ -1,0 +1,32 @@
+<div id="channel_config_dialog" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Configure channel</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+
+      <div class="modal-body">
+          <h2>Configure channel</h2>
+          <div id="config_editor_placeholder">
+            loading editor ...
+          </div>
+          <div class="clear"></div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="btn-group">
+          <button class="btn btn-material-burgundy" id='update_channel_config' > <%= t 'channel_editor.save' %> </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #dialog h2 {
+    padding: 14px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+  }
+</style>

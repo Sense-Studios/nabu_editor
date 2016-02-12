@@ -1,8 +1,9 @@
 module NabuEditor
   class ApplicationController < ActionController::Base
-    
+
     before_filter :authenticate_user!
     before_action :set_locale, :set_translations
+    newrelic_ignore 
     impersonates :user
 
   protected
@@ -10,11 +11,11 @@ module NabuEditor
     def set_locale
       I18n.locale = session[:locale] = params[:locale] || session[:locale] || I18n.default_locale
     end
-    
+
     def set_translations
       I18n.backend.send(:init_translations) unless I18n.backend.initialized?
       #@t = Hash[ Translation.all.map { |tr| [tr.key, tr.value] } ]
-      @t = I18n.backend.send(:translations)[I18n.locale]    
+      @t = I18n.backend.send(:translations)[I18n.locale]
       #@t = File.read("public/javascripts/translations.js").to_s.html_safe
     end
 
