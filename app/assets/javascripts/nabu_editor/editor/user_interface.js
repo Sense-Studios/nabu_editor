@@ -364,7 +364,7 @@ var initEditorKeys = function() {
 
       case 46:  // del
         selected_marqer_item.find('.delete_button').trigger('click');
-        do_update = true;
+        //do_update = true;        
         break;
 
       case 73:  // i
