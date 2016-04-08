@@ -12,6 +12,22 @@
   //background-color: pink;
 */
 
+/* fix for ooyala */
+.innerWrapper {
+  background-color: #000;
+  position: absolute;
+  z-index: 0 !important;
+}
+
+#video_frame>div {
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  z-index: initial;
+  overflow: inherit;
+  background-color: initial;
+}
+
 // add shadow library
 @import 'shadows';
 @import 'questions';

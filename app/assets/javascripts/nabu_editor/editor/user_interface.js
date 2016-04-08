@@ -364,7 +364,7 @@ var initEditorKeys = function() {
 
       case 46:  // del
         selected_marqer_item.find('.delete_button').trigger('click');
-        //do_update = true;        
+        //do_update = true;
         break;
 
       case 73:  // i
@@ -696,7 +696,7 @@ var createScrubbar = function() {
   //createTimeLineWithNumbers();
 
   // Add Interaction
-  var duration = program.meta.moviedescription.duration_in_ms / 1000; // TODO: make sure a duration in s is also included
+  var duration = parseInt(program.meta.moviedescription.duration_in_ms) / 1000; // TODO: make sure a duration in s is also included  
   try {
     duration = pop.duration();
   }catch(e){}

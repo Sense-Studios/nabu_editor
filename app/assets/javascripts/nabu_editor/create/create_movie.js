@@ -47,7 +47,7 @@ var doCreateProgram = function() {
 
   // determine the type
   var tp = currentAssetData._type.toLowerCase()
-  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" || tp == "kaltura" ) ) {
+  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" || tp == "kaltura" || tp == "ooyala" ) ) {
     console.log( "create asset and with prepared data: ", currentAssetData, currentAssetData.id );
     mapi.createAsset({
       asset: currentAssetData,
@@ -317,6 +317,118 @@ function checkInput( directupdate ) {
       $('.video_uploader_container').fadeIn('slow')
     })
   }
+
+  // ******************************************************************
+  //  Call upon the Ooyala api
+  // ******************************************************************
+
+  if ( checkedbox.toLowerCase.indexOf == '.json' ) {
+
+    console.log("Streamone HAS:" + checkedbox )
+    //console.log( "parse kaltura url " + kaltura_parser(checkedbox) )
+
+    // var entryId = kaltura_parser(checkedbox)
+    var playlist = checkedbox
+    if (playlist === null ) {
+      console.log("no match")
+      return;
+    }
+
+    $('.video_uploader_container').hide()
+
+    // Talk to our own API
+    // kaltura/api/entry_id ?
+    console.log("I get Streamone", content_id)
+    $.get( playlist, function( items ) {
+
+      // we only use the first item for now
+      var entry = items[0]
+
+      // We've found the kaltura video, now fill the description with it
+      $('#title').val( entry.title );
+      $('#description').val( entry.description );
+      $('#tags').val( entry.labels );
+
+      // needs to wait aout a bit
+      $('#thumbnails').append('<option class="image_picker_option" data-img-src="'+entry.poster+'" value="1">page 1</option>');
+      $(".image-picker").imagepicker();
+      $('#save_button').removeClass('disabled');
+
+      currentAssetData = {
+        original_url: playlist,
+        title: entry.name,
+        description: entry.description,
+        tags: "", //entry.labels,
+        thumbnail_url: entry.poster,
+        duration: entry.duration,
+        duration_in_ms: entry.duration*1000,
+        _type: "StreamOne"
+      };
+
+      console.log("ALL GO")
+      doCreateProgram();    // save the program
+      showDescribeMovie();  // start describing
+
+    }).fail( function() {
+      alert("Something went wrong with uploading the video.")
+      $('.video_uploader_container').fadeIn('slow')
+    })
+  }
+
+  // ******************************************************************
+  //  Call upon the Ooyala api
+  // ******************************************************************
+
+  if ( checkedbox.length == 32 ) {
+
+    console.log("Ooyala HAS:" + checkedbox )
+    //console.log( "parse kaltura url " + kaltura_parser(checkedbox) )
+
+    // var entryId = kaltura_parser(checkedbox)
+    var content_id = checkedbox
+    if (content_id === null ) {
+      console.log("no match")
+      return;
+    }
+
+    $('.video_uploader_container').hide()
+
+    // Talk to our own API
+    // kaltura/api/entry_id ?
+    console.log("I get Ooyala", content_id)
+    $.get('/admin/ooyala_api/' + content_id, function(entry) {
+
+      // We've found the kaltura video, now fill the description with it
+      $('#title').val( entry.name );
+      $('#description').val( entry.description );
+      $('#tags').val( entry.labels );
+
+      // needs to wait aout a bit
+      $('#thumbnails').append('<option class="image_picker_option" data-img-src="'+entry.preview_image_url+'" value="1">page 1</option>');
+      $(".image-picker").imagepicker();
+      $('#save_button').removeClass('disabled');
+
+      currentAssetData = {
+        original_url: content_id,
+        title: entry.name,
+        description: "", //entry.description,
+        tags: "", //entry.labels,
+        thumbnail_url: entry.preview_image_url,
+        duration: ((entry.duration)/1000),
+        duration_in_ms: entry.duration,
+        _type: "Ooyala"
+      };
+
+      console.log("ALL GO", currentAssetData)
+      doCreateProgram();    // save the program
+      showDescribeMovie();  // start describing
+
+    }).fail( function() {
+      alert("Something went wrong with uploading the video.")
+      $('.video_uploader_container').fadeIn('slow')
+    })
+  }
+
 
   // ******************************************************************
   //  Call upon the Marduq api

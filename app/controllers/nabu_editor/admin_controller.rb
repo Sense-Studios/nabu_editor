@@ -25,6 +25,11 @@ module NabuEditor
       @program = MarduqResource::Program.find(params[:id])
 
       # we asssume at least 1 assets, or it errors
+      logger.debug "----------------------------------------------------------"
+      logger.debug @program.program_items[0].to_yaml
+      logger.debug "----------------------------------------------------------"
+      logger.debug @program.program_items[0].asset.to_yaml
+      logger.debug "----------------------------------------------------------"
 
       # use the first asset settings for defaults values
       @program.title = @program.program_items[0].asset.title
