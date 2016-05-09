@@ -38,7 +38,10 @@ en:
     refresh: "Refresh"
     remove_all: "Remove all"
   publish_menu:
+    marduq_channels: "Marduq Channels"
+    marduq_syndication: "Marduq Syndication"
     edit_site: "Edit site"
+    edit_rules: "Edit rules"
     search: "Search"
     create_category: "Create category"
     save: "Save"

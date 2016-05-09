@@ -10,8 +10,56 @@
           = t('publish_movie.link')
 
       .col-md-8
-        %textarea.form-control#program_url.code
+        .input-group
+          %span.input-group-addon
+            %input.embed_type_radio{:type=>'radio', :selected => true, :checked => true, :name => 'embed_type_radio', :value=>'embed'}
+          %input#program_url.form-control.code
       .col-md-2
+
+    .row
+      .col-md-2
+        %label.control-label{:style=>'text-align:left'}
+          /= t('publish_movie.link')
+          Chromeless
+
+      .col-md-8
+        .input-group
+          %span.input-group-addon
+            %input.embed_type_radio{:type=>'radio', :name => 'embed_type_radio', :value=>'chromeless'}
+          %input#program_chromeless_url.form-control.code
+      .col-md-2
+
+    .row
+      .col-md-2
+        %label.control-label{:style=>'text-align:left'}
+          /= t('publish_movie.link')
+          Grootte
+
+      .col-md-4
+        %select.form-control#embed_preset.code
+          %option{:value=>"320|200"} 320x200 (CGA)
+          %option{:value=>"320|240"} 320x240 (Mobile)
+          %option{:value=>"460|360"} 460x360 (NTSC)
+          %option{:value=>"640|320"} 640x320 (WIDE)
+          %option{:value=>"640|400", :selected => true} 640x400 (EGA)
+          %option{:value=>"720|400"} 720x400 (PAL WIDE)
+          %option{:value=>"640|480"} 640x480 (VGA)
+          %option{:value=>"720|480"} 720x480 (DVD)
+          %option{:value=>"768|576"} 720x576 (PAL SD)
+          %option{:value=>"800|600"} 800x600 (SVGA)
+          %option{:value=>"1024|768"} 1024x768 (iPad)
+          %option{:value=>"1152|720"} 1152x720 (Netbook)
+          %option{:value=>"1280|720"} 1280x720 (HD 720P)
+          %option{:value=>"1400|1050"} 1400x1050 (SXGA+)
+          %option{:value=>"1600|1200"} 1600x1200 (UXGA)
+          %option{:value=>"1280|1024"} 1280x1024 (SXGA)
+          %option{:value=>"1920|1080"} 1920x1080 (HD 1080P)
+
+      .col-md-2
+        %input.form-control#embed_x.code{:value=>"640"}
+
+      .col-md-2
+        %input.form-control#embed_y.code{:value=>"400"}
 
     .row
       .col-md-2

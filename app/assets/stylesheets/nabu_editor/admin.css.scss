@@ -891,7 +891,7 @@ nav {
         text-align: center;
         width: 100%;
         color: white;
-        margin-top: 15%;
+        margin-top: 3%;
       }
       > label {
         margin-top: 10px;
@@ -1181,6 +1181,17 @@ nav {
         }
       }
     }
+  }
+}
+
+#rules_config_dialog {
+
+  .modal-dialog .modal-content .modal-body {
+    padding: 0px !important;
+  }
+
+  .smaller {
+    font-size: 24px !important;
   }
 }
 
@@ -1948,10 +1959,14 @@ nav {
   z-index: 999999;
   text-align: center;
 
+  h4 {
+    color: white;
+  }
+
   button {
     position: relative;
     display: block;
-    top: 130px;
+    /*top: 130px;*/
     margin: 0 auto;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;

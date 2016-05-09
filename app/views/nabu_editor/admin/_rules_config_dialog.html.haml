@@ -4,12 +4,15 @@
       .modal-header
         %h4.modal-title
           Regels instellen
-        %button{:type=>"button", :class=>"close", "data-dismiss"=>"modal","aria-hidden"=>"true"} ×
+        %button{:type=>"button", :class=>"close smaller", "data-dismiss"=>"modal","aria-hidden"=>"true"}
+          .glyphicon.glyphicon-remove
+        %button{:type=>"button", :class=>"close smaller", :id=>"open_config_new_window"}
+          .glyphicon.glyphicon-new-window
 
       .modal-body
         #rules_config_dialog_ifr
           #wrap
-            %iframe#rules_config_iframe{:src=>''}
+            %iframe#rules_config_iframe{:src=>'', :border=>'no', :frameBorder=>'no'}
 
 
           .clear
@@ -26,3 +29,10 @@
       font-size: 16px;
       font-weight: 400;
     }
+
+  :javascript
+    $( function(){
+      $('#open_config_new_window').click(function() {
+        window.open('/admin/rules')
+      })
+    })

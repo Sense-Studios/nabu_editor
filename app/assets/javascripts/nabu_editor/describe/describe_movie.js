@@ -84,9 +84,32 @@ function setDataFromProgram() {
   // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
 
   // $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '+/kaltura/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
-  $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '/embed/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
-  $('textarea#program_url').text( window.location.origin + '/embed/' + program.id );
+  $('input#program_url').val( window.location.origin + '/embed/' + program.id );
+  $('input#program_chromeless_url').val( window.location.origin + '/chromeless/' + program.id );
 
+  function updateEmbedCode() {
+    var iframe_embed = ""
+    iframe_embed += '<iframe '
+    iframe_embed += 'src="'+ window.location.origin + '/' + $('.embed_type_radio:checked').val() + '/' + program.id + '" '
+    iframe_embed += 'width="' + $('#embed_x').val() + 'px" '
+    iframe_embed += 'height="' + $('#embed_y').val() + 'px" '
+    iframe_embed += 'allowFullscreen="true" '
+    iframe_embed += 'frameBorder="0" '
+    iframe_embed += 'scrolling="no"></iframe>'
+    $('textarea#program_embed').text( iframe_embed );
+  }
+
+  $('#embed_preset').change( function() {
+    $('#embed_x').val( $('#embed_preset').val().split('|')[0] )
+    $('#embed_y').val( $('#embed_preset').val().split('|')[1] )
+    updateEmbedCode()
+  })
+
+  $('#embed_x').keyup( function() { updateEmbedCode() } );
+  $('#embed_y').keyup( function() { updateEmbedCode() } );
+  $('.embed_type_radio').click( function() { updateEmbedCode() } );
+
+  updateEmbedCode()
 
   // add the pictiures
   $('.image-picker').html('');                                                //reset

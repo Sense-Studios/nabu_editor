@@ -38,7 +38,10 @@ nl:
     refresh: "Ververs"
     remove_all: "Verwijder alles"
   publish_menu:
-    edit_site: "Bewerk site"
+    marduq_channels: "Marduq Channels"
+    marduq_syndication: "Marduq Syndication"
+    edit_site: "Bewerk site"    
+    edit_rules: "Bewerk regels"
     search: "Zoek"
     create_category: "Maak categorie"
     save: "Bewaar"
