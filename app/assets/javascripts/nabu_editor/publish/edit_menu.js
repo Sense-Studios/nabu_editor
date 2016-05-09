@@ -555,6 +555,11 @@ var configureChannel = function() {
 // ### CLOSE OVERLAY AND SHOW MENU CONTAINER
 // #############################################################################
 
+$('#edit_rules').click(function() {
+  $('#rules_config_dialog').modal('show')  
+  $('#rules_config_iframe').attr('src', '/admin/rules')
+})
+
 $('#hide_menu_container_overlay').click(function() {
   showChannelContainer();
   //TODO: Create new category if empty

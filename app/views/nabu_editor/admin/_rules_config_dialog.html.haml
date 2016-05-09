@@ -1,0 +1,28 @@
+#rules_config_dialog.modal.fade{:tabindex=>"-1"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h4.modal-title
+          Regels instellen
+        %button{:type=>"button", :class=>"close", "data-dismiss"=>"modal","aria-hidden"=>"true"} ×
+
+      .modal-body
+        #rules_config_dialog_ifr
+          #wrap
+            %iframe#rules_config_iframe{:src=>''}
+
+
+          .clear
+
+      .modal-footer
+        /.btn-group
+        /  %button#update_channel_config.btn.btn-material-burgundy
+        /    = t 'channel_editor.save'
+
+  :css
+    #dialog h2 {
+      padding: 14px;
+      margin: 0;
+      font-size: 16px;
+      font-weight: 400;
+    }
