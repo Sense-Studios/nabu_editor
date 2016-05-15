@@ -231,8 +231,9 @@ module NabuEditor
         owner = current_user
       end
 
-      @kaltura_partner_id = owner.kaltura_partner_id
-      @kaltura_uiconfig_id = owner.kaltura_uiconfig_id
+      #@kaltura_partner_id = owner.kaltura_partner_id
+      #@kaltura_uiconfig_id = owner.kaltura_uiconfig_id
+      @owner = owner
 
       # get programs
       do_get_programs

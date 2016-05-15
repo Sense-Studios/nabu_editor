@@ -27,6 +27,19 @@
       var kalturaPartnerId = "#{@kaltura_partner_id}";
       var kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
 
+      // kaltura
+      var kalturaPartnerId = "#{@owner.kaltura_partner_id}";
+      var kalturaUiConfigId = "#{@owner.kaltura_uiconfig_id}";
+
+      // ooyala
+      var ooyalaApiKey = "#{@owner.ooyala_api_key}";
+      var ooyalePlayerId = "#{@owner.ooyala_player_id}";
+
+      // streamone
+      var streamoneAccountId = "#{@owner.streamone_account_id unless @owner.blank?}";
+      var streamonePlayerCss = "#{@owner.player_css unless @owner.blank?}";
+      var streamoneRelatedJson = "#{@owner.related_json unless @owner.blank?}";
+
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
     = javascript_include_tag "nabu_editor/application"

@@ -1,14 +1,14 @@
 #publish_menu_container.menu_editor{:style=>'display:none'}
 
   #publish_menu_container_overlay
-    .row{:style=>"margin-top:130px"}
+    .row
       .col-sm-6
-        %h4= t('publish_movie.marduq_channels')
+        %h4{:style=>"color:white;"}= t('publish_menu.marduq_channels')
         %button#hide_menu_container_overlay.btn.btn-material-burgundy
           = t('publish_menu.edit_site')
 
       .col-sm-6
-        %h4= t('publish_movie.marduq_syndication')
+        %h4{:style=>"color:white;"}= t('publish_menu.marduq_syndication')
         %button#edit_rules.btn.btn-material-burgundy
           = t('publish_menu.edit_rules')
 

@@ -47,7 +47,7 @@ var doCreateProgram = function() {
 
   // determine the type
   var tp = currentAssetData._type.toLowerCase()
-  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" || tp == "kaltura" || tp == "ooyala" ) ) {
+  if ( tp !== null && ( tp == "youtube" || tp == "vimeo" || tp == "kaltura" || tp == "ooyala" || tp == "streamone" ) ) {
     console.log( "create asset and with prepared data: ", currentAssetData, currentAssetData.id );
     mapi.createAsset({
       asset: currentAssetData,
@@ -113,7 +113,7 @@ function checkInput( directupdate ) {
     checkedbox = "s3_direct";
   }
 
-  console.log( "check input", $('input[name="input_select"]:checked').val(), select_was );
+  console.log( "check input", $('input[name="input_select"]:checked').val(), select_was, checkedbox, checkedbox.length );
 
   // refresh this, except for uploads
   if ( select_was != "s3_direct" ) {
@@ -136,7 +136,7 @@ function checkInput( directupdate ) {
 
 
   // ******************************************************************
-  //  Call upon the Youtube api
+  //  Call upon the YOUTUBE api
   // ******************************************************************
 
   if ( checkedbox.indexOf("youtu") >= 0 ) {
@@ -206,7 +206,7 @@ function checkInput( directupdate ) {
   }
 
   // ******************************************************************
-  //  Call upon the Vimeo api
+  //  Call upon the VIMEO api
   // ******************************************************************
 
   if ( checkedbox.indexOf("vimeo") >= 0 ) {
@@ -261,7 +261,7 @@ function checkInput( directupdate ) {
   }
 
   // ******************************************************************
-  //  Call upon the Kaltura api
+  //  Call upon the KALTURA api
   // ******************************************************************
 
   if ( checkedbox.length == 10 && checkedbox.substring(1, 2) == "_" ) { // || checkedbox.indexOf("kaltura") >= 0 ) {
@@ -319,66 +319,11 @@ function checkInput( directupdate ) {
   }
 
   // ******************************************************************
-  //  Call upon the Ooyala api
+  //  Call upon the OOYALA api
   // ******************************************************************
+  // EzZ2hrMjE6USq-Py5sUrH5nblMp8Vt4R
 
-  if ( checkedbox.toLowerCase.indexOf == '.json' ) {
-
-    console.log("Streamone HAS:" + checkedbox )
-    //console.log( "parse kaltura url " + kaltura_parser(checkedbox) )
-
-    // var entryId = kaltura_parser(checkedbox)
-    var playlist = checkedbox
-    if (playlist === null ) {
-      console.log("no match")
-      return;
-    }
-
-    $('.video_uploader_container').hide()
-
-    // Talk to our own API
-    // kaltura/api/entry_id ?
-    console.log("I get Streamone", content_id)
-    $.get( playlist, function( items ) {
-
-      // we only use the first item for now
-      var entry = items[0]
-
-      // We've found the kaltura video, now fill the description with it
-      $('#title').val( entry.title );
-      $('#description').val( entry.description );
-      $('#tags').val( entry.labels );
-
-      // needs to wait aout a bit
-      $('#thumbnails').append('<option class="image_picker_option" data-img-src="'+entry.poster+'" value="1">page 1</option>');
-      $(".image-picker").imagepicker();
-      $('#save_button').removeClass('disabled');
-
-      currentAssetData = {
-        original_url: playlist,
-        title: entry.name,
-        description: entry.description,
-        tags: "", //entry.labels,
-        thumbnail_url: entry.poster,
-        duration: entry.duration,
-        duration_in_ms: entry.duration*1000,
-        _type: "StreamOne"
-      };
-
-      console.log("ALL GO")
-      doCreateProgram();    // save the program
-      showDescribeMovie();  // start describing
-
-    }).fail( function() {
-      alert("Something went wrong with uploading the video.")
-      $('.video_uploader_container').fadeIn('slow')
-    })
-  }
-
-  // ******************************************************************
-  //  Call upon the Ooyala api
-  // ******************************************************************
-
+  console.log("--->", checkedbox, checkedbox.length, checkedbox.length == 32)
   if ( checkedbox.length == 32 ) {
 
     console.log("Ooyala HAS:" + checkedbox )
@@ -399,7 +344,7 @@ function checkInput( directupdate ) {
     $.get('/admin/ooyala_api/' + content_id, function(entry) {
 
       // We've found the kaltura video, now fill the description with it
-      $('#title').val( entry.name );
+      $('#title').val( entry.title );
       $('#description').val( entry.description );
       $('#tags').val( entry.labels );
 
@@ -411,12 +356,72 @@ function checkInput( directupdate ) {
       currentAssetData = {
         original_url: content_id,
         title: entry.name,
-        description: "", //entry.description,
+        description: entry.description,
         tags: "", //entry.labels,
         thumbnail_url: entry.preview_image_url,
-        duration: ((entry.duration)/1000),
+        duration: entry.duration/1000,
         duration_in_ms: entry.duration,
         _type: "Ooyala"
+      };
+
+      console.log("ALL GO")
+      doCreateProgram();    // save the program
+      showDescribeMovie();  // start describing
+
+    }).fail( function() {
+      alert("Something went wrong with uploading the video.")
+      $('.video_uploader_container').fadeIn('slow')
+    })
+  }
+
+  // ******************************************************************
+  //  Call upon the STREAMONE api
+  // ******************************************************************
+
+  // TjxJ0IROipM1
+  if ( checkedbox.length == 12 ) {
+
+    console.log("StreamOne HAS:" + checkedbox )
+    //console.log( "parse kaltura url " + kaltura_parser(checkedbox) )
+
+    // var entryId = kaltura_parser(checkedbox)
+    var content_id = checkedbox
+    if (content_id === null ) {
+      console.log("no match")
+      return;
+    }
+
+    $('.video_uploader_container').hide()
+
+    // Talk to our own API
+    // directly:
+    // var account_id = "f7hMI-BeA8oT"
+    // var so_url = "https://content.streamonecloud.net/playlist/account=" + account_id + "/item=" + content_id + "/playlist.json"
+
+    console.log("I get StreamONe", content_id)
+    //var account_id = "f7hMI-BeA8oT"
+    //var so_url = "https://content.streamonecloud.net/playlist/account=" + account_id + "/item=" + content_id + "/playlist.json"
+    $.get('/admin/streamone_api/' + content_id, function(entry) {
+
+      // We've found the kaltura video, now fill the description with it
+      $('#title').val( entry.items[0].title );
+      $('#description').val( entry.items[0].description );
+      $('#tags').val( "" );
+
+      // needs to wait aout a bit
+      $('#thumbnails').append('<option class="image_picker_option" data-img-src="'+entry.items[0].poster+'" value="1">page 1</option>');
+      $(".image-picker").imagepicker();
+      $('#save_button').removeClass('disabled');
+
+      currentAssetData = {
+        original_url: content_id,
+        title: entry.items[0].title,
+        description: entry.items[0].description, //entry.description,
+        tags: "", //entry.labels,
+        thumbnail_url: entry.items[0].poster,
+        duration: (entry.items[0].duration),
+        duration_in_ms: ((entry.items[0].duration)*6000),
+        _type: "Streamone"
       };
 
       console.log("ALL GO", currentAssetData)
@@ -431,7 +436,7 @@ function checkInput( directupdate ) {
 
 
   // ******************************************************************
-  //  Call upon the Marduq api
+  //  Call upon the MARDUQ api
   // ******************************************************************
 
   if ( $('input[name="input_select"]:checked').val() == "archive" ) {
