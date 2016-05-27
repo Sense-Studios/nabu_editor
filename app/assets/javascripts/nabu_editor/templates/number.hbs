@@ -5,10 +5,11 @@
       {{label}}
     </label>
     <div class="col-sm-8">
-  {{/if}}
-  {{#else}}
+
+  {{else}}
     <div class="col-sm-12">
-  {{/else}}
+  {{/if}}
+
     <input
       class="form-control input-sm numbers"
       data-key="{{key}}"
@@ -18,5 +19,6 @@
       type="number"
     />
   </div>
+
   <div class="clear"></div>
 </div>

@@ -125,15 +125,15 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   // show the tab
   $('#myTab a[href="#instellingen"]').tab('show')
 
-
   // set the change handlers
   $('#marqer_editor_dialog input.form-control').on('input', function(e) {
-    if ( $(this).hasClass("list-input" ) ) return;
+    if ( $(this).attr('data-key') === undefined || $(this).hasClass("list-input" ) ) return;
     someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
   });
 
   $('#marqer_editor_dialog input.form-control').change(function(e) {
-    if ( $(this).hasClass("list-input" ) ) return;
+    if ( $(this).attr('data-key') === undefined || $(this).hasClass("list-input") ) return;
+    console.log("update key: ", $(this), $(this).attr('data-key'))
     someMarqer.marqeroptions[$(this).attr('data-key')].value = $(this).val();
   });
 
