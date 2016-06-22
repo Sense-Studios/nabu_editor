@@ -24,7 +24,7 @@ module NabuEditor
       # get (default) metadata, moviedescription, player_settings
       @program = MarduqResource::Program.find(params[:id])
 
-      # we asssume at least 1 assets, or it errors
+      # we asssume at least 1 asset, or it errors
       logger.debug "----------------------------------------------------------"
       logger.debug @program.program_items[0].to_yaml
       logger.debug "----------------------------------------------------------"
