@@ -52,6 +52,8 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   var html = '';
   html += '<div class="trackeventcontainer">';
   html += ' <div class="marqer_item trackevent btn-material-burgundy-transperant" data-remote_id="'+remote_id+'" id="'+ ids + '" data-type='+type+' data-name="'+name+'" style="left: '+l+'; width: '+w+';">';
+  html += '  <div class="tooltip-left"></div>';
+  html += '  <div class="tooltip-right"></div>';
   html += '  <ul class="nav nav-tabs">';
   html += '   <li class="dropdown">';
   html += '    <span class="glyphicon glyphicon-menu-hamburger" aria="" hidden="true"></span>';
@@ -83,9 +85,9 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   createTimeLineWithNumbers() // might not be drawn yet
 };
 
-var addInteractionToTrackEvent = function() {
+var addInteractionToTrackEvent = function( ids ) {
   // console.log("ADD INTERACTION TO TRACKEVENT @#################### ZOOOOOOOOOMMMMMMM @################################")
-  $( ".trackevent" ).resizable({
+  $( "#" + ids ).resizable({
     handles: 'e,w',
     containment: "parent",
     start: function( event, ui ) {
@@ -96,7 +98,7 @@ var addInteractionToTrackEvent = function() {
     }
   });
 
-  $(".trackevent").mousedown(function(event) {
+  $( "#" + ids ).mousedown(function(event) {
     $(this).draggable('option', { helper : event.altKey ? 'clone' : 'original'});
 
   }).draggable({
@@ -696,7 +698,7 @@ var createScrubbar = function() {
   //createTimeLineWithNumbers();
 
   // Add Interaction
-  var duration = parseInt(program.meta.moviedescription.duration_in_ms) / 1000; // TODO: make sure a duration in s is also included  
+  var duration = parseInt(program.meta.moviedescription.duration_in_ms) / 1000; // TODO: make sure a duration in s is also included
   try {
     duration = pop.duration();
   }catch(e){}

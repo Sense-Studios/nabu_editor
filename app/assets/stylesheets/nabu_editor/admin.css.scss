@@ -1731,7 +1731,7 @@ nav {
               position: relative;
               height: 20px;
               width: 20px;
-              margin-left: 5px;
+              margin-left: 22px;
               padding-top: 1px;
               border: 0;
               background-color: rgba(0,0,0,0);
@@ -1739,6 +1739,7 @@ nav {
                 > a {
                   position: absolute;
                   top: 0;
+                  z-index: 1;
                 }
                 > ul {
                   > li {
@@ -1754,10 +1755,11 @@ nav {
             p {
               position: absolute;
               top: 0;
-              left: 15px;
+              left: 32px;
               height: 20px;
               width: 70%;
               overflow: hidden;
+              opacity: 0.8;
               -webkit-touch-callout: none;
               -webkit-user-select: none;
               -khtml-user-select: none;
@@ -1776,8 +1778,8 @@ nav {
               top: 0;
               right: 0px;
               height: 100%;
-              width: 5px;
-              background-color: rgba(86,18,31,0);
+              width: 20px;
+              background-color: rgba(86,18,31,1);
             }
             .ui-resizable-w {
               cursor: w-resize;
@@ -1785,8 +1787,8 @@ nav {
               top: 0;
               left: 0px;
               height: 100%;
-              width: 5px;
-              background-color: rgba(86,18,31,0);
+              width: 20px;
+              background-color: rgba(86,18,31,1);
             }
           }
         }

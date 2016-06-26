@@ -1,0 +1,75 @@
+#marqer_editor_dialog.modal.modal-lg.fade{:tabindex=>"-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4.modal-title
+        %button.close{:type=>"button", "data-dismiss"=>"modal", "aria-hidden"=>"true"}×
+
+
+    .modal-body
+      / tabs
+      .bs-example.bs-example-tabs{"data-example-id" => "togglable-tabs", :role => "tabpanel"}
+
+        / tab header
+        %ul#myTab.nav.nav-tabs{:role => "tablist"}
+          %li.active{:role => "variables"}
+            %a#instellingen-tab{"aria-controls" => "instellingen", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#instellingen", :role => "tab"}
+              Instellingen
+
+          %li.active{:role => "presentation"}
+            %a#html-tab{"aria-controls" => "instellingen", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#instellingen", :role => "tab"}
+              HTML
+
+          %li.active{:role => "presentation"}
+            %a#css-tab{"aria-controls" => "instellingen", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#instellingen", :role => "tab"}
+              CSS
+
+          %li{:role => "presentation"}
+            %a#js-tab{"aria-controls" => "geavanceerd", "aria-expanded" => "false", "data-toggle" => "tab", :href => "#geavanceerd", :role => "tab"}
+              JS
+
+        / tab content
+        #myTabContent.tab-content
+          #instellingen.tab-pane.fade.active.in{"aria-labelledby" => "instellingen-tab", :role => "tabpanel"}
+            %br/
+            .modal-body-editors
+            %br/
+            %br/
+            %hr/
+
+          #html.tab-pane.fade{"aria-labelledby" => "html-tab", :role => "tabpanel"}
+            %br/
+            .modal-body-editors-advanced
+            %br/
+            %br/
+            %hr/
+
+          #css.tab-pane.fade{"aria-labelledby" => "css-tab", :role => "tabpanel"}
+            %br/
+            .modal-body-editors-advanced
+            %br/
+            %br/
+            %hr/
+
+          #js.tab-pane.fade{"aria-labelledby" => "js-tab", :role => "tabpanel"}
+            %br/
+            .modal-body-editors-advanced
+            %br/
+            %br/
+            %hr/
+
+
+        / modal-body
+
+      .modal-footer
+        .btn-group
+          %button.btn.btn-material-burgundy#modal_save_button{"data-dismiss"=>"modal"}
+            = t('marqer_editor.save')
+
+:css
+  #dialog h2 {
+    padding: 14px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+  }
