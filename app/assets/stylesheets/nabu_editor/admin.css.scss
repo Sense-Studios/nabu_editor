@@ -144,7 +144,7 @@ html {
     left: 10px;
     width: 320px;
     height: 200px;
-    z-index: 9999;
+    z-index: 10000;
   }
 
   .se_content_container {
@@ -1737,9 +1737,12 @@ nav {
               background-color: rgba(0,0,0,0);
               > li {
                 > a {
-                  position: absolute;
                   top: 0;
-                  z-index: 1;
+                  position: absolute;
+                }
+                &.dropdown {
+                  z-index: 50;
+                  position: absolute;
                 }
                 > ul {
                   > li {

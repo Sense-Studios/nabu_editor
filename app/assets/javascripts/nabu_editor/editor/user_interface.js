@@ -51,7 +51,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   // TODO build this in HAMLbars
   var html = '';
   html += '<div class="trackeventcontainer">';
-  html += ' <div class="marqer_item trackevent btn-material-burgundy-transperant" data-remote_id="'+remote_id+'" id="'+ ids + '" data-type='+type+' data-name="'+name+'" style="left: '+l+'; width: '+w+';">';
+  html += ' <div class="marqer_item trackevent btn-material-burgundy-transperant" alt="'+name+'" title="'+name+'" data-remote_id="'+remote_id+'" id="'+ ids + '" data-type='+type+' data-name="'+name+'" style="left: '+l+'; width: '+w+';">';
   html += '  <div class="tooltip-left"></div>';
   html += '  <div class="tooltip-right"></div>';
   html += '  <ul class="nav nav-tabs">';

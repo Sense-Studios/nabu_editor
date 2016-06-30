@@ -10,7 +10,7 @@
         %a.btn-material-white.dropdown-toggle{:href => "#", :data => {:toggle => "dropdown", :target => "#"}}
         %ul.dropdown-menu
           %li
-            %a{:href => "javascript:$('#acount_editor_dialog').modal()", :target=>'_top'}
+            %a{:onclick=>"$('#acount_editor_dialog').modal()", :target=>'_top'}
               %span.glyphicon.glyphicon-user
               &nbsp;
               = t('right_menu.account')

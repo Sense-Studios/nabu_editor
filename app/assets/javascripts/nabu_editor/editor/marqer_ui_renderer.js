@@ -1,5 +1,5 @@
 /* globals
-stopScreenEditor
+stopScreenEditor > user_interface.js
 getMarqerById
 updateMarqer
 deleteMarqer
