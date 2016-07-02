@@ -1736,6 +1736,7 @@ nav {
               padding-top: 1px;
               border: 0;
               background-color: rgba(0,0,0,0);
+              z-index: 1;
               > li {
                 > a {
                   top: 0;
@@ -1761,17 +1762,12 @@ nav {
             p {
               position: absolute;
               top: 0;
-              left: 32px;
+              left: 0px;
+              padding-left: 32px;
               height: 20px;
-              width: 70%;
+              width: 100%;
               overflow: hidden;
               opacity: 0.8;
-              -webkit-touch-callout: none;
-              -webkit-user-select: none;
-              -khtml-user-select: none;
-              -moz-user-select: none;
-              -ms-user-select: none;
-              user-select: none;
               a {
                 /*color: #FFF;*/
                 color: inherit; /* let the material sort it out */
