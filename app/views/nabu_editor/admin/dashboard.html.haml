@@ -40,19 +40,19 @@
 / Rightmenu
 = render partial: 'nabu_editor/admin/rightmenu'
 
-/ Dialogs
+/ Dialogs: Marqers
 = render partial: 'nabu_editor/admin/marqer_editor_dialog'
 = render partial: 'nabu_editor/admin/marqer_editor_dialog_advanced'
+
+/ Dialogs: Channels
 = render partial: 'nabu_editor/admin/channel_editor_dialog'
 = render partial: 'nabu_editor/admin/channel_creator_dialog' #TRANSLATE FROM HERE
-= render partial: 'nabu_editor/admin/account_editor_dialog'
-= render partial: 'nabu_editor/admin/channel_config_dialog'
+= render partial: 'nabu_editor/admin/channel_config_dialog' # channel configuration dialog
 
-/ dialog for extra rules
+/ Dialog: Other
+= render partial: 'nabu_editor/admin/account_editor_dialog' # account editor dialog
 = render partial: 'nabu_editor/admin/rules_config_dialog'
-
-/ HUY
-/ HUY
+= render partial: 'nabu_editor/admin/statistics_dialog'
 
 / Custom javascript
 = javascript_include_tag "nabu_editor/sections"

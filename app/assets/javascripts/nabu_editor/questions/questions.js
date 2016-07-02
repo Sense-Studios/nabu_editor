@@ -108,7 +108,7 @@ function addQuestion( remote_id ) {
   // ### change question type;
   // 1) first check if there are still anwsers
   $( that + " select.question-type").click( function(e) {
-    if ( $( that ).find('.answer').length > 0 ) {
+    if ( $( that ).find('.answer').length > 0 && $( that ).find('.answer').attr("type") != "oq" ) {
       alert( t.admin.questions.questions_warning );
       e.preventDefault()
       return;
@@ -124,7 +124,7 @@ function addQuestion( remote_id ) {
   changeQuestionType( that, "fmc" );
 
   // use smpt
-  setTimeout( function() { convertSeconds('.in-point') }, 250 ); 
+  setTimeout( function() { convertSeconds('.in-point') }, 250 );
 
   // return id, for autogeneration of quesions
   return id;

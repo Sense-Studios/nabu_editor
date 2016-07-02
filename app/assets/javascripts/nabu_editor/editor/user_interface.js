@@ -57,16 +57,16 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   html += '  <ul class="nav nav-tabs">';
   html += '   <li class="dropdown">';
   html += '    <span class="glyphicon glyphicon-menu-hamburger" aria="" hidden="true"></span>';
-  html += '     <a class="dropdown-toggle" href="#" data-toggle="dropdown" data-target="#"></a>';
-  html += '     <ul class="dropdown-menu">';
+  html += '     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:"></a>';
+  html += '     <ul class="dropdown-menu dropdown-menu-editor">';
 
   if ( marqer.marqeroptions.position != undefined && marqer.marqeroptions.original != undefined ) {
     html += '     <li><a class="position_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-modal-window ignore_events"/>' + t.user_interface.place + '</a></li>';
   }
 
-  html += '      <li><a class="edit_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-pencil ignore_events"/>' + t.user_interface.edit + '</a></li>';
-  html += '      <li><a class="stratum_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-save ignore_events"/>' + t.user_interface.prefab + '</a></li>';
-  html += '      <li><a class="delete_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-trash ignore_events"/>' + t.user_interface.delete + '</a></li>';
+  html += '      <li><a class="edit_button" onClick="$(this).closest(\'.dropdown-toggle\').hide()" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-pencil ignore_events"/>' + t.user_interface.edit + '</a></li>';
+  html += '      <li><a class="stratum_button" onClick="$(this).closest(\'.dropdown-toggle\').hide()"  data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-save ignore_events"/>' + t.user_interface.prefab + '</a></li>';
+  html += '      <li><a class="delete_button" onClick="$(this).closest(\'.dropdown-toggle\').hide()"  data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-trash ignore_events"/>' + t.user_interface.delete + '</a></li>';
   html += '     </ul>';
   html += '    </li>';
   html += '   </ul>';

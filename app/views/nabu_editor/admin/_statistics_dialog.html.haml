@@ -1,0 +1,38 @@
+#statistics_dialog.modal.fade{:tabindex=>"-1"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %h4.modal-title
+          Statistieken
+        %button{:type=>"button", :class=>"close smaller", "data-dismiss"=>"modal","aria-hidden"=>"true"}
+          .glyphicon.glyphicon-remove
+        %button{:type=>"button", :class=>"close smaller", :id=>"open_config_new_window"}
+          .glyphicon.glyphicon-new-window
+
+      .modal-body
+        #statistics_dialog_ifr
+          #wrap
+            %iframe#statistics_iframe{:src=>'', :border=>'no', :frameBorder=>'no', :width=>"100%", :height=>'100%'}
+
+
+          .clear
+
+      .modal-footer
+        /.btn-group
+        /  %button#update_channel_config.btn.btn-material-burgundy
+        /    = t 'channel_editor.save'
+
+  :css
+    #dialog h2 {
+      padding: 14px;
+      margin: 0;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+  :javascript
+    $( function(){
+      $('#open_config_new_window').click(function() {
+        window.open('/admin/statistics')
+      })
+    })

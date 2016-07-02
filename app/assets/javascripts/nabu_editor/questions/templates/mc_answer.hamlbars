@@ -2,7 +2,7 @@
 
   .col-xs-8.nopadding
     .input-group.input-group-sm
-      -# %span.input-group-addon
+      %span.input-group-addon
       -#   %input{"type"=>"radio", "class"=>"iscorrect", "name"=>"radio-{{q_id}}"}
       %input.form-control.answer-text{"placeholder"=>"{{t 'admin.questions.answer_placeholder'}}", "type"=>"text"}
 

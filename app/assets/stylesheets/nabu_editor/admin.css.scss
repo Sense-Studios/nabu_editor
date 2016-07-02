@@ -1184,7 +1184,8 @@ nav {
   }
 }
 
-#rules_config_dialog {
+#rules_config_dialog, #statistics_dialog {
+  z-index: 100000010 !important;
 
   .modal-dialog .modal-content .modal-body {
     padding: 0px !important;
@@ -1741,8 +1742,10 @@ nav {
                   position: absolute;
                 }
                 &.dropdown {
+                  /*
                   z-index: 50;
                   position: absolute;
+                  */
                 }
                 > ul {
                   > li {
@@ -1783,6 +1786,7 @@ nav {
               height: 100%;
               width: 20px;
               background-color: rgba(86,18,31,1);
+              z-index: 48 !important;
             }
             .ui-resizable-w {
               cursor: w-resize;
@@ -1792,6 +1796,7 @@ nav {
               height: 100%;
               width: 20px;
               background-color: rgba(86,18,31,1);
+              z-index: 48 !important;
             }
           }
         }
@@ -2295,10 +2300,10 @@ nav {
 
 .btn-warning {
   background-color: #e91e63;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  //border-top-left-radius: 20px;
+  //border-bottom-left-radius: 20px;
   background-image: none;
-  padding-right: 20px;
+  //padding-right: 20px;
   > span {
     background-color: white;
     height: 20px;
@@ -2535,7 +2540,7 @@ nav {
 }
 
 // RULES
-#rules_config_dialog_ifr {
+#rules_config_dialog_ifr, #statistics_dialog_ifr {
   /*height: 72vh;*/
   /* zoom: 0.5; */
   position: relative;

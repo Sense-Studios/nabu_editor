@@ -108,7 +108,7 @@ var doTimeLineEditMovie = function(id) {
   setTimeout( function() { if ( $('.leprograms').is(":visible") ) $('.leprograms').shapeshift( shapeshiftOptions() ) }, 100 );
 };
 
-var doQuestionsMovie = function(id) {  
+var doQuestionsMovie = function(id) {
   setProgram( id );
   if ( $('.video_uploader_container').is(':visible') ) showCreateMovie();
   if ( $('.video_describe_container').is(':visible') ) showDescribeMovie();
@@ -154,6 +154,12 @@ var doDeleteMovie = function(id) {
     });
   }
 };
+
+var doStatsMovie = function(id) {
+  console.log("now do thestats", id)
+  $('#statistics_dialog').modal()
+  $('#statistics_iframe').attr('src', '/admin/statistics/traffic?program_id=' + id)
+}
 
 //Slide down videos if NABU_CONTROLS
 //are visible

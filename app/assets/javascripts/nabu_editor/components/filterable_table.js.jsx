@@ -65,6 +65,12 @@ var ProgramTile = React.createClass({
     $('#' + this.props.program.id ).animate({"opacity":0.2}, 600)
   },
 
+  statsMovieRelay:function() {
+    doStatsMovie(this.props.program.id)
+    this.props.parentTable.setState({selectedProgramItem: this.props.program.id})
+    $('.select_videos .active').removeClass('active') // this is nasty
+  },
+
   render:function() {
       var id = this.props.program.id
       var embedlink = "/embed/" + id
@@ -101,13 +107,14 @@ var ProgramTile = React.createClass({
         <div className={classes} id={id} title={description} alt={description}>
           <span className='pseudolink' onClick={this.selectMovie} >
             <img src={thumb} width="100%"  />
-            <div className='stats'>
+            <div className='stats' onClick={this.statsMovieRelay}>
               <span className='glyphicon glyphicon-time'/> {timewatched}<br/>
               <span className='glyphicon glyphicon-eye-open'/> {openers}<br/>
             </div>
 
             <div className="description"> {title} <br/><small className="code"> {tags} </small></div>
           </span>
+
           <ul className='nav nav-tabs btn-material-pink'>
             <li className='dropdown'>
               <span className='glyphicon glyphicon-menu-hamburger' aria='' hidden='true'>
