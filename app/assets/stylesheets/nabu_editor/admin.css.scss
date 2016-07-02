@@ -1728,6 +1728,14 @@ nav {
             border-radius: 10px;
             pointer: move;
 
+            .btn-material-burgundy-highlight-transperant .ui-resizable-w {
+              background-color: rgb(150, 72, 87);
+            }
+
+            .btn-material-burgundy-highlight-transperant .ui-resizable-w {
+              background-color: rgb(150, 72, 87);
+            }
+
             > .nav-tabs {
               position: relative;
               height: 20px;
@@ -1736,23 +1744,40 @@ nav {
               padding-top: 1px;
               border: 0;
               background-color: rgba(0,0,0,0);
-              z-index: 1;
+              /*z-index: 1;*/
+
+
               > li {
                 > a {
                   top: 0;
                   position: absolute;
                 }
+
+                &:first-child a { /* dropdown button */
+                  margin: 0;
+                  padding: 0;
+                  min-width: 24px;                  
+                }
+
                 &.dropdown {
-                  /*
                   z-index: 50;
                   position: absolute;
-                  */
+
+                  &.open {
+                    z-index: 60;
+                  }
                 }
                 > ul {
+                  .drowndown-menu-title {
+                    color: black;
+                    text-align: center;
+                    font-weight: 600;
+                    padding-right: 8px;
+                  }
                   > li {
                     > a {
                       > span {
-                        margin-right: 8px;
+                        margin: 8px;
                       }
                     }
                   }
@@ -1782,7 +1807,7 @@ nav {
               height: 100%;
               width: 20px;
               background-color: rgba(86,18,31,1);
-              z-index: 48 !important;
+              z-index: 0 !important;
             }
             .ui-resizable-w {
               cursor: w-resize;
@@ -1792,7 +1817,7 @@ nav {
               height: 100%;
               width: 20px;
               background-color: rgba(86,18,31,1);
-              z-index: 48 !important;
+              z-index: 0 !important;
             }
           }
         }
