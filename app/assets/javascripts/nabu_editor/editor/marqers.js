@@ -174,6 +174,8 @@ var deleteMarqer = function ( marqer ) {
    })
 };
 
+// this function is now redundant, look in nabu\app\assets\javascripts\marduq\marqers
+// remove after testing
 var getMarqerById = function( id ) {
   var marqer = null
   $.each( marqers, function(i, m) {
