@@ -20,6 +20,7 @@
       .col-md-12
         .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
       .clear
+
       /  %h4= I18n.t('admin.describe.social.share_title')
       /  .form-group
       /    .checkbox.checkbox-material-pink
@@ -81,6 +82,18 @@
   /    .col-md-12
   /      .button.btn.btn-material-pink.pull-right#save_movie Bewaren
   /    .clear
+  .well
+    %h4
+      Logging & Analytics
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"enable-logging", "name"=>"enable-logging", "checked"=>false }
+          enable user logging & analytics
+
+    .col-md-12
+      .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
+    .clear
 
   .well
     %h4

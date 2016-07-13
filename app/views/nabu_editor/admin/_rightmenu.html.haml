@@ -1,5 +1,6 @@
 .right_menu
   .settings_container
+    /*** Enlarge/ Smaller ***
     #butt-up.btn.glyphicon.glyphicon-triangle-top.btn-material-white
     #butt-down.btn.glyphicon.glyphicon-triangle-bottom.btn-material-white
 
@@ -57,6 +58,13 @@
 
     / *** LOADER ***
     #load_indicator.glyphicon.glyphicon-refresh.pull-right
+
+    / *** DROPDOWN ***
+    %select#quality_dropdown.form-control.input-sm.dropdown_select.dropdown_select_quality
+      %option{:value=>'320p_h264_mobile'} 320p
+      %option{:value=>'480p_h264', :selected=>'selected'} 480p
+      %option{:value=>'720p_h264'} 720p
+      %option{:value=>'720p_5000kbps_h264'} 720p+
 
     / *** DROPDOWN ***
     %select#aspect_dropdown.form-control.input-sm.dropdown_select.dropdown_select_ratio

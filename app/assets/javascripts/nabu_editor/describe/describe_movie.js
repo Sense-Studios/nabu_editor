@@ -158,6 +158,10 @@ function setDataFromProgram() {
   initTextField( $('#custom_widget_id'),  metaData.player_options, "custom_widget_id" );
   initTextField( $('#custom_embed_code'),  metaData.player_options, "custom_embed_code" );
 
+  // Tab2.5: Enable logging
+  $('input[name="enable-logging"]').prop('checked', false)
+  if ( metaData.statistics.logging_enabled ) $('input[name="enable-logging"]').prop('checked', 'checked')
+  $('input[name="enable-logging"]').change(function(e) { metaData.statistics.logging_enabled = $('input[name="enable-logging"]').is(':checked'); });
 
   // Tab3: set On Movie End
   $('input[name="on-movie-end"][value="'+ metaData.on_movie_end.set +'"]').attr("checked", "checked");

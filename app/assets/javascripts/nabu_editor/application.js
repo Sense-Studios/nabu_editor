@@ -18,10 +18,7 @@
 //= require jquery-touch-punch/jquery.ui.touch-punch.min
 
 // TURBOLINKS
-//= require turbolinks
-
-// WEBCOMPONENTS
-//= require webcomponents/webcomponents.min
+// require turbolinks
 
 // REACT
 // require react/react
@@ -35,6 +32,9 @@
 //= require bootstrap
 //= require bootstrap-material-design/material
 //= require bootstrap-material-design/ripples
+
+// WEBCOMPONENTS
+//= require webcomponents/webcomponents.min
 
 // UPLOADERS
 //= require s3_direct_upload

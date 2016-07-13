@@ -71,6 +71,12 @@ var ProgramTile = React.createClass({
     $('.select_videos .active').removeClass('active') // this is nasty
   },
 
+  toggleDropdown:function() {
+    if (agent.label == "IPAD") {
+      $(this.getDOMNode()).find('.dropdown-toggle').dropdown('toggle')
+    }
+  },
+
   render:function() {
       var id = this.props.program.id
       var embedlink = "/embed/" + id
@@ -119,7 +125,7 @@ var ProgramTile = React.createClass({
             <li className='dropdown'>
               <span className='glyphicon glyphicon-menu-hamburger' aria='' hidden='true'>
               </span>
-              <a className='dropdown-toggle' href="#" data-toggle='dropdown' data-target='#'>
+              <a className='dropdown-toggle clickable' data-toggle='dropdown' href="#" onClick={this.toggleDropdown}>
               </a>
               <ul className='dropdown-menu'>
                 <li>

@@ -1,7 +1,7 @@
 .contentwrapper{:style=>"padding: 0 40px;"}
   %h1 These be tests
-  
-  
+
+
   .paper-container
     %select.dropddown_select.form-control{"placeholder" => "Select ietss"}
       %option{"value" => "value 1"}
@@ -14,8 +14,8 @@
         optie 4 iets
       %option{"value" => "value 5"}
         optie 5 iets
-  
-  
+
+
   %hr
   %h2.btn-material-red-400 Shadow test
 
@@ -25,9 +25,9 @@
     .paper-leaf.shadow-z-3
     .paper-leaf.shadow-z-4
     .paper-leaf.shadow-z-5
-  
+
   %hr
-    
+
   .paper-container
     .paper-leaf.long-shadow-1
     .paper-leaf.long-shadow-2
@@ -53,33 +53,33 @@
     .paper-disc.long-shadow-4
     .paper-disc.long-shadow-5
 
-    
+
   %hr
   %h2.btn-material-red-400 React test:
 
   the following element is rendered as a react_component
   = react_component('HelloWorldFromEditor', { last_name: 'Haml', first_name: 'John', program: @program } )
-  = react_component('HelloWorldFromEditor', { last_name: @programs[0].id, first_name: @programs[0].title, program: @program } )  
+  = react_component('HelloWorldFromEditor', { last_name: @programs[0].id, first_name: @programs[0].title, program: @program } )
   = react_component('TodoApp', {} )
-  
-  
+
+
   %hr
   %h2 Colors (buttons) should work:
 
   .sampleRed
     %p Buttons
     %button.btn.btn-material-red-A700 Button
-    %button.btn.btn-material-red-100 Button  
+    %button.btn.btn-material-red-100 Button
 
   %hr
   %h2  List and group icons (with checkbox)
-    
+
   .well.list-group.long-shadow-5
-  
+
     .list-group-item.long-shadow-1
       .row-picture
         %img.circle{:src=>"http://lorempixel.com/56/56/people/1", :alt=>"icon"}
-        
+
       .row-content
         %h4.list-group-item-heading Tile with avatar
         %p.list-group-item-text Donec id elit non mi porta gravida at eget metus
@@ -89,12 +89,12 @@
     .list-group-item.long-shadow-2.btn-material-brown-200
       .row-action-primary.checkbox
         %label
-          %input{:type=>"checkbox"}   
-     
+          %input{:type=>"checkbox"}
+
       .row-content
         %h4.list-group-item-heading Tile with a checkbox in it
         %p.list-group-item-text Donec id elit non mi risus varius blandit.
-  
+
     .list-group-separator
 
     = react_component('ListGroupItem', { last_name: 'Haml', first_name: 'John', program: @program } )
@@ -110,30 +110,27 @@
 
   %hr
   %h2 Do A Toggle
-  
+
   .well
     .form_group
       .togglebutton
         %label
           %input{:type=>"checkbox", :checked=>""} Toggle button
-    
+
   %hr
   %h2 Here are the programs in shapeshift
-  
-  
+
+
   .leprograms
-    - @programs.each do |p|  
+    - @programs.each do |p|
       .program_container.long-shadow-3.btn-material-brown-50{:id=> p.id}
         = link_to "/#{p.id}", :target=>"_blank" do
           %span.thumb
             = image_tag p.meta.moviedescription.thumbnail
-  
+
   / Custom javascript
-  = javascript_include_tag "nabu_editor/sections" 
+  = javascript_include_tag "nabu_editor/sections"
   = javascript_include_tag "nabu_editor/dashboard"
-  = javascript_include_tag "nabu_editor/drop_down_test"  
+  = javascript_include_tag "nabu_editor/drop_down_test"
   :javascript
-    $(".dropddown_select").dropdown();
-    
-  
-  
+    $(".dropddown_select").dropdown_select();

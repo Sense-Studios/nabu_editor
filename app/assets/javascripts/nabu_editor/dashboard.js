@@ -40,6 +40,7 @@ var aspect_width = 16;
 var smallvideo = false;
 var visible_container;
 var wasReallyPlaying = false
+var in_editor = true
 
 // REACT reference
 window.filter_table = "not set yet";
@@ -421,6 +422,12 @@ $(document).ready(function() {
     if(!smallvideo) {
       resize_aspect_ration_change()
     }
+  });
+
+  $(document).on('change','.dropdown_select_quality',function(){
+    var time = pop.currentTime()
+    changeSrc( $(this).val() )
+    pop.currentTime(time)
   });
 
   // Hide the sections

@@ -58,7 +58,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
 
   html += '  <ul class="nav nav-tabs">';
   html += '   <li class="dropdown">';
-  html += '     <a class="dropdown-toggle tracker-dropdown" data-toggle="dropdown" href="javascript:">';
+  html += '     <a class="dropdown-toggle tracker-dropdown" data-toggle="dropdown" >';
   html += '       <span class="glyphicon glyphicon-menu-hamburger" aria="" hidden="true"></span>';
   html += '     </a>';
 
@@ -132,6 +132,16 @@ var addInteractionToTrackEvent = function( ids ) {
   });
 
   // console.log("CONTAINMENT @#################### ZOOOOOOOOOMMMMMMM @################################")
+
+  $('#' + ids + ' a.dropdown-toggle').on('touchstart', function( e ) {
+    e.preventDefault()
+  })
+
+  $('#' + ids + ' a.dropdown-toggle').on('touchend', function( e ) {
+    e.preventDefault()
+    var that = this
+    setTimeout( function() { $(that).dropdown('toggle') }, 350 )
+  })
 
   // Edit-button
   $('#' + ids + ' .edit_button').click(function( e ) {

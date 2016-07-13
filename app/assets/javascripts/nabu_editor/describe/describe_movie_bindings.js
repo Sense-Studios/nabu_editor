@@ -71,28 +71,13 @@ var metaData =  {
     "plusone": "false"
   },
 
-  //"advanced": {
-    // note that these are relayed through
-    // custom marquers; ImageBeforeMarqer, ImageDuringMarqer, ImageAfterMarqer
-    // (nameing sucked out of my thumb)
-
-  //  "show_image_before": "false",
-  //  "show_image_before_url": "",
-  //  "show_image_before_asset_id": "",
-  //  "show_image_during": "false",
-  //  "show_image_during_url": "",
-  //  "show_image_during_asset_id": "",
-  //  "show_image_after": "false",
-  //  "show_image_after_url": "",
-  //  "show_image_after_asset_id": ""
-  //}
-
   "statistics": {
     "views": 0,
     "openers": 0,
     "completed": 0,
-    "timewatched": 0
+    "timewatched": 0,
     // "statistics" => "0",
+    "logging_enabled": "false"
   }
 };
 

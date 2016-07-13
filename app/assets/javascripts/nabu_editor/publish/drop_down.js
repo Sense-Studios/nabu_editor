@@ -263,7 +263,7 @@
     }
   };
 
-  $.fn.dropdown = function(params) {
+  $.fn.dropdown_select = function(params) {
     if (methods[params]) {
       return methods[params].apply(this, Array.prototype.slice.call(arguments,1));
     } else if (typeof params === "object" | !params) {

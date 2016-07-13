@@ -46,6 +46,11 @@
 
 html {
   overflow-y:hidden;
+  touch-action: manipulation;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .videowrapper {
@@ -956,6 +961,17 @@ nav {
     background-color: #821a2e;
     border-bottom: 2px solid rgb(103, 3, 3);
     width: 100%;
+
+    #butt-playpause {
+      color: white;
+      padding-top: 8px;
+      &:hover {
+
+      }
+      &.btn-info {
+        background-color: inherit;
+      }
+    }
     > .progress {
       position: absolute;
       margin-bottom: 0;
@@ -2480,11 +2496,12 @@ nav {
   font-size: 12px;
 }
 
-.dropdown_select_ratio {
+.dropdown_select_ratio, .dropdown_select_quality {
   display: inline-block;
   width: 60px!important;
   background-color: transparent;
 }
+
 
 .close_button {
   position: absolute;

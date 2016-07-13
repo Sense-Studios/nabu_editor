@@ -51,8 +51,8 @@ function initializeDropdowns() {
   console.log('Publish initialize, dropdowns');
 
   // initialize the dropdowns
-  $(".dropdown_select").dropdown();
-  $(".dropdown_select_small").dropdown();
+  $(".dropdown_select").dropdown_select();
+  $(".dropdown_select_small").dropdown_select();
 
   // initialize the colorpickers
   $('.primary-color').colorpicker({'align': 'right'});
@@ -113,7 +113,7 @@ function buildChannelSelector() {
     $select.next().remove();
   }
 
-  $select.dropdown(); // re-init the selector
+  $select.dropdown_select(); // re-init the selector
 
   // re-Enable drop downs
   $('#channel_selector').next().find('ul').find('li').click( function() {
@@ -148,7 +148,7 @@ function buildThemesSelector() {
   }
 
   if ( currentChannel != null ) autoSelect( $('#theme_selector'), currentChannel.theme )
-  $('#theme_selector').dropdown();
+  $('#theme_selector').dropdown_select();
 }
 
 // load all channels from the server

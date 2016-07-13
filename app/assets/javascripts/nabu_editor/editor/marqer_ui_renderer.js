@@ -209,7 +209,7 @@ var postRender = function( someMarqer, context ) {
         setTimeout(preview, 100);
       });
       setTimeout( function() {
-        $('.dropdown_select').dropdown();
+        $('.dropdown_select').dropdown_select();
         $('.dropdownjs ul li').click(function() {
           var selectedvalue = $(this).attr('value');
           var selected = $(this).parent().parent().prev('.dropdown_select');
@@ -229,7 +229,7 @@ var postRender = function( someMarqer, context ) {
         setTimeout(preview, 100);
       });
       setTimeout( function() {
-        $('.dropdown_select').dropdown();
+        $('.dropdown_select').dropdown_select();
         $('.dropdownjs ul li').click(function() {
           var selectedvalue = $(this).attr('value');
           var selected = $(this).parent().parent().prev('.dropdown_select');
