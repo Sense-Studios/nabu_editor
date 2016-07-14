@@ -6,7 +6,7 @@
           Statistieken
         %button{:type=>"button", :class=>"close smaller", "data-dismiss"=>"modal","aria-hidden"=>"true"}
           .glyphicon.glyphicon-remove
-        %button{:type=>"button", :class=>"close smaller", :id=>"open_config_new_window"}
+        %button{:type=>"button", :class=>"close smaller", :id=>"open_statistics_new_window"}
           .glyphicon.glyphicon-new-window
 
       .modal-body
@@ -32,7 +32,7 @@
 
   :javascript
     $( function(){
-      $('#open_config_new_window').click(function() {
+      $('#open_statistics_new_window').click(function() {
         window.open('/admin/statistics')
       })
     })
