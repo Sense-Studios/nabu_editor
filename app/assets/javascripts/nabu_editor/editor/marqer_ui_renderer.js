@@ -54,6 +54,9 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   // stop it!
   stopScreenEditor();
 
+  // and stop this too!
+  keysEnabled = false;
+
   // set the header
   $('.modal-title').html( '<span>' + $(that).data('name') + '</span>' );
 
@@ -422,6 +425,10 @@ var postRender = function( someMarqer, context ) {
   }catch(e){
     console.log( element.type, " had no post render functions")
   }
+
+  //and whatever
+  console.log("########## disable keys!")
+  keysEnabled = false
 }
 
 var renderInOutEditor = function( e, that ) {
