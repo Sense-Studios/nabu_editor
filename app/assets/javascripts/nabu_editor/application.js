@@ -96,10 +96,10 @@
 // require oocharts/oocharts.js
 
 // MARDUQ
-//= require marduq_api/marduq_api
 //= require marduq/utils
-// require marduq/options
 //= require marduq/debug
+//= require marduq_api/marduq_api
+// require marduq/options
 // require marduq/social
 //= require marduq/player
 // require marduq/editor

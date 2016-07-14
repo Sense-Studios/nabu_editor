@@ -24,8 +24,8 @@ mount_point
 // TODO, make these NOT neccessary
 
 var agent;
-var debug = true;
-var remoting = false;
+//var debug = true;
+//var remoting = false;
 var pop = null;
 var program = null;
 var log = function(a, b, c) {};
