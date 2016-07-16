@@ -15,5 +15,6 @@ NabuEditor::Engine.routes.draw do
 
   # get "/test(/:id)", to: "timeline#test"
   get "/test(/:id)", to: "admin#test"
+
   get "/fakeittillyoumakeit" , to: "admin#image"
 end

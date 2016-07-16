@@ -24,13 +24,6 @@ module NabuEditor
       # get (default) metadata, moviedescription, player_settings
       @program = MarduqResource::Program.find(params[:id])
 
-      # we asssume at least 1 asset, or it errors
-      logger.debug "----------------------------------------------------------"
-      logger.debug @program.program_items[0].to_yaml
-      logger.debug "----------------------------------------------------------"
-      logger.debug @program.program_items[0].asset.to_yaml
-      logger.debug "----------------------------------------------------------"
-
       # use the first asset settings for defaults values
       @program.title = @program.program_items[0].asset.title
       @program.description = @program.program_items[0].asset.description
@@ -38,72 +31,42 @@ module NabuEditor
       # @program.tags = @program.program_items[0].asset.thumbnail_url
 
       # TODO: get default marqers from preset file and/or database
-      some_marqer = MarduqResource::Marqer.new()
-      some_marqer.title = "Powered by Marduq"
-      some_marqer.in = 0.1
+      # call upon the marduq api
+      # set_account_id
+      # buffer = open( @account.preset ).read
+      # result = JSON.parse(buffer)
 
-      # this should come from a file
-      some_marqer.out = @program.program_items[0].asset.duration_in_ms.to_f / 1000
-      some_marqer.type = "ImageMarqer"
-      some_marqer.program_id = @program.id
-      some_marqer.marqeroptions = {
-        "image"=> {
-          "type"=> "file",
-          "value"=> "http://nabu.sense-studios.com/assets/nabu_editor/beeld_merk.png"
-        },
-        "title"=> {
-          "type"=> "text",
-          "value"=> "Powered by Marduq"
-        },
-        "position"=> {
-          "type"=> "select",
-          "value"=> "bottom-left",
-          "options"=> [
-            "top-left",
-            "top-center",
-            "top-right",
-            "middle-left",
-            "middle-center",
-            "middle-right",
-            "bottom-left",
-            "bottom-center",
-            "bottom-left"
-          ]
-        },
-        "size"=> {
-          "type"=> "number",
-          "value"=> "4"
-        },
-        "marge"=> {
-          "type"=> "number",
-          "value"=> "2"
-        },
-        "url"=> {
-          "type"=> "text",
-          "value"=> "http://www.marduq.tv"
-        },
-        "target"=> {
-          "type"=> "select",
-          "value"=> "_blank",
-          "options"=> [
-            "_blank",
-            "_top",
-            "_self"
-          ]
-        },
-        "classes"=> {
-          "type"=> "text",
-          "value"=> "img-maxwidth128"
-        },
-        "track_id"=> 1,
-        "trackname"=> "Track1397211705621"
-      }
+      set_account_id
+      buffer = open( @account.preset ).read
+      marqers = JSON.parse(buffer)
+      results = []
 
-      # save the marqer
-      some_marqer.save()
+      marqers.each do |m|
 
-      # push it into the program
-      @program.marqers.push(some_marqer)
+        some_marqer = MarduqResource::Marqer.new()
+
+        some_marqer.title = m["marqeroptions"]["title"]["value"]
+        some_marqer.in = m["in"]
+
+        # out allows for negative values "from the end"
+        if m["out"].to_i < 0
+          some_marqer.out = ( @program.program_items[0].asset.duration_in_ms.to_f / 1000 ) - m["out"]
+        elsif m["out"].to_i == 0
+          some_marqer.out = ( @program.program_items[0].asset.duration_in_ms.to_f / 1000 )
+        else
+          some_marqer.out = m["out"]
+        end
+
+        some_marqer.type = m["type"]
+        some_marqer.program_id = @program.id
+        some_marqer.marqeroptions = m["marqeroptions"]
+
+        # save the marqer
+        some_marqer.save()
+
+        # push it into the program
+        @program.marqers.push(some_marqer)
+      end
 
       # differ between youtube/vimeo and own uploads
       if @program.program_items[0].asset._type == "Video"
@@ -255,7 +218,7 @@ module NabuEditor
         temp_program['tags'] = p.tags
 
         if ( p.meta.blank? )
-          temp_program['thumbnail'] = "http://thumb10.shutterstock.com/photos/thumb_large/702052/115219567.jpg"
+          temp_program['thumbnail'] = "http://nabu.sense-studios.com/broken.jpg"
         else
           temp_program['thumbnail'] = p.meta.moviedescription.thumbnail
 
