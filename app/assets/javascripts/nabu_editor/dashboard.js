@@ -400,8 +400,21 @@ $(document).ready(function() {
 
   // TODO: also on swipe up and down
   // rewrite this with a class (?)
-  $('#butt-up').click( animateVideoUp );
-  $('#butt-down').click( animateVideoDown );
+
+  var videoIsDown = true
+  //$('#butt-up').click( animateVideoUp );
+  //$('#butt-down').click( animateVideoDown );
+  $('#butt-toggle').click( function() {
+    if ( videoIsDown ) {
+      animateVideoUp();
+      videoIsDown = false;
+    }else{
+      animateVideoDown();
+      videoIsDown = true;
+    }
+  })
+
+
   //$('.video_holder').on('swipedown',function(){alert("swipedown..");} );
   //$('.video_holder').on('swipeup',function(){alert("swipedown..");} );
 
