@@ -755,7 +755,8 @@ function initS3Oploader() {
   };
 
   $("#s3-uploader").S3Uploader( {
-    //max_file_size: 1258291200,
+    // max_file_size: 1, //* 1024 * 1024, // 5 GB, TODO: we could make this account dependant ?!
+    // do this in the HTML!
     progress_bar_target: $('.js_progress_bars'),
     allow_multiple_files: false,
     remove_completed_progress_bar: false,

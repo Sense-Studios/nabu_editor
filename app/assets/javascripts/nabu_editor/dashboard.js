@@ -135,6 +135,7 @@ var doPublishMovie = function(id) {
 };
 
 var doCopyMovie = function(id) {
+  console.log("do copy movie: ", id )  
   $.ajax({
     url: '/marduq_api/programs/copy/',
     type: 'POST',

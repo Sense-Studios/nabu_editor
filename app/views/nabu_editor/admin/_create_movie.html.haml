@@ -18,7 +18,7 @@
 
   .uploader.upload_container
     %input.hidden#input_select.upload_checkbox{"type"=>"radio", "data-name" => "upload", "name"=>"input_select", "value"=>"s3_direct"}
-    = s3_uploader_form id: "s3-uploader", max_file_size: 2400.megabytes do
+    = s3_uploader_form id: "s3-uploader", max_file_size: 4999.megabytes do
       = file_field_tag :file, :class => "form-control click_upload", :accept=>"video/*|mp4"
       .uploader_icon
         .input-group
