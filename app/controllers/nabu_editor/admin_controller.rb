@@ -149,7 +149,7 @@ module NabuEditor
           "openers" => 0,
           "completed" => 0,
           "timewatched" => 0,
-          "logging_enabled" => "false"
+          "logging_enabled" => false
         }
       }
 
