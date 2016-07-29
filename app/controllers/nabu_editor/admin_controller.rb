@@ -51,7 +51,7 @@ module NabuEditor
         # out allows for negative values "from the end"
         if m["out"].to_i < 0
           some_marqer.out = ( @program.program_items[0].asset.duration_in_ms.to_f / 1000 ) - m["out"]
-        elsif m["out"].to_i == 0
+        elsif ( m["out"].to_i == 0 || m["out"] == "end" )
           some_marqer.out = ( @program.program_items[0].asset.duration_in_ms.to_f / 1000 )
         else
           some_marqer.out = m["out"]
@@ -149,7 +149,7 @@ module NabuEditor
           "openers" => 0,
           "completed" => 0,
           "timewatched" => 0,
-          "logging_enabled" => false
+          "logging_enabled" => "false"
         }
       }
 
