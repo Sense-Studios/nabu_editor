@@ -1,6 +1,6 @@
 // add open sans
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
-@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro);
+@import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800");
+@import url("//fonts.googleapis.com/css?family=Anonymous+Pro");
 
 /*
 // AVENIR
@@ -500,7 +500,8 @@ nav {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
+  justify-content: flex-start;
 
   .select_videos {
     transition: margin-top 0.5s;
@@ -2028,13 +2029,11 @@ nav {
 
 #publish_menu_container {
   margin-top: 41px;
-  position: absolute;
+  position: relative;
   width: 100%;
   min-height: 80%;
   background-color: #FFF;
   padding: 10px;
-  align-self: stretch;
-  flex: 1;
 
   .row {
     margin: 0;

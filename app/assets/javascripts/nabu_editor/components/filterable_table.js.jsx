@@ -93,7 +93,7 @@ var ProgramTile = React.createClass({
       var openers = this.props.program.openers + "/" + this.props.program.completed
 
       //var thumb = this.props.program.meta.moviedescription.thumbnail
-      var thumb = this.props.program.thumbnail
+      var thumb = this.props.program.thumbnail.replace('http://', 'https://')
 
       //console.log(title, this.props.hide)
       var classes = 'program_container'

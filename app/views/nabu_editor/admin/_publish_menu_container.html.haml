@@ -26,7 +26,11 @@
       %ul#all_available.menu-editor.drop
         - @programs.each do |p|
           %li.new-item.ui-state-default.available_program_item{:id=>p['id'], "data" => { "target" => ""}}
-            = image_tag p['thumbnail'], :class=>'pull-left menu_video_image', :width=>'139px', :height=>'78px' unless p['thumbnail'].nil?
+            // prefetch
+            - thumb = p['thumbnail'].gsub('http://', 'https://') unless  p['thumbnail'].nil? # https
+            - thumb = thumb.gsub('cdnbakmi', 'cdnapisec') unless p['thumbnail'].nil?         # kaltura
+            - thumb = thumb.gsub('ak.c', 'ec.c') unless p['thumbnail'].nil?                  # ooyala 
+            = image_tag thumb, :class=>'pull-left menu_video_image', :width=>'139px', :height=>'78px' unless p['thumbnail'].nil?
             .program_container
               %p.program_title= p['title'] unless p['title'].nil?
             .program_dragger
