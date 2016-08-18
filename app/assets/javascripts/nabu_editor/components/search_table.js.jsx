@@ -50,7 +50,7 @@ var ProductTable = React.createClass({
 });
 
 var SearchBar = React.createClass({
-    handleChange: function() {
+    handleChange: function() {        
         this.props.onUserInput(
             this.refs.filterTextInput.getDOMNode().value,
             this.refs.inStockOnlyInput.getDOMNode().checked

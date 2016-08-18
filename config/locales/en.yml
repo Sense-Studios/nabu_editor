@@ -47,6 +47,7 @@ en:
     save: "Save"
     remove: "Remove"
     type_name: "Type menu name here"
+    size: "Dimensions"
   right_menu:
     account: "Account"
     editors: "Editors"

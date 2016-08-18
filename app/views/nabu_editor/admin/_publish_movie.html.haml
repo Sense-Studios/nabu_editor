@@ -32,9 +32,8 @@
     .row
       .col-md-2
         %label.control-label{:style=>'text-align:left'}
-          /= t('publish_movie.link')
-          Grootte
-
+          = t('publish_movie.size')
+          
       .col-md-4
         %select.form-control#embed_preset.code
           %option{:value=>"320|200"} 320x200 (CGA)

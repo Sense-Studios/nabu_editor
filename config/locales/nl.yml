@@ -40,13 +40,14 @@ nl:
   publish_menu:
     marduq_channels: "Marduq Channels"
     marduq_syndication: "Marduq Syndication"
-    edit_site: "Bewerk site"    
+    edit_site: "Bewerk site"
     edit_rules: "Bewerk regels"
     search: "Zoek"
     create_category: "Maak categorie"
     save: "Bewaar"
     remove: "Verwijder"
     type_name: "Typ hier de menu naam"
+    size: "Grootte"
   right_menu:
     account: "Account"
     editors: "Editors"

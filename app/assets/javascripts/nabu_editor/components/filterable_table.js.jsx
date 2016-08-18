@@ -93,11 +93,17 @@ var ProgramTile = React.createClass({
       var openers = this.props.program.openers + "/" + this.props.program.completed
 
       //var thumb = this.props.program.meta.moviedescription.thumbnail
-      var thumb = this.props.program.thumbnail.replace('http://', 'https://')
+      var thumb = matchProtocol( this.props.program.thumbnail )
+
+      // depricated
+      //var thumb = this.props.program.thumbnail.replace('http://', 'https://')
+      //if (window.location.ptotocol == "https:")
 
       //console.log(title, this.props.hide)
       var classes = 'program_container'
       if ( this.props.parentTable.state.selectedProgramItem == this.props.program.id ) {
+
+      // depricated
       // || ( program !== null && this.props.program.id == program.id ) ) {
 
         classes += ' long-shadow-5 btn-material-pink selected'
@@ -218,8 +224,47 @@ var ProgramTable = React.createClass({
         // failsave, for now
         if ( program.title === null ) program.title = " [ Title goes here ] "
 
-        console.log( program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()), program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase() ) )
-        if ( program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()) == -1 && program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase()) == -1 ) { // || (!program.stocked && this.props.inStockOnly
+        //console.log( "===>", program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()), program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase() ) )
+
+        var addProgram = false
+        if ( program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()) == -1 ) addProgram = true
+        if ( program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase()) == -1 ) addProgram = true
+
+
+        // now rerun and split whatever in this.props.filterText.toLowerCase() match it with any of program.tags, kill all spaces!, add both , and ; as split for extra credit!
+        var given_tags = this.props.filterText.toLowerCase().split(/,|; /)
+        if ( program.tags.length > 0 ) {
+
+          var matchall = 0
+          var hasmatch = false
+
+          for (var i=0; i < given_tags.length; i++) {
+            for(var j=0; j < program.tags.length; j++) {
+              given_tags[i] = given_tags[i].trim().toLowerCase()
+              //console.log( "trr", program.tags[j].toLowerCase(), given_tags[i], program.tags[j].indexOf( given_tags[i] ) )
+              if ( program.tags[j].toLowerCase().indexOf( given_tags[i] ) != -1 ) {
+                matchall++
+                //console.log("match!!", program.tags[j], given_tags[i], matchall, given_tags, program.tags)
+              }
+            }
+          }
+
+          if ( matchall == given_tags.length ) addProgram = false // for psychedelics, invert this :)
+        }
+
+
+
+        //console.log(" ===> ", matchall, given_tags.length, given_tags, program.tags, addProgram )
+
+        //    for( var j=0; j < given_tags.length; i++ ) {
+      //        if ( program.tags[i] == given_tags[j] ) {
+      //          addProgram = true
+      //        }
+      //      }
+      //  }
+
+        //if ( program.title.toLowerCase().indexOf(this.props.filterText.toLowerCase()) == -1 && program.tags.join(' ').toLowerCase().indexOf( this.props.filterText.toLowerCase()) == -1 ) { // || (!program.stocked && this.props.inStockOnly
+        if (addProgram) {
           //return;
           items.push( <ProgramTile parentTable={this} hide='true' program={program} key={program.id} /> );
           this.state.itemLength+=1

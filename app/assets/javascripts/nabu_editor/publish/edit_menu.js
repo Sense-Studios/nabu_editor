@@ -111,7 +111,7 @@ function loadMenuFromData() {
           var some_item = "";
           some_item += '<li class="ui-state-default available_program_item ui-draggable not_new" id="' + p_value.id + '" style="display: block;"> data-target="' + dataTarget + '"';
           some_item += '';
-          some_item += '<img alt="4" class="thumbnail pull-left" height="32px" src="' + p_value.meta.moviedescription.thumbnail + '">';
+          some_item += '<img alt="4" class="thumbnail pull-left" height="32px" src="' + matchProtocol( p_value.meta.moviedescription.thumbnail ) + '">';
           some_item += '<span class="program_title">';
           some_item += '  <strong>';
           some_item += p_value.title;
@@ -269,7 +269,7 @@ function setMenudata( Menudata ) {
               console.log('item id: ', item_id)
               var some_item = "";
               some_item += '<li class="new-item ui-state-default available_program_item ui-draggable not_new" id="' + menuItem[key].id  + '" style="display: list-item;"  data-target="' + item_id + '">';
-              some_item += '<img alt="4" class="pull-left" height="32px" src="' + menuItem[key].thumb + '">';
+              some_item += '<img alt="4" class="pull-left" height="32px" src="' + matchProtocol( menuItem[key].thumb ) + '">';
               some_item += '<div class="program_container">';
               some_item += '<p class="program_title">';
               some_item += menuItem[key].name;;
@@ -451,7 +451,7 @@ function updatePrograms( _programs ) {
     var item_id = Math.round( Math.random() * 1000000 );
     var item = ''
     item += '<li class="new-item ui-state-default available_program_item ui-draggable" id="' + p.id + '" data-target="' + item_id + '">';
-    item += '  <img alt="Mqdefault" class="pull-left menu_video_image" height="32px" src="' + p.thumbnail + '">';
+    item += '  <img alt="Mqdefault" class="pull-left menu_video_image" height="32px" src="' + matchProtocol( p.thumbnail ) + '">';
     item += '  <div class="program_container">';
     item += '    <p class="program_title">' + p.title + '</p>';
     item += '  </div>';
@@ -556,7 +556,7 @@ var configureChannel = function() {
 // #############################################################################
 
 $('#edit_rules').click(function() {
-  $('#rules_config_dialog').modal('show')  
+  $('#rules_config_dialog').modal('show')
   $('#rules_config_iframe').attr('src', '/admin/rules')
 })
 
