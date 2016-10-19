@@ -37,7 +37,7 @@ var available_marqers = [
   { "name": t.marqer_names.react,           "type": "ReactMarqer",                    "icon": "", "category": "experimental", "version":"alpha" },
 
   //{ "name": "Wikipedia",                     "type": "WikipediaMarqer",                "icon": "", "category": "experimental", "version":"alpha" },
-  //{ "name": "Motion Tracker",                "type": "MotionTrackerMarqer",            "icon": "", "category": "experimental", "version":"alpha" },
+  { "name": "Motion Tracker",               "type": "MotionTrackerMarqer",            "icon": "", "category": "experimental", "version":"alpha" },
   //{ "name": "Facebookpoort",                 "type": "FacebookGateMarqer",             "icon": "", "category": "experimental", "version":"alpha" },
   //{ "name": "Famo.us",                       "type": "FamousMarqer",                   "icon": "", "category": "experimental", "version":"alpha" },
   //{ "name": "Fatchat",                       "type": "FatChatMarqer",                  "icon": "", "category": "experimental", "version":"alpha" },

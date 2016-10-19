@@ -51,11 +51,9 @@ var translateKey = function(key) {
 };
 
 var showMarqerInfoFromTrackEvent = function( e, that ) {
-  // stop it!
-  stopScreenEditor();
 
-  // and stop this too!
-  keysEnabled = false;
+  stopScreenEditor();  // stop screen editing!
+  keysEnabled = false; // and enable the keyboard for other things!
 
   // set the header
   $('.modal-title').html( '<span>' + $(that).data('name') + '</span>' );
@@ -196,6 +194,7 @@ var postRender = function( someMarqer, context ) {
       editor.setTheme("ace/theme/twilight");
       editor.$blockScrolling = Infinity
       editor.getSession().setMode("ace/mode/" + element.language );
+      if ( element.wordwrap ) editor.getSession().setUseWrapMode(true);
       editor.setValue( element.value );
       editor.on("change", function(e){
         element.value = editor.getValue();

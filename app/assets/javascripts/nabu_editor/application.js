@@ -76,7 +76,7 @@
 // require dataTables/jquery.dataTables.bootstrap3
 
 // SMOOTHER
-// require smooth/smooth
+//= require smooth/smooth
 
 // SERIOUSLY ( -- seriously is injected at runtime )
 // require seriously/seriously.js
