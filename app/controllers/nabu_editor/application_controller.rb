@@ -2,9 +2,25 @@ module NabuEditor
   class ApplicationController < ActionController::Base
 
     before_filter :authenticate_user!
-    before_action :set_locale, :set_translations
-    newrelic_ignore 
+    before_action :set_locale, :set_translations, :set_whitelabel
+    newrelic_ignore
+    
     impersonates :user
+
+    def set_whitelabel
+
+      # match url with labls
+      current_domain = request.host_with_port
+      current_whitelabel = 0
+      WHITELABELS.each_with_index do |w, i|
+        w["domains"].each do |d|
+          if d == current_domain
+            current_whitelabel = i
+          end
+        end
+      end
+      @whitelabel = WHITELABELS[current_whitelabel]
+    end
 
   protected
 

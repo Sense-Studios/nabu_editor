@@ -1,11 +1,9 @@
-/** @jsx React.DOM */
-
 var HelloWorldFromEditor = React.createClass({
     render: function() {
         return (
-          <h1> HELLOOOOO NURSEEEE FROM NABU_EDITOR 
+          <h1> HELLOOOOO NURSEEEE FROM NABU_EDITOR
             <small>
-              {this.props.last_name}, 
+              {this.props.last_name},
               {this.props.first_name}
             </small></h1>
         )
@@ -50,4 +48,3 @@ var TodoApp = React.createClass({
     );
   }
 });
-

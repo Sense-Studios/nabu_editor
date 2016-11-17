@@ -5,7 +5,10 @@
   = render partial: 'shared/preloader'
 
   %head
-    %title= t('application.title')
+    %title
+      = @whitelabel['brand']
+      VMS
+    /=  t('application.title')
 
     / pass those values to javascript
     :javascript
@@ -49,6 +52,7 @@
     / looks like the only way to add this lastly
     = stylesheet_link_tag "nabu_editor/admin"
     = stylesheet_link_tag "nabu_editor/jquery.dropdown"
+    = stylesheet_link_tag "#{@whitelabel['css']}"
 
     / final override for right menu -- which still doesnt work
     :css
@@ -57,7 +61,7 @@
       .dropdown-menu {z-index: 100000001 !important;}
 
     / favicon
-    %link{:rel=>"icon", :type=>"image/png", :href=>"/assets/favicon/Favicon_design.png"}
+    %link{:rel=>"icon", :type=>"image/png", :href=>"#{@whitelabel['favicon']}"}
     %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=0.8"}
 
   %body

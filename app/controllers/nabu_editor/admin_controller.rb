@@ -74,7 +74,8 @@ module NabuEditor
       end
 
       # trick the program data from the asset data
-      # this should come from a file
+      # this should come from a file and should be executed indirectly,
+      # meaning if a movie exists without metadata, it should be injected regardless
       @program.meta = {
         "moviedescription"=> {
           "title"=> @program.program_items[0].asset.title,
@@ -91,7 +92,7 @@ module NabuEditor
           "title"=> "true",
           "description"=> "true",
           "autoplay"=> "false",
-          #"showscores"=>"true",
+          # "showscores"=>"true",
           "scrubbar"=> "true",
           "allow_scrubbing"=> "true",
           "loader"=> "true",
@@ -115,16 +116,16 @@ module NabuEditor
         "on_movie_end"=> {
           "set"=> "do-nothing",
           "linked_page"=> "",
-          #"shown_text"=> "",
+          # "shown_text"=> "",
           "show_text"=> "",
           "next_program_id"=> ""
-          #"score_dependent_texts"=> [],
-          #"score_dependent_texts_header"=> "",
-          #"show_social_media"=> "false",
-          #"show_highscores"=> "true",
-          #"show-opt-in"=> "true",
-          #"email-forwarding"=> "true",
-          #"show-score-dependant-texts"=> "true"
+          # "score_dependent_texts"=> [],
+          # "score_dependent_texts_header"=> "",
+          # "show_social_media"=> "false",
+          # "show_highscores"=> "true",
+          # "show-opt-in"=> "true",
+          # "email-forwarding"=> "true",
+          # "show-score-dependant-texts"=> "true"
         },
 
         "social"=> {
@@ -178,13 +179,14 @@ module NabuEditor
         owner = current_user
       end
 
-      #@kaltura_partner_id = owner.kaltura_partner_id
-      #@kaltura_uiconfig_id = owner.kaltura_uiconfig_id
+      # @kaltura_partner_id = owner.kaltura_partner_id
+      # @kaltura_uiconfig_id = owner.kaltura_uiconfig_id
       @owner = owner
 
       # get programs
       do_get_programs
 
+      # get themes & menus
       @themes = NabuThemes::Theme.where( :owner => @account_id )
       @menus = NabuThemes::Menu.where( :owner => @account_id )
 

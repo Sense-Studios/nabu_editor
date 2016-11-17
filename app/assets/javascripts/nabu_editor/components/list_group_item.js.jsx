@@ -1,11 +1,9 @@
-/** @jsx React.DOM */
-
 var ListGroupItem = React.createClass({
 
-  componentDidMount: function() {    
+  componentDidMount: function() {
     $.material.init()
-  }, 
-  
+  },
+
   getInitialState: function() {
     return {checked: false};
   },
@@ -17,15 +15,15 @@ var ListGroupItem = React.createClass({
   render: function() {
     var classes="list-group-item"
     if ( this.state.checked ) classes += " long-shadow-4 btn-material-yellow-200"
-      return (                    
+      return (
         <div id="thisismylistgroupitem" className={classes}>
           <div className="row-action-primary checkbox">
             <label>
-              <input                   
-              type="checkbox" 
+              <input
+              type="checkbox"
               ref="myAwesomeCheckbox"
               checked={this.state.checked}
-              onChange={this.handleClick} 
+              onChange={this.handleClick}
               />
             </label>
           </div>
@@ -43,11 +41,11 @@ var ListGroupItem = React.createClass({
 });
 
 var ChannelListGroupItem = React.createClass({
-  
-  componentDidMount: function() {    
+
+  componentDidMount: function() {
     $.material.init()
-  }, 
-  
+  },
+
   getInitialState: function() {
     return {checked: false};
   },
@@ -59,15 +57,15 @@ var ChannelListGroupItem = React.createClass({
   render: function() {
     var classes="list-group-item"
     if ( this.state.checked ) classes += " long-shadow-4 btn-material-yellow-200"
-      return (                    
+      return (
         <div id="thisismylistgroupitem" className={classes}>
           <div className="row-action-primary checkbox">
             <label>
-              <input                   
-              type="checkbox" 
+              <input
+              type="checkbox"
               ref="myAwesomeCheckbox"
               checked={this.state.checked}
-              onChange={this.handleClick} 
+              onChange={this.handleClick}
               />
             </label>
           </div>
@@ -81,5 +79,5 @@ var ChannelListGroupItem = React.createClass({
           </div>
         </div>
       );
-    }  
+    }
 });

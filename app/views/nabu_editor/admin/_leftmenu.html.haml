@@ -2,8 +2,9 @@
 
   / *** LOGO ***
   = link_to main_app.admin_dashboard_path, :target=>"_top"  do
-    = image_tag "nabu_editor/beeld_merk.png",:class => "logo"
-    = image_tag "nabu_editor/naam_merk.png",:class => "logo"
+    = image_tag @whitelabel["icon"], :class => "logo" unless @whitelabel["icon"].blank?
+    = image_tag @whitelabel["text_logo"], :class => "logo"
+    /= image_tag @whitelabel["logo"], :class => "logo"
 
   / *** USER ***
   %h4.text-center

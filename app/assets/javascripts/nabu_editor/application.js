@@ -29,7 +29,8 @@
 //= require_tree ./components
 
 // BOOTSTRAP
-//= require bootstrap
+//= require bootstrap-sprockets
+// require bootstrap
 //= require bootstrap-material-design/material
 //= require bootstrap-material-design/ripples
 

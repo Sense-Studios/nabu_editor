@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var CreateNewProgramTile = React.createClass({
   handleClick:function() {
     showCreateMovie()
