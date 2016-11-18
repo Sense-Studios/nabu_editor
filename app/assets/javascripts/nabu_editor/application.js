@@ -22,9 +22,9 @@
 
 // REACT
 // require react/react
-//= require react/react-with-addons
-//= require react/react_ujs
-//= require react/JSXTransformer
+//= require react-with-addons
+//= require react_ujs
+//= require JSXTransformer
 //= require components
 //= require_tree ./components
 

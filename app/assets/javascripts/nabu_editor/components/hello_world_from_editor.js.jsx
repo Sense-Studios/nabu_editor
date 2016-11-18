@@ -10,7 +10,6 @@ var HelloWorldFromEditor = React.createClass({
     }
 });
 
-
 var TodoList = React.createClass({
   render: function() {
     var createItem = function(itemText) {
@@ -19,8 +18,6 @@ var TodoList = React.createClass({
     return <ul>{this.props.items.map(createItem)}</ul>;
   }
 });
-
-
 
 var TodoApp = React.createClass({
   getInitialState: function() {
