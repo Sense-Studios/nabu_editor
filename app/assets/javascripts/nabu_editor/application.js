@@ -21,10 +21,10 @@
 // require turbolinks
 
 // REACT
-// require react/react
-//= require react-with-addons
+// require react-with-addons
+// require JSXTransformer
 //= require react_ujs
-//= require JSXTransformer
+//= require react
 //= require components
 //= require_tree ./components
 
