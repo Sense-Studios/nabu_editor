@@ -135,7 +135,7 @@ var doPublishMovie = function(id) {
 };
 
 var doCopyMovie = function(id) {
-  console.log("do copy movie: ", id )  
+  console.log("do copy movie: ", id )
   $.ajax({
     url: '/marduq_api/programs/copy/',
     type: 'POST',
@@ -270,7 +270,8 @@ function setPrograms() {
     // update react
     console.log( "Update programs Succes" );
     console.log( resp );
-    filter_table.setProps( {'programs': resp } );
+    filter_table.state.programs = resp
+    filter_table.forceUpdate()
     updatePrograms( resp ) // for edit_menu.js, or the publish menu list
 
     // reset the selected program, if it was updating

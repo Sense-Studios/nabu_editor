@@ -127,7 +127,7 @@ var ProgramTile = React.createClass({
 
           <ul className='nav nav-tabs btn-material-pink'>
             <li className='dropdown'>
-              <span className='glyphicon glyphicon-menu-hamburger' aria='' hidden='true'>
+              <span className='glyphicon glyphicon-menu-hamburger' hidden='true'>
               </span>
               <a className='dropdown-toggle clickable' data-toggle='dropdown' href="#" onClick={this.toggleDropdown}>
               </a>
@@ -170,7 +170,8 @@ var ProgramTable = React.createClass({
       return {
         lastLength: 0,
         itemLength: 0,
-        selectedProgramItem: 0
+        selectedProgramItem: 0,
+        programs: []
       };
     },
 
@@ -209,6 +210,11 @@ var ProgramTable = React.createClass({
 
     render: function() {
       //console.log(this.props);
+
+      console.log(" --> render table")
+      console.log("state: ", this.state)
+      console.log("props: ", this.props)
+
       var items = [];
       var lastCategory = null;
 
@@ -287,9 +293,11 @@ var ProgramTable = React.createClass({
 var SearchBar2 = React.createClass({
     handleChange: function() {
       this.props.onUserInput(
-        this.refs.filterTextInput.getDOMNode().value
+        //this.refs.filterTextInput.getDOMNode().value
         //this.refs.inStockOnlyInput.getDOMNode().checked
         //this.placeholder = window.t.devise.confirmations.confirmed
+        //console.log( ReactDOM.findDOMNode(this.refs.filterTextInput) )
+        ReactDOM.findDOMNode(this.refs.filterTextInput).value
       );
     },
 
@@ -327,7 +335,8 @@ var FilterableProgramTable = React.createClass({
     getInitialState: function() {
         return {
             filterText: '',
-            selectedProgramItem: '54dcf8aa6465760785a90000'
+            selectedProgramItem: '',
+            programs: window.programs
         };
     },
 
@@ -339,7 +348,7 @@ var FilterableProgramTable = React.createClass({
 
     render: function() {
       window.filter_table = this
-      console.log("has programs?", this.props.programs )
+      console.log("has programs?", this.state.programs )
         return (
             <div>
                 <SearchBar2
@@ -348,7 +357,7 @@ var FilterableProgramTable = React.createClass({
                     onUserInput={this.handleUserInput}
                 />
                 <ProgramTable
-                    programs={this.props.programs}
+                    programs={this.state.programs}
                     filterText={this.state.filterText}
                     selectedProgramItem={this.state.selectedProgramItem}
                 />

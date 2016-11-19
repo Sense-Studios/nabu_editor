@@ -22,7 +22,8 @@
 
   / videos overview
   .select_videos
-    = react_component('FilterableProgramTable', { programs: @programs.reverse! } )
+    = react_component('FilterableProgramTable' )
+    / , { programs: @programs.reverse! }
 
   / advanced describe
   = render partial: 'nabu_editor/admin/describe_movie_advanced'
