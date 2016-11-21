@@ -211,9 +211,9 @@ var ProgramTable = React.createClass({
     render: function() {
       //console.log(this.props);
 
-      console.log(" --> render table")
-      console.log("state: ", this.state)
-      console.log("props: ", this.props)
+      // console.log(" --> render table")
+      // console.log("state: ", this.state)
+      // console.log("props: ", this.props)
 
       var items = [];
       var lastCategory = null;
@@ -336,7 +336,7 @@ var FilterableProgramTable = React.createClass({
         return {
             filterText: '',
             selectedProgramItem: '',
-            programs: window.programs
+            programs: window.programs.reverse()
         };
     },
 
