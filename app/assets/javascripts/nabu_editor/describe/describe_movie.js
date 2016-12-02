@@ -154,6 +154,13 @@ function setDataFromProgram() {
   setOptions( movie_options_checkboxes, metaData.player_options  );
   initTextField( $('#pop_under_program'),  metaData.player_options, "pop_under_target" );
 
+  // subtitles
+  // $('#import_subtitles').change( function() { metaData.player_options, "import_subtitles" );
+  $('input[name="import_subtitles"]').prop('checked', false)
+  if ( metaData.player_options.import_subtitles ) $('input[name="import_subtitles"]').prop('checked', 'checked')
+  $('input[name="import_subtitles"]').change(function(e) { metaData.player_options.import_subtitles = $('input[name="import_subtitles"]').is(':checked'); });
+  initTextField( $('#subtitle_language'),  metaData.player_options, "subtitle_language" );
+
   // custom embed info
   initTextField( $('#custom_widget_id'),  metaData.player_options, "custom_widget_id" );
   initTextField( $('#custom_embed_code'),  metaData.player_options, "custom_embed_code" );

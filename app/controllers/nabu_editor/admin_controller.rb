@@ -106,9 +106,15 @@ module NabuEditor
           "mute"=> "true",
           "show_big_play"=> "true",
 
+          # annoy the shit
           "pop_under"=> "false",
           "pop_under_target"=> "",
 
+          # for youtube subtitles
+          "import_subtitles"=> false,
+          "subtitle_language"=> "en",
+
+          # Kaltura
           "custom_widget_id" => "",
           "custom_embed_code" => ""
         },

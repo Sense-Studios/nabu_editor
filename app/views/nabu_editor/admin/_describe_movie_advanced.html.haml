@@ -129,6 +129,28 @@
         .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
       .clear
 
+
+  .well
+    %h4
+      Youtube Subtitle options
+
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"import_subtitles", "name"=>"import_subtitles" }
+          import_subtitles
+
+    .form-group
+      %label subtitle_language
+      %input#subtitle_language.form-control{"type"=>"text", "placeholder"=> "en" }
+
+
+    .col-md-12
+      .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
+    .clear
+
+
+
   .well
     %h4
       Kaltura custom embed info

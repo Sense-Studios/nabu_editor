@@ -3,12 +3,18 @@
   #publish_menu_container_overlay
     .row
       .col-sm-6
-        %h4{:style=>"color:white;"}= t('publish_menu.marduq_channels')
+        %h4{:style=>"color:white;"}
+          = @whitelabel["brand"]
+          Channels
+          /= t('publish_menu.marduq_channels')
         %button#hide_menu_container_overlay.btn.btn-material-burgundy
           = t('publish_menu.edit_site')
 
       .col-sm-6
-        %h4{:style=>"color:white;"}= t('publish_menu.marduq_syndication')
+        %h4{:style=>"color:white;"}
+          = @whitelabel["brand"]
+          Syndication
+          /= t('publish_menu.marduq_syndication')
         %button#edit_rules.btn.btn-material-burgundy
           = t('publish_menu.edit_rules')
 
@@ -29,7 +35,7 @@
             // prefetch
             - thumb = p['thumbnail'].gsub('http://', 'https://') unless  p['thumbnail'].nil? # https
             - thumb = thumb.gsub('cdnbakmi', 'cdnapisec') unless p['thumbnail'].nil?         # kaltura
-            - thumb = thumb.gsub('ak.c', 'ec.c') unless p['thumbnail'].nil?                  # ooyala 
+            - thumb = thumb.gsub('ak.c', 'ec.c') unless p['thumbnail'].nil?                  # ooyala
             = image_tag thumb, :class=>'pull-left menu_video_image', :width=>'139px', :height=>'78px' unless p['thumbnail'].nil?
             .program_container
               %p.program_title= p['title'] unless p['title'].nil?

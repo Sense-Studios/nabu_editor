@@ -36,6 +36,9 @@ var metaData =  {
     "pop_under": "false",
     "pop_under_target": "",
 
+    "import_subtitles": false,
+    "subtitle_language": "en",
+
     "custom_widget_id": "",
     "custom_embed_code": ""
   },
