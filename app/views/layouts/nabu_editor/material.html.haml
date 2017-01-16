@@ -1,6 +1,9 @@
 !!! 5
 %html
 
+  /%link{:href => "http://mtwl.sense-studios.com/assets/favicon/favicon_movietrader.png?r=0.05699863605493016", :rel => "icon", :type => "image/png"}/
+  %link{:href => "#{@whitelabel['favicon']}", :rel => "icon", :type => "image/png"}/
+
   / render preloader
   = render partial: 'shared/preloader'
 
@@ -61,7 +64,8 @@
       .dropdown-menu {z-index: 100000001 !important;}
 
     / favicon
-    %link{:rel=>"icon", :type=>"image/png", :href=>"#{@whitelabel['favicon']}"}
+    /%link{:href => "#{@whitelabel['favicon']}", :rel => "icon", :type => "image/png"}/
+    /%link{:rel=>"icon", :type=>"image/png", :href=>"http://nabu.sense-studios.com/assets/favicon/Favicon_design.png"}
     %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=0.8"}
 
   %body
