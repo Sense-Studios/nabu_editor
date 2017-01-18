@@ -1,7 +1,8 @@
 %nav
 
   / *** LOGO ***
-  = link_to main_app.admin_dashboard_path, :target=>"_top"  do
+  /= link_to main_app.admin_dashboard_path, :target=>"_top"  do
+  = link_to editor3.dashboard_path, :target=>"_top"  do
     = image_tag @whitelabel["icon"], :class => "logo" unless @whitelabel["icon"].blank?
     = image_tag @whitelabel["text_logo"], :class => "logo"
     /= image_tag @whitelabel["logo"], :class => "logo"
