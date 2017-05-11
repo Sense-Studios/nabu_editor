@@ -1,10 +1,17 @@
 <div class="form-group form-group-sm">
-  <div class="col-sm-12">
+  {{#if label}}
+    <label class="col-sm-4">
+      {{label}}
+    </label>
+    <div class="col-sm-8">
+  {{else}}
+    <div class="col-sm-12">
+  {{/if}}
     <select class="form-control input-sm dropdown_select" data-key="{{key}}" id="{{key}}_field" >
     {{#each element.values }}
       <option value="{{this.value}}">{{this.option}}</option>
     {{/each}}
-    </select>    
+    </select>
   </div>
   <div class="clear"></div>
 </div>

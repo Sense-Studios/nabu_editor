@@ -89,20 +89,26 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
       rand_id: (+new Date())     // or use remote_id, or utils.guid
     };
 
-    // assign label if any
-    if ( element.label !== undefined ) context.label = element.label
+    // available keys
+    // add position?
+
     console.log("--> render marqer elements KEY: ", key );
 
-    // extra's (unit renders a value after a textfield)
-    if ( element.unit ) context.unit = element.unit;
+    if ( element.label !== undefined ) context.label = element.label    // assign label if any
+    if ( element.unit ) context.unit = element.unit; // extra's (unit renders a value after a textfield)
+    if ( element.step ) context.step = element.step; // for numbers, allows setting of stepping (increase/ decrease)
 
     // render the output through handlebars, http://handlebarsjs.com/ => /dir/file(object)
     // find the templates in /assets/javascripts/templates
     var output = '';
     var output_advanced = '';
+
+    // TODO: will become depricated in favour of a complete tabbabble (!) output
+    var output_tab = ''
     try {
-      if ( element.advanced ) {
-        output_advanced = HandlebarsTemplates[ element.type ](context);
+      if ( element.advanced ) output_advanced = HandlebarsTemplates[ element.type ](context);
+      if ( element.tab ) {
+        output_tab = HandlebarsTemplates[ elemnt.type ](context);
       }else{
         output = HandlebarsTemplates[ element.type ](context);
       }
@@ -110,6 +116,13 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     } catch (err) {
       console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
       return;
+    }
+
+    // TODO: select modal type (normal/large)
+    if ( element.modal == "large" ) {
+
+    }else{
+
     }
 
     // attach the output to the form
