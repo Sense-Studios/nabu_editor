@@ -100,6 +100,8 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
     // render the output through handlebars, http://handlebarsjs.com/ => /dir/file(object)
     // find the templates in /assets/javascripts/templates
+
+    /*
     var output = '';
     var output_advanced = '';
 
@@ -123,6 +125,21 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
 
     }else{
 
+    }
+    */
+    
+    var output = '';
+    var output_advanced = '';
+    try {
+      if ( element.advanced ) {
+        output_advanced = HandlebarsTemplates[ element.type ](context);
+      }else{
+        output = HandlebarsTemplates[ element.type ](context);
+      }
+
+    } catch (err) {
+      console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
+      return;
     }
 
     // attach the output to the form
