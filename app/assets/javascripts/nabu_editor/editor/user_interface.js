@@ -19,6 +19,7 @@ mapi
 /////_________________________________________________________________
 
 var ids = 1000000; // local id start
+
 var createTrackEvent = function( marqer, trackline, select_id ) {
   console.log("MARQER", marqer);
   // get the necc. information from the marqer
@@ -38,6 +39,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
     remote_id = marqer.id;
     l = ( ( marqer.in / pop.duration() ) * 100 ) + '%';
     w = ( ( ( marqer.out - marqer.in ) / pop.duration() ) * 100 ) + '%';
+
   }else{
     // failsafe and user scolding
     alert(t.user_interface.alert);
@@ -65,6 +67,7 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   html += '     <ul class="dropdown-menu dropdown-menu-editor">';
   html += '       <li class="drowndown-menu-title">' + name + "</li>"
 
+  // check for placement option, and render menu item
   if ( marqer.marqeroptions.position != undefined && marqer.marqeroptions.original != undefined ) {
     html += '     <li><a class="position_button" data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-modal-window ignore_events"/>' + t.user_interface.place + '</a></li>';
   }
@@ -73,13 +76,13 @@ var createTrackEvent = function( marqer, trackline, select_id ) {
   html += '      <li><a class="stratum_button" onClick="$(this).closest(\'.dropdown-toggle\').hide()"  data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-save ignore_events"/>' + t.user_interface.prefab + '</a></li>';
   html += '      <li><a class="delete_button" onClick="$(this).closest(\'.dropdown-toggle\').hide()"  data-remote_id="'+remote_id+'" href="javascript:"><span class="glyphicon glyphicon-trash ignore_events"/>' + t.user_interface.delete + '</a></li>';
   html += '     </ul>';
-
-
   html += '    </li>';
   html += '   </ul>';
+
   // if marqer.track.hasposition?
   // --> setPosition?
   html += '<p>&nbsp&nbsp' + name;
+
   // html += '   <small> ' + $(ui.draggable).data('type') + '</small>';
   html += '</p></div>';
   html += '</div>';
@@ -130,8 +133,6 @@ var addInteractionToTrackEvent = function( ids ) {
       if ( !event.altKey ) initiateUpdateMarqer( event, ui );
     }
   });
-
-  // console.log("CONTAINMENT @#################### ZOOOOOOOOOMMMMMMM @################################")
 
   $('#' + ids + ' a.dropdown-toggle').on('touchstart', function( e ) {
     e.preventDefault()
@@ -455,6 +456,7 @@ var initEditorKeys = function() {
   });
 };
 
+// enable/disble keys when focused
 $('.zoomContainer').focusin( function() { keysEnabled = true }  );
 $('.zoomContainer').focusout( function() { keysEnabled = false } );
 initEditorKeys();
