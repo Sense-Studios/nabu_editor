@@ -2,6 +2,14 @@
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800");
 @import url("//fonts.googleapis.com/css?family=Anonymous+Pro");
 
+
+// add shadow library
+@import 'shadows';
+
+// import questions librarby
+@import 'questions';
+
+
 /*
 // AVENIR
 
@@ -19,6 +27,7 @@
   z-index: 0 !important;
 }
 
+/* this is actuyally a world of pain */
 #video_frame>div {
   width: inherit;
   height: inherit;
@@ -27,10 +36,6 @@
   overflow: inherit;
   background-color: initial;
 }
-
-// add shadow library
-@import 'shadows';
-@import 'questions';
 
 @-webkit-keyframes fadeinout {
   15% { opacity: 0; }
@@ -885,6 +890,7 @@ nav {
     padding: 0 20px 0 20px;
     background-color: rgba(51,51,51,0.7);
     transition: opacity 0.5s;
+
     .publish_container {
       position: relative;
       width: 90%;
@@ -1091,14 +1097,24 @@ nav {
       /*overflow: hidden;*/ // lets movethis to a use_grid class
       border-bottom: 2px solid rgba(73,73,73,0.34);
       transition-duration: 0.23s;
-
-      box-shadow: $boxlong1 !important;
       margin: 4px 0px;
+      box-shadow: $boxlong1;
+
+      &:after {
+        box-shadow: $boxlong3;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        content: '';
+        z-index: -1;
+        top: 0;
+      }
 
       &:hover {
-        box-shadow: $boxlong3 !important;
-        margin: -2px 0px;
-        z-index:100000000;
+        transform: scale(1.06, 1.06);
+        z-index: 9999;
 
         .stats {
           opacity: 1;
@@ -1106,17 +1122,25 @@ nav {
         }
       }
 
+      &:hover:after {
+        opacity: 1;
+      }
+
       &:active {
-        box-shadow: $boxlong5 !important;
-        z-index:100000000;
-        margin: -3px 0px;
+        z-index:  999999;
+        transform: scale(1.06, 1.06);
+      }
+
+      &:active:after {
+        opacity: 1;
       }
 
       // hack to find active
       &.btn-material-pink {
         box-shadow: $boxlong5 !important;
-        z-index:100000000;
-        margin: -3px 0px;
+        transition: 0s;
+        z-index: 99999;
+        transform: scale(1.06, 1.06);
 
         .stats {
           opacity: 1;

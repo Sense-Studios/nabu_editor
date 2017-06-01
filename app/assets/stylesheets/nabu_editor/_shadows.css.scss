@@ -56,28 +56,29 @@ $boxlong5:
                -50px 50px $sblur rgba(100,100,100,0.01);
 
 .long-shadow-0 {
-  box-shadow: $boxlong0!important;
+  box-shadow: $boxlong0 !important;
 }
 
 .long-shadow-1 {
-  box-shadow: $boxlong1!important;
+  box-shadow: $boxlong1 !important;
 }
 
 .long-shadow-2 {
-  box-shadow: $boxlong2!important;
+  box-shadow: $boxlong2 !important;
 }
 
 .long-shadow-3 {
-  box-shadow: $boxlong3!important;
+  box-shadow: $boxlong3 !important;
 }
 
 .long-shadow-4 {
-  box-shadow: $boxlong4!important;
+  box-shadow: $boxlong4 !important;
 }
 
 .long-shadow-5 {
-  box-shadow: $boxlong5!important;
+  box-shadow: $boxlong5 !important;
 }
+
 
 // Paper examples
 .paper-container {
@@ -107,5 +108,5 @@ $boxlong5:
 
 /* overrides for the bold */
 body .well, .container .well, .container-fluid .well, body .jumbotron, .container .jumbotron, .container-fluid .jumbotron {
-  box-shadow: $boxlong4;
+  //box-shadow: $boxlong4;
 }

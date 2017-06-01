@@ -34,17 +34,17 @@
       var kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
 
       // kaltura
-      var kalturaPartnerId = "#{@owner.kaltura_partner_id}";
-      var kalturaUiConfigId = "#{@owner.kaltura_uiconfig_id}";
+      var kalturaPartnerId = "#{@owner.kaltura_partner_id unless @owner.nil?}";
+      var kalturaUiConfigId = "#{@owner.kaltura_uiconfig_id unless @owner.nil?}";
 
       // ooyala
-      var ooyalaApiKey = "#{@owner.ooyala_api_key}";
-      var ooyalePlayerId = "#{@owner.ooyala_player_id}";
+      var ooyalaApiKey = "#{@owner.ooyala_api_key unless @owner.nil?}";
+      var ooyalePlayerId = "#{@owner.ooyala_player_id unless @owner.nil?}";
 
       // streamone
-      var streamoneAccountId = "#{@owner.streamone_account_id unless @owner.blank?}";
-      var streamonePlayerCss = "#{@owner.player_css unless @owner.blank?}";
-      var streamoneRelatedJson = "#{@owner.related_json unless @owner.blank?}";
+      var streamoneAccountId = "#{@owner.streamone_account_id unless @owner.nil?}";
+      var streamonePlayerCss = "#{@owner.player_css unless @owner.nil?}";
+      var streamoneRelatedJson = "#{@owner.related_json unless @owner.nil?}";
 
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"

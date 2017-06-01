@@ -5,7 +5,7 @@ var CreateNewProgramTile = React.createClass({
 
   render:function() {
     return (
-      <div className="program_container add_program_container long-shadow-3 btn-black ss-active-child" >
+      <div className="program_container add_program_container btn-black ss-active-child" >
         <div className='btn dotted btn-white' onClick={this.handleClick}>
           +
         </div>
@@ -104,9 +104,9 @@ var ProgramTile = React.createClass({
       // depricated
       // || ( program !== null && this.props.program.id == program.id ) ) {
 
-        classes += ' long-shadow-5 btn-material-pink selected'
+        classes += ' btn-material-pink selected'
       }else{
-        classes += ' long-shadow-3 btn-white'
+        classes += ' btn-white'
       }
 
       if (this.props.hide == 'true') {

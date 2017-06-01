@@ -9,7 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
  *= require bootstrap-material-design/material.min
  *= require bootstrap-material-design/material-wfont.min
  *= require bootstrap-material-design/ripples.min

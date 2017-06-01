@@ -20,13 +20,27 @@
 // TURBOLINKS
 // require turbolinks
 
-// REACT
-// require react-with-addons
-// require JSXTransformer
-//= require react_ujs
-//= require react
+// -----------------------------------------------------------------------------
+// OKay, take note, here we do something REALLY nasty;
+// we load the latest version of react, we start with the
+// gem (react-rails) for all those view goodies (mount_component)
+// however, we use a custom react build, that allows for inline injections
+// of jsx for marqers. It's beautiful, but it stinks. ;)
+// -----------------------------------------------------------------------------
+
+// REACT for use in marqers (note that this is taken from vendor/react_inline)
+// require react_inline/
+//= require react_inline/JSXTransformer
+//= require react_inline/react_ujs
+//= require react_inline/react-with-addons
+
+// React for use in rails (note the escaped libraries)
+// require react_ujs
+// require react
 //= require components
 //= require_tree ./components
+
+// -----------------------------------------------------------------------------
 
 // BOOTSTRAP
 //= require bootstrap-sprockets
