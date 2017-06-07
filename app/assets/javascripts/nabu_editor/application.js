@@ -31,12 +31,12 @@
 // REACT for use in marqers (note that this is taken from vendor/react_inline)
 // require react_inline/
 //= require react_inline/JSXTransformer
-//= require react_inline/react_ujs
-//= require react_inline/react-with-addons
+// require react_inline/react_ujs
+// require react_inline/react-with-addons
 
 // React for use in rails (note the escaped libraries)
-// require react_ujs
-// require react
+//= require react_ujs
+//= require react
 //= require components
 //= require_tree ./components
 
