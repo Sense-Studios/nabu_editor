@@ -74,6 +74,10 @@ var createNewMarqer = function( type, name, event, forceAdd, stramien_id, set_ma
   })
 }
 
+// *****************************************************************************
+// Stratu / Stramienen
+// *****************************************************************************
+
 // Stramien helper
 var getStramienById = function( _id ) {
   var result = null
@@ -86,7 +90,11 @@ var getStramienById = function( _id ) {
   return result
 }
 
-// MarqerSetHelper
+// *****************************************************************************
+// MARQER SETS
+// *****************************************************************************
+
+// Saves the entire
 var saveMarqersAsSet = function( marqer_set_id ) {
   if ( marqer_set_id == undefined ) {
     // make new set
@@ -97,11 +105,13 @@ var saveMarqersAsSet = function( marqer_set_id ) {
     data.marqers = JSON.stringify(marqers)
 
     $.post('/marqerset/', data, function(res) {
-      console.log("your set was saved")
-      console.log("got response: ", res)
+      console.log(" your set was saved")
+      console.log(" got response: ", res)
+      console.log(" your set id is ==> ", res._id.$oid )
     })
 
   }else{
+    // TODO: when a set is known
     // update set ?
   }
 }
@@ -121,6 +131,48 @@ var createMarqersFromSet = function( marqer_set_id ) {
   });
 }
 
+// *****************************************************************************
+// Manipulation of multiplemarqers
+// *****************************************************************************
+
+// Proposed script for updating multiplemarqers from one source
+// _source_id, STRING: original marqer to copy from
+// _fields, ARRAY: fieldnames on marqeroptions to copy and override
+// _target_ids, ARRAY: ids of marqers that need to be affected`1
+
+// example
+// updateMultipleMarqers( "596e71196465765aea000002", ["html", "css"], ["596e709c6465765aea000000", "596e710b6465765aea000001"] )
+
+var updateMultipleMarqers = function( _source_id, _fields, _target_ids ) {
+
+  // inject wrapper id and data for code references
+  var source_marqer = getMarqerById( _source_id )
+  $.each( _target_ids, function( i, target_marqer_id ) {
+    var target_marqer = getMarqerById( target_marqer_id )
+
+    $.each( _fields, function( i, field ) {
+      // deep copy the source (referencing is a bitch)
+      var source = JSON.parse( JSON.stringify( source_marqer.marqeroptions[ field ] ) )
+
+      // remember that source is a dictionary with value and type (and other options)!
+      target_marqer.marqeroptions[ field ] = source
+
+      // don't forget to inject the proper id references
+      // (or) it will be done in runtime anyway, but it needs saving
+      target_marqer.marqeroptions[ field ].value = source.value.replace( new RegExp( _source_id, 'igm'), target_marqer_id )
+
+      // set a remote_id otherwise it refuses to safe
+      target_marqer.remote_id = target_marqer_id
+
+      // now save the marqer
+      updateMarqer( target_marqer ) // save
+    });
+  });
+}
+
+// *****************************************************************************
+
+// this is a regular updatemarqer function
 var updateMarqer = function( marqer ) {
   console.log("updateMarqer", marqer )
   $('#load_indicator.glyphicon').css("opacity", 1)
@@ -155,6 +207,8 @@ var updateMarqersFromTimeLine = function( marqers ) {
 }
 */
 
+// *****************************************************************************
+
 var deleteMarqer = function ( marqer ) {
   marqer.remote_id = marqer.id // failsave
   mapi.deleteMarqer( {
@@ -173,6 +227,8 @@ var deleteMarqer = function ( marqer ) {
     }
    })
 };
+
+// *****************************************************************************
 
 // this function is now redundant, look in nabu\app\assets\javascripts\marduq\marqers
 // remove after testing
