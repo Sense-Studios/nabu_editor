@@ -145,29 +145,36 @@ var createMarqersFromSet = function( marqer_set_id ) {
 
 var updateMultipleMarqers = function( _source_id, _fields, _target_ids ) {
 
+  console.log("start updating marqers")
+
   // inject wrapper id and data for code references
+  // note this only works if you are
+  // IN the program with marqer you use as source!
   var source_marqer = getMarqerById( _source_id )
   $.each( _target_ids, function( i, target_marqer_id ) {
-    var target_marqer = getMarqerById( target_marqer_id )
 
-    $.each( _fields, function( i, field ) {
-      // deep copy the source (referencing is a bitch)
-      var source = JSON.parse( JSON.stringify( source_marqer.marqeroptions[ field ] ) )
+    // this is a custom api call!
+    $.get( "/marduq_api/marqers/" + target_marqer_id, function( target_marqer ) {
+      $.each( _fields, function( i, field ) {
+        // deep copy the source (referencing is a bitch)
+        var source = JSON.parse( JSON.stringify( source_marqer.marqeroptions[ field ] ) )
 
-      // remember that source is a dictionary with value and type (and other options)!
-      target_marqer.marqeroptions[ field ] = source
+        // remember that source is a dictionary with value and type (and other options)!
+        target_marqer.marqeroptions[ field ] = source
 
-      // don't forget to inject the proper id references
-      // (or) it will be done in runtime anyway, but it needs saving
-      target_marqer.marqeroptions[ field ].value = source.value.replace( new RegExp( _source_id, 'igm'), target_marqer_id )
+        // don't forget to inject the proper id references
+        // (or) it will be done in runtime anyway, but it needs saving
+        target_marqer.marqeroptions[ field ].value = source.value.replace( new RegExp( _source_id, 'igm'), target_marqer_id )
 
-      // set a remote_id otherwise it refuses to safe
-      target_marqer.remote_id = target_marqer_id
+        // set a remote_id otherwise it refuses to safe
+        target_marqer.remote_id = target_marqer_id
+      }); // end each
 
       // now save the marqer
       updateMarqer( target_marqer ) // save
-    });
-  });
+
+    }); // end marqer call
+  }); // end each
 }
 
 // *****************************************************************************
