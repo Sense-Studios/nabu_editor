@@ -111,6 +111,10 @@ module NabuEditor
           "pop_under_target"=> "",
 
           # for youtube subtitles
+          "enable_password"=> false,
+          "movie_password"=> "password",
+
+          # for youtube subtitles
           "import_subtitles"=> false,
           "subtitle_language"=> "en",
 

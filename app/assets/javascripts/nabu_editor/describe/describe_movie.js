@@ -154,6 +154,12 @@ function setDataFromProgram() {
   setOptions( movie_options_checkboxes, metaData.player_options  );
   initTextField( $('#pop_under_program'),  metaData.player_options, "pop_under_target" );
 
+  // passwords
+  $('input[name="enable_password"]').prop('checked', false)
+  if ( metaData.player_options.enable_password ) $('input[name="enable_password"]').prop('checked', 'checked')
+  $('input[name="enable_password"]').change(function(e) { metaData.player_options.enable_password = $('input[name="enable_password"]').is(':checked'); });
+  initTextField( $('#movie_password'),  metaData.player_options, "movie_password" );
+
   // subtitles
   // $('#import_subtitles').change( function() { metaData.player_options, "import_subtitles" );
   $('input[name="import_subtitles"]').prop('checked', false)

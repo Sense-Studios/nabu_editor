@@ -129,6 +129,25 @@
         .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
       .clear
 
+  .well
+    %h4
+      Password and Locking
+
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"enable_password", "name"=>"enable_password" }
+          Enable Password
+
+    .form-group
+      %label Set Password
+      %input#movie_password.form-control{"type"=>"text", "placeholder"=> "password" }
+
+
+    .col-md-12
+      .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
+    .clear
+
 
   .well
     %h4

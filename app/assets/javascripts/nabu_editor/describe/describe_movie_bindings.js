@@ -36,6 +36,9 @@ var metaData =  {
     "pop_under": "false",
     "pop_under_target": "",
 
+    "enable_password": false,
+    "movie_password": "password",
+
     "import_subtitles": false,
     "subtitle_language": "en",
 
