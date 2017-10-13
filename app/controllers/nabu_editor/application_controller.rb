@@ -4,7 +4,7 @@ module NabuEditor
     before_filter :authenticate_user!
     before_action :set_locale, :set_translations, :set_whitelabel
     newrelic_ignore
-    
+
     impersonates :user
 
     def set_whitelabel
