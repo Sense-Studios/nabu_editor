@@ -17,11 +17,11 @@
             -#.input-group-addon
             -#  type
             %select.form-control.question-type
-              %option{ "title"=>"{{t 'admin.questions.explanation_fmc'}}", "value"=>"fmc"} {{t 'admin.questions.force_multiplechoice'}}
-              %option{ "title"=>"{{t 'admin.questions.explanation_fmmc'}}" ,"value"=>"fmmc"} {{t 'admin.questions.force_multiplemultiplechoice'}}
-              %option{ "title"=>"{{t 'admin.questions.explanation_mc'}}", "value"=>"mc"} {{t 'admin.questions.multiplechoice'}}
-              %option{ "title"=>"{{t 'admin.questions.explanation_mmc'}}", "value"=>"mmc"} {{t 'admin.questions.multiplemultiplechoice'}}
-              %option{ "title"=>"{{t 'admin.questions.explanation_oq'}}", "value"=>"oq"} {{t 'admin.questions.openquestion'}}
+              %option{ "title"=>"", "value"=>"fmc"} {{t 'admin.questions.force_multiplechoice'}}
+              %option{ "title"=>"" ,"value"=>"fmmc"} {{t 'admin.questions.force_multiplemultiplechoice'}}
+              %option{ "title"=>"", "value"=>"mc"} {{t 'admin.questions.multiplechoice'}}
+              %option{ "title"=>"", "value"=>"mmc"} {{t 'admin.questions.multiplemultiplechoice'}}
+              %option{ "title"=>"", "value"=>"oq"} {{t 'admin.questions.openquestion'}}
 
         .col-xs-3
           .input-group.input-group-sm
@@ -39,7 +39,7 @@
       .row
         .col-xs-12
           .input_group.input-group-sm
-            %textarea.question-question.form-control{"placeholder"=>"{{t 'admin.questions.question_placeholder'}}", "rows"=>"4", "value"=>"{{question-suggestion}}"}
+            %textarea.question-question.form-control{"placeholder"=>"", "rows"=>"4", "value"=>"{{question-suggestion}}"}
 
 
 

@@ -27,7 +27,7 @@
       var mount_point = "#{NABU_EDITOR_MOUNT_POINT}"; // mount point of the engine
 
       // available themes
-      var available_themes = #{NABU_THEMES_AVAILABLE_THEMES.to_json};
+      var available_themes = #{raw NABU_THEMES_AVAILABLE_THEMES.to_json};
 
       // kaltura
       var kalturaPartnerId = "#{@kaltura_partner_id}";

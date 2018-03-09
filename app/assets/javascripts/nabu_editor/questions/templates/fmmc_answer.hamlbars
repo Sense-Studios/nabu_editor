@@ -4,7 +4,7 @@
     .input-group.input-group-sm
       %span.input-group-addon
         %input{"type"=>"checkbox", "class"=>"iscorrect", "name"=>"checkbox-{{q_id}}"}
-      %input.form-control.answer-text{"placeholder"=>"{{t 'admin.questions.answer_placeholder'}}", "type"=>"text"}
+      %input.form-control.answer-text{"placeholder"=>"answer", "type"=>"text"}
 
   .col-xs-3.nopadding
     .input-group.input-group-sm.score

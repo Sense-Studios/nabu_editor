@@ -66,6 +66,6 @@
 
 :javascript
   var menudata = {}
-  var programs = #{@programs.to_json}
+  var programs = #{raw @programs.to_json}
 
 = javascript_include_tag "nabu_editor/publish/edit_menu"

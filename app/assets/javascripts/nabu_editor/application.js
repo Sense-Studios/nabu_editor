@@ -37,7 +37,7 @@
 // React for use in rails (note the escaped libraries)
 //= require react_ujs
 //= require react
-//= require components
+// require components
 //= require_tree ./components
 
 // -----------------------------------------------------------------------------

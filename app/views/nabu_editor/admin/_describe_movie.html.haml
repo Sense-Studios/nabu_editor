@@ -43,40 +43,6 @@
         .col-xs-6.col-md-3
           .thumbnailpreview.preview-image.embed-responsive.embed-responsive-16by9
             %select#thumbnails.image-picker.show-html
-              / %option{"data-img-src"=>"http://placehold.it/320x240", "value"=>1} Page 1
-
-              /.col-xs-6.col-md-3
-              /  .thumbnailpreview.preview-image{:style=>'width:100%'}
-              /    - begin
-              /      %img{ "class"=>"thumbnail-image-preview", "src"=>@program.meta.moviedescription.thumbnail, "title"=>"", :style => 'width: 100%;'}
-              /    - rescue
-              /      %img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>"", :style => 'width: 100%;'}
-
-              /.col-xs-6.col-md-3
-              /  .thumbnailpreview.preview-image{:style=>'width:100%'}
-              /    - begin
-              /      %img{ "class"=>"thumbnail-image-preview", "src"=>@program.meta.moviedescription.thumbnail, "title"=>"", :style => 'width: 100%;'}
-              /    - rescue
-              /      %img{ "class"=>"thumbnail-image-preview", "src"=>"http://placehold.it/640x360", "title"=>"", :style => 'width: 100%;'}
-
-
-      /  .col-sm-2
-      /    -#%button.btn-danger.btn.btn-sm.pull-right#trash_logo
-      /      -#%span.glyphicon.glyphicon-trash
-
-      /%hr
-
-      /.form-group
-      /  %label.col-sm-2.control-label{:style=>'text-align:left'}
-      /    = I18n.t('admin.describe.info.other_thumbnail');
-      /  .col-sm-10
-      /    %select#thumbnails.image-picker.show-html
-      /      - if !@program.blank? && @program.program_items.first.asset
-      /        - if @program.program_items[0].asset._type == "Video"
-      /          - @program.program_items[0].asset.thumbnails.small.each_with_index do |t, i|
-      /            %option{"data-img-src"=> t ,"value"=>i} Page #{i}
-      /        - else
-      /          %option{"data-img-src"=> @program.program_items[0].asset.thumbnail_url ,"value"=>1} Page 1
 
       .row.text-center.bottom_buttons
         .btn-group.pull-right
