@@ -172,7 +172,7 @@ function checkInput( directupdate ) {
 
       // Also dump it into the assetData
       currentAssetData = {
-        original_url: "http://www.youtube.com/watch?v=" + ytid,
+        original_url: "//www.youtube.com/watch?v=" + ytid,
         title: data.items[0].snippet.title,
         description: data.items[0].snippet.description,
         thumbnail_url: data.items[0].snippet.thumbnails.medium.url,
@@ -211,9 +211,9 @@ function checkInput( directupdate ) {
 
   if ( checkedbox.indexOf("vimeo") >= 0 ) {
 
-    // Example URL: http://vimeo.com/api/v2/video/89027544.json
+    // Example URL: //vimeo.com/api/v2/video/89027544.json
     // MOVE these to options
-    var vim20_api_url = "http://vimeo.com/api/v2/video/";
+    var vim20_api_url = "//vimeo.com/api/v2/video/";
     var vimid = vimeo_parser( checkedbox );
 
     // if the vimeo parsing returns -1, return this
@@ -241,7 +241,7 @@ function checkInput( directupdate ) {
 
       // aaand dump into the asset object
       currentAssetData = {
-        original_url: "http://vimeo.com/" + vimid,
+        original_url: "//vimeo.com/" + vimid,
         title: data[0].title,
         description: data[0].description,
         tags: data[0].tags,
@@ -530,13 +530,13 @@ function vimeo_parser( url ) {
 
 function kaltura_parser( url ) {
   //var kobject = {}
-  //// http://www.kaltura.com/index.php/extwidget/preview/partner_id/1901361/uiconf_id/28529602/entry_id/1_58ch1qja/embed/legacy?
-    // http://www.kaltura.com/index.php/extwidget/preview/partner_id/1901361/uiconf_id/28529602/entry_id/1_58ch1qja/embed/legacy?
-    // http://www.kaltura.com/p/1901361/thumbnail/entry_id/1_x7kyq7v5
-    // http://www.kaltura.com/p/1901361/thumbnail/entry_id/1_olfv9f86
-    // http://www.kaltura.com/p/1901361/thumbnail/entry_id/1_wp08q1zn
+  //// //www.kaltura.com/index.php/extwidget/preview/partner_id/1901361/uiconf_id/28529602/entry_id/1_58ch1qja/embed/legacy?
+    // //www.kaltura.com/index.php/extwidget/preview/partner_id/1901361/uiconf_id/28529602/entry_id/1_58ch1qja/embed/legacy?
+    // //www.kaltura.com/p/1901361/thumbnail/entry_id/1_x7kyq7v5
+    // //www.kaltura.com/p/1901361/thumbnail/entry_id/1_olfv9f86
+    // //www.kaltura.com/p/1901361/thumbnail/entry_id/1_wp08q1zn
 
-    // http://cdnapi.kaltura.com/index.php/extwidget/openGraph/wid/1_olfv9f86
+    // //cdnapi.kaltura.com/index.php/extwidget/openGraph/wid/1_olfv9f86
 
   var regExp = /entry_id\/([0-9a-zA-Z_]+)/;
   var match = url.match(regExp);
