@@ -39,7 +39,7 @@ function initializePublisher() {
 
     }else{
       if(data === false){
-         console.log('Channel selector json not json');
+        console.log('Channel selector json not json');
       } else {
         console.log('Channel selector json not received');
       }
@@ -48,7 +48,7 @@ function initializePublisher() {
 }
 
 function initializeDropdowns() {
-  console.log('Publish initialize, dropdowns');
+  debug.log('Publish initialize, dropdowns');
 
   // initialize the dropdowns
   $(".dropdown_select").dropdown_select();
@@ -91,7 +91,7 @@ function initializeDropdowns() {
 }
 
 function buildChannelSelector() {
-  console.log("(re)build channel")
+  debug.log("(re)build channel")
 
   // reset and build channel selector
   var $select = $('#channel_selector');
@@ -104,11 +104,11 @@ function buildChannelSelector() {
     });
   }
 
-  console.log("should re-init? ", $('#channel_selector').attr('data-dropdownjs'), $select.data("dropdownjs") )
+  debug.log("should re-init? ", $('#channel_selector').attr('data-dropdownjs'), $select.data("dropdownjs") )
 
   // if  ( $select.data("dropdownjs") ) {
   if ( $('#channel_selector').attr('data-dropdownjs') == "true" || $select.data("dropdownjs") ) {
-    console.log("CLEANING THE FUCK UP")
+    //console.log("CLEANING THE FUCK UP")
     $select.data("dropdownjs", false);
     $select.next().remove();
   }
@@ -137,7 +137,7 @@ function buildChannelSelector() {
 }
 
 function buildThemesSelector() {
-    var $select = $('#theme_selector');
+  var $select = $('#theme_selector');
   $select.find('option').remove();
   $select.append("<option value='Kies een thema'>" + t.channels.choose_theme + "</option>");
 
@@ -155,7 +155,7 @@ function buildThemesSelector() {
 function updateChannels( closure ) {
   canSave = false
   $.get('/channel/themes.json', function(data) {
-    console.log("Publish got themes: ", data);
+    debug.log("Publish got themes: ", data);
     all_channels = data
     buildChannelSelector()
     if ( closure !== undefined ) closure()
@@ -165,7 +165,7 @@ function updateChannels( closure ) {
 // rename this to redrawMenu
 function fillAllDropDownsAndFields( channel_id ) {
 
-  console.log("fill all dropdownsandfields: ", channel_id )
+  debug.log("fill all dropdownsandfields: ", channel_id )
 
   if (channel_id === undefined ) channel_id = $('#channel_selector').val()
   var selectedvalue = channel_id
@@ -426,7 +426,7 @@ function createChannel() {
 function updateChannel( calledfrom ) {
   console.log("Publish: update Channel", calledfrom )
   if(!canSave) {
-    console.log('no can save')
+    console.log('no can save :(')
     return;
   }
 
@@ -680,7 +680,7 @@ function enableDropdownsAndFields() {
 
 // helper
 function initThumbnailUploader() {
-  console.log("init thumbnail uploader");
+  debug.log("init thumbnail uploader");
 
   // init uploader
   $("#preview_logo").S3Uploader( {
@@ -690,12 +690,12 @@ function initThumbnailUploader() {
 
   // Start loading asset
   $('#preview_logo').bind("s3_uploads_start", function(e, content) {
-    console.log("upload start ... ");
+    debug.log("upload start ... ");
   });
 
   // complete, create an asset
   $('#preview_logo').bind("s3_upload_complete", function(e, content) {
-    console.log("upload complete ... ", content.url, $('.logo-image-preview'), $('.logo-image-preview').attr('src') );
+    debug.log("upload complete ... ", content.url, $('.logo-image-preview'), $('.logo-image-preview').attr('src') );
 
     // throw it to the window
     $('.logo-image-preview').attr('src', content.url);

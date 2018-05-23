@@ -25,7 +25,7 @@
 
       function initElement($select) {
 
-        console.log("do the init element", $select.data("dropdownjs") || !$select.is("select") )
+        //debug.log("do the init element", $select.data("dropdownjs") || !$select.is("select") )
 
         // Don't do anything if this is not a select or if this select was already initialized
         if ($select.data("dropdownjs") || !$select.is("select")) {

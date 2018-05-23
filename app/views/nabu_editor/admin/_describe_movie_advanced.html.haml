@@ -148,6 +148,21 @@
       .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
     .clear
 
+  .well
+    %h4
+      IOS/Iphone canvas playback
+
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"canvas_playback", "name"=>"canvas_playback", "checked"=>"true" }
+          Use canvas playback
+        %p
+          %small ( unchecking this will use regular playback on iphone)
+
+    .col-md-12
+      .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
+    .clear
 
   .well
     %h4
@@ -157,10 +172,10 @@
       .checkbox.checkbox-material-pink
         %label
           %input{"type"=>"checkbox", "value"=>"import_subtitles", "name"=>"import_subtitles" }
-          import_subtitles
+          Import subtitles
 
     .form-group
-      %label subtitle_language
+      %label Subtitle language
       %input#subtitle_language.form-control{"type"=>"text", "placeholder"=> "en" }
 
 

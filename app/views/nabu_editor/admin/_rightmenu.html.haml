@@ -11,7 +11,20 @@
         %a.btn-material-white.dropdown-toggle{:href => "#", :data => {:toggle => "dropdown", :target => "#"}}
         %ul.dropdown-menu
           %li
-            %a{:onclick=>"$('#acount_editor_dialog').modal()", :target=>'_top'}
+            %a{:onclick=>"open_editor_dialog('/admin/manage_assets', 'Assets Manager');", :target=>'_top'}
+              %span.glyphicon.glyphicon-th-large"
+              &nbsp;
+              Assets
+          %li
+            %a{:onclick=>"open_editor_dialog('/admin/clipcards', 'Clipcards');", :target=>'_top'}
+              %span.glyphicon.glyphicon-credit-card
+              &nbsp;
+              Clipcards
+
+          %hr
+
+          %li
+            %a{:onclick=>"open_editor_dialog('/admin/account_embed', 'Account Editor');", :target=>'_top'}
               %span.glyphicon.glyphicon-user
               &nbsp;
               = t('right_menu.account')
@@ -68,6 +81,9 @@
 
     / *** DROPDOWN ***
     %select#aspect_dropdown.form-control.input-sm.dropdown_select.dropdown_select_ratio
+      %option{:value=>'9:16'} 9:16
+      %option{:value=>'3:4'} 3:4
+      %option{:value=>'1:1'} 1:1
       %option{:value=>'5:4'} 5:4
       %option{:value=>'4:3'} 4:3
       %option{:value=>'3:2'} 3:2

@@ -36,6 +36,8 @@ var metaData =  {
     "pop_under": "false",
     "pop_under_target": "",
 
+    "canvas_playback": "true",
+
     "enable_password": false,
     "movie_password": "password",
 

@@ -56,17 +56,17 @@ function setDataFromProgram() {
     metaData = program.meta;
   }
 
-  console.log("doublecheck program data:");
-  console.log(" -- ", program.program_items[0].asset.title );
-  console.log(" -- ", program.program_items[0].asset.description );
-  console.log(" -- ", program.program_items[0].asset.tags );
-  console.log(" -- ", program.program_items[0].asset.thumbnail_url );
+  debug.log("doublecheck program data:");
+  debug.log(" -- ", program.program_items[0].asset.title );
+  debug.log(" -- ", program.program_items[0].asset.description );
+  debug.log(" -- ", program.program_items[0].asset.tags );
+  debug.log(" -- ", program.program_items[0].asset.thumbnail_url );
 
-  console.log("setting metadata:");
-  console.log(" -- ", metaData.moviedescription.title );
-  console.log(" -- ", metaData.moviedescription.description );
-  console.log(" -- ", metaData.moviedescription.tags );
-  console.log(" -- ", metaData.moviedescription.thumbnail );
+  debug.log("setting metadata:");
+  debug.log(" -- ", metaData.moviedescription.title );
+  debug.log(" -- ", metaData.moviedescription.description );
+  debug.log(" -- ", metaData.moviedescription.tags );
+  debug.log(" -- ", metaData.moviedescription.thumbnail );
 
   // Tab1: set Movie Info Tab
   // initTextField( $('#title'), program.program_items[0].asset, "title" );
@@ -153,6 +153,11 @@ function setDataFromProgram() {
   // ### Tab2: set Player Options
   setOptions( movie_options_checkboxes, metaData.player_options  );
   initTextField( $('#pop_under_program'),  metaData.player_options, "pop_under_target" );
+
+  // canvas playback
+  $('input[name="canvas_playback"]').prop('checked', true)
+  if ( metaData.player_options.canvas_playback ) $('input[name="canvas_playback"]').prop('checked', 'checked')
+  $('input[name="canvas_playback"]').change(function(e) { metaData.player_options.canvas_playback = $('input[name="canvas_playback"]').is(':checked'); });
 
   // passwords
   $('input[name="enable_password"]').prop('checked', false)
@@ -371,7 +376,7 @@ function postMetaData( noreload ) {
     mapi.updateProgram({
       program: saveprogram,
       success: function( response ){
-        console.log("update gelukt!", response, !noreload);
+        console.log(" #### update gelukt!", response, !noreload);
 
         // reset the save button
         $('#save_movie').removeClass('btn-material-yellow')

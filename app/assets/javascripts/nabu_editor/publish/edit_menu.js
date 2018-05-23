@@ -9,9 +9,6 @@ var menudata;
 var programs;
 var clicked = 0;
 
-console.log(" ### GOT MENU DATA: ", menudata);
-console.log(" ### GOT PROGRAMS : ", programs);
-
 // #############################################################################
 // ### Helpers
 // #############################################################################
