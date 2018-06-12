@@ -10,59 +10,88 @@
         .form-group.form-group-sm.has-feedback
           .row
             .col-sm-3
-              From Type
-            .col-sm-9
-              %em No Type
 
-          .row
-            .col-sm-3
-              Label
             .col-sm-9
-              %em No label
+              %h4
+                .stratum_type No Type
+              %h3
+                .stratum_name No Name
 
-          .row
-            .col-sm-3
-              %label.control-label Title
-            .col-sm-9
-              %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
+
+          %hr
+
+          /.row
+          /  .col-sm-3
+          /    %label.control-label Title
+          /  .col-sm-9
+          /    %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
 
           .row
             .col-sm-3
               %label.control-label Author
             .col-sm-9
-              %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
+              %input.form-control.input-sm.author{:placeholder => 'author', "data-key" => "title", :type => "text", :value => ""}
+
+          %br
 
           .row
             .col-sm-3
               %label.control-label Description
             .col-sm-9
-              %textarea.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
-                [ Tik hier wat in ]
+              %textarea.form-control.input-sm.description{"data-description" => "description", :type => "text", :value => "", :placeholder => " Describe your Prefab ...", :rows => 5 }
 
+
+          %hr
+
+          /.row
+          /  .col-sm-3
+          /    %label.control-label Tags
+          /  .col-sm-9
+          /    %input.form-control.input-sm{:placeholder =>"Tags", "data-key" => "title", :type => "text", :value => ""}
+          /      /= t('channel_editor.title')
+
+
+          / If no token is available, there should be a 'refresh button'
+          / pointing to /marqerstratumtoken/:id
+
+          / also an extra button for I have a token
+          / to /marqerstratumtoken/:token
           .row
             .col-sm-3
-              %label.control-label Tags
+              %label.control-label Token
             .col-sm-9
-              %input.form-control.input-sm{:placeholder =>"Tags", "data-key" => "title", :type => "text", :value => ""}
-                = t('channel_editor.title')
+              %pre.token{"data-token" => "Token", :type => "text", :value => "", :style=>'white-space: pre-wrap;'}
 
-          .row
-            .col-sm-3
-              %label.control-label Share
-            .col-sm-9
-              %input.form-control.input-sm{"data-key" => "title", :type => "text", :value => ""}
-                = t('channel_editor.title')
+          /.row
+          /  .col-sm-3
+          /    %label.control-label I have a token
+          /  .col-sm-9
+          /    %textarea.form-control.input-sm.give-token{"data-token" => "Token", :type => "text", :value => ""}
 
-          .row
-            .col-sm-3
-              %button
-                Request Global
-            .col-sm-9
-              [ some explanation ]
+          /%hr
+          %br
+
+          /.row
+          /  .col-sm-3
+          /    %label.control-label Shares
+          /  .col-sm-9
+          /    .shares 0
+          /    /%pre.shares{"data-shares" => "Shares", :type => "text", :value => "", :style=>'white-space: pre-wrap;'}
+          /    /= t('channel_editor.title')
+
+
+          %hr
+
+          /.row
+          /  .col-sm-3
+          /    %button
+          /      Request Global
+          /  .col-sm-9
+          /    [ some explanation ]
 
       .modal-footer
         .btn-group
-          %button#create_channel.btn.btn-material-burgundy{:onclick => "createChannel()"}
+          %button#create_channel.btn.btn-material-burgundy{:onclick => "updateStramien()"}
             = t('channel_editor.save')
 
 :css

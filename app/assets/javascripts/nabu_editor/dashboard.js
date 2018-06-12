@@ -48,7 +48,8 @@ window.filter_table = "not set yet";
 // ### Overrides
 // override function nabu/assets/javasctipt/marduq/player.js
 var popOnLoadStart = function() {
-  console.log("POP ON LOAD START")
+  //console.log("POP ON LOAD START")
+
   $('#video_frame').fadeIn('slow');
   // failsafe
   setTimeout( function() { $('#video_frame').css('opacity', 1)}, 800 )
@@ -58,7 +59,8 @@ var popOnLoadStart = function() {
 
 // override function nabu/assets/javasctipt/marduq/player.js
 var popCanPlay = function () {
-  console.log("POP CAN PLAY")
+  //console.log("POP CAN PLAY")
+
   $('#nabu_controls').fadeIn('slow');
   initControls();
   controlsAreVisible = true;
@@ -333,13 +335,7 @@ function resize_aspect_ratio() {
   }, 500 );
 }
 
-//function updateMarqerBottomControls( fh ) {
-//  if ( fh === undefined ) fh = $('.video_holder').height();
-  // $('.zoomContainer').css('height', $(document).height() - fh - 42 + 'px');
-  // $('#tracks').css('height', $(document).height() - fh - 64 + 'px');
-  // $('.add_track_area').css('height', $(document).height() - fh - 40 + 250 + 'px');
-//}
-
+// find url tokens (ie. a selected marqer)
 function checkURLForPresets() {
   if ( window.location.hash.substring(0,2) == '#i' ) {
     setProgram( window.location.hash.substring(2) );
@@ -347,7 +343,7 @@ function checkURLForPresets() {
   }
 
   // if #m open marqer editor ?
-  //if ( window.location.hash.substring(0,2) == '#m' ) {
+  // if ( window.location.hash.substring(0,2) == '#m' ) {
 }
 
 // ### Main
@@ -420,9 +416,9 @@ $(document).ready(function() {
   //$('.video_holder').on('swipedown',function(){alert("swipedown..");} );
   //$('.video_holder').on('swipeup',function(){alert("swipedown..");} );
 
-  //Material design dropdowns hides the selectlist and shows a UL with listitems
-  //The selectlist wont change
-  //This will make it to work for all of them.
+  // Material design dropdowns hides the selectlist and shows a UL with listitems
+  // The selectlist wont change
+  // This will make it to work for all of them.
   $('.dropdownjs ul li').click(function(){
       var selectedvalue = $(this).attr('value');
       var selected = $(this).parent().parent().prev('.dropdown_select');

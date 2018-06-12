@@ -148,7 +148,7 @@
       .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
     .clear
 
-  .well
+  .well.advanced_option{ "date-type": 'Video'}
     %h4
       IOS/Iphone canvas playback
 
@@ -157,14 +157,46 @@
         %label
           %input{"type"=>"checkbox", "value"=>"canvas_playback", "name"=>"canvas_playback", "checked"=>"true" }
           Use canvas playback
+        %br
         %p
-          %small ( unchecking this will use regular playback on iphone)
+          Unchecking this will use regular playback on iphone, this is not compatible with iOS 10 and below.
 
     .col-md-12
       .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
     .clear
 
   .well
+    %h4
+      Use Extra Libraries
+
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"canvas_playback", "name"=>"canvas_playback", "checked"=>"true" }
+          Three.js
+        %br
+        %br
+        %p
+          Three JS is a 3D library, that allows you to easily set up a three dimensional scene on top of your
+          video.
+
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"canvas_playback", "name"=>"canvas_playback", "checked"=>"true" }
+          Tween.js (animation library)
+        %br
+        %br
+        %p
+          Unchecking this will use regular playback on iphone, this is not compatible with iOS 10 and below.
+
+
+    .col-md-12
+      .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
+    .clear
+
+
+  .well.advanced_option{ "date-type": 'Youtube'}
     %h4
       Youtube Subtitle options
 
@@ -178,14 +210,12 @@
       %label Subtitle language
       %input#subtitle_language.form-control{"type"=>"text", "placeholder"=> "en" }
 
-
     .col-md-12
       .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
     .clear
 
 
-
-  .well
+  .well.advanced_option{ "date-type": 'Kaltura'}
     %h4
       Kaltura custom embed info
     .form-group

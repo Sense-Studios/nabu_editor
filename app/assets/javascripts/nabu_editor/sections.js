@@ -162,7 +162,6 @@ var hideHelpers = function () {
   }
 };
 
-
 var toggleMarqers = function( marqerToggled ) {
   if(marqerToggled == 1) {
     $('.marqer').fadeIn();
@@ -171,10 +170,9 @@ var toggleMarqers = function( marqerToggled ) {
   }
 };
 
-
-  // ###########################################
-  // ### TOGGLE CHANNELS SCREEN WITH OVERLAY
-  // ###########################################
+// ###########################################
+// ### TOGGLE CHANNELS SCREEN WITH OVERLAY
+// ###########################################
 
 function hideChannelContainer() {
   $('#publish_menu_container_overlay').fadeIn();
@@ -218,7 +216,6 @@ var showCreateMovie = function( force, with_upload ) {
       setTimeout(function(){$('.upload_helper').fadeIn('fast');}, 300);
     });
 
-
     hideMarqersRightMenu();
     hideChannels();
     showHelpers();
@@ -230,7 +227,6 @@ var showCreateMovie = function( force, with_upload ) {
     if ($('.video_frame').height() > 150) {
       animateVideoDown();
     };
-    //$('.big-play').addClass('hidden')
   }
 
   setTimeout( function() { margin_select_video() }, 500);
@@ -242,9 +238,6 @@ var showCreateMovie = function( force, with_upload ) {
 
   setTimeout( function() { try { $('.leprograms').shapeshift( shapeshiftOptions() ) } catch(e){} }, 800 );
 };
-
-// $('.navigation .btn').removeClass('btn-material-pink')
-// $('.navigation .btn').addClass('btn-material-blue-grey')
 
 var showDescribeMovie = function( with_upload ) {
 
@@ -264,8 +257,6 @@ var showDescribeMovie = function( with_upload ) {
   if ( $('.video_describe_container').is(':visible') ) {
     $('.video_describe_container').fadeOut('fast');
     if (controlsAreVisible) $('#nabu_controls').fadeIn('fast');
-
-    //$('.select_videos').fadeIn()
 
   }else{
     $('#butt-down').trigger('click');
@@ -292,9 +283,7 @@ var showDescribeMovie = function( with_upload ) {
     showVideosAlways();
     marqerToggled = 0;
     toggleMarqers( marqerToggled );
-    if ($('.video_frame').height() > 150) {
-      animateVideoDown();
-    }
+    if ($('.video_frame').height() > 150) animateVideoDown();
 
     $('#advanced').unbind('click');
     $('#advanced').click( showDescribeAdvancedMovie );
@@ -304,14 +293,10 @@ var showDescribeMovie = function( with_upload ) {
       showDescribeMovie();
     });
 
-
     //Show/hide helpers
     $('.bubble').fadeOut('fast',function(){
       setTimeout(function(){$('.describe_helper').fadeIn('fast');}, 300);
     });
-
-
-    //$('.big-play').addClass('hidden')
   }
 
   setTimeout( function() { margin_select_video() }, 600);
@@ -328,14 +313,13 @@ var showDescribeAdvancedMovie = function() {
   });
 };
 
-
+// show settings
 var showSettingsMovie = function() {
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
 
   $('#settings_butt').removeClass('btn-material-blue-grey');
   $('#settings_butt').addClass('btn-material-pink');
-
 
   hideChannels();
   hideChannelContainer();
@@ -357,6 +341,7 @@ var showSettingsMovie = function() {
   setTimeout( function() { margin_select_video() }, 500);
 };
 
+// show Movietrader/ Questisons, channels etc.
 var showQuestionsMovie = function() {
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
@@ -386,7 +371,7 @@ var showQuestionsMovie = function() {
   setTimeout( function() {margin_select_video() }, 500);
 }
 
-
+// publish movies menu, channels etc.
 var showPublishMovie = function() {
   $('.navigation .btn').removeClass('btn-material-pink');
   $('.navigation .btn').addClass('btn-material-blue-grey');
@@ -421,12 +406,10 @@ var showPublishMovie = function() {
 
   showHelpers();
 
-
   setTimeout( function () {
     showHelpers();
     margin_select_video();
   }, 500);
-
 
   //Show/hide helpers
   $('.bubble').fadeOut('fast',function() {

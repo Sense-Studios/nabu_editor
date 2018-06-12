@@ -24,33 +24,15 @@ function setDataFromProgram() {
 
   console.log("SETTING DATA FROM PROGRAM");
 
+  // check advanced options, and hide those that are not needed
+  $('.advanced_option').each( function() {
+    program.program_items[0].asset._type != $(this).data('type') ?  $(this).hide() : $(this).show();
+  })
+
     // this is a new program, appearently, set meta data to descriptor
   if ( program.meta === "" || program.meta === null || program.meta === undefined ) {
-
     console.log("ignoring empty meta info");
     console.log("this should be handled by the server!!");
-    // injectMetadata( id )
-
-    //console.log("no meta info found on program, setting it .. ");
-
-    //// fill with the data from the asset
-    //metaData.moviedescription.title = program.program_items[0].asset.title;
-    //metaData.moviedescription.description = program.program_items[0].asset.description;
-    //metaData.moviedescription.tags = program.program_items[0].asset.tags.join(',');
-    //metaData.moviedescription.thumbnail = program.program_items[0].asset.thumbnail_url;
-
-    //// set it
-    //program.meta = metaData;
-
-    //// quickly fill the fields
-    //initTextField( $('#title'), metaData.moviedescription, "title" );
-    //initTextField( $('#description'),  metaData.moviedescription, "description"  );
-    //// initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
-    //// initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
-    //initTextField( $('#tags'), metaData.moviedescription, "tags" );
-
-    //// inject default marqers
-    //injectMarqers();
 
   }else{
     metaData = program.meta;
@@ -68,22 +50,12 @@ function setDataFromProgram() {
   debug.log(" -- ", metaData.moviedescription.tags );
   debug.log(" -- ", metaData.moviedescription.thumbnail );
 
-  // Tab1: set Movie Info Tab
-  // initTextField( $('#title'), program.program_items[0].asset, "title" );
-  // initTextField( $('#description'),  program.program_items[0].asset, "description"  );
-  // initTextField( $('#tags'), program.program_items[0].asset, "tags" );
-
   initTextField( $('#title'), metaData.moviedescription, "title" );
   $('#small_title').text(metaData.moviedescription.title);
   initTextField( $('#description'),  metaData.moviedescription, "description"  );
   $('#small_description').text(metaData.moviedescription.description);
   initTextField( $('#tags'), metaData.moviedescription, "tags" );
 
-  // initTextField( $('#in-point'), metaData.moviedescription, "in-point"  );
-  // initTextField( $('#out-point'), metaData.moviedescription, "out-point" );
-  // alert('<iframe src="http://nabu.sense-studios.com/'+ program.id +'" allowFullscreen="true" scrolling="no"></iframe>')
-
-  // $('textarea#program_embed').text('<iframe src="'+ window.location.origin + '+/kaltura/' + program.id + '" allowFullscreen="true" frameBorder="0" scrolling="no"></iframe>' );
   $('input#program_url').val( window.location.origin + '/embed/' + program.id );
   $('input#program_chromeless_url').val( window.location.origin + '/chromeless/' + program.id );
 
@@ -127,18 +99,6 @@ function setDataFromProgram() {
   if ( program.program_items[0].asset._type == "Youtube" || program.program_items[0].asset._type == "Vimeo" ) {
     $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>');
   }
-
-  // add the current, floating thumbnail
-  // $('.image-picker').append('<option data-img-src="' + program.program_items[0].asset.thumbnail_url + '" value="1" > Thumbnail </option>')
-
-  // initialize the thumbnails
-  $(".image-picker").imagepicker({
-    //clicked: function(e) {
-    //  console.log('updating thumbnail', $(this).find('option:selected').attr('data-img-src'))
-    //  metaData.moviedescription.thumbnail = $(this).find('option:selected').attr('data-img-src');
-    //  postMetaData() // fuck it and safe
-    //}
-  });
 
   // image picker click doesn't work, so I had to rewrite it here, bitches
   $('.image_picker_image').unbind('click')
@@ -212,35 +172,10 @@ function setDataFromProgram() {
     metaData.social.body = metaData.moviedescription.description;
   });
 
-  // Tab5 set Advanced
-
-  // set images, if any --> This is now depricated
-  //if ( metaData.advanced.show_image_before_url !== "" ) {
-  //  $('#img_holder_before_movie_image').html('');
-  //  $('#img_holder_before_movie_image').append("<img style='max-height:255px' src='" + metaData.advanced.show_image_before_url + "'/>");
-  //}
-
-  //if ( metaData.advanced.show_image_during_url !== "" ) {
-  //  $('#img_holder_branded_logo_image').html('');
-  //  $('#img_holder_branded_logo_image').append("<img style='max-height:255px;' src='" + metaData.advanced.show_image_during_url + "' />");
-  //}
-
-  //if ( metaData.advanced.show_image_after_url !== "" ) {
-  //  $('#img_holder_after_movie_image').html('');
-  //  $('#img_holder_after_movie_image').append("<img style='max-height:255px;' src='" + metaData.advanced.show_image_after_url + "'/>");
-  //}
-
   // set checkboxes
   setOptions( advanced_checkboxes, metaData.advanced );
 
-  // init uploaders
-  // init_s3_uploader( '#before_movie_image', '#img_holder_before_movie_image', '#delete_before_movie_image', "show_image_before_url" );
-  // init_s3_uploader( '#branded_logo_image', '#img_holder_branded_logo_image', '#delete_branded_logo_image', "show_image_during_url"  );
-  // init_s3_uploader( '#after_movie_image', '#img_holder_after_movie_image', '#delete_after_movie_image', "show_image_after_url" );
-
-  // first time parsing of the meta data object
-  // so all checkboxes etc. will concurr
-
+  // finally; update
   updateMetaData();
 }
 
@@ -321,10 +256,11 @@ function toBool( _str ) {
   return (_str=="true") ? true : false;
 }
 
+// initialize tekstfield on change function
 function initTextField( field, branche, key ) {
   field.val( branche[key] );
   field.change( function(e) {
-    console.log("changed!");
+    // console.log("changed!");
     branche[key] = field.val();
   });
 }
@@ -400,11 +336,8 @@ function postMetaData( noreload ) {
 function updateJson() {
   var md = JSON.stringify( metaData );
   $('#feedback').val( md );
-  if ( md != formerMetaData ) {
-    //alert("data has changed")
+  if ( md != formerMetaData ) {    
     dataHasChanges = true;
-    //$('#save-all-button-top').removeClass('disabled')
-    //$('#save-all-button-bottom').removeClass('disabled')
   }
 
   formerMetaData = md;
