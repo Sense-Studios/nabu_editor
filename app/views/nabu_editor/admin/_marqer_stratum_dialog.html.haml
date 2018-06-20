@@ -6,31 +6,47 @@
           Edit Marqer Prefab
         %button{"type"=>"button", "class"=>"close", "data-dismiss"=>"modal", "aria-hidden"=>"true"} ×
 
-      .modal-body
+      .modal-body.tokenscreen
         .form-group.form-group-sm.has-feedback
           .row
             .col-sm-3
+              %label.control-label Token
+            .col-sm-9
+              %textarea.form-control.input-sm.given-token{:rows => '3', :placeholder => '0000000000000000000000000000000000000000000000000000000000000000', "data-key" => "title", :type => "text", :value => ""}
+
+          %br
+          %hr
+
+          .row
+            .col-sm-12
+              %button#submit_token.btn.btn-material-burgundy.pull-right{:onclick => "postToken()"}
+                Submit token
+
+      .modal-body.update_token
+        .form-group.form-group-sm.has-feedback
+          .row
+            .col-sm-3
+              %label.control-label type
+              %br
+              %br
+              %label.control-label Name
 
             .col-sm-9
               %h4
                 .stratum_type No Type
-              %h3
-                .stratum_name No Name
 
+              %input.form-control.input-sm.stratum_name{:placeholder => 'name', "data-key" => "title", :type => "text", :value => ""}
+              %h3
+                .noninput.stratum_name No Name
 
           %hr
-
-          /.row
-          /  .col-sm-3
-          /    %label.control-label Title
-          /  .col-sm-9
-          /    %input.form-control.input-sm{:placeholder => t('channel_editor.title'), "data-key" => "title", :type => "text", :value => ""}
 
           .row
             .col-sm-3
               %label.control-label Author
             .col-sm-9
               %input.form-control.input-sm.author{:placeholder => 'author', "data-key" => "title", :type => "text", :value => ""}
+              .noninput.author{:placeholder => 'author', "data-key" => "title", :type => "text", :value => ""}
 
           %br
 
@@ -39,60 +55,36 @@
               %label.control-label Description
             .col-sm-9
               %textarea.form-control.input-sm.description{"data-description" => "description", :type => "text", :value => "", :placeholder => " Describe your Prefab ...", :rows => 5 }
+              .noninput.description{"data-description" => "description", :type => "text", :value => "", :placeholder => " Describe your Prefab ...", :rows => 5 }
 
+          .tokeninteraction
+            %hr
 
-          %hr
+            .row
+              .col-sm-3
+                %label.control-label Token
+              .col-sm-9
+                %pre.token{"data-token" => "Token", :type => "text", :value => "", :style=>'white-space: pre-wrap;'}
+                %button.btn.btn-info.refreshtoken{:onclick => "refreshToken()"}
+                  %i.glyphicon.glyphicon-refresh
+                  &nbsp;&nbsp get new token
 
-          /.row
-          /  .col-sm-3
-          /    %label.control-label Tags
-          /  .col-sm-9
-          /    %input.form-control.input-sm{:placeholder =>"Tags", "data-key" => "title", :type => "text", :value => ""}
-          /      /= t('channel_editor.title')
+            .row
+              .col-sm-3
+                %label.control-label Shares
+              .col-sm-9
+                %h4.shares 0
 
-
-          / If no token is available, there should be a 'refresh button'
-          / pointing to /marqerstratumtoken/:id
-
-          / also an extra button for I have a token
-          / to /marqerstratumtoken/:token
-          .row
-            .col-sm-3
-              %label.control-label Token
-            .col-sm-9
-              %pre.token{"data-token" => "Token", :type => "text", :value => "", :style=>'white-space: pre-wrap;'}
-
-          /.row
-          /  .col-sm-3
-          /    %label.control-label I have a token
-          /  .col-sm-9
-          /    %textarea.form-control.input-sm.give-token{"data-token" => "Token", :type => "text", :value => ""}
-
-          /%hr
           %br
-
-          /.row
-          /  .col-sm-3
-          /    %label.control-label Shares
-          /  .col-sm-9
-          /    .shares 0
-          /    /%pre.shares{"data-shares" => "Shares", :type => "text", :value => "", :style=>'white-space: pre-wrap;'}
-          /    /= t('channel_editor.title')
-
-
           %hr
 
-          /.row
-          /  .col-sm-3
-          /    %button
-          /      Request Global
-          /  .col-sm-9
-          /    [ some explanation ]
+          .row
+            .col-sm-12
+              %button#update_stramien.btn.btn-material-burgundy.pull-right{:onclick => "updateStramien()"}
+                = t('channel_editor.save')
 
       .modal-footer
-        .btn-group
-          %button#create_channel.btn.btn-material-burgundy{:onclick => "updateStramien()"}
-            = t('channel_editor.save')
+        %hr
 
 :css
   #dialog h2 {

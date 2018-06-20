@@ -1107,6 +1107,7 @@ var saveMarqerStratum = function( m ) {
   // save
   $.post('/marqerstratum/', data, function() {
     updateStramienen()
+    
   }).fail(function() {
     console.log("saving stratum failed")
   })

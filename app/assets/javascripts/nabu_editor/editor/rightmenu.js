@@ -5,6 +5,9 @@ categories
 */
 
 var firstrun = false;
+var marqer_stramienen = []
+var currentMarqerStramien
+var mss = []
 
 // helper
 var category_header = function( title, id ) {
@@ -31,15 +34,14 @@ var marqer_plugin = function( name, type, icon, version, stramien ) {
 var marqer_stratum_plugin = function( index, name, type, icon, version, stramien, allow_delete ) {
   var html = '';
   html += '<div class="plugin btn btn-material-white marqer_stratum_item" title="'+name+'" alt="'+name+'"';
-  html += '" data-local-id="' + index + '"'
-  html += '" data-stramien="' + stramien + '"'
-  html += '" data-version="' + version + '"'
-  html += '" data-name="' + name + '"'
-  html += '" data-type="' + type + '"'
+  html += '" data-local-id="' + index + '"';
+  html += '" data-stramien="' + stramien + '"';
+  html += '" data-version="' + version + '"';
+  html += '" data-name="' + name + '"';
+  html += '" data-type="' + type + '"';
+  html += '" data-local="'+allow_delete;
   html += '" alt="'+name+'" title="'+name+'" >';
 
-  // html += ' <a class=""><span class="glyphicon glyphicon-pencil"></a>'
-  // html += ' <a href="javascript:" class="stramien_share_button active"><i class="glyphicon glyphicon-share"></i></a>&nbsp;'
   html += ' <span class="marqer_stratum_item_title"><small>' + name + '</small></span> &nbsp;&nbsp;';
   html += ' <a href="javascript:" class="stramien_info_button"><span class="glyphicon glyphicon-info-sign"></span></a>&nbsp;'
 
@@ -75,15 +77,17 @@ var fillMenu = function( srch ) {
 };
 
 // stramienenmenu
-var marqer_stramienen = []
+
 var updateStramienen = function() {
   $('.marqers_stratum_holder').html('')
+  $('.marqers_global_stratum_holder').html('')
+  $('.marqers_shared_stratum_holder').html('')
   marqer_stramienen = {}
   $.get('/marqerstrata/', function(d) {
     marqer_stramienen = d
     $.each( marqer_stramienen.own_strata, function( key, mrqr ) {
       mrqr.marqeroptions = JSON.parse(mrqr.marqeroptions)
-      console.log( mrqr.name, mrqr['_id']['$oid'] )
+      //console.log( mrqr.name, mrqr['_id']['$oid'] )
       $('.marqers_stratum_holder').append( marqer_stratum_plugin( key, mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'], true ) );
     });
 
@@ -97,6 +101,8 @@ var updateStramienen = function() {
       $('.marqers_shared_stratum_holder').append( marqer_stratum_plugin( key, mrqr.name, mrqr.type, null, null, mrqr['_id']['$oid'] ) );
     });
 
+    mss = []
+    mss = mss.concat( marqer_stramienen.own_strata,  marqer_stramienen.shared_strata, marqer_stramienen.global_strata )
     initStramienButtons();
     initDragDroppablePlugins();
   })
@@ -127,39 +133,112 @@ var fillStramienMenu = function( srch, subset, target ) {
   initDragDroppablePlugins();
 }
 
-var initStramienButtons = function() {
+var addMenuInteraction = function() {
+  var clicked = 0;
+  $(".marqer_category_title").click(function(){
+    var curheight = $(this).parent().height();
+      if( curheight > 50 ){
+        $(this).parent().css("height", "40px");
+        $(this).parent().css("box-shadow", "");
+        $(this).parent().css("z-index", "");
+        $(".glyphicon", this).css('-webkit-transform','rotate(0deg)');
+        $(".glyphicon", this).css('-moz-transform','rotate(0deg)');
+        $(".glyphicon", this).css('transform','rotate(0deg)');
+         $('.marqer_category_title').parent().css("overflow", "hidden");
+      } else {
+
+        if ( clicked == 1 ){
+          $(".marqer_category_title").parent().css("height", "40px");
+          $(this).parent().css("box-shadow", "");
+          $(this).parent().css("z-index", "");
+          $(".glyphicon-rotate").css('-webkit-transform','rotate(0deg)');
+          $(".glyphicon-rotate").css('-moz-transform','rotate(0deg)');
+          $(".glyphicon-rotate").css('transform','rotate(0deg)');
+          $('.marqer_category_title').parent().css("overflow", "hidden");
+        }
+
+        var count = $(this).parent().children().length;
+        var divHeight = count * 40;
+        $(this).parent().css("height", divHeight);
+        $(this).parent().css("box-shadow", "none");
+        $(this).parent().css("z-index", "9999999999999999");
+        $(".glyphicon", this).css('-webkit-transform','rotate(90deg)');
+        $(".glyphicon", this).css('-moz-transform','rotate(90deg)');
+        $(".glyphicon", this).css('transform','rotate(90deg)');
+        clicked = 1;
+
+        $(this).parent().delay(500).queue( function(next){
+            $(this).css("overflow", "visible");
+            next();
+        });
+      };
+  });
+
+  // add new marqerstramien
+  $('#import_marqerstratum_button').unbind('click')
+  $('#import_marqerstratum_button').click( function() {
+    $('#marqer_stratum_modal .tokenscreen').show()
+    $('#marqer_stratum_modal .update_token').hide()
+    $('#marqer_stratum_modal h4.modal-title').text('Import Prefab from token')
+    $('#marqer_stratum_modal').modal()
+  });
+};
+
+var initStramienButtons = function( isLocal ) {
+
+  // reset and build clickhandler
   $('.marqer_stratum_item .stramien_info_button').unbind('click');
   $('.marqer_stratum_item .stramien_info_button').click( function() {
 
-    // alert("Marqer Stratum\n - based on type: " + $(this).parent().data("type") + "\n - stratum name: " + $(this).parent().data("name") )
-    // TODO set all the stuff here
-    console.log("I click you: ")
-    console.log("Marqer Stratum\n - based on type: " + $(this).parent().data("type") + "\n - stratum name: " + $(this).parent().data("name") )
-    console.log("Marqer Stratum\n - based on stramien: " + $(this).parent().data("stramien") + "\n - stratum shares: " + $(this).parent().data("shares") )
+    // join all stramiens together
     var stramien_id = $(this).parent().data("stramien")
+    $.each( mss, function(key, ms) { if ( ms._id.$oid == stramien_id ) currentMarqerStramien = ms })
 
-    var mss = []
-    mss = mss.concat( marqer_stramienen.own_strata,  marqer_stramienen.shared_strata, marqer_stramienen.global_strata )
-    console.log("I click you: ")
-    var currentMarqerStramien
-    $.each( mss, function(key, ms) {
-      console.log(ms._id.$oid, stramien_id,  ms._id.$oid == stramien_id)
-      if ( ms._id.$oid == stramien_id ) {
-        console.log("match!", ms )
-        currentMarqerStramien = ms
-      }
-    })
+    // set both inputs and none inputs
+    $('#marqer_stratum_modal .stratum_type').text( currentMarqerStramien.type );
+    $('#marqer_stratum_modal input.stratum_name').val( currentMarqerStramien.name )
+    $('#marqer_stratum_modal .noninput.stratum_name').text( currentMarqerStramien.name )
+    $('#marqer_stratum_modal textarea.description').val( currentMarqerStramien.description )
+    $('#marqer_stratum_modal .noninput.description').text( currentMarqerStramien.description )
+    $('#marqer_stratum_modal input.author').val( currentMarqerStramien.author )
+    $('#marqer_stratum_modal .noninput.author').text( currentMarqerStramien.author )
 
-    console.log($('#marqer_stratum_modal .stratum_type'))
-    $('#marqer_stratum_modal .stratum_type').text( $(this).parent().data("type") )
-    $('#marqer_stratum_modal .stratum_name').text( $(this).parent().data("name") )
-    $('#marqer_stratum_modal .description').val( $(this).parent().data("description") )
-    $('#marqer_stratum_modal .token').text( currentMarqerStramien.token )
-    $('#marqer_stratum_modal .shares').val( currentMarqerStramien.shares.length )
+    // Get token or get refresh button
+    if ( currentMarqerStramien.token == "" ) {
+      $('#marqer_stratum_modal .token').text( "" )
+      $('#marqer_stratum_modal .token').hide()
+      $('#marqer_stratum_modal .refreshtoken').show()
+    }else{
+      $('#marqer_stratum_modal .token').text( currentMarqerStramien.token )
+      $('#marqer_stratum_modal .token').show()
+      $('#marqer_stratum_modal .refreshtoken').hide()
+    }
 
-    // description
-    // author
+    // set number of shares
+    $('#marqer_stratum_modal .shares').text( currentMarqerStramien.shares.length )
 
+    // show the modal
+    $('#marqer_stratum_modal .tokenscreen').hide()
+    $('#marqer_stratum_modal .update_token').show()
+
+    // only edit local
+    if ( $(this).parent().data("local") == true ) {
+      $('#marqer_stratum_modal h4.modal-title').text('Edit Marqer Prefab')
+      $('#update_stramien').show()
+      $('#marqer_stratum_modal textarea').show()
+      $('#marqer_stratum_modal input').show()
+      $('#marqer_stratum_modal .noninput').hide()
+      $('#marqer_stratum_modal .tokeninteraction').show()
+    }else{
+      $('#marqer_stratum_modal h4.modal-title').text('Show Marqer Prefab')
+      $('#update_stramien').hide()
+      $('#marqer_stratum_modal textarea').hide()
+      $('#marqer_stratum_modal input').hide()
+      $('#marqer_stratum_modal .noninput').show()
+      $('#marqer_stratum_modal .tokeninteraction').hide()
+    }
+
+    // show modal
     $('#marqer_stratum_modal').modal()
   });
 
@@ -167,6 +246,7 @@ var initStramienButtons = function() {
   $('.marqer_stratum_item .stramien_delete_button').click( function() {
     if ( confirm(t.right_menu.delete_marqer) ) {
       var id = $(this).parent().data("stramien")
+
       // TODO (2nd) make sure to doublecheck the user id before deletion
       $.post('/deletestratum/' + id).success( function(d) {
         console.log("destruction said:", d)
@@ -185,45 +265,51 @@ var initStramienButtons = function() {
   })
 }
 
-var addMenuInteraction = function() {
-  var clicked = 0;
-  $(".marqer_category_title").click(function(){
-    var curheight = $(this).parent().height();
-      if(curheight > 50){
-        $(this).parent().css("height", "40px");
-        $(this).parent().css("box-shadow", "");
-        $(this).parent().css("z-index", "");
-        $(".glyphicon", this).css('-webkit-transform','rotate(0deg)');
-        $(".glyphicon", this).css('-moz-transform','rotate(0deg)');
-        $(".glyphicon", this).css('transform','rotate(0deg)');
-         $('.marqer_category_title').parent().css("overflow", "hidden");
-      }
-      else {
-        if (clicked == 1){
-          $(".marqer_category_title").parent().css("height", "40px");
-          $(this).parent().css("box-shadow", "");
-          $(this).parent().css("z-index", "");
-          $(".glyphicon-rotate").css('-webkit-transform','rotate(0deg)');
-          $(".glyphicon-rotate").css('-moz-transform','rotate(0deg)');
-          $(".glyphicon-rotate").css('transform','rotate(0deg)');
-          $('.marqer_category_title').parent().css("overflow", "hidden");
-        }
-          var count = $(this).parent().children().length;
-          var divHeight = count * 40;
-          $(this).parent().css("height", divHeight);
-          $(this).parent().css("box-shadow", "none");
-          $(this).parent().css("z-index", "9999999999999999");
-          $(".glyphicon", this).css('-webkit-transform','rotate(90deg)');
-          $(".glyphicon", this).css('-moz-transform','rotate(90deg)');
-          $(".glyphicon", this).css('transform','rotate(90deg)');
-          clicked = 1;
-          $(this).parent().delay(500).queue( function(next){
-              $(this).css("overflow", "visible");
-              next();
-          });
-      }
-  });
-};
+// ####################################################################
+// #### Modal helpers (interaction)
+// ####################################################################
+
+var refreshToken = function() {
+  console.log("refresh token", currentMarqerStramien._id.$oid )
+  var url = "/marqerstratumtoken/" + currentMarqerStramien._id.$oid
+  $.get( url, function(d) {
+    $('#marqer_stratum_modal .token').text( d.token )
+    $('#marqer_stratum_modal .token').show()
+    $('#marqer_stratum_modal .refreshtoken').hide()
+  })
+}
+
+var postToken = function() {
+  $('#marqer_stratum_modal').modal('toggle');
+  var url = '/marqerstratumtoken/' + $('textarea.given-token').val()
+  $.post( url, {}, function() {
+    updateStramienen()
+  }).fail(function() {
+    console.log("posting token failed")
+  })
+}
+
+var updateStramien = function() {
+  // remove token
+  $('#marqer_stratum_modal').modal('toggle');
+
+  // save
+  $.post('/marqerstratum/update/', {
+    id: currentMarqerStramien._id.$oid,
+    name: $('#marqer_stratum_modal .stratum_name').val(),
+    author: $('#marqer_stratum_modal .author').val(),
+    description: $('#marqer_stratum_modal .description').val()
+
+  }, function() {
+    updateStramienen()
+  }).fail(function() {
+    console.log("saving stratum failed")
+  })
+}
+
+// ####################################################################
+// #### Drag/ Drop helper
+// ####################################################################
 
 var dragHelper = function( e, u ) {
   var html = '<div style="background-color:white;border:1px solid black;opacity:0.8" class="btn btn-material-white long-shadow-4">'+$(e.currentTarget).data('name')+'</div>';
