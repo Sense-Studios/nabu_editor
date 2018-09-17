@@ -37,6 +37,8 @@ module NabuEditor
       # result = JSON.parse(buffer)
 
       set_account_id
+
+      # begin ... rescue ?
       buffer = open( @account.preset ).read
       marqers = JSON.parse(buffer)
       results = []

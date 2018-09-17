@@ -21,67 +21,6 @@
         .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')
       .clear
 
-      /  %h4= I18n.t('admin.describe.social.share_title')
-      /  .form-group
-      /    .checkbox.checkbox-material-pink
-      /      %label.checkbox-inline
-      /        %input#social-facebook{"type"=>"checkbox", "checked"=>"false"} Facebook
-      /    .checkbox.checkbox-material-pink
-      /      %label.checkbox-inline
-      /        %input#social-linkedin{"type"=>"checkbox", "checked"=>"true"} Linkedin
-      /    .checkbox.checkbox-material-pink
-      /      %label.checkbox-inline
-      /        %input#social-twitter{"type"=>"checkbox", "checked"=>"true"} Twitter
-      /    .checkbox.checkbox-material-pink
-      /      %label.checkbox-inline
-      /        %input#social-email{"type"=>"checkbox", "checked"=>"true"} Email
-      /%hr
-      /
-      /- if !@light_mode
-      /  %h4= I18n.t('admin.describe.social.evaluate_title')
-      /  .form-group
-      /    .checkbox.checkbox-material-pink
-      /      %label.checkbox-inline
-      /        %input#social-like{"type"=>"checkbox", "checked"=>"true"} Facebook Like
-      /    .checkbox.checkbox-material-pink
-      /      %label.checkbox-inline
-      /        %input#social-plusone{"type"=>"checkbox", "checked"=>"true"} Google Plus 1
-      /
-      /%hr
-      /%h4= I18n.t('admin.describe.social.email_title')
-      /.form-group
-      /  %label.control-label= I18n.t('admin.describe.social.email.subject_label')
-      /  %input#social-subject.form-control{:type => "subject", "placeholder"=> I18n.t('admin.describe.social.email.subject_placeholder') }
-      /.form-group
-      /  %label.control-label= I18n.t('admin.describe.social.email.body_label')
-      /  %textarea#social-body.form-control{:type => "body", "placeholder"=> I18n.t('admin.describe.social.email.body_placeholder'), "rows"=>'8' }
-
-  /.well
-  /  %h4
-  /    Bezoekersopties (einde video)
-  /    /= I18n.t('admin.describe.movie_end.on_movie_end')
-  /  -# Just before the movie end -#= I18n.t('admin.describe.movie_end.on_movie_end')
-  /
-  /  .form-group
-  /    .checkbox.checkbox-material-pink
-  /      %label
-  /        %input{"type"=>"checkbox", "value"=>"show-social-media", "name"=>"show-social-media", "id"=>"show-social-media" }
-  /        = I18n.t('admin.describe.movie_end.show_social_media')
-
-  /  .form-group
-  /    .checkbox.checkbox-material-pink
-  /      %label
-  /        %input{"type"=>"checkbox", "name"=>"email-forwarding", "id"=>"email-forwarding" }
-  /        = I18n.t('admin.describe.movie_end.show_email_fowarding')
-
-  /  .form-group
-  /    .checkbox.checkbox-material-pink
-  /      %label
-  /        %input{"type"=>"checkbox", "name"=>"show-opt-in", "id"=>"show-opt-in" }
-  /        = I18n.t('admin.describe.movie_end.show_opt_in')
-  /    .col-md-12
-  /      .button.btn.btn-material-pink.pull-right#save_movie Bewaren
-  /    .clear
   .well
     %h4
       Logging & Analytics
@@ -150,7 +89,7 @@
 
   .well.advanced_option{ "date-type": 'Video'}
     %h4
-      IOS/Iphone canvas playback
+      IOS/Iphone Canvas playback
 
     .form-group
       .checkbox.checkbox-material-pink
@@ -167,29 +106,44 @@
 
   .well
     %h4
-      Use Extra Libraries
+      Extra Libraries
+      %small these options are being tested, you should not use them in production work!
 
     .form-group
       .checkbox.checkbox-material-pink
         %label
-          %input{"type"=>"checkbox", "value"=>"canvas_playback", "name"=>"canvas_playback", "checked"=>"true" }
-          Three.js
+          %input{"type"=>"checkbox", "value"=>"library_threejs", "name"=>"library_threejs"}
+          Three.js (3D Library)
         %br
         %br
         %p
           Three JS is a 3D library, that allows you to easily set up a three dimensional scene on top of your
           video.
+        %hr
 
     .form-group
       .checkbox.checkbox-material-pink
         %label
-          %input{"type"=>"checkbox", "value"=>"canvas_playback", "name"=>"canvas_playback", "checked"=>"true" }
+          %input{"type"=>"checkbox", "value"=>"library_tweenjs", "name"=>"library_tweenjs"}
           Tween.js (animation library)
         %br
         %br
         %p
-          Unchecking this will use regular playback on iphone, this is not compatible with iOS 10 and below.
+          Tween.js is an animtaion libary that enables you to programmerly set and start animations of all
+          objects
+        %hr
 
+    .form-group
+      .checkbox.checkbox-material-pink
+        %label
+          %input{"type"=>"checkbox", "value"=>"library_bodymovin", "name"=>"library_bodymovin"}
+          Bodymovin.js (After effects animation library)
+        %br
+        %br
+        %p
+          Bodymovin.js is an animation libary that works closely together with after effects;
+          <a href="https://github.com/airbnb/lottie-web" target="_blank"> check their github </a>
+        %hr
 
     .col-md-12
       .button.btn.btn-material-pink.pull-right.save_movie#save_movie= t('describe_movie.save')

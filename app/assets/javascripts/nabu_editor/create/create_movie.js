@@ -749,17 +749,31 @@ function checkState( video ) {
 //  UPLOADER
 // ******************************************************************
 function initS3Oploader() {
+
   var provideFeedback = function ( file ) {
     $(".feedback").val( file.name );
+    window.URL = window.URL || window.webkitURL;
+    var testvideo = document.createElement('video');
+    testvideo.preload = 'metadata';
+    testvideo.onloadedmetadata = function() {
+      //window.URL.revokeObjectURL(testvideo.src);
+      console.log("has metadatay: ", testvideo.duration)
+      if (testvideo.duration < 900 ) {
+        window.le_form.delayed_submit()
+      }else{
+        alert("Currently video uploads are limited to 15 minutes.")
+        console.log("sorry about this")
+      }
+    }
+    testvideo.src = URL.createObjectURL(file);
     return true;
   };
 
-  $("#s3-uploader").S3Uploader( {
-    // max_file_size: 1, //* 1024 * 1024, // 5 GB, TODO: we could make this account dependant ?!
-    // do this in the HTML!
+  window.le_form = $("#s3-uploader").S3Uploader( {
     progress_bar_target: $('.js_progress_bars'),
     allow_multiple_files: false,
     remove_completed_progress_bar: false,
+    delayed_submit: true,
     before_add: provideFeedback
   });
 

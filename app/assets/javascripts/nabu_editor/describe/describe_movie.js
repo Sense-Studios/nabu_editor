@@ -336,7 +336,7 @@ function postMetaData( noreload ) {
 function updateJson() {
   var md = JSON.stringify( metaData );
   $('#feedback').val( md );
-  if ( md != formerMetaData ) {    
+  if ( md != formerMetaData ) {
     dataHasChanges = true;
   }
 
@@ -414,6 +414,9 @@ function initProgramThumbnailUploader() {
     // fuck it and save
     postMetaData()
   });
+
+  console.log("update picker ...")
+  $(".image-picker").imagepicker();
 }
 
 // #############################################################################
