@@ -110,6 +110,15 @@ function setDataFromProgram() {
     postMetaData() // fuck it and safe
   })
 
+  // ### Show options for type
+  $('.advanced_option').hide()
+  $('.advanced_option').each(function( i, elm ) {    
+    if ( $(elm).data('type') == program.program_items[0].asset._type ) {
+      $(elm).show();
+    }
+  })
+
+
   // ### Tab2: set Player Options
   setOptions( movie_options_checkboxes, metaData.player_options  );
   initTextField( $('#pop_under_program'),  metaData.player_options, "pop_under_target" );
