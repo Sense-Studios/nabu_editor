@@ -15,37 +15,38 @@
 
     / pass those values to javascript
     :javascript
+
       // translations
       window.t = #{raw @t.to_json}
 
       // owner and users
-      var client_id = "#{@user_id}";      // this users id
-      //var level = "#{@user_id}";      // this users level :-/
-      var account_id = "#{@account_id}";  // this users account
-      var clipcard_id = "";
+      const client_id = "#{@user_id}";      // this users id
+      const user_level = "#{current_user.level}";      // this users level :-/
+      const account_id = "#{@account_id}";  // this users account
+      const clipcard_id = "";
 
       // engine mount point
-      var mount_point = "#{NABU_EDITOR_MOUNT_POINT}"; // mount point of the engine
+      const mount_point = "#{NABU_EDITOR_MOUNT_POINT}"; // mount point of the engine
 
       // available themes
-      var available_themes = #{raw NABU_THEMES_AVAILABLE_THEMES.to_json};
+      const available_themes = #{raw NABU_THEMES_AVAILABLE_THEMES.to_json};
 
       // kaltura
-      var kalturaPartnerId = "#{@kaltura_partner_id}";
-      var kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
+      // const kalturaPartnerId = "#{@kaltura_partner_id}";
+      // const kalturaUiConfigId = "#{@kaltura_uiconfig_id}";
 
       // kaltura
-      var kalturaPartnerId = "#{@owner.kaltura_partner_id unless @owner.nil?}";
-      var kalturaUiConfigId = "#{@owner.kaltura_uiconfig_id unless @owner.nil?}";
+      const kalturaPartnerId = "#{@owner.kaltura_partner_id unless @owner.nil?}";
+      const kalturaUiConfigId = "#{@owner.kaltura_uiconfig_id unless @owner.nil?}";
 
       // ooyala
-      var ooyalaApiKey = "#{@owner.ooyala_api_key unless @owner.nil?}";
-      var ooyalePlayerId = "#{@owner.ooyala_player_id unless @owner.nil?}";
+      const ooyalaApiKey = "#{@owner.ooyala_api_key unless @owner.nil?}";
+      const ooyalePlayerId = "#{@owner.ooyala_player_id unless @owner.nil?}";
 
       // streamone
-      var streamoneAccountId = "#{@owner.streamone_account_id unless @owner.nil?}";
-      var streamonePlayerCss = "#{@owner.player_css unless @owner.nil?}";
-      var streamoneRelatedJson = "#{@owner.related_json unless @owner.nil?}";
+      const streamoneAccountId = "#{@owner.streamone_account_id unless @owner.nil?}";
+      const streamonePlayerCss = "#{@owner.player_css unless @owner.nil?}";
+      const streamoneRelatedJson = "#{@owner.related_json unless @owner.nil?}";
 
     // start the styles
     = stylesheet_link_tag "nabu_editor/application", :media => "all"
