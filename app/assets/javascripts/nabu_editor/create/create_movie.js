@@ -757,9 +757,11 @@ function initS3Oploader() {
     testvideo.preload = 'metadata';
     testvideo.onloadedmetadata = function() {
       //window.URL.revokeObjectURL(testvideo.src);
-      console.log("has metadatay: ", testvideo.duration)
-      if ( testvideo.duration < 900 && parseInt(user_level) > 8 ) {
+      console.log("has metadata: ", testvideo.duration)
+      
+      if ( testvideo.duration < 900 || parseInt(user_level) > 8 ) {
         window.le_form.delayed_submit()
+
       }else{
         alert("Currently video uploads are limited to 15 minutes. If you need to upload longer videos, please contact support@marduq.tv")
         console.log("sorry about this")
