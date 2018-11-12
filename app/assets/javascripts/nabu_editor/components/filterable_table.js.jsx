@@ -133,10 +133,7 @@ var ProgramTile = React.createClass({
               </a>
               <ul className='dropdown-menu'>
                 <li>
-                  <a href='#' onClick={this.showMovieRelay} data-toggle='tab'> Bekijk </a>
-                </li>
-                <li>
-                  <a href={embedlink} target='_blank'> Embed </a>
+                  <a href={embedlink} target='_blank'> Bekijk </a>
                 </li>
                 <li>
                   <a href='#' onClick={this.describeMovieRelay} data-toggle='tab'> Beschrijf </a>
@@ -152,6 +149,9 @@ var ProgramTile = React.createClass({
                 </li>
                 <li>
                   <a href='#' onClick={this.copyMovieRelay} data-toggle='tab'> Dupliceer </a>
+                </li>
+                <li>
+                  <a href='#' onClick={this.showMovieRelay} data-toggle='tab'> Herladen </a>
                 </li>
                 <li className='btn-material-red'>
                   <a href='#' onClick={this.deleteMovieRelay} data-toggle='tab'> Verwijder </a>

@@ -226,8 +226,8 @@ module NabuEditor
       @programs = []
       @programs_data.each do |p|
         temp_program = {}
-        temp_program['title'] = p.title
-        temp_program['description'] = p.description
+        temp_program['title'] = p.title        
+        temp_program['description'] = p.meta.moviedescription.description
         temp_program['id'] = p.id
         temp_program['tags'] = p.tags
 

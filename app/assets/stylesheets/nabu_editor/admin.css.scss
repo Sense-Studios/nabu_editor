@@ -1708,6 +1708,13 @@ nav {
   }
 }
 
+.right_menu_quiz {
+  position: absolute;
+  top: 142px;
+  right: 140px;
+
+}
+
 // helper for the loader
 @-moz-keyframes spin {
   from { -moz-transform: rotate(0deg); }
