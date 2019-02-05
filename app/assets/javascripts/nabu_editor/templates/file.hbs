@@ -1,24 +1,53 @@
 <div class="form-group form-group-sm">
-    <div class="col-sm-12">
-      <div id="placeholder_image"></div>
-      <div id="audio_controls">
+    {{#if label}}
+      <label class="col-sm-2">
+        {{label}}
+      </label>
+      <div class="col-sm-10" style="border:1px dashed grey;">
+
+    {{else}}
+      <div class="col-sm-12" style="border:1px dashed grey;">
+    {{/if}}
+
+      <div class="filecontent col-sm-10">
         {{#if element.isAudio}}
           <audio controls src="{{element.value}}"/>
         {{/if}}
-        </div>
-      <div class="thumbnail col-md-12" id="imageholder_{{key}}">
-        {{#if element.isAudio}}
-          <!-- Nothing -->
-        {{else}}
-          <img style='max-height:255px' src="{{element.value}}"/>
+
+        {{#if element.isImage}}
+          <div class="thumbnail col-md-12" id="imageholder_{{key}}">
+            <img style='max-height:255px' src="{{element.value}}"/>
+          </div>
         {{/if}}
-        <div class="input-group input-group-sm custom-input">
-          <div id="fileholder_{{key}}"></div>
-        </div>
-        <button class="btn btn-danger btn-sm pull-right" >
-          <span class="glyphicon glyphicon-plus"></span>
+
+        {{#if element.isDocument}}
+          <br/><br/>
+          <a href="{{element.value}}" target="_blank">download document</a>
+        {{/if }}
+
+        {{#unless element.isAudio}}
+          {{#unless element.isImage}}
+            {{#unless element.isDocument}}
+              <div> File format could not be determined: </div><br>
+              {{element.value}}<br>
+              <a href="{{element.value}}" target="_blank">download file</a>
+            {{/unless }}
+          {{/unless }}
+        {{/unless }}
+
+
+      </div>
+
+      <div class="button col-sm-2">
+        <button id="file_upload_button" class="btn btn-danger btn-sm pull-right" >
+          <span class="glyphicon glyphicon-upload"></span>
         </button>
       </div>
+
+      <div class="input-group input-group-sm custom-input hidden">
+        <div id="fileholder_{{key}}"></div>
+      </div>
+
     </div>
     <div class="clear"></div>
 </div>

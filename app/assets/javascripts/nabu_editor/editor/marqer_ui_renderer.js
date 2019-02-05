@@ -92,42 +92,12 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
     // available keys
     // add position?
 
-    console.log("--> render marqer elements KEY: ", key );
+    console.log(" Editor: Render UI Element for key: ", key );
 
     if ( element.label !== undefined ) context.label = element.label    // assign label if any
     if ( element.unit ) context.unit = element.unit; // extra's (unit renders a value after a textfield)
     if ( element.step ) context.step = element.step; // for numbers, allows setting of stepping (increase/ decrease)
 
-    // render the output through handlebars, http://handlebarsjs.com/ => /dir/file(object)
-    // find the templates in /assets/javascripts/templates
-
-    /*
-    var output = '';
-    var output_advanced = '';
-
-    // TODO: will become depricated in favour of a complete tabbabble (!) output
-    var output_tab = ''
-    try {
-      if ( element.advanced ) output_advanced = HandlebarsTemplates[ element.type ](context);
-      if ( element.tab ) {
-        output_tab = HandlebarsTemplates[ elemnt.type ](context);
-      }else{
-        output = HandlebarsTemplates[ element.type ](context);
-      }
-
-    } catch (err) {
-      console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
-      return;
-    }
-
-    // TODO: select modal type (normal/large)
-    if ( element.modal == "large" ) {
-
-    }else{
-
-    }
-    */
-    
     var output = '';
     var output_advanced = '';
     try {
@@ -138,7 +108,7 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
       }
 
     } catch (err) {
-      console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
+      // console.log('WARNING: marqer edit element render not found in Handlebars! ' + key + ", " + element.type + ", " + err);
       return;
     }
 
@@ -353,6 +323,7 @@ var postRender = function( someMarqer, context ) {
   // this way it only works for 1 file field :-/
   if (element.type == "file") {
     console.log("I'm a: ", element);
+
     // ajax in a form
     $.ajax({
       url: '/admin/s3_upload',
@@ -372,19 +343,22 @@ var postRender = function( someMarqer, context ) {
           //remove_completed_progress_bar: false
         });
 
+        // Select file
+        $('#file_upload_button').click(function() { $('#fileholder_' + key + ' input[type=file]').trigger('click') })
+
+
         // Upload start
         $('#fileholder_' + key).bind('s3_uploads_start', function(e) {
             console.log("upload start ... ");
-            $('#placeholder_image').html('<p>' + t.marqer_ui.uploading + ' ... </p>')
-
-            console.log("SET INITIAL BACK TO TRUE")
-            //someMarqer.marqeroptons.initial.value = 'true'
-            console.log("on", someMarqer)
+            $('.filecontent').html('').append('<br><p>' + t.marqer_ui.uploading + ' ... </p>')
             someMarqer.marqeroptions.initial = {"type":"hidden", "value": true}
         });
 
+
         // Upload complete
         console.log('bind s3_upload_complete', key, $('#fileholder_' + key))
+
+        // UPLOAD COMPLETE
         $('#fileholder_' + key).bind("s3_upload_complete", function(e, content) {
           console.log("upload complete!");
           // $('#placeholder_image')
@@ -393,10 +367,14 @@ var postRender = function( someMarqer, context ) {
           var assetData = {};
 
           // this is a little dirty, but the fastest for now
-          var t = {
-            'audio': 'Audio',
-            'image': 'Image'
-          }[key];
+          //var t = {
+          //  'audio': 'Audio',
+          //  'image': 'Image',
+          //  'document': 'Document'
+          //}[key];
+
+          //console.log(">>>>>", t, key)
+          //console.log(e, content)
 
           assetData._type = t;
           assetData.original_url = content.url;
@@ -417,24 +395,39 @@ var postRender = function( someMarqer, context ) {
             }
           });
 
+          console.log("determine key ", key.toLowerCase())
+
+          element.isImage = false
+          element.isAudio = false
+          element.isDocument = false
+
           // show it in the editors
-          if (key == 'image') {
-            $('#imageholder_' + key + ' img').attr( 'src', content.url  );
+          if ( ["png", "jpg", "gif", "peg"].includes(content.url.substr(-3).toLowerCase()) ) {
+            $('.filecontent').html('')
+            $('.filecontent').append('<div class="thumbnail col-md-12" id="imageholder_{{key}}"><img style="max-height:255px" src="'+content.url+'"/></div>')
+            element.isImage = true
           }
 
-          if (key == 'audio') {
-            $('#imageholder_' + key + ' img').remove();
-            $('#audio_controls audio').remove();
-            $("<audio controls></audio>").attr({
-                'src': content.url,
-                'volume':0.4
-            }).appendTo('#audio_controls');
+          if ( ["mp3"].includes(content.url.substr(-3).toLowerCase())) {
+            $('.filecontent').html('')
+            $('.filecontent').append('<audio controls volume=0.4 src="'+content.url+'"/>')
+            element.isAudio = true
           }
 
-          $('#placeholder_image').remove();
+          if ( ["pdf","xls","doc"].includes(content.url.substr(-3).toLowerCase())) {
+            $('.filecontent').html('')
+            $('.filecontent').append('<br/><p><a href="' + content.url + '" target="_blank">download document ('+content.url.substr(-3)+')</a></p>')
+            element.isDocument = true
+          }
+
+          // $('#placeholder_image').remove();
+
+          if ( !element.isImage && !element.isAudio && !element.isDocument ) {
+            $('.filecontent').html('<div><strong>Could not determine filetype: ('+content.url.substr(-3)+')</strong></div><br> ' +content.url+ '<br><br><a href="'+content.url+'" target="_blank">download file</a>')
+          }
 
           // throw it to the element
-          console.log('i has an a file', key, content.url )
+          console.log('i has a file', key, content.url )
           someMarqer.marqeroptions[key].value = content.url;
 
           // save and preview
@@ -448,15 +441,15 @@ var postRender = function( someMarqer, context ) {
   }
 
   // now execute!
-  console.log( 'post render, ', element.type )
   try {
     post_renders[ element.type ]()
+    console.log( ' Editor: post render key, element type: ',key, element.type )
   }catch(e){
-    console.log( element.type, " had no post render functions")
+    //console.log( element.type, " had no post render functions")
   }
 
   //and whatever
-  console.log("########## disable keys!")
+  // console.log("########## disable keys!")
   keysEnabled = false
 }
 
@@ -468,33 +461,4 @@ var renderInOutEditor = function( e, that ) {
   };
 
   return HandlebarsTemplates['marduq/editor/in_out_editor'](context);
-
-  //// ### add skip to functionality
-  //$( ".btn-skip-to-in" ).click( function() { pop.currentTime( Number( $('#editor_in_point').val() ) + 0.1 ); });
-  //$( ".btn-skip-to-out" ).click( function() { pop.currentTime( Number( $('#editor_out_point').val() ) - 0.1 ); });
-
-  //// ### (Not used) add automatic updates
-  ////clearInterval( in_out_update_interval )
-  ////in_out_update_interval = setInterval( function() {
-  ////  $("#editor_in_point").val( currentTrackEvent.start )
-  ////  $("#editor_out_point").val( currentTrackEvent.end )
-  ////}, 1000 )
-
-  //// ### on inpoint change
-  //$("#editor_in_point").change( function(e){
-  //  trackEventObject.options.start = $("#editor_in_point").val();
-  //  trackEventObject.start = $("#editor_in_point").val();
-  //  currentTrackEvent.start = $("#editor_in_point").val();
-  //  var newLeft = ( parseInt( $("#editor_in_point").val(), 10 ) / pop.duration() ) * $('#timeLineContainer').width();
-  //  $( trackEventObject.element ).css('left', newLeft + 'px');
-  //});
-
-  //// ### on outpoint change
-  //$("#editor_out_point").change( function(){
-  //  trackEventObject.options.end = $("#editor_out_point").val();
-  //  trackEventObject.end = $("#editor_out_point").val();
-  //  currentTrackEvent.end = $("#editor_out_point").val();
-  //  var newWidth = ( ( parseInt( $("#editor_out_point").val(), 10 ) - parseInt( $("#editor_in_point").val(), 10 ) ) / pop.duration() ) * $('#timeLineContainer').width();
-  //  $( trackEventObject.element ).css('width', newWidth + 'px');
-  //});
 }
