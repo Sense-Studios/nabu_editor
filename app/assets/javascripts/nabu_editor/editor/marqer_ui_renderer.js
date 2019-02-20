@@ -173,8 +173,6 @@ var showMarqerInfoFromTrackEvent = function( e, that ) {
   // AFTER the HTML is appended, it then proceeds to add
   // interaction and callbacks to that element based on the marqers original key
 
-var aceWasSet = false
-
 var postRender = function( someMarqer, context ) {
 
   var key = context.key;
@@ -185,14 +183,11 @@ var postRender = function( someMarqer, context ) {
 
     code: function() {
       // https://github.com/ajaxorg/ace/issues/1518
-      if (!aceWasSet) {
-        ace.config.set('basePath', '/assets/ace');
-        // http://stackoverflow.com/questions/14053820/how-to-set-the-source-path-in-ace-editor
-        ace.config.set("modePath", "/assets/ace");
-        ace.config.set("workerPath", "/assets/ace");
-        ace.config.set("themePath", "/assets/ace");
-        aceWasSet = true
-      }
+      ace.config.set('basePath', '/assets/ace');
+      // http://stackoverflow.com/questions/14053820/how-to-set-the-source-path-in-ace-editor
+      ace.config.set("modePath", "/assets/ace");
+      ace.config.set("workerPath", "/assets/ace");
+      ace.config.set("themePath", "/assets/ace");
 
       var editor = ace.edit( key + "_editor" );
       editor.setTheme("ace/theme/twilight");
