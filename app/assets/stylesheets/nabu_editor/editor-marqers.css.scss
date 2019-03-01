@@ -1,3 +1,7 @@
+#marqer_editor_dialog .modal-dialog {
+  width: 94vw;
+}
+
 .modal-dialog {
   .modal-content {
     .modal-header {
@@ -46,9 +50,9 @@
               font-size: 19px;
               border: 2px solid #C8C9C9;
               background-image: none !important;
-            }            
+            }
           }
-          
+
           input[type='number'] {
             padding: 5px 10px;
             &:focus {
