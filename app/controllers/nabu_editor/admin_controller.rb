@@ -226,7 +226,7 @@ module NabuEditor
       @programs = []
       @programs_data.each do |p|
         temp_program = {}
-        temp_program['title'] = p.title        
+        temp_program['title'] = p.title
         temp_program['description'] = p.meta.moviedescription.description
         temp_program['id'] = p.id
         temp_program['tags'] = p.tags
@@ -258,7 +258,7 @@ module NabuEditor
       end
 
       if params[:sort].nil?
-        @programs = @programs.sort_by{|e| e['created_at'] }
+        @programs = @programs.sort_by{|e| e['created_at'] } || @programs
       else
         if params[:sort] == 'timewatched' || params[:sort] == 'openers' || params[:sort] == 'completed'
           @programs = @programs.sort_by{|e| e[params[:sort]].to_i }
