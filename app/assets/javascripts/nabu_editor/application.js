@@ -12,7 +12,7 @@
 //
 
 // JQUERY
-//= require jquery
+//= require jquery3
 //= require jquery_ujs
 //= require jqueryui/jquery-ui-1.10.4.custom
 //= require jquery-touch-punch/jquery.ui.touch-punch.min

@@ -60,9 +60,7 @@ function addScoreDependentText(e) {
 //  Questions
 // *****************************************************************************
 
-function createQuestionInterface( remote_id ) {
-
-}
+function createQuestionInterface( remote_id ) {}
 
 function addQuestion( remote_id ) {
   var id = Math.round( Math.random() * 10000000 ); // remote id
@@ -117,11 +115,13 @@ function addQuestion( remote_id ) {
 
   // 2) then go ahead and actually change the type
   $( that + " select.question-type").change( function() {
+    console.log("change the type ... ")
     changeQuestionType( that, $(that + " select.question-type").val() );
   });
 
   // answers defaults to multiplechoice
-  changeQuestionType( that, "fmc" );
+  console.log("defaults to ... ")
+  // changeQuestionType( that, "fmc" );
 
   // use smpt
   setTimeout( function() { convertSeconds('.in-point') }, 250 );
@@ -232,13 +232,8 @@ function addInteractionToAnswer( id, question_id ) {
 
     // initialize stepper
     $('#'+id).find('.answer-score').change( function() {
-
-      // don't allow negative scores
-      if ( $('#'+id).find('.answer-score').val() < 0 ) $('#'+id).find('.answer-score').val(0);
-
-      // update orig_score
-      $('#'+id).attr('orig_score', parseInt( $('#'+id).find('.answer-score').val(), 10 ) );
-
+      if ( $('#'+id).find('.answer-score').val() < 0 ) $('#'+id).find('.answer-score').val(0);// don't allow negative scores
+      $('#'+id).attr('orig_score', parseInt( $('#'+id).find('.answer-score').val(), 10 ) ); // update orig_score
       updateOverallScore(question_id);
     });
 
@@ -256,9 +251,9 @@ function addInteractionToAnswer( id, question_id ) {
     // $('#'+id).find('.answer-score').val(10);
      // update orig_score
     $('#'+id).attr('orig_score', parseInt( $('#'+id).find('.answer-score').val(), 10 ) );
-    checkCorrectAnswer( question_id );
-    updateOverallScore(question_id);
-    checkAndDisableCorrect(question_id);
+    //checkCorrectAnswer( question_id );
+    updateOverallScore( question_id );
+    checkAndDisableCorrect( question_id );
 
     setTimeout( function() { convertSeconds(".in-point") }, 250 );
 }
@@ -292,12 +287,12 @@ function updateOverallScore( question_id, answer_id ) {
 }
 
 function checkCorrectAnswer( question_id, answer_id ) {
-  //console.log("CHECK CORRECT ANSWER ?");
+  console.log("CHECK CORRECT ANSWER ?", question_id, answer_id);
   // if no answer has been selected, do that now ( as it is mandator
   // if no answer has been selected, do that now ( as it is mandator
   var hasCorrect = false;
   $.each( $( question_id + ' .answers_holder .answer'), function( key, value ) {
-     if ( $(value).find('.iscorrect:eq(0)').prop("checked") ) hasCorrect = true;
+     if ( $(value).find('.iscorrect:eq(0)').prop("checked") && hasCorrect == false ) hasCorrect = true;       
   });
 
   // no answer was given, force the first
@@ -346,9 +341,12 @@ function generateQuesionsFromProgram() {
         if (marqer.marqeroptions.answers != null && marqer.marqeroptions.answers.length != 0 ) {
 
           var recalculatedScore = 0 ;
-          changeQuestionType( '#' +thisQuestionId, marqer.marqeroptions.questiontype ); // appends it
+          console.log("generate questions from program ... ")
+          // changeQuestionType( '#qid-' +thisQuestionId, marqer.marqeroptions.questiontype ); // appends it
 
           $.each( marqer.marqeroptions.answers, function( key2, value ) {
+
+            console.log("trrr... ", key2, value, marqer.marqeroptions.questiontype )
 
             if ( marqer.marqeroptions.questiontype == "mc" ) {
               var mc_output = HandlebarsTemplates['mc_answer']({"id":value.id, "q_id": thisQuestionId, "type": marqer.marqeroptions.questiontype });
@@ -377,10 +375,12 @@ function generateQuesionsFromProgram() {
             }
 
             if ( marqer.marqeroptions.questiontype == "fmmc" ) {
+              console.log("i is creating fmmc", value.correct)
               var fmmc_output = HandlebarsTemplates['fmmc_answer']({"id":value.id, "q_id": thisQuestionId, "type": marqer.marqeroptions.questiontype});
               $( '#' + thisQuestionId ).find('.answers_holder').append( fmmc_output );
               $( '#' + thisQuestionId ).find('.answer-text:last').val( value.text );
               $( '#' + thisQuestionId ).find('.answer-score:last').val( value.score );
+
               if (value.correct === "true") $( '#' + thisQuestionId ).find('.iscorrect:last').attr('checked', true);
               addInteractionToAnswer( value.id, "#qid-"+thisQuestionId);
             }
