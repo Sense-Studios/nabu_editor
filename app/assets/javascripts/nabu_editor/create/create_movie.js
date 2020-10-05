@@ -154,10 +154,16 @@ function checkInput( directupdate ) {
       url: yt30_api_url + "videos?part=snippet,contentDetails&id=" + ytid + "&key=" + yt30_api_key,
       dataType: "json",
       type: "GET",
-    }).done( function(data) {
-      console.log("youtube api done")
-
-    }).success( function(data){
+    //}).done( function(data) {
+    //  console.log("youtube api done")
+      success: function(data){
+        console.log("youtube success", data)
+      },
+      error: function(e) {
+        console.log("fail:", e);
+        $('#youtube-group').removeClass('has-success').removeClass('has-error').addClass('has-error');
+      }
+    }).done( function(data){
       console.log("youtube api succes!", data);
 
       // We've found the youtube video, now fill the description with it
@@ -198,11 +204,7 @@ function checkInput( directupdate ) {
       console.log("created data: ", currentAssetData, "start saving");
       doCreateProgram();    // save the program
       showDescribeMovie();  // start describing
-
-    }).error( function(e) {
-      console.log("fail:", e);
-      $('#youtube-group').removeClass('has-success').removeClass('has-error').addClass('has-error');
-    });
+    })
   }
 
   // ******************************************************************
@@ -224,10 +226,14 @@ function checkInput( directupdate ) {
       url: vim20_api_url + vimid + ".json",
       dataType: "json",
       type: "GET",
+      success: function(data){
+        console.log("vimeo is success")
+      },
+      error: function(e){
+        console.log("fail:", e);
+        $('#vimeo-group').removeClass('has-success').removeClass('has-error').addClass('has-error');
+      }
     }).done( function(data){
-      console.log("vimeo is done")
-
-    }).success( function(data){
       console.log("succes!", data);
       $('#vimeo-group').removeClass('has-success').removeClass('has-error').addClass('has-success');
 
@@ -254,10 +260,7 @@ function checkInput( directupdate ) {
       doCreateProgram();    // save the program
       showDescribeMovie();  // start describing
 
-    }).error( function(e) {
-      console.log("fail:", e);
-      $('#vimeo-group').removeClass('has-success').removeClass('has-error').addClass('has-error');
-    });
+    })
   }
 
   // ******************************************************************
@@ -758,7 +761,7 @@ function initS3Oploader() {
     testvideo.onloadedmetadata = function() {
       //window.URL.revokeObjectURL(testvideo.src);
       console.log("has metadata: ", testvideo.duration)
-      
+
       if ( testvideo.duration < 900 || parseInt(user_level) > 8 ) {
         window.le_form.delayed_submit()
 
