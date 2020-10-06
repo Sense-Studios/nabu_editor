@@ -175,8 +175,8 @@ var addInteractionToTrackEvent = function( ids ) {
 var cloneMarqerFromTrackEvent = function( event, ui ) {
 
   // context
-  var clone_m = new window[ $( ui.helper.context ).data("type") ]
-  var original_m = getMarqerById( $( ui.helper.context ).data("remote_id") )
+  var clone_m = new window[ $( ui.helper ).data("type") ]
+  var original_m = getMarqerById( $( ui.helper ).data("remote_id") )
 
   clone_m.program_id = program.id;
 
@@ -203,8 +203,8 @@ var cloneMarqerFromTrackEvent = function( event, ui ) {
 
   }else{
     clone_m.marqeroptions.track = $('.trackline').length;
-    l = $( ui.helper.context ).position().left;
-    w = $( ui.helper.context ).width();
+    l = $( ui.helper ).position().left;
+    w = $( ui.helper ).width();
     t = $('#tracks').width();
 
     clone_m.in = ( l / t )* pop.duration();
@@ -221,7 +221,7 @@ var cloneMarqerFromTrackEvent = function( event, ui ) {
       marqers.push( marqer );
 
       // update the event with a new id
-      // $( ui.helper.context ).data("remote_id", marqer.id)
+      // $( ui.helper ).data("remote_id", marqer.id)
       preview();
     },
     fail: function(resp) {
@@ -464,7 +464,7 @@ initEditorKeys();
 // more helpers
 var updateSelectedMarqer = function() {
   // fake an event and ui
-  // ui.helper.context == element
+  // ui.helper == element
   // event.target == trackline
   if ( selected_marqer_item == undefined || selected_marqer_item == null ) return;
   var ui = { helper: { context: selected_marqer_item } };
@@ -639,16 +639,18 @@ var initiateUpdateMarqer = function( event, ui ) {
   if (aMarqerIsUpdating) return;
   aMarqerIsUpdating = true;
 
-  var m = getMarqerById( $( ui.helper.context ).data('remote_id') );
-  var l = $( ui.helper.context ).position().left;
-  var w = $( ui.helper.context ).width();
+  console.log("got", event, ui)
+
+  var m = getMarqerById( $( ui.helper ).data('remote_id') );
+  var l = $( ui.helper ).position().left;
+  var w = $( ui.helper ).width();
   var t = $('#tracks').width();
 
   m.in = ( l / t )* pop.duration();
   m.out = ( ( l + w ) / t ) * pop.duration();
   m.remote_id = m.id;
 
-  console.log("initiateUpdateMarqer called on: ", m, "with", event.type);
+  console.log("initiateUpdateMarqer called on: ", m, "with", event.type)
 
   // if dropped outside the trackline, add one
   if ( event.type == "drop" || event.type == "dragstop" ) {
@@ -1107,7 +1109,7 @@ var saveMarqerStratum = function( m ) {
   // save
   $.post('/marqerstratum/', data, function() {
     updateStramienen()
-    
+
   }).fail(function() {
     console.log("saving stratum failed")
   })
